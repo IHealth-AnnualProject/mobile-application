@@ -1,6 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
-
+import 'package:betsbi/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:global_configuration/global_configuration.dart';
@@ -8,10 +8,10 @@ import 'package:global_configuration/global_configuration.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
-  runApp(MyApp());
+  runApp(Login());
 }
 
-class MyApp extends StatelessWidget {
+class Login extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -51,21 +51,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  int _counter = 0;
   GlobalConfiguration cfg = new GlobalConfiguration();
   LinkedHashMap<String, dynamic> dmap = new LinkedHashMap<String, dynamic>();
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
   Future<Map<String, dynamic>> parseJsonFromAssets(String assetsPath) async {
     return await rootBundle
         .loadString(assetsPath)
@@ -90,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     loadLanguage(
         'locale/' + cfg.getString('currentLanguage').toLowerCase() + '.json');
+    //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -99,24 +87,28 @@ class _LoginPageState extends State<LoginPage> {
 
     final username = TextField(
       obscureText: false,
+      textAlign: TextAlign.center,
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          filled: true,
+          fillColor: Colors.white,
           hintText: dmap["UsernameText"] != null ? dmap["UsernameText"] : "",
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
     final password = TextField(
       obscureText: true,
+      textAlign: TextAlign.center,
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          filled: true,
+          fillColor: Colors.white,
           hintText: dmap["PasswordText"] != null ? dmap["PasswordText"] : "",
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
     final loginButton = Material(
       elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Color(0xff01A0C7),
+      borderRadius: BorderRadius.circular(16.0),
+      color: Color.fromRGBO(104, 79, 37, 0.8),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -124,6 +116,9 @@ class _LoginPageState extends State<LoginPage> {
         child: Text(
           dmap["LoginText"] != null ? dmap["LoginText"] : "",
           textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Color.fromRGBO(255, 255, 255, 100),
+              fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -134,55 +129,104 @@ class _LoginPageState extends State<LoginPage> {
       child: new Text(
         cfg.getString("language"),
         textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.white),
       ),
     );
+    final forgotPassword = InkWell(
+        onTap: () {
+          //_setLanguage(cfg.getString("language"));
+        },
+        child: new Text(
+          dmap["ForgotPassword"] != null ? dmap["ForgotPassword"] : "",
+          textAlign: TextAlign.center,
+        ));
+    final signUp = InkWell(
+        onTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Register()));
+          //_setLanguage(cfg.getString("language"));
+        },
+        child: new Text(
+          dmap["SignUp"] != null ? dmap["SignUp"] : "",
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white),
+        ));
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              height: 150,
-              child: Image.asset(
-                "assets/logo.png",
-                fit: BoxFit.contain,
-              ),
+        backgroundColor: Color.fromRGBO(228, 228, 228, 1),
+        body: Center(
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //crossAxisAlignment: CrossAxisAlignment.center,
+              //mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 100,
+                    ),
+                    SizedBox(
+                      height: 150,
+                      child: Image.asset(
+                        "assets/logo.png",
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 45,
+                    ),
+                    Container(
+                      width: 350.0,
+                      child: username,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      width: 350.0,
+                      child: password,
+                    ),
+                    SizedBox(
+                      height: 45,
+                    ),
+                    forgotPassword,
+                    SizedBox(
+                      height: 45,
+                    ),
+                    Container(
+                      width: 350.0,
+                      child: loginButton,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 45,
+                ),
+                Row(
+                  //crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[language],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Text(
+                          dmap["NoAccount"] != null ? dmap["NoAccount"] : "",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        signUp,
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
-            username,
-            SizedBox(
-              height: 45,
-            ),
-            password,
-            SizedBox(
-              height: 45,
-            ),
-            loginButton,
-            language,
-          ],
-        ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+          ), // This trailing comma makes auto-formatting nicer for build methods.
+        ));
   }
 }

@@ -1,5 +1,17 @@
 {
   "LoginText" : "LOGIN",
   "UsernameText" : "Username",
-  "PasswordText" : "Password"
+  "PasswordText" : "Password",
+  "ConfirmPassword": "Confirm Password",
+  "ForgotPassword": "Forgot password ?",
+  "NoAccount": "Don't Have Account ?",
+  "SignUp": "SIGN UP",
+  "FirstNameText": "First Name",
+  "LastNameText": "Last Name",
+  "EmailText": "Email",
+  "CheckBoxPsy": "Check Psychologue if you are one, we will check it",
+  "DoneButton": "Let's Go !"
+
+
+
 }
