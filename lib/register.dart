@@ -33,8 +33,6 @@ class Register extends StatelessWidget {
   }
 }
 
-enum UserStatus { User, Psychologue }
-
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key key, this.title}) : super(key: key);
 
@@ -66,8 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
     setState(() {});
   }
 
-
-@override
+  @override
   Widget build(BuildContext context) {
     loadLanguage(
         'locale/' + cfg.getString('currentLanguage').toLowerCase() + '.json');
@@ -120,13 +117,12 @@ class _RegisterPageState extends State<RegisterPage> {
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
     final statusUser = ToggleButtons(
-      children: <Widget>[
-        Text("User"),
-        Text("Psychologue")
-      ],
+      children: <Widget>[Text("User"), Text("Psychologue")],
       onPressed: (int index) {
         setState(() {
-          for (int buttonIndex = 0; buttonIndex < _isSelected.length; buttonIndex++) {
+          for (int buttonIndex = 0;
+              buttonIndex < _isSelected.length;
+              buttonIndex++) {
             if (buttonIndex == index) {
               _isSelected[buttonIndex] = true;
             } else {
