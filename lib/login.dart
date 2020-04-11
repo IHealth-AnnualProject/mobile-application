@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'package:betsbi/home.dart';
 import 'package:betsbi/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -112,7 +113,10 @@ class _LoginPageState extends State<LoginPage> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Home()));
+        },
         child: Text(
           dmap["LoginText"] != null ? dmap["LoginText"] : "",
           textAlign: TextAlign.center,

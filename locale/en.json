@@ -1,6 +1,8 @@
 {
   "LoginText" : "LOGIN",
   "UsernameText" : "Username",
+  "UserChoice": "User",
+  "PsyChoice": "Psychologist",
   "PasswordText" : "Password",
   "ConfirmPassword": "Confirm Password",
   "ForgotPassword": "Forgot password ?",
@@ -9,8 +11,14 @@
   "FirstNameText": "First Name",
   "LastNameText": "Last Name",
   "EmailText": "Email",
-  "CheckBoxPsy": "Check Psychologue if you are one, we will check it",
-  "DoneButton": "Let's Go !"
+  "CheckBoxPsy": "Check Psychologist if you are one, we will check it",
+  "DoneButton": "Let's Go !",
+  "MyAccountContainer": "My Account",
+  "MyTrainingContainer": "My Training",
+  "MyMemosContainer": "My Memos",
+  "MyAmbianceContainer": "My Ambiance",
+  "MyQuestContainer": "My Quest",
+  "ErrorContainer": "Errors"
 
 
 

@@ -117,7 +117,10 @@ class _RegisterPageState extends State<RegisterPage> {
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
     final statusUser = ToggleButtons(
-      children: <Widget>[Text("User"), Text("Psychologue")],
+      children: <Widget>[
+        Text(dmap["UserChoice"] != null ? dmap["UserChoice"] : ""),
+        Text(dmap["PsyChoice"] != null ? dmap["PsyChoice"] : "")
+      ],
       onPressed: (int index) {
         setState(() {
           for (int buttonIndex = 0;

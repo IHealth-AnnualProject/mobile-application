@@ -2,6 +2,8 @@
   "LoginText" : "SE CONNECTER",
   "UsernameText" : "Pseudo",
   "PasswordText" : "Mot de passe",
+  "UserChoice": "Utilisateur",
+  "PsyChoice": "Psychologue",
   "ConfirmPassword": "Confirmez votre mot de passe",
   "ForgotPassword": "Mot de passe oublié ?",
   "NoAccount": "Pas de compte ?",
@@ -10,7 +12,13 @@
   "LastNameText": "Nom de famille",
   "EmailText": "Email",
   "CheckBoxPsy": "Checkez Psychologue si vous en êtes un, nous le verifierons",
-  "DoneButton": "C'est Parti !"
+  "DoneButton": "C'est Parti !",
+  "MyAccountContainer": "Mon Compte",
+  "MyTrainingContainer": "Mon Entrainement",
+  "MyMemosContainer": "Mes Rappels",
+  "MyAmbianceContainer": "Mon Ambiance",
+  "MyQuestContainer": "Mes Quêtes",
+  "ErrorContainer": "Erreurs"
 
 
 
