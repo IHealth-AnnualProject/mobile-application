@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:global_configuration/global_configuration.dart';
 
+import 'customwidgets/BrickContainer.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
@@ -50,6 +52,7 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
+
 
 class _HomePageState extends State<HomePage> {
   GlobalConfiguration cfg = new GlobalConfiguration();
@@ -104,120 +107,47 @@ class _HomePageState extends State<HomePage> {
             mainAxisSpacing: 20,
             crossAxisCount: 2,
             children: <Widget>[
-              Container(
-                  color: Color.fromRGBO(51, 171, 249, 1),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Icon(
-                        Icons.home,
-                        color: Colors.white,
-                        size: 150,
-                      ),
-                      new Text(
-                        dmap["MyAccountContainer"] != null
-                            ? dmap["MyAccountContainer"]
-                            : "",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  )),
-              Container(
-                  color: Color.fromRGBO(51, 171, 249, 1),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Icon(
-                        Icons.play_for_work,
-                        color: Colors.white,
-                        size: 150,
-                      ),
-                      new Text(
-                        dmap["MyTrainingContainer"] != null
-                            ? dmap["MyTrainingContainer"]
-                            : "",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  )),
-              Container(
-                  color: Color.fromRGBO(51, 171, 249, 1),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Icon(
-                        Icons.wrap_text,
-                        color: Colors.white,
-                        size: 150,
-                      ),
-                      new Text(
-                        dmap["MyMemosContainer"] != null
-                            ? dmap["MyMemosContainer"]
-                            : "",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  )),
-              Container(
-                  color: Color.fromRGBO(51, 171, 249, 1),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Icon(
-                        Icons.music_note,
-                        color: Colors.white,
-                        size: 150,
-                      ),
-                      new Text(
-                        dmap["MyAmbianceContainer"] != null
-                            ? dmap["MyAmbianceContainer"]
-                            : "",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  )),
-              Container(
-                  color: Color.fromRGBO(51, 171, 249, 1),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Icon(
-                        Icons.not_listed_location,
-                        color: Colors.white,
-                        size: 150,
-                      ),
-                      new Text(
-                        dmap["MyQuestContainer"] != null
-                            ? dmap["MyQuestContainer"]
-                            : "",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  )),
-              Container(
-                  color: Color.fromRGBO(51, 171, 249, 1),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Icon(
-                        Icons.error,
-                        color: Colors.white,
-                        size: 150,
-                      ),
-                      new Text(
-                        dmap["ErrorContainer"] != null
-                            ? dmap["ErrorContainer"]
-                            : "",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  )),
+              BrickContainer(
+                  Color.fromRGBO(51, 171, 249, 1),
+                  dmap["MyAccountContainer"] != null
+                      ? dmap["MyAccountContainer"]
+                      : "",
+                  Icons.home
+              ),
+              BrickContainer(
+                  Color.fromRGBO(51, 171, 249, 1),
+                  dmap["MyTrainingContainer"] != null
+                      ? dmap["MyTrainingContainer"]
+                      : "",
+                  Icons.play_for_work
+              ),
+              BrickContainer(
+                  Color.fromRGBO(51, 171, 249, 1),
+                  dmap["MyMemosContainer"] != null
+                      ? dmap["MyMemosContainer"]
+                      : "",
+                  Icons.wrap_text
+              ),
+              BrickContainer(
+                  Color.fromRGBO(51, 171, 249, 1),
+                  dmap["MyAmbianceContainer"] != null
+                      ? dmap["MyAmbianceContainer"]
+                      : "",
+                  Icons.music_note
+              ),
+              BrickContainer(
+                  Color.fromRGBO(51, 171, 249, 1),
+                  dmap["MyQuestContainer"] != null
+                      ? dmap["MyQuestContainer"]
+                      : "",
+                  Icons.not_listed_location
+              ),BrickContainer(
+                  Color.fromRGBO(51, 171, 249, 1),
+                  dmap["ErrorContainer"] != null
+                      ? dmap["ErrorContainer"]
+                      : "",
+                  Icons.error
+              ),
             ],
           ),
         ),
