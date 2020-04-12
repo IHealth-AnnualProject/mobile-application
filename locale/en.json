@@ -18,8 +18,12 @@
   "MyMemosContainer": "My Memos",
   "MyAmbianceContainer": "My Ambiance",
   "MyQuestContainer": "My Quest",
-  "ErrorContainer": "Errors"
-
+  "ErrorContainer": "Errors",
+  "SettingsContainer": "Settings",
+  "HomeFooter": "Home",
+  "AccountFooter": "Account",
+  "ChatFooter": "Chat",
+  "SearchContainer": "Find other user....."
 
 
 }

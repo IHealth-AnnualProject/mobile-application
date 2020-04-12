@@ -18,7 +18,14 @@
   "MyMemosContainer": "Mes Rappels",
   "MyAmbianceContainer": "Mon Ambiance",
   "MyQuestContainer": "Mes Quêtes",
-  "ErrorContainer": "Erreurs"
+  "ErrorContainer": "Erreurs",
+  "SettingsContainer": "Paramètres",
+  "HomeFooter": "Accueil",
+  "AccountFooter": "Compte",
+  "ChatFooter": "Chat",
+  "SearchContainer": "Trouve d'autres utilisateurs....."
+
+
 
 
 

@@ -1,16 +1,13 @@
-import 'dart:collection';
-import 'dart:convert';
-import 'package:flappy_search_bar/flappy_search_bar.dart';
+import 'package:betsbi/model/user.dart';
+import 'package:betsbi/customwidgets/SearchApp.dart';
+import 'package:betsbi/service/Language.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:global_configuration/global_configuration.dart';
 
 import 'customwidgets/BrickContainer.dart';
 
-void main() async {
+main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
   runApp(Home());
 }
 
@@ -53,21 +50,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-
 class _HomePageState extends State<HomePage> {
-  GlobalConfiguration cfg = new GlobalConfiguration();
-  LinkedHashMap<String, dynamic> dmap = new LinkedHashMap<String, dynamic>();
   int _selectedBottomIndex = 0;
-  Future<Map<String, dynamic>> parseJsonFromAssets(String assetsPath) async {
-    return await rootBundle
-        .loadString(assetsPath)
-        .then((jsonStr) => jsonDecode(jsonStr));
-  }
-
-  Future loadLanguage(String path) async {
-    dmap = await parseJsonFromAssets(path);
-    setState(() {});
-  }
 
   void _onBottomTapped(int index) {
     setState(() {
@@ -75,10 +59,20 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  List<User> users = [
+    User(0, 'Antoine Daniel', 'Psychologue'),
+    User(1, 'Theodore Bulfonorio', 'User'),
+    User(2, 'Estebaille', 'Psychologue'),
+  ];
+
+  void instanciateLanguage() async {
+    await Language.languageStarted();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    loadLanguage(
-        'locale/' + cfg.getString('currentLanguage').toLowerCase() + '.json');
+    instanciateLanguage();
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -86,16 +80,6 @@ class _HomePageState extends State<HomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    final password = TextField(
-      obscureText: true,
-      textAlign: TextAlign.center,
-      decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          hintText: dmap["PasswordText"] != null ? dmap["PasswordText"] : "",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
-    );
     final gridView = CustomScrollView(
       shrinkWrap: true,
       primary: false,
@@ -109,45 +93,46 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
-                  dmap["MyAccountContainer"] != null
-                      ? dmap["MyAccountContainer"]
+                  Language.mapLanguage["MyAccountContainer"] != null
+                      ? Language.mapLanguage["MyAccountContainer"]
                       : "",
-                  Icons.home
-              ),
+                  Icons.home),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
-                  dmap["MyTrainingContainer"] != null
-                      ? dmap["MyTrainingContainer"]
+                  Language.mapLanguage["MyTrainingContainer"] != null
+                      ? Language.mapLanguage["MyTrainingContainer"]
                       : "",
-                  Icons.play_for_work
-              ),
+                  Icons.play_for_work),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
-                  dmap["MyMemosContainer"] != null
-                      ? dmap["MyMemosContainer"]
+                  Language.mapLanguage["MyMemosContainer"] != null
+                      ? Language.mapLanguage["MyMemosContainer"]
                       : "",
-                  Icons.wrap_text
-              ),
+                  Icons.wrap_text),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
-                  dmap["MyAmbianceContainer"] != null
-                      ? dmap["MyAmbianceContainer"]
+                  Language.mapLanguage["MyAmbianceContainer"] != null
+                      ? Language.mapLanguage["MyAmbianceContainer"]
                       : "",
-                  Icons.music_note
-              ),
+                  Icons.music_note),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
-                  dmap["MyQuestContainer"] != null
-                      ? dmap["MyQuestContainer"]
+                  Language.mapLanguage["MyQuestContainer"] != null
+                      ? Language.mapLanguage["MyQuestContainer"]
                       : "",
-                  Icons.not_listed_location
-              ),BrickContainer(
+                  Icons.not_listed_location),
+              BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
-                  dmap["ErrorContainer"] != null
-                      ? dmap["ErrorContainer"]
+                  Language.mapLanguage["SettingsContainer"] != null
+                      ? Language.mapLanguage["SettingsContainer"]
                       : "",
-                  Icons.error
-              ),
+                  Icons.settings),
+              BrickContainer(
+                  Color.fromRGBO(249, 89, 51, 1),
+                  Language.mapLanguage["ErrorContainer"] != null
+                      ? Language.mapLanguage["ErrorContainer"]
+                      : "",
+                  Icons.error),
             ],
           ),
         ),
@@ -155,33 +140,45 @@ class _HomePageState extends State<HomePage> {
     );
     return Scaffold(
       backgroundColor: Color.fromRGBO(228, 228, 228, 1),
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: DataSearch(users));
+              })
+        ],
+      ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
           children: <Widget>[
-            SizedBox(
-              height: 150,
-            ),
             Expanded(
-             child: gridView,
+              child: gridView,
             ),
           ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Home'),
+            title: Text(Language.mapLanguage["HomeFooter"] != null
+                ? Language.mapLanguage["HomeFooter"]
+                : ""),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_box),
-            title: Text('Account'),
+            title: Text(Language.mapLanguage["AccountFooter"] != null
+                ? Language.mapLanguage["AccountFooter"]
+                : ""),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat),
-            title: Text('Chat'),
+            title: Text(Language.mapLanguage["ChatFooter"] != null
+                ? Language.mapLanguage["ChatFooter"]
+                : ""),
           ),
         ],
         currentIndex: _selectedBottomIndex,

@@ -1,14 +1,10 @@
-import 'dart:collection';
-import 'dart:convert';
 import 'package:betsbi/home.dart';
 import 'package:betsbi/register.dart';
+import 'package:betsbi/service/Language.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:global_configuration/global_configuration.dart';
 
-void main() async {
+void main()  {
   WidgetsFlutterBinding.ensureInitialized();
-  await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
   runApp(Login());
 }
 
@@ -52,32 +48,19 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  GlobalConfiguration cfg = new GlobalConfiguration();
-  LinkedHashMap<String, dynamic> dmap = new LinkedHashMap<String, dynamic>();
-  Future<Map<String, dynamic>> parseJsonFromAssets(String assetsPath) async {
-    return await rootBundle
-        .loadString(assetsPath)
-        .then((jsonStr) => jsonDecode(jsonStr));
-  }
 
-  void _setLanguage(String language) async {
-    dmap =
-        await parseJsonFromAssets('locale/' + language.toLowerCase() + '.json');
-    String oldLanguage = cfg.getString("currentLanguage");
-    cfg.updateValue("currentLanguage", language);
-    cfg.updateValue("language", oldLanguage);
+  void _setLanguage() async {
+    await Language.setLanguage();
     setState(() {});
   }
-
-  Future loadLanguage(String path) async {
-    dmap = await parseJsonFromAssets(path);
+  void instanciateLanguage() async {
+    await Language.languageStarted();
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    loadLanguage(
-        'locale/' + cfg.getString('currentLanguage').toLowerCase() + '.json');
+    instanciateLanguage();
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -92,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
-          hintText: dmap["UsernameText"] != null ? dmap["UsernameText"] : "",
+          hintText: Language.mapLanguage["UsernameText"] != null ? Language.mapLanguage["UsernameText"] : "",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
@@ -102,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
-          hintText: dmap["PasswordText"] != null ? dmap["PasswordText"] : "",
+          hintText: Language.mapLanguage["PasswordText"] != null ? Language.mapLanguage["PasswordText"] : "",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
@@ -118,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
               context, MaterialPageRoute(builder: (context) => Home()));
         },
         child: Text(
-          dmap["LoginText"] != null ? dmap["LoginText"] : "",
+          Language.mapLanguage["LoginText"] != null ? Language.mapLanguage["LoginText"] : "",
           textAlign: TextAlign.center,
           style: TextStyle(
               color: Color.fromRGBO(255, 255, 255, 100),
@@ -128,10 +111,10 @@ class _LoginPageState extends State<LoginPage> {
     );
     final language = InkWell(
       onTap: () {
-        _setLanguage(cfg.getString("language"));
+        _setLanguage();
       },
       child: new Text(
-        cfg.getString("language"),
+        Language.cfg.getString("language") != null ? Language.cfg.getString("language") : "",
         textAlign: TextAlign.center,
         style: TextStyle(color: Colors.white),
       ),
@@ -141,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
           //_setLanguage(cfg.getString("language"));
         },
         child: new Text(
-          dmap["ForgotPassword"] != null ? dmap["ForgotPassword"] : "",
+          Language.mapLanguage["ForgotPassword"] != null ? Language.mapLanguage["ForgotPassword"] : "",
           textAlign: TextAlign.center,
         ));
     final signUp = InkWell(
@@ -151,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
           //_setLanguage(cfg.getString("language"));
         },
         child: new Text(
-          dmap["SignUp"] != null ? dmap["SignUp"] : "",
+          Language.mapLanguage["SignUp"] != null ? Language.mapLanguage["SignUp"] : "",
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.white),
         ));
@@ -220,7 +203,7 @@ class _LoginPageState extends State<LoginPage> {
                     Column(
                       children: <Widget>[
                         Text(
-                          dmap["NoAccount"] != null ? dmap["NoAccount"] : "",
+                          Language.mapLanguage["NoAccount"] != null ? Language.mapLanguage["NoAccount"] : "",
                           style: TextStyle(color: Colors.white),
                         ),
                         signUp,

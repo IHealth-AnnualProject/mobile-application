@@ -1,12 +1,8 @@
-import 'dart:collection';
-import 'dart:convert';
+import 'package:betsbi/service/Language.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:global_configuration/global_configuration.dart';
 
-void main() async {
+void main()  {
   WidgetsFlutterBinding.ensureInitialized();
-  await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
   runApp(Register());
 }
 
@@ -50,24 +46,16 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  GlobalConfiguration cfg = new GlobalConfiguration();
-  LinkedHashMap<String, dynamic> dmap = new LinkedHashMap<String, dynamic>();
   List<bool> _isSelected = [true, false];
-  Future<Map<String, dynamic>> parseJsonFromAssets(String assetsPath) async {
-    return await rootBundle
-        .loadString(assetsPath)
-        .then((jsonStr) => jsonDecode(jsonStr));
-  }
 
-  Future loadLanguage(String path) async {
-    dmap = await parseJsonFromAssets(path);
+  void instanciateLanguage() async {
+    await Language.languageStarted();
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    loadLanguage(
-        'locale/' + cfg.getString('currentLanguage').toLowerCase() + '.json');
+    instanciateLanguage();
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -81,7 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
-          hintText: dmap["UsernameText"] != null ? dmap["UsernameText"] : "",
+          hintText: Language.mapLanguage["UsernameText"] != null ? Language.mapLanguage["UsernameText"] : "",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
@@ -91,7 +79,7 @@ class _RegisterPageState extends State<RegisterPage> {
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
-          hintText: dmap["PasswordText"] != null ? dmap["PasswordText"] : "",
+          hintText: Language.mapLanguage["PasswordText"] != null ? Language.mapLanguage["PasswordText"] : "",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
@@ -102,7 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
           filled: true,
           fillColor: Colors.white,
           hintText:
-              dmap["ConfirmPassword"] != null ? dmap["ConfirmPassword"] : "",
+          Language.mapLanguage["ConfirmPassword"] != null ? Language.mapLanguage["ConfirmPassword"] : "",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
@@ -112,14 +100,14 @@ class _RegisterPageState extends State<RegisterPage> {
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
-          hintText: dmap["EmailText"] != null ? dmap["EmailText"] : "",
+          hintText: Language.mapLanguage["EmailText"] != null ? Language.mapLanguage["EmailText"] : "",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
     final statusUser = ToggleButtons(
       children: <Widget>[
-        Text(dmap["UserChoice"] != null ? dmap["UserChoice"] : ""),
-        Text(dmap["PsyChoice"] != null ? dmap["PsyChoice"] : "")
+        Text(Language.mapLanguage["UserChoice"] != null ? Language.mapLanguage["UserChoice"] : ""),
+        Text(Language.mapLanguage["PsyChoice"] != null ? Language.mapLanguage["PsyChoice"] : "")
       ],
       onPressed: (int index) {
         setState(() {
@@ -145,7 +133,7 @@ class _RegisterPageState extends State<RegisterPage> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {},
         child: Text(
-          dmap["DoneButton"] != null ? dmap["DoneButton"] : "",
+          Language.mapLanguage["DoneButton"] != null ? Language.mapLanguage["DoneButton"] : "",
           textAlign: TextAlign.center,
           style: TextStyle(
               color: Color.fromRGBO(255, 255, 255, 100),
@@ -196,7 +184,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 45,
                     ),
                     Text(
-                      dmap["CheckBoxPsy"] != null ? dmap["CheckBoxPsy"] : "",
+                      Language.mapLanguage["CheckBoxPsy"] != null ? Language.mapLanguage["CheckBoxPsy"] : "",
                     ),
                     SizedBox(
                       height: 20,
