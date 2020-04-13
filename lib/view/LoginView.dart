@@ -1,3 +1,4 @@
+import 'package:betsbi/feelings.dart';
 import 'package:betsbi/service/Language.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,7 @@ class LoginView extends State<LoginPage> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Home()));
+              context, MaterialPageRoute(builder: (context) => Feelings()));
         },
         child: Text(
           Language.mapLanguage["LoginText"] != null ? Language.mapLanguage["LoginText"] : "",

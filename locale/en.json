@@ -23,7 +23,14 @@
   "HomeFooter": "Home",
   "AccountFooter": "Account",
   "ChatFooter": "Chat",
-  "SearchContainer": "Find other user....."
+  "SearchContainer": "Find other user.....",
+  "FeelingGood": "Good",
+  "FeelingVeryGood": "Very Good",
+  "FeelingSad": "Sad",
+  "FeelingVerySad": "Very Sad",
+  "FeelingStress": "Stress",
+  "FeelingDepressive": "Depressive",
+  "FeelingQuestion": "How are you feeling today ?"
 
 
 }

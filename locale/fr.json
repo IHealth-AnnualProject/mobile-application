@@ -23,7 +23,14 @@
   "HomeFooter": "Accueil",
   "AccountFooter": "Compte",
   "ChatFooter": "Chat",
-  "SearchContainer": "Trouve d'autres utilisateurs....."
+  "SearchContainer": "Trouve d'autres utilisateurs.....",
+  "FeelingGood": "Bien",
+  "FeelingVeryGood": "Très bien",
+  "FeelingSad": "Pas bien",
+  "FeelingVerySad": "Vraiment pas bien",
+  "FeelingStress": "Stress",
+  "FeelingDepressive": "Dépression",
+  "FeelingQuestion": "Comment te sens tu aujourd'hui ?"
 
 
 
