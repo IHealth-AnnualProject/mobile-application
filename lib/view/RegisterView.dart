@@ -36,6 +36,9 @@ class RegisterView extends State<RegisterPage> {
         return null;
       },
       decoration: InputDecoration(
+          labelText: Language.mapLanguage["UsernameText"] != null
+              ? Language.mapLanguage["UsernameText"]
+              : "",
           filled: true,
           fillColor: Colors.white,
           hintText: Language.mapLanguage["UsernameText"] != null
@@ -56,6 +59,9 @@ class RegisterView extends State<RegisterPage> {
         return null;
       },
       decoration: InputDecoration(
+          labelText: Language.mapLanguage["PasswordText"] != null
+              ? Language.mapLanguage["PasswordText"]
+              : "",
           filled: true,
           fillColor: Colors.white,
           hintText: Language.mapLanguage["PasswordText"] != null
@@ -76,6 +82,9 @@ class RegisterView extends State<RegisterPage> {
         return null;
       },
       decoration: InputDecoration(
+          labelText: Language.mapLanguage["ConfirmPassword"] != null
+              ? Language.mapLanguage["ConfirmPassword"]
+              : "",
           filled: true,
           fillColor: Colors.white,
           hintText: Language.mapLanguage["ConfirmPassword"] != null
@@ -101,6 +110,9 @@ class RegisterView extends State<RegisterPage> {
       },
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
+          labelText: Language.mapLanguage["EmailText"] != null
+              ? Language.mapLanguage["EmailText"]
+              : "",
           filled: true,
           fillColor: Colors.white,
           hintText: Language.mapLanguage["EmailText"] != null

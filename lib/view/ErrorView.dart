@@ -47,6 +47,9 @@ class ErrorView extends State<ErrorPage> {
         return null;
       },
       decoration: InputDecoration(
+          labelText: Language.mapLanguage["EnterText"] != null
+              ? Language.mapLanguage["EnterText"]
+              : "",
           filled: true,
           fillColor: Colors.white,
           hintText: Language.mapLanguage["Title"] != null
@@ -68,6 +71,7 @@ class ErrorView extends State<ErrorPage> {
         return null;
       },
       decoration: InputDecoration(
+          labelText: "Description",
           filled: true,
           fillColor: Colors.white,
           hintText: "Description",

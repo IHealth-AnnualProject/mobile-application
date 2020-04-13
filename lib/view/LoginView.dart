@@ -42,6 +42,9 @@ class LoginView extends State<LoginPage> {
         return null;
       },
       decoration: InputDecoration(
+          labelText: Language.mapLanguage["UsernameText"] != null
+              ? Language.mapLanguage["UsernameText"]
+              : "",
           filled: true,
           fillColor: Colors.white,
           hintText: Language.mapLanguage["UsernameText"] != null
@@ -62,6 +65,9 @@ class LoginView extends State<LoginPage> {
         return null;
       },
       decoration: InputDecoration(
+          labelText: Language.mapLanguage["PasswordText"] != null
+              ? Language.mapLanguage["PasswordText"]
+              : "",
           filled: true,
           fillColor: Colors.white,
           hintText: Language.mapLanguage["PasswordText"] != null
