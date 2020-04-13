@@ -3,11 +3,12 @@ import 'package:betsbi/service/Language.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../home.dart';
 import '../login.dart';
 import '../register.dart';
 
 class LoginView extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+
 
   void _setLanguage() async {
     await Language.setLanguage();
@@ -29,7 +30,7 @@ class LoginView extends State<LoginPage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-    final username = TextField(
+    final username = TextFormField(
       obscureText: false,
       textAlign: TextAlign.center,
       decoration: InputDecoration(
@@ -39,7 +40,7 @@ class LoginView extends State<LoginPage> {
           border:
           OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
-    final password = TextField(
+    final password = TextFormField(
       obscureText: true,
       textAlign: TextAlign.center,
       decoration: InputDecoration(
@@ -81,7 +82,7 @@ class LoginView extends State<LoginPage> {
     );
     final forgotPassword = InkWell(
         onTap: () {
-          //_setLanguage(cfg.getString("language"));
+          Language.setLanguage();
         },
         child: new Text(
           Language.mapLanguage["ForgotPassword"] != null ? Language.mapLanguage["ForgotPassword"] : "",
@@ -153,24 +154,27 @@ class LoginView extends State<LoginPage> {
                 SizedBox(
                   height: 45,
                 ),
-                Row(
-                  //crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[language],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          Language.mapLanguage["NoAccount"] != null ? Language.mapLanguage["NoAccount"] : "",
-                          style: TextStyle(color: Colors.white),
+                Container(
+                  width: 350,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                        language,
+                        Container(
+                        alignment: Alignment.center,
+                        child: Row(
+                          children: <Widget>[
+                            Text(Language.mapLanguage["NoAccount"] != null ? Language.mapLanguage["NoAccount"] : "",
+                                style: TextStyle(color: Colors.white)),
+                            signUp
+                          ],
                         ),
-                        signUp,
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                )
+
               ],
             ),
           ), // This trailing comma makes auto-formatting nicer for build methods.

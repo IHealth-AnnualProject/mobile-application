@@ -53,9 +53,16 @@ class RegisterView extends State<RegisterPage> {
           border:
           OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
-    final email = TextField(
+    final email = TextFormField(
       obscureText: false,
       textAlign: TextAlign.center,
+      keyboardType: TextInputType.emailAddress,
+      validator: (String arg) {
+        if(arg.length < 3)
+          return 'Name must be more than 2 charater';
+        else
+          return null;
+      },
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,

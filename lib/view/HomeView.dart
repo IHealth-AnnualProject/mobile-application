@@ -1,5 +1,5 @@
-import 'package:betsbi/customwidgets/BrickContainer.dart';
-import 'package:betsbi/customwidgets/SearchApp.dart';
+import 'package:betsbi/model/BrickContainer.dart';
+import 'package:betsbi/model/SearchApp.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/Language.dart';
 import 'package:flutter/cupertino.dart';

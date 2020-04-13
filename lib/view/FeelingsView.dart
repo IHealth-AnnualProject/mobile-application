@@ -1,4 +1,4 @@
-import 'package:betsbi/customwidgets/FeelingButton.dart';
+import 'package:betsbi/model/FeelingButton.dart';
 import 'package:betsbi/feelings.dart';
 import 'package:betsbi/service/Language.dart';
 import 'package:flutter/cupertino.dart';
