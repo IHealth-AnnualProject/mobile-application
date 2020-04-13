@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../home.dart';
+import '../error.dart';
 
 class HomeView extends State<HomePage> {
   int _selectedBottomIndex = 0;
@@ -53,43 +54,43 @@ class HomeView extends State<HomePage> {
                   Language.mapLanguage["MyAccountContainer"] != null
                       ? Language.mapLanguage["MyAccountContainer"]
                       : "",
-                  Icons.home),
+                  Icons.home, null),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
                   Language.mapLanguage["MyTrainingContainer"] != null
                       ? Language.mapLanguage["MyTrainingContainer"]
                       : "",
-                  Icons.play_for_work),
+                  Icons.play_for_work, null),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
                   Language.mapLanguage["MyMemosContainer"] != null
                       ? Language.mapLanguage["MyMemosContainer"]
                       : "",
-                  Icons.wrap_text),
+                  Icons.wrap_text, null),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
                   Language.mapLanguage["MyAmbianceContainer"] != null
                       ? Language.mapLanguage["MyAmbianceContainer"]
                       : "",
-                  Icons.music_note),
+                  Icons.music_note, null),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
                   Language.mapLanguage["MyQuestContainer"] != null
                       ? Language.mapLanguage["MyQuestContainer"]
                       : "",
-                  Icons.not_listed_location),
+                  Icons.not_listed_location, null),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
                   Language.mapLanguage["SettingsContainer"] != null
                       ? Language.mapLanguage["SettingsContainer"]
                       : "",
-                  Icons.settings),
+                  Icons.settings, null),
               BrickContainer(
                   Color.fromRGBO(249, 89, 51, 1),
                   Language.mapLanguage["ErrorContainer"] != null
                       ? Language.mapLanguage["ErrorContainer"]
                       : "",
-                  Icons.error),
+                  Icons.error, Error()),
             ],
           ),
         ),

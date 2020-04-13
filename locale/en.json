@@ -8,6 +8,7 @@
   "ForgotPassword": "Forgot password ?",
   "NoAccount": "Don't Have Account ?",
   "SignUp": "SIGN UP",
+  "Submit": "Submit",
   "FirstNameText": "First Name",
   "LastNameText": "Last Name",
   "EmailText": "Email",
@@ -30,7 +31,11 @@
   "FeelingVerySad": "Very Sad",
   "FeelingStress": "Stress",
   "FeelingDepressive": "Depressive",
-  "FeelingQuestion": "How are you feeling today ?"
+  "FeelingQuestion": "How are you feeling today ?",
+  "EnterText": "Please enter some text",
+  "EmailErrorText": "Please enter correct Email",
+  "ErrorTitle": "Thank you for sharing error you fund, with us",
+  "Title": "Title"
 
 
 }
