@@ -3,18 +3,25 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class BrickContainer extends StatelessWidget{
+class BrickContainer extends StatelessWidget {
   final Color colorBrick;
   final String textBrick;
   final IconData iconBrick;
+  final StatelessWidget destination;
 
-  const BrickContainer(this.colorBrick,this.textBrick, this.iconBrick);
+  const BrickContainer(
+      this.colorBrick, this.textBrick, this.iconBrick, this.destination);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
-        color: this.colorBrick,
+      color: this.colorBrick,
+      child: GestureDetector(
+        onTap: () {
+          if (this.destination != null)
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => this.destination));
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -29,7 +36,8 @@ class BrickContainer extends StatelessWidget{
               style: TextStyle(color: Colors.white),
             ),
           ],
-        ));
+        ),
+      ),
+    );
   }
-
 }
