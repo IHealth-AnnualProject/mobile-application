@@ -9,11 +9,11 @@ import '../register.dart';
 class LoginView extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
-
   void _setLanguage() async {
     await Language.setLanguage();
     setState(() {});
   }
+
   void instanciateLanguage() async {
     await Language.languageStarted();
     setState(() {});
@@ -33,36 +33,60 @@ class LoginView extends State<LoginPage> {
     final username = TextFormField(
       obscureText: false,
       textAlign: TextAlign.center,
+      validator: (value) {
+        if (value.isEmpty) {
+          return Language.mapLanguage["EnterText"] != null
+              ? Language.mapLanguage["EnterText"]
+              : "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
-          hintText: Language.mapLanguage["UsernameText"] != null ? Language.mapLanguage["UsernameText"] : "",
+          hintText: Language.mapLanguage["UsernameText"] != null
+              ? Language.mapLanguage["UsernameText"]
+              : "",
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
     final password = TextFormField(
       obscureText: true,
       textAlign: TextAlign.center,
+      validator: (value) {
+        if (value.isEmpty) {
+          return Language.mapLanguage["EnterText"] != null
+              ? Language.mapLanguage["EnterText"]
+              : "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
-          hintText: Language.mapLanguage["PasswordText"] != null ? Language.mapLanguage["PasswordText"] : "",
+          hintText: Language.mapLanguage["PasswordText"] != null
+              ? Language.mapLanguage["PasswordText"]
+              : "",
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
     final loginButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(16.0),
-      color: Color.fromRGBO(104, 79, 37, 0.8),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
+        color: Color.fromRGBO(104, 79, 37, 0.8),
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Feelings()));
+          if (_formKey.currentState.validate()) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Feelings()));
+          }
         },
         child: Text(
-          Language.mapLanguage["LoginText"] != null ? Language.mapLanguage["LoginText"] : "",
+          Language.mapLanguage["LoginText"] != null
+              ? Language.mapLanguage["LoginText"]
+              : "",
           textAlign: TextAlign.center,
           style: TextStyle(
               color: Color.fromRGBO(255, 255, 255, 100),
@@ -75,7 +99,9 @@ class LoginView extends State<LoginPage> {
         _setLanguage();
       },
       child: new Text(
-        Language.cfg.getString("language") != null ? Language.cfg.getString("language") : "",
+        Language.cfg.getString("language") != null
+            ? Language.cfg.getString("language")
+            : "",
         textAlign: TextAlign.center,
         style: TextStyle(color: Colors.white),
       ),
@@ -85,7 +111,9 @@ class LoginView extends State<LoginPage> {
           Language.setLanguage();
         },
         child: new Text(
-          Language.mapLanguage["ForgotPassword"] != null ? Language.mapLanguage["ForgotPassword"] : "",
+          Language.mapLanguage["ForgotPassword"] != null
+              ? Language.mapLanguage["ForgotPassword"]
+              : "",
           textAlign: TextAlign.center,
         ));
     final signUp = InkWell(
@@ -95,7 +123,9 @@ class LoginView extends State<LoginPage> {
           //_setLanguage(cfg.getString("language"));
         },
         child: new Text(
-          Language.mapLanguage["SignUp"] != null ? Language.mapLanguage["SignUp"] : "",
+          Language.mapLanguage["SignUp"] != null
+              ? Language.mapLanguage["SignUp"]
+              : "",
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.white),
         ));
@@ -127,27 +157,34 @@ class LoginView extends State<LoginPage> {
                     SizedBox(
                       height: 45,
                     ),
-                    Container(
-                      width: 350.0,
-                      child: username,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: 350.0,
-                      child: password,
-                    ),
-                    SizedBox(
-                      height: 45,
-                    ),
-                    forgotPassword,
-                    SizedBox(
-                      height: 45,
-                    ),
-                    Container(
-                      width: 350.0,
-                      child: loginButton,
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            width: 350.0,
+                            child: username,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            width: 350.0,
+                            child: password,
+                          ),
+                          SizedBox(
+                            height: 45,
+                          ),
+                          forgotPassword,
+                          SizedBox(
+                            height: 45,
+                          ),
+                          Container(
+                            width: 350.0,
+                            child: loginButton,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -160,12 +197,15 @@ class LoginView extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     //crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                        language,
-                        Container(
+                      language,
+                      Container(
                         alignment: Alignment.center,
                         child: Row(
                           children: <Widget>[
-                            Text(Language.mapLanguage["NoAccount"] != null ? Language.mapLanguage["NoAccount"] : "",
+                            Text(
+                                Language.mapLanguage["NoAccount"] != null
+                                    ? Language.mapLanguage["NoAccount"]
+                                    : "",
                                 style: TextStyle(color: Colors.white)),
                             signUp
                           ],
@@ -174,7 +214,6 @@ class LoginView extends State<LoginPage> {
                     ],
                   ),
                 )
-
               ],
             ),
           ), // This trailing comma makes auto-formatting nicer for build methods.
