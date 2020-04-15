@@ -7,7 +7,7 @@
   "ConfirmPassword": "Confirmez votre mot de passe",
   "ForgotPassword": "Mot de passe oublié ?",
   "NoAccount": "Pas de compte ?",
-  "SignUp": "ENREGISTREZ VOUS",
+  "SignUp": " ENREGISTREZ VOUS",
   "Submit": "Envoyer",
   "FirstNameText": "Prénom",
   "LastNameText": "Nom de famille",
@@ -35,7 +35,10 @@
   "EnterText": "Merci d'écrire quelque chose",
   "EmailErrorText": "Veuillez entrer un email correct",
   "ErrorTitle": "Merci de nous partagez les erreurs que vous avez trouvés",
-  "Title": "Titre"
+  "Title": "Titre",
+  "ConnectSent": "Vous êtes maintenant connecté",
+  "ErrorSent": "Merci de cette infomation",
+  "RegisterSent": "Merci de votre inscription"
 
 
 

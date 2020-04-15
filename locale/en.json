@@ -7,7 +7,7 @@
   "ConfirmPassword": "Confirm Password",
   "ForgotPassword": "Forgot password ?",
   "NoAccount": "Don't Have Account ?",
-  "SignUp": "SIGN UP",
+  "SignUp": " SIGN UP",
   "Submit": "Submit",
   "FirstNameText": "First Name",
   "LastNameText": "Last Name",
@@ -35,7 +35,10 @@
   "EnterText": "Please enter some text",
   "EmailErrorText": "Please enter correct Email",
   "ErrorTitle": "Thank you for sharing error you fund, with us",
-  "Title": "Title"
+  "Title": "Title",
+  "ConnectSent": "You're now connected",
+  "ErrorSent": "Thank you for sharing this with us",
+  "RegisterSent": "Thanks for your registration"
 
 
 }
