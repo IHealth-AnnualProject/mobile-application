@@ -18,10 +18,9 @@ class SettingsManager {
         .then((jsonStr) => jsonDecode(jsonStr));
   }
 
-  static Future<void> deviceLanguage()
+  static void deviceLanguage()
   async {
     String localLanguage = await Devicelocale.currentLocale;
-    print(localLanguage);
     switch(localLanguage){
       case "fr":
         cfg.updateValue("currentLanguage", "FR");
@@ -30,7 +29,6 @@ class SettingsManager {
       default:
         cfg.updateValue("currentLanguage", "EN");
         cfg.updateValue("language", "FR");
-        print(cfg.getString("currentLanguage"));
         break;
     }
   }
@@ -39,7 +37,6 @@ class SettingsManager {
     if (!status) {
       cfg = new GlobalConfiguration();
       await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
-      await deviceLanguage();
       loadLanguage(
           'locale/' + cfg.getString('currentLanguage').toLowerCase() + '.json');
       status = true;

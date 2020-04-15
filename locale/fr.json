@@ -40,7 +40,9 @@
   "ErrorSent": "Merci de cette infomation",
   "RegisterSent": "Merci de votre inscription",
   "NotificationPushActivated": "Notification push : ",
-  "LanguageChanged": "Changez la langue :"
+  "LanguageChanged": "Changez la langue : ",
+  "EnterMail": "Vous recevrez un mail pour changer de mot de passe"
+
 
 
 

@@ -1,5 +1,6 @@
 import 'package:betsbi/feelings.dart';
 import 'package:betsbi/model/FinalButton.dart';
+import 'package:betsbi/model/ForgotPassword.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class LoginView extends State<LoginPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+
 
     final username = TextFormField(
       obscureText: false,
@@ -91,6 +93,9 @@ class LoginView extends State<LoginPage> {
     );
     final forgotPassword = InkWell(
         onTap: () {
+          setState(() {
+
+          });
           //Language.setLanguage();
         },
         child: new Text(
@@ -158,7 +163,10 @@ class LoginView extends State<LoginPage> {
                           SizedBox(
                             height: 45,
                           ),
-                          forgotPassword,
+                          //forgotPassword,
+                          ForgotPassword(SettingsManager.mapLanguage["ForgotPassword"] != null
+                              ? SettingsManager.mapLanguage["ForgotPassword"]
+                              : "","bidule",Icons.message),
                           SizedBox(
                             height: 45,
                           ),
