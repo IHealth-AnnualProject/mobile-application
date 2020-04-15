@@ -1,13 +1,12 @@
-import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/view/RegisterView.dart';
+import 'package:betsbi/view/SettingsView.dart';
 import 'package:flutter/material.dart';
 
 void main()  {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(Register());
+  runApp(Settings());
 }
 
-class Register extends StatelessWidget {
+class Settings extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -25,13 +24,13 @@ class Register extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: RegisterPage(title: 'Register Page'),
+      home: SettingsPage(title: 'Settings Page'),
     );
   }
 }
 
-class RegisterPage extends StatefulWidget {
-  RegisterPage({Key key, this.title}) : super(key: key);
+class SettingsPage extends StatefulWidget {
+  SettingsPage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -43,5 +42,5 @@ class RegisterPage extends StatefulWidget {
   // always marked "final".
   final String title;
   @override
-  RegisterView createState() => RegisterView();
+  SettingsView createState() => SettingsView();
 }

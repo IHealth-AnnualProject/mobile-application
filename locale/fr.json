@@ -38,7 +38,9 @@
   "Title": "Titre",
   "ConnectSent": "Vous êtes maintenant connecté",
   "ErrorSent": "Merci de cette infomation",
-  "RegisterSent": "Merci de votre inscription"
+  "RegisterSent": "Merci de votre inscription",
+  "NotificationPushActivated": "Notification push : ",
+  "LanguageChanged": "Changez la langue :"
 
 
 

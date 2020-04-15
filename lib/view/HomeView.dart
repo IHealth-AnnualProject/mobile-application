@@ -1,7 +1,8 @@
+import 'package:betsbi/model/AppSearchBar.dart';
 import 'package:betsbi/model/BrickContainer.dart';
-import 'package:betsbi/model/SearchApp.dart';
 import 'package:betsbi/model/user.dart';
-import 'package:betsbi/service/Language.dart';
+import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,7 @@ class HomeView extends State<HomePage> {
   void _onBottomTapped(int index) {
     setState(() {
       _selectedBottomIndex = index;
+
     });
   }
 
@@ -24,7 +26,7 @@ class HomeView extends State<HomePage> {
   ];
 
   void instanciateLanguage() async {
-    await Language.languageStarted();
+    await SettingsManager.languageStarted();
     setState(() {});
   }
 
@@ -51,44 +53,44 @@ class HomeView extends State<HomePage> {
             children: <Widget>[
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
-                  Language.mapLanguage["MyAccountContainer"] != null
-                      ? Language.mapLanguage["MyAccountContainer"]
+                  SettingsManager.mapLanguage["MyAccountContainer"] != null
+                      ? SettingsManager.mapLanguage["MyAccountContainer"]
                       : "",
                   Icons.home, null, "user.png"),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
-                  Language.mapLanguage["MyTrainingContainer"] != null
-                      ? Language.mapLanguage["MyTrainingContainer"]
+                  SettingsManager.mapLanguage["MyTrainingContainer"] != null
+                      ? SettingsManager.mapLanguage["MyTrainingContainer"]
                       : "",
                   Icons.play_for_work, null, "exercise.png"),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
-                  Language.mapLanguage["MyMemosContainer"] != null
-                      ? Language.mapLanguage["MyMemosContainer"]
+                  SettingsManager.mapLanguage["MyMemosContainer"] != null
+                      ? SettingsManager.mapLanguage["MyMemosContainer"]
                       : "",
                   Icons.wrap_text, null, "notes.png"),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
-                  Language.mapLanguage["MyAmbianceContainer"] != null
-                      ? Language.mapLanguage["MyAmbianceContainer"]
+                  SettingsManager.mapLanguage["MyAmbianceContainer"] != null
+                      ? SettingsManager.mapLanguage["MyAmbianceContainer"]
                       : "",
                   Icons.music_note, null, "training.png"),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
-                  Language.mapLanguage["MyQuestContainer"] != null
-                      ? Language.mapLanguage["MyQuestContainer"]
+                  SettingsManager.mapLanguage["MyQuestContainer"] != null
+                      ? SettingsManager.mapLanguage["MyQuestContainer"]
                       : "",
                   Icons.not_listed_location, null, "quest.png"),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
-                  Language.mapLanguage["SettingsContainer"] != null
-                      ? Language.mapLanguage["SettingsContainer"]
+                  SettingsManager.mapLanguage["SettingsContainer"] != null
+                      ? SettingsManager.mapLanguage["SettingsContainer"]
                       : "",
-                  Icons.settings, null, "settings.png"),
+                  Icons.settings, Settings(), "settings.png"),
               BrickContainer(
                   Color.fromRGBO(249, 89, 51, 1),
-                  Language.mapLanguage["ErrorContainer"] != null
-                      ? Language.mapLanguage["ErrorContainer"]
+                  SettingsManager.mapLanguage["ErrorContainer"] != null
+                      ? SettingsManager.mapLanguage["ErrorContainer"]
                       : "",
                   Icons.error, Error(), "error.png"),
             ],
@@ -98,15 +100,9 @@ class HomeView extends State<HomePage> {
     );
     return Scaffold(
       backgroundColor: Color.fromRGBO(228, 228, 228, 1),
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(context: context, delegate: DataSearch(users));
-              })
-        ],
-      ),
+      appBar: AppSearchBar(SettingsManager.mapLanguage["SearchContainer"] != null
+          ? SettingsManager.mapLanguage["SearchContainer"]
+          : "",users),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -122,20 +118,20 @@ class HomeView extends State<HomePage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text(Language.mapLanguage["HomeFooter"] != null
-                ? Language.mapLanguage["HomeFooter"]
+            title: Text(SettingsManager.mapLanguage["HomeFooter"] != null
+                ? SettingsManager.mapLanguage["HomeFooter"]
                 : ""),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_box),
-            title: Text(Language.mapLanguage["AccountFooter"] != null
-                ? Language.mapLanguage["AccountFooter"]
+            title: Text(SettingsManager.mapLanguage["AccountFooter"] != null
+                ? SettingsManager.mapLanguage["AccountFooter"]
                 : ""),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat),
-            title: Text(Language.mapLanguage["ChatFooter"] != null
-                ? Language.mapLanguage["ChatFooter"]
+            title: Text(SettingsManager.mapLanguage["ChatFooter"] != null
+                ? SettingsManager.mapLanguage["ChatFooter"]
                 : ""),
           ),
         ],

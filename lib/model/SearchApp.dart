@@ -1,5 +1,5 @@
 import 'package:betsbi/model/user.dart';
-import 'package:betsbi/service/Language.dart';
+import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/material.dart';
 
 class DataSearch extends SearchDelegate<String> {
@@ -8,8 +8,8 @@ class DataSearch extends SearchDelegate<String> {
   DataSearch(this.users);
 
   @override
-  String get searchFieldLabel => Language.mapLanguage["SearchContainer"] != null
-      ? Language.mapLanguage["SearchContainer"]
+  String get searchFieldLabel => SettingsManager.mapLanguage["SearchContainer"] != null
+      ? SettingsManager.mapLanguage["SearchContainer"]
       : "";
 
   @override

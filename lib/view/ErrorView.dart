@@ -1,6 +1,8 @@
 import 'package:betsbi/error.dart';
+import 'package:betsbi/model/AppSearchBar.dart';
 import 'package:betsbi/model/FinalButton.dart';
-import 'package:betsbi/service/Language.dart';
+import 'package:betsbi/model/user.dart';
+import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,9 +10,31 @@ import '../home.dart';
 
 class ErrorView extends State<ErrorPage> {
   final _formKey = GlobalKey<FormState>();
+  int _selectedBottomIndex = 0;
+  List<User> users = [
+    User(0, 'Antoine Daniel', 'Psychologue'),
+    User(1, 'Theodore Bulfonorio', 'User'),
+    User(2, 'Estebaille', 'Psychologue'),
+  ];
+
+  void _onBottomTapped(int index) {
+    setState(() {
+      _selectedBottomIndex = index;
+      switch(_selectedBottomIndex) {
+        case 0:
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => Home()));
+          break;
+        case 1:
+          break;
+        case 2:
+          break;
+      }
+    });
+  }
 
   void instanciateLanguage() async {
-    await Language.languageStarted();
+    await SettingsManager.languageStarted();
     setState(() {});
   }
 
@@ -26,8 +50,8 @@ class ErrorView extends State<ErrorPage> {
     // than having to individually change instances of widgets.
 
     final titleFeelings = Text(
-      Language.mapLanguage["ErrorTitle"] != null
-          ? Language.mapLanguage["ErrorTitle"]
+      SettingsManager.mapLanguage["ErrorTitle"] != null
+          ? SettingsManager.mapLanguage["ErrorTitle"]
           : "",
       textAlign: TextAlign.center,
       style: TextStyle(
@@ -40,20 +64,20 @@ class ErrorView extends State<ErrorPage> {
       textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
-          return Language.mapLanguage["EnterText"] != null
-              ? Language.mapLanguage["EnterText"]
+          return SettingsManager.mapLanguage["EnterText"] != null
+              ? SettingsManager.mapLanguage["EnterText"]
               : "";
         }
         return null;
       },
       decoration: InputDecoration(
-          labelText: Language.mapLanguage["EnterText"] != null
-              ? Language.mapLanguage["EnterText"]
+          labelText: SettingsManager.mapLanguage["EnterText"] != null
+              ? SettingsManager.mapLanguage["EnterText"]
               : "",
           filled: true,
           fillColor: Colors.white,
-          hintText: Language.mapLanguage["Title"] != null
-              ? Language.mapLanguage["Title"]
+          hintText: SettingsManager.mapLanguage["Title"] != null
+              ? SettingsManager.mapLanguage["Title"]
               : "",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
@@ -61,11 +85,11 @@ class ErrorView extends State<ErrorPage> {
     final descriptionError = TextFormField(
       obscureText: false,
       textAlign: TextAlign.start,
-      maxLines: 25,
+      maxLines: 15,
       validator: (value) {
         if (value.isEmpty) {
-          return Language.mapLanguage["EnterText"] != null
-              ? Language.mapLanguage["EnterText"]
+          return SettingsManager.mapLanguage["EnterText"] != null
+              ? SettingsManager.mapLanguage["EnterText"]
               : "";
         }
         return null;
@@ -80,60 +104,92 @@ class ErrorView extends State<ErrorPage> {
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
     return Scaffold(
-        backgroundColor: Color.fromRGBO(228, 228, 228, 1),
-        body: Center(
-            // Center is a layout widget. It takes a single child and positions it
-            // in the middle of the parent.
-            child: SingleChildScrollView(
+      backgroundColor: Color.fromRGBO(228, 228, 228, 1),
+      appBar: AppSearchBar(SettingsManager.mapLanguage["SearchContainer"] != null
+          ? SettingsManager.mapLanguage["SearchContainer"]
+          : "",users),
+      body: Center(
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
+          child: SingleChildScrollView(
+              child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //crossAxisAlignment: CrossAxisAlignment.center,
+        //mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: 30,
+              ),
+              titleFeelings,
+              SizedBox(
+                height: 45,
+              ),
+              Form(
+                key: _formKey,
                 child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //crossAxisAlignment: CrossAxisAlignment.center,
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 30,
+                  children: <Widget>[
+                    Container(
+                      width: 350.0,
+                      child: titleError,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      width: 350.0,
+                      child: descriptionError,
+                    ),
+                    SizedBox(
+                      height: 45,
+                    ),
+                    Container(
+                      width: 350.0,
+                      child: FinalButton(
+                          SettingsManager.mapLanguage["Submit"] != null
+                              ? SettingsManager.mapLanguage["Submit"]
+                              : "",
+                          Home(),
+                          _formKey,
+                          SettingsManager.mapLanguage["ErrorSent"] != null
+                              ? SettingsManager.mapLanguage["ErrorSent"]
+                              : ""),
+                    ),
+                  ],
                 ),
-                titleFeelings,
-                SizedBox(
-                  height: 45,
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: 350.0,
-                        child: titleError,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: 350.0,
-                        child: descriptionError,
-                      ),
-                      SizedBox(
-                        height: 45,
-                      ),
-                      Container(
-                        width: 350.0,
-                        child: FinalButton(Language.mapLanguage["Submit"] != null
-                            ? Language.mapLanguage["Submit"]
-                            : "", Home(), _formKey,
-                            Language.mapLanguage["ErrorSent"] != null
-                                ? Language.mapLanguage["ErrorSent"]
-                                : ""),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ), // This trailing comma makes auto-formatting nicer for build methods.
-          ],
-        ))));
+              ),
+            ],
+          ), // This trailing comma makes auto-formatting nicer for build methods.
+        ],
+      ))),
+      bottomNavigationBar: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text(SettingsManager.mapLanguage["HomeFooter"] != null
+                ? SettingsManager.mapLanguage["HomeFooter"]
+                : ""),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_box),
+            title: Text(SettingsManager.mapLanguage["AccountFooter"] != null
+                ? SettingsManager.mapLanguage["AccountFooter"]
+                : ""),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            title: Text(SettingsManager.mapLanguage["ChatFooter"] != null
+                ? SettingsManager.mapLanguage["ChatFooter"]
+                : ""),
+          ),
+        ],
+        currentIndex: _selectedBottomIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onBottomTapped,
+      ),
+    );
   }
 }

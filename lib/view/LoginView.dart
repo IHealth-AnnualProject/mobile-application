@@ -1,6 +1,6 @@
 import 'package:betsbi/feelings.dart';
 import 'package:betsbi/model/FinalButton.dart';
-import 'package:betsbi/service/Language.dart';
+import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,12 +11,12 @@ class LoginView extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   void _setLanguage() async {
-    await Language.setLanguage();
+    await SettingsManager.setLanguage();
     setState(() {});
   }
 
   void instanciateLanguage() async {
-    await Language.languageStarted();
+    await SettingsManager.languageStarted();
     setState(() {});
   }
 
@@ -36,20 +36,20 @@ class LoginView extends State<LoginPage> {
       textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
-          return Language.mapLanguage["EnterText"] != null
-              ? Language.mapLanguage["EnterText"]
+          return SettingsManager.mapLanguage["EnterText"] != null
+              ? SettingsManager.mapLanguage["EnterText"]
               : "";
         }
         return null;
       },
       decoration: InputDecoration(
-          labelText: Language.mapLanguage["UsernameText"] != null
-              ? Language.mapLanguage["UsernameText"]
+          labelText: SettingsManager.mapLanguage["UsernameText"] != null
+              ? SettingsManager.mapLanguage["UsernameText"]
               : "",
           filled: true,
           fillColor: Colors.white,
-          hintText: Language.mapLanguage["UsernameText"] != null
-              ? Language.mapLanguage["UsernameText"]
+          hintText: SettingsManager.mapLanguage["UsernameText"] != null
+              ? SettingsManager.mapLanguage["UsernameText"]
               : "",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
@@ -59,20 +59,20 @@ class LoginView extends State<LoginPage> {
       textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
-          return Language.mapLanguage["EnterText"] != null
-              ? Language.mapLanguage["EnterText"]
+          return SettingsManager.mapLanguage["EnterText"] != null
+              ? SettingsManager.mapLanguage["EnterText"]
               : "";
         }
         return null;
       },
       decoration: InputDecoration(
-          labelText: Language.mapLanguage["PasswordText"] != null
-              ? Language.mapLanguage["PasswordText"]
+          labelText: SettingsManager.mapLanguage["PasswordText"] != null
+              ? SettingsManager.mapLanguage["PasswordText"]
               : "",
           filled: true,
           fillColor: Colors.white,
-          hintText: Language.mapLanguage["PasswordText"] != null
-              ? Language.mapLanguage["PasswordText"]
+          hintText: SettingsManager.mapLanguage["PasswordText"] != null
+              ? SettingsManager.mapLanguage["PasswordText"]
               : "",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
@@ -82,8 +82,8 @@ class LoginView extends State<LoginPage> {
         _setLanguage();
       },
       child: new Text(
-        Language.cfg.getString("language") != null
-            ? Language.cfg.getString("language")
+        SettingsManager.cfg.getString("language") != null
+            ? SettingsManager.cfg.getString("language")
             : "",
         textAlign: TextAlign.center,
         style: TextStyle(color: Colors.white),
@@ -91,11 +91,11 @@ class LoginView extends State<LoginPage> {
     );
     final forgotPassword = InkWell(
         onTap: () {
-          Language.setLanguage();
+          //Language.setLanguage();
         },
         child: new Text(
-          Language.mapLanguage["ForgotPassword"] != null
-              ? Language.mapLanguage["ForgotPassword"]
+          SettingsManager.mapLanguage["ForgotPassword"] != null
+              ? SettingsManager.mapLanguage["ForgotPassword"]
               : "",
           textAlign: TextAlign.center,
         ));
@@ -106,8 +106,8 @@ class LoginView extends State<LoginPage> {
           //_setLanguage(cfg.getString("language"));
         },
         child: new Text(
-          Language.mapLanguage["SignUp"] != null
-              ? Language.mapLanguage["SignUp"]
+          SettingsManager.mapLanguage["SignUp"] != null
+              ? SettingsManager.mapLanguage["SignUp"]
               : "",
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.white),
@@ -164,12 +164,12 @@ class LoginView extends State<LoginPage> {
                           ),
                           Container(
                             width: 350.0,
-                            child: FinalButton(Language.mapLanguage["LoginText"] != null
-                                ? Language.mapLanguage["LoginText"]
+                            child: FinalButton(SettingsManager.mapLanguage["LoginText"] != null
+                                ? SettingsManager.mapLanguage["LoginText"]
                                 : "",
                                 Feelings(), _formKey,
-                                Language.mapLanguage["ConnectSent"] != null
-                                    ? Language.mapLanguage["ConnectSent"]
+                                SettingsManager.mapLanguage["ConnectSent"] != null
+                                    ? SettingsManager.mapLanguage["ConnectSent"]
                                     : ""),
                           ),
                         ],
@@ -192,8 +192,8 @@ class LoginView extends State<LoginPage> {
                         child: Row(
                           children: <Widget>[
                             Text(
-                                Language.mapLanguage["NoAccount"] != null
-                                    ? Language.mapLanguage["NoAccount"]
+                                SettingsManager.mapLanguage["NoAccount"] != null
+                                    ? SettingsManager.mapLanguage["NoAccount"]
                                     : "",
                                 style: TextStyle(color: Colors.white)),
                             signUp

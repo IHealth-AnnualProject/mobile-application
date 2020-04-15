@@ -1,12 +1,12 @@
 import 'package:betsbi/model/FeelingButton.dart';
 import 'package:betsbi/feelings.dart';
-import 'package:betsbi/service/Language.dart';
+import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FeelingsView extends State<FeelingsPage> {
   void instanciateLanguage() async {
-    await Language.languageStarted();
+    await SettingsManager.languageStarted();
     setState(() {});
   }
 
@@ -22,8 +22,8 @@ class FeelingsView extends State<FeelingsPage> {
     // than having to individually change instances of widgets.
 
     final titleFeelings = Text(
-      Language.mapLanguage["FeelingQuestion"] != null
-          ? Language.mapLanguage["FeelingQuestion"]
+      SettingsManager.mapLanguage["FeelingQuestion"] != null
+          ? SettingsManager.mapLanguage["FeelingQuestion"]
           : "",
       textAlign: TextAlign.center,
       style: TextStyle(
@@ -53,8 +53,8 @@ class FeelingsView extends State<FeelingsPage> {
                     Container(
                       width: 350.0,
                       child: FeelingButton(
-                          Language.mapLanguage["FeelingGood"] != null
-                              ? Language.mapLanguage["FeelingGood"]
+                          SettingsManager.mapLanguage["FeelingGood"] != null
+                              ? SettingsManager.mapLanguage["FeelingGood"]
                               : ""),
                     ),
                     SizedBox(
@@ -63,8 +63,8 @@ class FeelingsView extends State<FeelingsPage> {
                     Container(
                       width: 350.0,
                       child: FeelingButton(
-                          Language.mapLanguage["FeelingVeryGood"] != null
-                              ? Language.mapLanguage["FeelingVeryGood"]
+                          SettingsManager.mapLanguage["FeelingVeryGood"] != null
+                              ? SettingsManager.mapLanguage["FeelingVeryGood"]
                               : ""),
                     ),
                     SizedBox(
@@ -73,8 +73,8 @@ class FeelingsView extends State<FeelingsPage> {
                     Container(
                       width: 350.0,
                       child: FeelingButton(
-                          Language.mapLanguage["FeelingSad"] != null
-                              ? Language.mapLanguage["FeelingSad"]
+                          SettingsManager.mapLanguage["FeelingSad"] != null
+                              ? SettingsManager.mapLanguage["FeelingSad"]
                               : ""),
                     ),
                     SizedBox(
@@ -83,8 +83,8 @@ class FeelingsView extends State<FeelingsPage> {
                     Container(
                       width: 350.0,
                       child: FeelingButton(
-                          Language.mapLanguage["FeelingVerySad"] != null
-                              ? Language.mapLanguage["FeelingVerySad"]
+                          SettingsManager.mapLanguage["FeelingVerySad"] != null
+                              ? SettingsManager.mapLanguage["FeelingVerySad"]
                               : ""),
                     ),
                     SizedBox(
@@ -93,8 +93,8 @@ class FeelingsView extends State<FeelingsPage> {
                     Container(
                       width: 350.0,
                       child: FeelingButton(
-                          Language.mapLanguage["FeelingStress"] != null
-                              ? Language.mapLanguage["FeelingStress"]
+                          SettingsManager.mapLanguage["FeelingStress"] != null
+                              ? SettingsManager.mapLanguage["FeelingStress"]
                               : ""),
                     ),
                     SizedBox(
@@ -103,8 +103,8 @@ class FeelingsView extends State<FeelingsPage> {
                     Container(
                       width: 350.0,
                       child: FeelingButton(
-                          Language.mapLanguage["FeelingDepressive"] != null
-                              ? Language.mapLanguage["FeelingDepressive"]
+                          SettingsManager.mapLanguage["FeelingDepressive"] != null
+                              ? SettingsManager.mapLanguage["FeelingDepressive"]
                               : ""),
                     ),
                   ],

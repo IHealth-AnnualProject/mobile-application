@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:global_configuration/global_configuration.dart';
 
-class Language {
+class SettingsManager {
   static LinkedHashMap<String, dynamic> mapLanguage =
       new LinkedHashMap<String, dynamic>();
   static GlobalConfiguration cfg;

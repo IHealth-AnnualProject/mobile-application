@@ -1,6 +1,6 @@
 import 'package:betsbi/feelings.dart';
 import 'package:betsbi/model/FinalButton.dart';
-import 'package:betsbi/service/Language.dart';
+import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +11,7 @@ class RegisterView extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
 
   void instanciateLanguage() async {
-    await Language.languageStarted();
+    await SettingsManager.languageStarted();
     setState(() {});
   }
 
@@ -30,20 +30,20 @@ class RegisterView extends State<RegisterPage> {
       textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
-          return Language.mapLanguage["EnterText"] != null
-              ? Language.mapLanguage["EnterText"]
+          return SettingsManager.mapLanguage["EnterText"] != null
+              ? SettingsManager.mapLanguage["EnterText"]
               : "";
         }
         return null;
       },
       decoration: InputDecoration(
-          labelText: Language.mapLanguage["UsernameText"] != null
-              ? Language.mapLanguage["UsernameText"]
+          labelText: SettingsManager.mapLanguage["UsernameText"] != null
+              ? SettingsManager.mapLanguage["UsernameText"]
               : "",
           filled: true,
           fillColor: Colors.white,
-          hintText: Language.mapLanguage["UsernameText"] != null
-              ? Language.mapLanguage["UsernameText"]
+          hintText: SettingsManager.mapLanguage["UsernameText"] != null
+              ? SettingsManager.mapLanguage["UsernameText"]
               : "",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
@@ -53,20 +53,20 @@ class RegisterView extends State<RegisterPage> {
       textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
-          return Language.mapLanguage["EnterText"] != null
-              ? Language.mapLanguage["EnterText"]
+          return SettingsManager.mapLanguage["EnterText"] != null
+              ? SettingsManager.mapLanguage["EnterText"]
               : "";
         }
         return null;
       },
       decoration: InputDecoration(
-          labelText: Language.mapLanguage["PasswordText"] != null
-              ? Language.mapLanguage["PasswordText"]
+          labelText: SettingsManager.mapLanguage["PasswordText"] != null
+              ? SettingsManager.mapLanguage["PasswordText"]
               : "",
           filled: true,
           fillColor: Colors.white,
-          hintText: Language.mapLanguage["PasswordText"] != null
-              ? Language.mapLanguage["PasswordText"]
+          hintText: SettingsManager.mapLanguage["PasswordText"] != null
+              ? SettingsManager.mapLanguage["PasswordText"]
               : "",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
@@ -76,20 +76,20 @@ class RegisterView extends State<RegisterPage> {
       textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
-          return Language.mapLanguage["EnterText"] != null
-              ? Language.mapLanguage["EnterText"]
+          return SettingsManager.mapLanguage["EnterText"] != null
+              ? SettingsManager.mapLanguage["EnterText"]
               : "";
         }
         return null;
       },
       decoration: InputDecoration(
-          labelText: Language.mapLanguage["ConfirmPassword"] != null
-              ? Language.mapLanguage["ConfirmPassword"]
+          labelText: SettingsManager.mapLanguage["ConfirmPassword"] != null
+              ? SettingsManager.mapLanguage["ConfirmPassword"]
               : "",
           filled: true,
           fillColor: Colors.white,
-          hintText: Language.mapLanguage["ConfirmPassword"] != null
-              ? Language.mapLanguage["ConfirmPassword"]
+          hintText: SettingsManager.mapLanguage["ConfirmPassword"] != null
+              ? SettingsManager.mapLanguage["ConfirmPassword"]
               : "",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
@@ -99,37 +99,40 @@ class RegisterView extends State<RegisterPage> {
       textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
-          return Language.mapLanguage["EnterText"] != null
-              ? Language.mapLanguage["EnterText"]
+          return SettingsManager.mapLanguage["EnterText"] != null
+              ? SettingsManager.mapLanguage["EnterText"]
               : "";
         }
         if (!value.contains('@'))
-          return Language.mapLanguage["EmailErrorText"] != null
-              ? Language.mapLanguage["EmailErrorText"]
+          return SettingsManager.mapLanguage["EmailErrorText"] != null
+              ? SettingsManager.mapLanguage["EmailErrorText"]
               : "";
         return null;
       },
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-          labelText: Language.mapLanguage["EmailText"] != null
-              ? Language.mapLanguage["EmailText"]
+          labelText: SettingsManager.mapLanguage["EmailText"] != null
+              ? SettingsManager.mapLanguage["EmailText"]
               : "",
           filled: true,
           fillColor: Colors.white,
-          hintText: Language.mapLanguage["EmailText"] != null
-              ? Language.mapLanguage["EmailText"]
+          hintText: SettingsManager.mapLanguage["EmailText"] != null
+              ? SettingsManager.mapLanguage["EmailText"]
               : "",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
     final statusUser = ToggleButtons(
+      color: Colors.white,
+      fillColor: Colors.blue,
+      borderRadius: BorderRadius.circular(16.0),
       children: <Widget>[
-        Text(Language.mapLanguage["UserChoice"] != null
-            ? Language.mapLanguage["UserChoice"]
-            : ""),
-        Text(Language.mapLanguage["PsyChoice"] != null
-            ? Language.mapLanguage["PsyChoice"]
-            : "")
+        Text(SettingsManager.mapLanguage["UserChoice"] != null
+            ? SettingsManager.mapLanguage["UserChoice"]
+            : "",style: TextStyle(color: Colors.white),),
+        Text(SettingsManager.mapLanguage["PsyChoice"] != null
+            ? SettingsManager.mapLanguage["PsyChoice"]
+            : "",style: TextStyle(color: Colors.white),)
       ],
       onPressed: (int index) {
         setState(() {
@@ -193,8 +196,8 @@ class RegisterView extends State<RegisterPage> {
                             height: 45,
                           ),
                           Text(
-                            Language.mapLanguage["CheckBoxPsy"] != null
-                                ? Language.mapLanguage["CheckBoxPsy"]
+                            SettingsManager.mapLanguage["CheckBoxPsy"] != null
+                                ? SettingsManager.mapLanguage["CheckBoxPsy"]
                                 : "",
                           ),
                           SizedBox(
@@ -204,11 +207,11 @@ class RegisterView extends State<RegisterPage> {
                           SizedBox(
                             height: 20,
                           ),
-                          Container(child: FinalButton(Language.mapLanguage["DoneButton"] != null
-                              ? Language.mapLanguage["DoneButton"]
+                          Container(child: FinalButton(SettingsManager.mapLanguage["DoneButton"] != null
+                              ? SettingsManager.mapLanguage["DoneButton"]
                               : "", Feelings(), _formKey,
-                              Language.mapLanguage["RegisterSent"] != null
-                                  ? Language.mapLanguage["RegisterSent"]
+                              SettingsManager.mapLanguage["RegisterSent"] != null
+                                  ? SettingsManager.mapLanguage["RegisterSent"]
                                   : ""), width: 350),
                           SizedBox(
                             height: 20,
