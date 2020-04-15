@@ -54,43 +54,43 @@ class HomeView extends State<HomePage> {
                   Language.mapLanguage["MyAccountContainer"] != null
                       ? Language.mapLanguage["MyAccountContainer"]
                       : "",
-                  Icons.home, null),
+                  Icons.home, null, "user.png"),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
                   Language.mapLanguage["MyTrainingContainer"] != null
                       ? Language.mapLanguage["MyTrainingContainer"]
                       : "",
-                  Icons.play_for_work, null),
+                  Icons.play_for_work, null, "exercise.png"),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
                   Language.mapLanguage["MyMemosContainer"] != null
                       ? Language.mapLanguage["MyMemosContainer"]
                       : "",
-                  Icons.wrap_text, null),
+                  Icons.wrap_text, null, "notes.png"),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
                   Language.mapLanguage["MyAmbianceContainer"] != null
                       ? Language.mapLanguage["MyAmbianceContainer"]
                       : "",
-                  Icons.music_note, null),
+                  Icons.music_note, null, "training.png"),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
                   Language.mapLanguage["MyQuestContainer"] != null
                       ? Language.mapLanguage["MyQuestContainer"]
                       : "",
-                  Icons.not_listed_location, null),
+                  Icons.not_listed_location, null, "quest.png"),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
                   Language.mapLanguage["SettingsContainer"] != null
                       ? Language.mapLanguage["SettingsContainer"]
                       : "",
-                  Icons.settings, null),
+                  Icons.settings, null, "settings.png"),
               BrickContainer(
                   Color.fromRGBO(249, 89, 51, 1),
                   Language.mapLanguage["ErrorContainer"] != null
                       ? Language.mapLanguage["ErrorContainer"]
                       : "",
-                  Icons.error, Error()),
+                  Icons.error, Error(), "error.png"),
             ],
           ),
         ),

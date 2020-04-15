@@ -8,14 +8,14 @@ class BrickContainer extends StatelessWidget {
   final String textBrick;
   final IconData iconBrick;
   final StatelessWidget destination;
+  final String image;
 
   const BrickContainer(
-      this.colorBrick, this.textBrick, this.iconBrick, this.destination);
+      this.colorBrick, this.textBrick, this.iconBrick, this.destination, this.image);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: this.colorBrick,
       child: GestureDetector(
         onTap: () {
           if (this.destination != null)
@@ -23,17 +23,15 @@ class BrickContainer extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => this.destination));
         },
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Icon(
-              this.iconBrick,
-              color: Colors.white,
-              size: 150,
+            Image.asset(
+              "assets/"+ this.image,
             ),
             new Text(
               this.textBrick,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black87),
             ),
           ],
         ),
