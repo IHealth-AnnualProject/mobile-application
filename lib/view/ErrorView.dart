@@ -1,10 +1,10 @@
 import 'package:betsbi/error.dart';
+import 'package:betsbi/model/FinalButton.dart';
 import 'package:betsbi/service/Language.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../home.dart';
-
 
 class ErrorView extends State<ErrorPage> {
   final _formKey = GlobalKey<FormState>();
@@ -56,11 +56,11 @@ class ErrorView extends State<ErrorPage> {
               ? Language.mapLanguage["Title"]
               : "",
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
     final descriptionError = TextFormField(
       obscureText: false,
-      textAlign: TextAlign.left,
+      textAlign: TextAlign.start,
       maxLines: 25,
       validator: (value) {
         if (value.isEmpty) {
@@ -75,85 +75,65 @@ class ErrorView extends State<ErrorPage> {
           filled: true,
           fillColor: Colors.white,
           hintText: "Description",
+          alignLabelWithHint: true,
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
-    );
-    final sendError = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(16.0),
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        color: Color.fromRGBO(104, 79, 37, 0.8),
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          if (_formKey.currentState.validate()) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Home()));
-          }
-        },
-        child: Text(
-          Language.mapLanguage["Submit"] != null
-              ? Language.mapLanguage["Submit"]
-              : "",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: Color.fromRGBO(255, 255, 255, 100),
-              fontWeight: FontWeight.bold),
-        ),
-      ),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
     return Scaffold(
         backgroundColor: Color.fromRGBO(228, 228, 228, 1),
         body: Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //crossAxisAlignment: CrossAxisAlignment.center,
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 30,
-                    ),
-                    titleFeelings,
-                    SizedBox(
-                      height: 45,
-                    ),
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: 350.0,
-                            child: titleError,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            width: 350.0,
-                            child: descriptionError,
-                          ),
-                          SizedBox(
-                            height: 45,
-                          ),
-                          Container(
-                            width: 350.0,
-                            child: sendError,
-                          ),
-                        ],
+            // Center is a layout widget. It takes a single child and positions it
+            // in the middle of the parent.
+            child: SingleChildScrollView(
+                child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //crossAxisAlignment: CrossAxisAlignment.center,
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: 30,
+                ),
+                titleFeelings,
+                SizedBox(
+                  height: 45,
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        width: 350.0,
+                        child: titleError,
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        width: 350.0,
+                        child: descriptionError,
+                      ),
+                      SizedBox(
+                        height: 45,
+                      ),
+                      Container(
+                        width: 350.0,
+                        child: FinalButton(Language.mapLanguage["Submit"] != null
+                            ? Language.mapLanguage["Submit"]
+                            : "", Home(), _formKey,
+                            Language.mapLanguage["ErrorSent"] != null
+                                ? Language.mapLanguage["ErrorSent"]
+                                : ""),
+                      ),
+                    ],
+                  ),
                 ),
               ],
-            ),
-          ), // This trailing comma makes auto-formatting nicer for build methods.
-        ));
+            ), // This trailing comma makes auto-formatting nicer for build methods.
+          ],
+        ))));
   }
 }

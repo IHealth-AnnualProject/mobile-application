@@ -1,4 +1,5 @@
 import 'package:betsbi/feelings.dart';
+import 'package:betsbi/model/FinalButton.dart';
 import 'package:betsbi/service/Language.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class LoginView extends State<LoginPage> {
 
     final username = TextFormField(
       obscureText: false,
-      textAlign: TextAlign.center,
+      textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
           return Language.mapLanguage["EnterText"] != null
@@ -55,7 +56,7 @@ class LoginView extends State<LoginPage> {
     );
     final password = TextFormField(
       obscureText: true,
-      textAlign: TextAlign.center,
+      textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
           return Language.mapLanguage["EnterText"] != null
@@ -75,30 +76,6 @@ class LoginView extends State<LoginPage> {
               : "",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
-    );
-    final loginButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(16.0),
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        color: Color.fromRGBO(104, 79, 37, 0.8),
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          if (_formKey.currentState.validate()) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Feelings()));
-          }
-        },
-        child: Text(
-          Language.mapLanguage["LoginText"] != null
-              ? Language.mapLanguage["LoginText"]
-              : "",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: Color.fromRGBO(255, 255, 255, 100),
-              fontWeight: FontWeight.bold),
-        ),
-      ),
     );
     final language = InkWell(
       onTap: () {
@@ -187,7 +164,13 @@ class LoginView extends State<LoginPage> {
                           ),
                           Container(
                             width: 350.0,
-                            child: loginButton,
+                            child: FinalButton(Language.mapLanguage["LoginText"] != null
+                                ? Language.mapLanguage["LoginText"]
+                                : "",
+                                Feelings(), _formKey,
+                                Language.mapLanguage["ConnectSent"] != null
+                                    ? Language.mapLanguage["ConnectSent"]
+                                    : ""),
                           ),
                         ],
                       ),

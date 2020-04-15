@@ -1,4 +1,5 @@
 import 'package:betsbi/feelings.dart';
+import 'package:betsbi/model/FinalButton.dart';
 import 'package:betsbi/service/Language.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class RegisterView extends State<RegisterPage> {
     // than having to individually change instances of widgets.
     final username = TextFormField(
       obscureText: false,
-      textAlign: TextAlign.center,
+      textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
           return Language.mapLanguage["EnterText"] != null
@@ -49,7 +50,7 @@ class RegisterView extends State<RegisterPage> {
     );
     final password = TextFormField(
       obscureText: true,
-      textAlign: TextAlign.center,
+      textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
           return Language.mapLanguage["EnterText"] != null
@@ -72,7 +73,7 @@ class RegisterView extends State<RegisterPage> {
     );
     final confirmPassword = TextFormField(
       obscureText: true,
-      textAlign: TextAlign.center,
+      textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
           return Language.mapLanguage["EnterText"] != null
@@ -95,14 +96,14 @@ class RegisterView extends State<RegisterPage> {
     );
     final email = TextFormField(
       obscureText: false,
-      textAlign: TextAlign.center,
+      textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
           return Language.mapLanguage["EnterText"] != null
               ? Language.mapLanguage["EnterText"]
               : "";
         }
-        if(!value.contains('@'))
+        if (!value.contains('@'))
           return Language.mapLanguage["EmailErrorText"] != null
               ? Language.mapLanguage["EmailErrorText"]
               : "";
@@ -144,30 +145,6 @@ class RegisterView extends State<RegisterPage> {
         });
       },
       isSelected: _isSelected,
-    );
-    final doneButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(16.0),
-      color: Color.fromRGBO(104, 79, 37, 0.8),
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          if (_formKey.currentState.validate()) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Feelings()));
-          }
-        },
-        child: Text(
-          Language.mapLanguage["DoneButton"] != null
-              ? Language.mapLanguage["DoneButton"]
-              : "",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: Color.fromRGBO(255, 255, 255, 100),
-              fontWeight: FontWeight.bold),
-        ),
-      ),
     );
     return Scaffold(
         backgroundColor: Color.fromRGBO(228, 228, 228, 1),
@@ -227,7 +204,12 @@ class RegisterView extends State<RegisterPage> {
                           SizedBox(
                             height: 20,
                           ),
-                          Container(child: doneButton, width: 350),
+                          Container(child: FinalButton(Language.mapLanguage["DoneButton"] != null
+                              ? Language.mapLanguage["DoneButton"]
+                              : "", Feelings(), _formKey,
+                              Language.mapLanguage["RegisterSent"] != null
+                                  ? Language.mapLanguage["RegisterSent"]
+                                  : ""), width: 350),
                           SizedBox(
                             height: 20,
                           ),
