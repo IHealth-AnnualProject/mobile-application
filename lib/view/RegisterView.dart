@@ -1,3 +1,4 @@
+import 'package:betsbi/controller/CheckController.dart';
 import 'package:betsbi/feelings.dart';
 import 'package:betsbi/model/FinalButton.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -98,16 +99,7 @@ class RegisterView extends State<RegisterPage> {
       obscureText: false,
       textAlign: TextAlign.left,
       validator: (value) {
-        if (value.isEmpty) {
-          return SettingsManager.mapLanguage["EnterText"] != null
-              ? SettingsManager.mapLanguage["EnterText"]
-              : "";
-        }
-        if (!value.contains('@'))
-          return SettingsManager.mapLanguage["EmailErrorText"] != null
-              ? SettingsManager.mapLanguage["EmailErrorText"]
-              : "";
-        return null;
+        return CheckController.checkEmail(value);
       },
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(

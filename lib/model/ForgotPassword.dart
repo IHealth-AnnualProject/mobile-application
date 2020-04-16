@@ -1,3 +1,4 @@
+import 'package:betsbi/controller/CheckController.dart';
 import 'package:betsbi/controller/ContainerController.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flushbar/flushbar.dart';
@@ -23,16 +24,7 @@ class ForgotPassword extends StatelessWidget {
       keyboardType: TextInputType.emailAddress,
       controller: myController,
       validator: (value) {
-        if (value.isEmpty) {
-          return SettingsManager.mapLanguage["EnterText"] != null
-              ? SettingsManager.mapLanguage["EnterText"]
-              : "";
-        }
-        if (!value.contains('@'))
-          return SettingsManager.mapLanguage["EmailErrorText"] != null
-              ? SettingsManager.mapLanguage["EmailErrorText"]
-              : "";
-        return null;
+        return CheckController.checkEmail(value);
       },
       style: TextStyle(color: Colors.white),
       maxLines: 1,
@@ -59,10 +51,8 @@ class ForgotPassword extends StatelessWidget {
     flush = Flushbar<String>(
       isDismissible: true,
       onStatusChanged: (FlushbarStatus status){
-        print("voila" + status.toString());
         if(status == FlushbarStatus.DISMISSED) {
           ContainerController.oneFlushBar = false;
-          print("isdismissed");
         }
         if(status == FlushbarStatus.SHOWING) {
           ContainerController.oneFlushBar = true;
@@ -100,7 +90,6 @@ class ForgotPassword extends StatelessWidget {
     );
     return InkWell(
         onTap: () {
-          print(ContainerController.oneFlushBar);
           if (!ContainerController.oneFlushBar) {
             flush.show(context).then((result) {
               if (result != null) {
