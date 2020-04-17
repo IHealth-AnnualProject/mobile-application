@@ -1,4 +1,6 @@
+import 'package:betsbi/account.dart';
 import 'package:betsbi/model/AppSearchBar.dart';
+import 'package:betsbi/model/BottomNavigationBarFooter.dart';
 import 'package:betsbi/model/BrickContainer.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -11,13 +13,6 @@ import '../error.dart';
 
 class HomeView extends State<HomePage> {
   int _selectedBottomIndex = 0;
-
-  void _onBottomTapped(int index) {
-    setState(() {
-      _selectedBottomIndex = index;
-
-    });
-  }
 
   List<User> users = [
     User(0, 'Antoine Daniel', 'Psychologue'),
@@ -56,7 +51,7 @@ class HomeView extends State<HomePage> {
                   SettingsManager.mapLanguage["MyAccountContainer"] != null
                       ? SettingsManager.mapLanguage["MyAccountContainer"]
                       : "",
-                  Icons.home, null, "user.png"),
+                  Icons.home, Account(), "user.png"),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
                   SettingsManager.mapLanguage["MyTrainingContainer"] != null
@@ -114,31 +109,7 @@ class HomeView extends State<HomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text(SettingsManager.mapLanguage["HomeFooter"] != null
-                ? SettingsManager.mapLanguage["HomeFooter"]
-                : ""),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_box),
-            title: Text(SettingsManager.mapLanguage["AccountFooter"] != null
-                ? SettingsManager.mapLanguage["AccountFooter"]
-                : ""),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            title: Text(SettingsManager.mapLanguage["ChatFooter"] != null
-                ? SettingsManager.mapLanguage["ChatFooter"]
-                : ""),
-          ),
-        ],
-        currentIndex: _selectedBottomIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onBottomTapped,
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

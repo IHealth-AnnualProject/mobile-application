@@ -1,11 +1,10 @@
 import 'package:betsbi/model/AppSearchBar.dart';
+import 'package:betsbi/model/BottomNavigationBarFooter.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../home.dart';
 
 class SettingsView extends State<SettingsPage> {
   int _selectedBottomIndex = 0;
@@ -16,22 +15,6 @@ class SettingsView extends State<SettingsPage> {
     User(1, 'Theodore Bulfonorio', 'User'),
     User(2, 'Estebaille', 'Psychologue'),
   ];
-
-  void _onBottomTapped(int index) {
-    setState(() {
-      _selectedBottomIndex = index;
-      switch (_selectedBottomIndex) {
-        case 0:
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Home()));
-          break;
-        case 1:
-          break;
-        case 2:
-          break;
-      }
-    });
-  }
 
   void _setLanguage() async {
     await SettingsManager.setLanguage();
@@ -158,31 +141,7 @@ class SettingsView extends State<SettingsPage> {
       // Center is a layout widget. It takes a single child and positions it
       // in the middle of the parent.
       // This trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text(SettingsManager.mapLanguage["HomeFooter"] != null
-                ? SettingsManager.mapLanguage["HomeFooter"]
-                : ""),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_box),
-            title: Text(SettingsManager.mapLanguage["AccountFooter"] != null
-                ? SettingsManager.mapLanguage["AccountFooter"]
-                : ""),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            title: Text(SettingsManager.mapLanguage["ChatFooter"] != null
-                ? SettingsManager.mapLanguage["ChatFooter"]
-                : ""),
-          ),
-        ],
-        currentIndex: _selectedBottomIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onBottomTapped,
-      ),
+        bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex),
     );
   }
 }

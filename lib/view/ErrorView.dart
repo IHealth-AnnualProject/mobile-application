@@ -1,5 +1,6 @@
 import 'package:betsbi/error.dart';
 import 'package:betsbi/model/AppSearchBar.dart';
+import 'package:betsbi/model/BottomNavigationBarFooter.dart';
 import 'package:betsbi/model/FinalButton.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -16,22 +17,6 @@ class ErrorView extends State<ErrorPage> {
     User(1, 'Theodore Bulfonorio', 'User'),
     User(2, 'Estebaille', 'Psychologue'),
   ];
-
-  void _onBottomTapped(int index) {
-    setState(() {
-      _selectedBottomIndex = index;
-      switch(_selectedBottomIndex) {
-        case 0:
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Home()));
-          break;
-        case 1:
-          break;
-        case 2:
-          break;
-      }
-    });
-  }
 
   void instanciateLanguage() async {
     await SettingsManager.languageStarted();
@@ -165,31 +150,7 @@ class ErrorView extends State<ErrorPage> {
           ), // This trailing comma makes auto-formatting nicer for build methods.
         ],
       ))),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text(SettingsManager.mapLanguage["HomeFooter"] != null
-                ? SettingsManager.mapLanguage["HomeFooter"]
-                : ""),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_box),
-            title: Text(SettingsManager.mapLanguage["AccountFooter"] != null
-                ? SettingsManager.mapLanguage["AccountFooter"]
-                : ""),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            title: Text(SettingsManager.mapLanguage["ChatFooter"] != null
-                ? SettingsManager.mapLanguage["ChatFooter"]
-                : ""),
-          ),
-        ],
-        currentIndex: _selectedBottomIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onBottomTapped,
-      ),
+      bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex),
     );
   }
 }
