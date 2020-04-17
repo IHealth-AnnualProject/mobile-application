@@ -1,7 +1,7 @@
-import 'package:betsbi/feelings.dart';
-import 'package:betsbi/model/FinalButton.dart';
+import 'package:betsbi/controller/LoginController.dart';
 import 'package:betsbi/model/ForgotPassword.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +24,41 @@ class LoginView extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     instanciateLanguage();
+
+    RaisedButton loginButton(){
+      return RaisedButton(
+        elevation: 8,
+        shape: StadiumBorder(),
+        color: Color.fromRGBO(104, 79, 37, 0.8),
+        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () {
+          if (this._formKey.currentState.validate()) {
+            Flushbar(
+              icon: Icon(
+                Icons.done_outline,
+                color: Colors.yellow,
+              ),
+              flushbarPosition: FlushbarPosition.TOP,
+              flushbarStyle: FlushbarStyle.GROUNDED,
+              message: SettingsManager.mapLanguage["ConnectSent"] != null
+                  ? SettingsManager.mapLanguage["ConnectSent"]
+                  : "",
+              duration: Duration(seconds: 1),
+            )..show(context).then((r) =>
+                LoginController.redirection(context));
+          }
+        },
+        child: Text(
+          SettingsManager.mapLanguage["LoginText"] != null
+              ? SettingsManager.mapLanguage["LoginText"]
+              : "",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Color.fromRGBO(255, 255, 255, 100),
+              fontWeight: FontWeight.bold),
+        ),
+      );
+    }
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -172,13 +207,7 @@ class LoginView extends State<LoginPage> {
                           ),
                           Container(
                             width: 350.0,
-                            child: FinalButton(SettingsManager.mapLanguage["LoginText"] != null
-                                ? SettingsManager.mapLanguage["LoginText"]
-                                : "",
-                                Feelings(), _formKey,
-                                SettingsManager.mapLanguage["ConnectSent"] != null
-                                    ? SettingsManager.mapLanguage["ConnectSent"]
-                                    : ""),
+                            child: loginButton(),
                           ),
                         ],
                       ),

@@ -52,14 +52,14 @@ class AccountView extends State<AccountPage> {
           //mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 300,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
               decoration: new BoxDecoration(
                 color: Colors.white,
-                shape: BoxShape.circle,
               ),
-            ),
-            SizedBox(
-              height: 45,
+              child: CircleAvatar(
+                backgroundColor: Colors.black87,
+              ),
             ),
           ],
         ), // This trailing comma makes auto-formatting nicer for build methods.

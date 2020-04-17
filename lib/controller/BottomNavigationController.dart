@@ -1,4 +1,5 @@
 
+import 'package:betsbi/account.dart';
 import 'package:flutter/material.dart';
 
 import '../home.dart';
@@ -13,6 +14,8 @@ class BottomNavigationController{
               MaterialPageRoute(builder: (context) => Home()));
           break;
         case 1:
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => Account()));
           break;
         case 2:
           break;

@@ -3,19 +3,19 @@ import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class BottomNavigationBarFooter extends StatefulWidget{
+class BottomNavigationBarFooter extends StatefulWidget {
   int selectedBottomIndex;
 
   BottomNavigationBarFooter(this.selectedBottomIndex);
 
   @override
-  _BottomNavigationBarFooterState createState() => _BottomNavigationBarFooterState();
+  _BottomNavigationBarFooterState createState() =>
+      _BottomNavigationBarFooterState();
 }
 
 class _BottomNavigationBarFooterState extends State<BottomNavigationBarFooter> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -43,7 +43,6 @@ class _BottomNavigationBarFooterState extends State<BottomNavigationBarFooter> {
           setState(() {
             BottomNavigationController.onBottomTapped(index, context);
           });
-        }
-    );
+        });
   }
 }
