@@ -11,9 +11,9 @@ class SettingsView extends State<SettingsPage> {
   bool currentNotification;
   List<bool> isSelected = [true, false];
   List<User> users = [
-    User(0, 'Antoine Daniel', 'Psychologue'),
-    User(1, 'Theodore Bulfonorio', 'User'),
-    User(2, 'Estebaille', 'Psychologue'),
+    User(0, 'Antoine Daniel', 'Psychologue',1),
+    User(1, 'Theodore Bulfonorio', 'User',1),
+    User(2, 'Estebaille', 'Psychologue',1),
   ];
 
   void _setLanguage() async {

@@ -8,7 +8,6 @@ class FeelingController{
 
   static void redirection(BuildContext context){
     SettingsManager.cfg.updateValue("feelingsDate", DateTime.now().toString());
-    print(DateTime.now().toString());
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => Home()));
   }

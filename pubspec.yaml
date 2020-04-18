@@ -20,6 +20,7 @@ dependencies:
   flappy_search_bar: 1.4.1
   flushbar: 1.9.1
   devicelocale: ^0.2.3
+  flutter_echarts: #latest version
   flutter:
     sdk: flutter
   yaml: ^2.2.0

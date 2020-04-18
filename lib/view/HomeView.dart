@@ -15,14 +15,19 @@ class HomeView extends State<HomePage> {
   int _selectedBottomIndex = 0;
 
   List<User> users = [
-    User(0, 'Antoine Daniel', 'Psychologue'),
-    User(1, 'Theodore Bulfonorio', 'User'),
-    User(2, 'Estebaille', 'Psychologue'),
+    User(0, 'Antoine Daniel', 'Psychologue',1),
+    User(1, 'Theodore Bulfonorio', 'User',1),
+    User(2, 'Estebaille', 'Psychologue',1),
   ];
 
   void instanciateLanguage() async {
     await SettingsManager.languageStarted();
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override

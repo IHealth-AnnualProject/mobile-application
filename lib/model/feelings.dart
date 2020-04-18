@@ -1,6 +1,5 @@
 class Feelings{
 
-  List<Feelings> feelings;
   int id_user;
   DateTime dayOfFeeling;
   int feelingsPoint;

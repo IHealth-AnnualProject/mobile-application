@@ -41,7 +41,7 @@ class _BottomNavigationBarFooterState extends State<BottomNavigationBarFooter> {
         selectedItemColor: Colors.amber[800],
         onTap: (int index) {
           setState(() {
-            BottomNavigationController.onBottomTapped(index, context);
+            BottomNavigationController.onBottomTapped(this.widget.selectedBottomIndex,index, context);
           });
         });
   }

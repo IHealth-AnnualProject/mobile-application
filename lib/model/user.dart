@@ -1,11 +1,11 @@
+import '../feelings.dart';
+
 class User {
   String name;
   String type;
   int id;
+  int level;
+  List<Feelings> feelings;
 
-  User(int id, String name, String type) {
-    this.name = name;
-    this.type = type;
-    this.id = id;
-  }
+  User(this.id, this.name, this.type, this.level);
 }
