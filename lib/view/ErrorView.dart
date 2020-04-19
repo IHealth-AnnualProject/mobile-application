@@ -1,4 +1,3 @@
-import 'package:betsbi/error.dart';
 import 'package:betsbi/model/AppSearchBar.dart';
 import 'package:betsbi/model/BottomNavigationBarFooter.dart';
 import 'package:betsbi/model/FinalButton.dart';
@@ -7,7 +6,14 @@ import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../home.dart';
+import 'HomeView.dart';
+
+class ErrorPage extends StatefulWidget {
+  ErrorPage({Key key}) : super(key: key);
+
+  @override
+  ErrorView createState() => ErrorView();
+}
 
 class ErrorView extends State<ErrorPage> {
   final _formKey = GlobalKey<FormState>();
@@ -137,7 +143,7 @@ class ErrorView extends State<ErrorPage> {
                           SettingsManager.mapLanguage["Submit"] != null
                               ? SettingsManager.mapLanguage["Submit"]
                               : "",
-                          Home(),
+                          HomePage(),
                           _formKey,
                           SettingsManager.mapLanguage["ErrorSent"] != null
                               ? SettingsManager.mapLanguage["ErrorSent"]

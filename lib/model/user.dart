@@ -1,4 +1,4 @@
-import '../feelings.dart';
+import 'feelings.dart';
 
 class User {
   String name;

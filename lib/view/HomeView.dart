@@ -1,15 +1,29 @@
-import 'package:betsbi/account.dart';
 import 'package:betsbi/model/AppSearchBar.dart';
 import 'package:betsbi/model/BottomNavigationBarFooter.dart';
 import 'package:betsbi/model/BrickContainer.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../home.dart';
-import '../error.dart';
+import 'AccountView.dart';
+import 'ErrorView.dart';
+import 'SettingsView.dart';
+
+main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MaterialApp(
+    home: HomePage(),
+  ));
+}
+
+class HomePage extends StatefulWidget {
+  HomePage({Key key}) : super(key: key);
+
+
+  @override
+  HomeView createState() => HomeView();
+}
 
 class HomeView extends State<HomePage> {
   int _selectedBottomIndex = 0;
@@ -56,7 +70,7 @@ class HomeView extends State<HomePage> {
                   SettingsManager.mapLanguage["MyAccountContainer"] != null
                       ? SettingsManager.mapLanguage["MyAccountContainer"]
                       : "",
-                  Icons.home, Account(), "user.png"),
+                  Icons.home, AccountPage(), "user.png"),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
                   SettingsManager.mapLanguage["MyTrainingContainer"] != null
@@ -86,13 +100,13 @@ class HomeView extends State<HomePage> {
                   SettingsManager.mapLanguage["SettingsContainer"] != null
                       ? SettingsManager.mapLanguage["SettingsContainer"]
                       : "",
-                  Icons.settings, Settings(), "settings.png"),
+                  Icons.settings, SettingsPage(), "settings.png"),
               BrickContainer(
                   Color.fromRGBO(249, 89, 51, 1),
                   SettingsManager.mapLanguage["ErrorContainer"] != null
                       ? SettingsManager.mapLanguage["ErrorContainer"]
                       : "",
-                  Icons.error, Error(), "error.png"),
+                  Icons.error, ErrorPage(), "error.png"),
             ],
           ),
         ),

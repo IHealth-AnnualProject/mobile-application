@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class FinalButton extends StatelessWidget {
   final String content;
-  final StatelessWidget destination;
+  final StatefulWidget destination;
   final _formKey;
   final String barContent;
 
@@ -29,8 +29,11 @@ class FinalButton extends StatelessWidget {
             flushbarStyle: FlushbarStyle.GROUNDED,
             message: this.barContent,
             duration: Duration(seconds: 1),
-          )..show(context).then((r) => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => this.destination)));
+          )..show(context).then((r) => Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (BuildContext context) => this.destination),
+            ModalRoute.withName('/'),
+          ));
         }
       },
       child: Text(

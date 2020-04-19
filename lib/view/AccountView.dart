@@ -1,4 +1,3 @@
-import 'package:betsbi/account.dart';
 import 'package:betsbi/controller/ContainerController.dart';
 import 'package:betsbi/model/AppSearchBar.dart';
 import 'package:betsbi/model/BottomNavigationBarFooter.dart';
@@ -7,6 +6,14 @@ import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
+
+
+class AccountPage extends StatefulWidget {
+  AccountPage({Key key}) : super(key: key);
+
+  @override
+  AccountView createState() => AccountView();
+}
 
 class AccountView extends State<AccountPage> {
   int _selectedBottomIndex = 1;

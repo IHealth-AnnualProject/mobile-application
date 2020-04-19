@@ -1,8 +1,14 @@
 import 'package:betsbi/model/FeelingButton.dart';
-import 'package:betsbi/feelings.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+class FeelingsPage extends StatefulWidget {
+  FeelingsPage({Key key}) : super(key: key);
+
+  @override
+  FeelingsView createState() => FeelingsView();
+}
 
 class FeelingsView extends State<FeelingsPage> {
   void instanciateLanguage() async {

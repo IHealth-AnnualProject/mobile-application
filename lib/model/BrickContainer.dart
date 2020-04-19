@@ -7,7 +7,7 @@ class BrickContainer extends StatelessWidget {
   final Color colorBrick;
   final String textBrick;
   final IconData iconBrick;
-  final StatelessWidget destination;
+  final StatefulWidget destination;
   final String image;
 
   const BrickContainer(

@@ -1,8 +1,8 @@
 
-import 'package:betsbi/account.dart';
+import 'package:betsbi/view/AccountView.dart';
+import 'package:betsbi/view/HomeView.dart';
 import 'package:flutter/material.dart';
 
-import '../home.dart';
 
 class BottomNavigationController{
 
@@ -11,12 +11,12 @@ class BottomNavigationController{
         case 0:
           if(currentIndex != 0)
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Home()));
+              MaterialPageRoute(builder: (context) => HomePage()));
           break;
         case 1:
           if(currentIndex != 1)
             Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Account()));
+              MaterialPageRoute(builder: (context) => AccountPage()));
           break;
         case 2:
           break;

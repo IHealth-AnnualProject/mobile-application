@@ -5,8 +5,20 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../login.dart';
-import '../register.dart';
+import 'RegisterView.dart';
+
+void main()  {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MaterialApp(
+     home:  LoginPage()));
+}
+
+class LoginPage extends StatefulWidget {
+  LoginPage({Key key}) : super(key: key);
+
+  @override
+  LoginView createState() => LoginView();
+}
 
 class LoginView extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
@@ -126,23 +138,10 @@ class LoginView extends State<LoginPage> {
         style: TextStyle(color: Colors.white),
       ),
     );
-    final forgotPassword = InkWell(
-        onTap: () {
-          setState(() {
-
-          });
-          //Language.setLanguage();
-        },
-        child: new Text(
-          SettingsManager.mapLanguage["ForgotPassword"] != null
-              ? SettingsManager.mapLanguage["ForgotPassword"]
-              : "",
-          textAlign: TextAlign.center,
-        ));
     final signUp = InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Register()));
+              context, MaterialPageRoute(builder: (context) => RegisterPage()));
           //_setLanguage(cfg.getString("language"));
         },
         child: new Text(

@@ -29,12 +29,6 @@ class _AppSearchBarState extends State<AppSearchBar> {
               showSearch(
                   context: context, delegate: DataSearch(this.widget.users));
             }),
-        /*IconButton(
-            alignment: Alignment.topLeft,
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Navigator.of(context).pop();
-            }),*/
       ],
     );
   }

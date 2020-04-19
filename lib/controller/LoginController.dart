@@ -1,9 +1,9 @@
-import 'package:betsbi/home.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/view/FeelingsView.dart';
+import 'package:betsbi/view/HomeView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../feelings.dart';
 
 class LoginController {
   static String feelingsDate;
@@ -15,15 +15,15 @@ class LoginController {
       feelingsParsed = DateTime.parse(feelingsDate);
       if (feelingsParsed.isBefore(DateTime.now())) {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Feelings()));
+            MaterialPageRoute(builder: (context) => FeelingsPage()));
       }
       else{
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Home()));
+            MaterialPageRoute(builder: (context) => HomePage()));
       }
     }
     else
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => Feelings()));
+          MaterialPageRoute(builder: (context) => FeelingsPage()));
   }
 }

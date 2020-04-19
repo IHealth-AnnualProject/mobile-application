@@ -1,11 +1,18 @@
 import 'package:betsbi/controller/CheckController.dart';
-import 'package:betsbi/feelings.dart';
 import 'package:betsbi/model/FinalButton.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../register.dart';
+import 'FeelingsView.dart';
+
+class RegisterPage extends StatefulWidget {
+  RegisterPage({Key key}) : super(key: key);
+
+
+  @override
+  RegisterView createState() => RegisterView();
+}
 
 class RegisterView extends State<RegisterPage> {
   List<bool> _isSelected = [true, false];
@@ -201,7 +208,7 @@ class RegisterView extends State<RegisterPage> {
                           ),
                           Container(child: FinalButton(SettingsManager.mapLanguage["DoneButton"] != null
                               ? SettingsManager.mapLanguage["DoneButton"]
-                              : "", Feelings(), _formKey,
+                              : "", FeelingsPage(), _formKey,
                               SettingsManager.mapLanguage["RegisterSent"] != null
                                   ? SettingsManager.mapLanguage["RegisterSent"]
                                   : ""), width: 350),

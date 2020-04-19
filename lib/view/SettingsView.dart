@@ -2,9 +2,15 @@ import 'package:betsbi/model/AppSearchBar.dart';
 import 'package:betsbi/model/BottomNavigationBarFooter.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+class SettingsPage extends StatefulWidget {
+  SettingsPage({Key key}) : super(key: key);
+
+  @override
+  SettingsView createState() => SettingsView();
+}
 
 class SettingsView extends State<SettingsPage> {
   int _selectedBottomIndex = 0;
