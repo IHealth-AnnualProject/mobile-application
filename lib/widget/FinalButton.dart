@@ -29,11 +29,13 @@ class FinalButton extends StatelessWidget {
             flushbarStyle: FlushbarStyle.GROUNDED,
             message: this.barContent,
             duration: Duration(seconds: 1),
-          )..show(context).then((r) => Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (BuildContext context) => this.destination),
-            ModalRoute.withName('/'),
-          ));
+          )..show(context).then((r) => () {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => this.destination),
+                    ModalRoute.withName('/'));
+              });
         }
       },
       child: Text(

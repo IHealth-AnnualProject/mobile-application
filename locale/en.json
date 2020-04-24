@@ -43,7 +43,9 @@
   "LanguageChanged": "Change current language :",
   "EnterMail": "You'll receive a mail to change your password",
   "MemosTitle": "Today's Memos",
-  "RelaxingMusic": "Relaxing Music"
+  "RelaxingMusic": "Relaxing Music",
+  "WentWrong": "Something's went wrong"
+
 
 
 }

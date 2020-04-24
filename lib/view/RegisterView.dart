@@ -1,6 +1,8 @@
 import 'package:betsbi/controller/CheckController.dart';
-import 'package:betsbi/widget/FinalButton.dart';
+import 'package:betsbi/controller/RegisterController.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/view/LoginView.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,14 +11,16 @@ import 'FeelingsView.dart';
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key key}) : super(key: key);
 
-
   @override
   RegisterView createState() => RegisterView();
 }
 
 class RegisterView extends State<RegisterPage> {
   List<bool> _isSelected = [true, false];
+  final userNameController = TextEditingController();
+  final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool registrating;
 
   void instanciateLanguage() async {
     await SettingsManager.languageStarted();
@@ -36,6 +40,7 @@ class RegisterView extends State<RegisterPage> {
     final username = TextFormField(
       obscureText: false,
       textAlign: TextAlign.left,
+      controller: userNameController,
       validator: (value) {
         if (value.isEmpty) {
           return SettingsManager.mapLanguage["EnterText"] != null
@@ -59,6 +64,7 @@ class RegisterView extends State<RegisterPage> {
     final password = TextFormField(
       obscureText: true,
       textAlign: TextAlign.left,
+      controller: passwordController,
       validator: (value) {
         if (value.isEmpty) {
           return SettingsManager.mapLanguage["EnterText"] != null
@@ -126,12 +132,18 @@ class RegisterView extends State<RegisterPage> {
       fillColor: Colors.blue,
       borderRadius: BorderRadius.circular(16.0),
       children: <Widget>[
-        Text(SettingsManager.mapLanguage["UserChoice"] != null
-            ? SettingsManager.mapLanguage["UserChoice"]
-            : "",style: TextStyle(color: Colors.white),),
-        Text(SettingsManager.mapLanguage["PsyChoice"] != null
-            ? SettingsManager.mapLanguage["PsyChoice"]
-            : "",style: TextStyle(color: Colors.white),)
+        Text(
+          SettingsManager.mapLanguage["UserChoice"] != null
+              ? SettingsManager.mapLanguage["UserChoice"]
+              : "",
+          style: TextStyle(color: Colors.white),
+        ),
+        Text(
+          SettingsManager.mapLanguage["PsyChoice"] != null
+              ? SettingsManager.mapLanguage["PsyChoice"]
+              : "",
+          style: TextStyle(color: Colors.white),
+        )
       ],
       onPressed: (int index) {
         setState(() {
@@ -206,12 +218,20 @@ class RegisterView extends State<RegisterPage> {
                           SizedBox(
                             height: 20,
                           ),
-                          Container(child: FinalButton(SettingsManager.mapLanguage["DoneButton"] != null
-                              ? SettingsManager.mapLanguage["DoneButton"]
-                              : "", FeelingsPage(), _formKey,
-                              SettingsManager.mapLanguage["RegisterSent"] != null
-                                  ? SettingsManager.mapLanguage["RegisterSent"]
-                                  : ""), width: 350),
+                          Container(
+                            child: finalButton(
+                                SettingsManager.mapLanguage["DoneButton"] !=
+                                        null
+                                    ? SettingsManager.mapLanguage["DoneButton"]
+                                    : "",
+                                SettingsManager.mapLanguage["RegisterSent"] !=
+                                        null
+                                    ? SettingsManager
+                                        .mapLanguage["RegisterSent"]
+                                    : "",
+                                FeelingsPage()),
+                            width: 350,
+                          ),
                           SizedBox(
                             height: 20,
                           ),
@@ -224,5 +244,60 @@ class RegisterView extends State<RegisterPage> {
             ),
           ), // This trailing comma makes auto-formatting nicer for build methods.
         ));
+  }
+
+  RaisedButton finalButton(
+      String title, String content, StatefulWidget destination) {
+    return RaisedButton(
+      elevation: 8,
+      shape: StadiumBorder(),
+      color: Color.fromRGBO(104, 79, 37, 0.8),
+      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+      onPressed: () async {
+        if (this._formKey.currentState.validate()) {
+          registrating = await RegisterController.register(
+              userNameController.text, passwordController.text, _isSelected[1]);
+          if (registrating)
+            finalFlushBar(
+                Icon(
+                  Icons.done_outline,
+                  color: Colors.yellow,
+                ),
+                content)
+              ..show(context).then((r) => Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => LoginPage()),
+                  ModalRoute.withName('/')));
+          else
+            finalFlushBar(
+                    Icon(
+                      Icons.not_interested,
+                      color: Colors.red,
+                    ),
+                    SettingsManager.mapLanguage["WentWrong"] != null
+                        ? SettingsManager.mapLanguage["WentWrong"]
+                        : "")
+                .show(context);
+        }
+      },
+      child: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            color: Color.fromRGBO(255, 255, 255, 100),
+            fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Flushbar finalFlushBar(Icon icon, String message) {
+    return Flushbar(
+      icon: icon,
+      flushbarPosition: FlushbarPosition.TOP,
+      flushbarStyle: FlushbarStyle.GROUNDED,
+      message: message,
+      duration: Duration(seconds: 1),
+    );
   }
 }
