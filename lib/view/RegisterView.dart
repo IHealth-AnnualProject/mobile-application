@@ -94,6 +94,11 @@ class RegisterView extends State<RegisterPage> {
               ? SettingsManager.mapLanguage["EnterText"]
               : "";
         }
+        if(value != passwordController.text){
+          return SettingsManager.mapLanguage["NotSamePassword"] != null
+              ? SettingsManager.mapLanguage["NotSamePassword"]
+              : "";
+        }
         return null;
       },
       decoration: InputDecoration(

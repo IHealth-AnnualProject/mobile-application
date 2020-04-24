@@ -6,6 +6,7 @@
   "PasswordText" : "Password",
   "ConfirmPassword": "Confirm Password",
   "ForgotPassword": "Forgot password ?",
+  "NotSamePassword": "Both password are different",
   "NoAccount": "Don't Have Account ?",
   "SignUp": " SIGN UP",
   "Submit": "Submit",
@@ -44,7 +45,9 @@
   "EnterMail": "You'll receive a mail to change your password",
   "MemosTitle": "Today's Memos",
   "RelaxingMusic": "Relaxing Music",
-  "WentWrong": "Something's went wrong"
+  "WentWrong": "Something's went wrong",
+  "InformationWrong": "Some input are wrong"
+
 
 
 

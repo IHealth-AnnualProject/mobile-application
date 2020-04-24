@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:global_configuration/global_configuration.dart';
 
 class SettingsManager {
@@ -10,6 +11,7 @@ class SettingsManager {
       new LinkedHashMap<String, dynamic>();
   static GlobalConfiguration cfg;
   static bool status = false;
+  static FlutterSecureStorage storage;
 
   static Future<Map<String, dynamic>> parseJsonFromAssets(
       String assetsPath) async {
@@ -34,12 +36,13 @@ class SettingsManager {
   }
 
   static void languageStarted() async {
-    if (!status) {
-      cfg = new GlobalConfiguration();
-      await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
+    cfg = new GlobalConfiguration();
+    await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
+    if (!cfg.getBool("statusSettings")) {
       loadLanguage(
           'locale/' + cfg.getString('currentLanguage').toLowerCase() + '.json');
-      status = true;
+      storage = new FlutterSecureStorage();
+      cfg.updateValue("statusSettings", true);
     }
   }
 

@@ -21,7 +21,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginView extends State<LoginPage> {
+  bool loging;
   final _formKey = GlobalKey<FormState>();
+  final userNameController = TextEditingController();
+  final passwordController = TextEditingController();
 
   void _setLanguage() async {
     await SettingsManager.setLanguage();
@@ -43,21 +46,28 @@ class LoginView extends State<LoginPage> {
         shape: StadiumBorder(),
         color: Color.fromRGBO(104, 79, 37, 0.8),
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
+        onPressed: () async {
           if (this._formKey.currentState.validate()) {
-            Flushbar(
-              icon: Icon(
-                Icons.done_outline,
-                color: Colors.yellow,
-              ),
-              flushbarPosition: FlushbarPosition.TOP,
-              flushbarStyle: FlushbarStyle.GROUNDED,
-              message: SettingsManager.mapLanguage["ConnectSent"] != null
-                  ? SettingsManager.mapLanguage["ConnectSent"]
-                  : "",
-              duration: Duration(seconds: 1),
-            )..show(context).then((r) =>
+            loging = await LoginController.login(
+                userNameController.text, passwordController.text);
+            if(loging)
+            loginFlushBar(Icon(
+              Icons.done_outline,
+              color: Colors.yellow,
+            ), SettingsManager.mapLanguage["ConnectSent"] != null
+                ? SettingsManager.mapLanguage["ConnectSent"]
+                : "")..show(context).then((r) =>
                 LoginController.redirection(context));
+            else
+            loginFlushBar(
+                Icon(
+                  Icons.not_interested,
+                  color: Colors.red,
+                ),
+                SettingsManager.mapLanguage["InformationWrong"] != null
+                    ? SettingsManager.mapLanguage["InformationWrong"]
+                    : "")
+                .show(context);
           }
         },
         child: Text(
@@ -82,6 +92,7 @@ class LoginView extends State<LoginPage> {
 
     final username = TextFormField(
       obscureText: false,
+      controller: userNameController,
       textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
@@ -105,6 +116,7 @@ class LoginView extends State<LoginPage> {
     );
     final password = TextFormField(
       obscureText: true,
+      controller: passwordController,
       textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
@@ -243,5 +255,14 @@ class LoginView extends State<LoginPage> {
             ),
           ), // This trailing comma makes auto-formatting nicer for build methods.
         ));
+  }
+  Flushbar loginFlushBar(Icon icon, String message) {
+    return Flushbar(
+      icon: icon,
+      flushbarPosition: FlushbarPosition.TOP,
+      flushbarStyle: FlushbarStyle.GROUNDED,
+      message: message,
+      duration: Duration(seconds: 1),
+    );
   }
 }

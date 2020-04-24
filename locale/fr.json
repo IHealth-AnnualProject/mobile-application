@@ -6,6 +6,7 @@
   "PsyChoice": "Psychologue",
   "ConfirmPassword": "Confirmez votre mot de passe",
   "ForgotPassword": "Mot de passe oublié ?",
+  "NotSamePassword": "Les deux mots de passes sont différents",
   "NoAccount": "Pas de compte ?",
   "SignUp": " ENREGISTREZ VOUS",
   "Submit": "Envoyer",
@@ -44,7 +45,8 @@
   "EnterMail": "Vous recevrez un mail pour changer de mot de passe",
   "MemosTitle": "Tâches du jour",
   "RelaxingMusic": "Music de relaxation",
-  "WentWrong": "Une erreur est survenue !"
+  "WentWrong": "Une erreur est survenue !",
+  "InformationWrong": "Les informations rentrées sont incorrects"
 
 
 

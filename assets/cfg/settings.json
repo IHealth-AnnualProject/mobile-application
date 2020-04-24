@@ -3,5 +3,6 @@
   "currentLanguage": "FR",
   "pushNotification": false,
   "feelingsDate": "",
-  "apiUrl": "http://51.255.169.122:3000/"
+  "apiUrl": "http://51.255.169.122:3000/",
+  "statusSettings": false
 }
