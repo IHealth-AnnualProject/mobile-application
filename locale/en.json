@@ -41,6 +41,9 @@
   "RegisterSent": "Thanks for your registration",
   "NotificationPushActivated": "Notification push : ",
   "LanguageChanged": "Change current language :",
-  "EnterMail": "You'll receive a mail to change your password"
+  "EnterMail": "You'll receive a mail to change your password",
+  "MemosTitle": "Today's Memos",
+  "RelaxingMusic": "Relaxing Music"
+
 
 }

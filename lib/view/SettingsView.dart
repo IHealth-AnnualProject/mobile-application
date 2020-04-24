@@ -1,5 +1,5 @@
-import 'package:betsbi/model/AppSearchBar.dart';
-import 'package:betsbi/model/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/AppSearchBar.dart';
+import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
@@ -141,7 +141,7 @@ class SettingsView extends State<SettingsPage> {
               ),
               statusPushNotification
             ],
-          )
+          ),
         ],
       ),
       // Center is a layout widget. It takes a single child and positions it

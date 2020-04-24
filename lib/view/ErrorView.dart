@@ -1,6 +1,6 @@
-import 'package:betsbi/model/AppSearchBar.dart';
-import 'package:betsbi/model/BottomNavigationBarFooter.dart';
-import 'package:betsbi/model/FinalButton.dart';
+import 'package:betsbi/widget/AppSearchBar.dart';
+import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/FinalButton.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
@@ -62,8 +62,8 @@ class ErrorView extends State<ErrorPage> {
         return null;
       },
       decoration: InputDecoration(
-          labelText: SettingsManager.mapLanguage["EnterText"] != null
-              ? SettingsManager.mapLanguage["EnterText"]
+          labelText: SettingsManager.mapLanguage["Title"] != null
+              ? SettingsManager.mapLanguage["Title"]
               : "",
           filled: true,
           fillColor: Colors.white,

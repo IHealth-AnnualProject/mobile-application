@@ -1,8 +1,10 @@
-import 'package:betsbi/model/AppSearchBar.dart';
-import 'package:betsbi/model/BottomNavigationBarFooter.dart';
-import 'package:betsbi/model/BrickContainer.dart';
+import 'package:betsbi/view/AmbianceView.dart';
+import 'package:betsbi/widget/AppSearchBar.dart';
+import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/BrickContainer.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/view/MemosView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -82,13 +84,13 @@ class HomeView extends State<HomePage> {
                   SettingsManager.mapLanguage["MyMemosContainer"] != null
                       ? SettingsManager.mapLanguage["MyMemosContainer"]
                       : "",
-                  Icons.wrap_text, null, "notes.png"),
+                  Icons.wrap_text, MemosPage(), "notes.png"),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
                   SettingsManager.mapLanguage["MyAmbianceContainer"] != null
                       ? SettingsManager.mapLanguage["MyAmbianceContainer"]
                       : "",
-                  Icons.music_note, null, "training.png"),
+                  Icons.music_note, AmbiancePage(), "training.png"),
               BrickContainer(
                   Color.fromRGBO(51, 171, 249, 1),
                   SettingsManager.mapLanguage["MyQuestContainer"] != null

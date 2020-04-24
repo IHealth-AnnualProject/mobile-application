@@ -2,5 +2,6 @@
   "language": "EN",
   "currentLanguage": "FR",
   "pushNotification": false,
-  "feelingsDate": ""
+  "feelingsDate": "",
+  "apiUrl": "http://51.255.169.122:3000/"
 }

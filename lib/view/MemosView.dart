@@ -1,24 +1,19 @@
 import 'package:betsbi/controller/ContainerController.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
-import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_echarts/flutter_echarts.dart';
 
-
-class AccountPage extends StatefulWidget {
-  AccountPage({Key key}) : super(key: key);
+class MemosPage extends StatefulWidget {
+  MemosPage({Key key}) : super(key: key);
 
   @override
-  AccountView createState() => AccountView();
+  MemosView createState() => MemosView();
 }
 
-class AccountView extends State<AccountPage> {
+class MemosView extends State<MemosPage> {
   int _selectedBottomIndex = 1;
-  User user = new User(0, 'Antoine Daniel', 'Psychologue', 1);
-  final List<int> feelingsPoint = [0, 1, 2, 3, 4, 5, 6];
 
   void instanciateLanguage() async {
     await SettingsManager.languageStarted();
@@ -37,7 +32,9 @@ class AccountView extends State<AccountPage> {
     // than having to individually change instances of widgets.
 
     final titleAccount = Text(
-      user.name + " lv." + user.level.toString(),
+      SettingsManager.mapLanguage["MemosTitle"] != null
+          ? SettingsManager.mapLanguage["MemosTitle"]
+          : "",
       textAlign: TextAlign.center,
       style: TextStyle(
           color: Color.fromRGBO(104, 79, 37, 0.8),
@@ -66,53 +63,14 @@ class AccountView extends State<AccountPage> {
             Container(
               height: 200,
               width: 200,
-              decoration: BoxDecoration(
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black,
-                    offset: Offset(1.0, 6.0),
-                    blurRadius: 40.0,
-                  ),
-                ],
-                color: Color.fromRGBO(104, 79, 37, 0.8),
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage("assets/user.png"),
-                ),
+              child: Image(
+                image: AssetImage("assets/notes.png"),
               ),
             ),
             SizedBox(
               height: 45,
             ),
             titleAccount,
-            Container(
-              child: Echarts(
-                captureAllGestures: true,
-                option: '''
-                    {
-                      title: {
-                        subtextStyle: {
-                          align: 'center',
-                        },
-                        text: 'Feelings in the week',
-                      },
-                      xAxis: {
-                        type: 'category',
-                        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                      },
-                      yAxis: {
-                        type: 'value'
-                      },
-                      series: [{
-                        data: $feelingsPoint,
-                        type: 'line'
-                      }]
-                    }
-                  ''',
-              ),
-              width: 300,
-              height: 250,
-            )
           ],
         ),
       )), // This trailing comma makes auto-formatting nicer for build methods.

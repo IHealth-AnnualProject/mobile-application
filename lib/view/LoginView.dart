@@ -1,5 +1,5 @@
 import 'package:betsbi/controller/LoginController.dart';
-import 'package:betsbi/model/ForgotPassword.dart';
+import 'package:betsbi/widget/ForgotPassword.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
