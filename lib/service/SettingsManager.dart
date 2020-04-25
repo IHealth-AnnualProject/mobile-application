@@ -36,13 +36,13 @@ class SettingsManager {
   }
 
   static void languageStarted() async {
-    cfg = new GlobalConfiguration();
-    await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
-    if (!cfg.getBool("statusSettings")) {
+    if (!status) {
+      cfg = new GlobalConfiguration();
+      await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
       loadLanguage(
           'locale/' + cfg.getString('currentLanguage').toLowerCase() + '.json');
       storage = new FlutterSecureStorage();
-      cfg.updateValue("statusSettings", true);
+      status = true;
     }
   }
 
