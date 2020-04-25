@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class LoginController {
-  static String feelingsDate;
   static DateTime feelingsParsed;
 
   static void redirection(BuildContext context) {
-    feelingsDate = SettingsManager.cfg.getString("feelingsDate");
-    if (feelingsDate.isNotEmpty) {
-      feelingsParsed = DateTime.parse(feelingsDate);
-      if (feelingsParsed.isBefore(DateTime.now())) {
+    if (SettingsManager.feelingsDate.isNotEmpty) {
+      final tomorrow = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+      feelingsParsed = DateTime.parse(SettingsManager.feelingsDate);
+      final dateToCompare = DateTime(feelingsParsed.year, feelingsParsed.month, feelingsParsed.day);
+      if (dateToCompare == tomorrow) {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => FeelingsPage()));
       } else {
@@ -39,13 +39,15 @@ class LoginController {
       }),
     );
     if (response.statusCode == 201) {
-      await SettingsManager.storage.write(key: "token", value: parseResponse(response.body)["token"]["access_token"]);
+      await SettingsManager.storage.write(
+          key: "token",
+          value: parseResponse(response.body)["token"]["access_token"]);
       return true;
     } else
       return false;
   }
 
-    static Map<String,dynamic> parseResponse(String response) {
+  static Map<String, dynamic> parseResponse(String response) {
     return jsonDecode(response);
   }
 }

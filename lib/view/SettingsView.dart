@@ -89,9 +89,7 @@ class SettingsView extends State<SettingsPage> {
         _setLanguage();
       },
       child: new Text(
-        SettingsManager.cfg.getString("language") != null
-            ? SettingsManager.cfg.getString("language")
-            : "",
+        SettingsManager.language != null ? SettingsManager.language : "",
         textAlign: TextAlign.center,
         style: TextStyle(
             color: Colors.black87, fontSize: 30, fontWeight: FontWeight.bold),

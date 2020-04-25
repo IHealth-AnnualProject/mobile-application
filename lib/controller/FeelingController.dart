@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 
 class FeelingController{
 
-  static void redirection(BuildContext context){
-    SettingsManager.cfg.updateValue("feelingsDate", DateTime.now().toString());
+  static void redirection(BuildContext context) async {
+    //SettingsManager.cfg.updateValue("feelingsDate", DateTime.now().toString());
+    await SettingsManager.storage.write(key: "feelingsDate", value: DateTime.now().toString());
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => HomePage()));
   }

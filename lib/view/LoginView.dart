@@ -4,11 +4,13 @@ import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:global_configuration/global_configuration.dart';
 
 import 'RegisterView.dart';
 
-void main()  {
+void main()  async {
   WidgetsFlutterBinding.ensureInitialized();
+  await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
   runApp(MaterialApp(
      home:  LoginPage()));
 }
@@ -143,9 +145,7 @@ class LoginView extends State<LoginPage> {
         _setLanguage();
       },
       child: new Text(
-        SettingsManager.cfg.getString("language") != null
-            ? SettingsManager.cfg.getString("language")
-            : "",
+        SettingsManager.language != null ? SettingsManager.language : "",
         textAlign: TextAlign.center,
         style: TextStyle(color: Colors.white),
       ),

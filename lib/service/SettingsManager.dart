@@ -12,6 +12,7 @@ class SettingsManager {
   static GlobalConfiguration cfg;
   static bool status = false;
   static FlutterSecureStorage storage;
+  static String currentLanguage, language, feelingsDate;
 
   static Future<Map<String, dynamic>> parseJsonFromAssets(
       String assetsPath) async {
@@ -39,11 +40,31 @@ class SettingsManager {
     if (!status) {
       cfg = new GlobalConfiguration();
       await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
-      loadLanguage(
-          'locale/' + cfg.getString('currentLanguage').toLowerCase() + '.json');
+
       storage = new FlutterSecureStorage();
+      instanciateProperties();
+      currentLanguage = await storage.read(key: "currentLanguage");
+      language = await storage.read(key: "language");
+      loadLanguage(
+          'locale/' + await currentLanguage.toLowerCase() + '.json');
       status = true;
     }
+  }
+
+  static void instanciateProperties() async {
+    currentLanguage = await storage.read(key: "currentLanguage");
+    language = await storage.read(key: "language");
+    feelingsDate = await storage.read(key: "feelingsDate");
+    if(currentLanguage == null) {
+      await storage.write(key: "currentLanguage", value: "FR");
+    }
+    if(language == null) {
+      await storage.write(key: "language", value: "EN");
+    }
+    if(feelingsDate == null) {
+      await storage.write(key: "feelingsDate", value: "");
+    }
+
   }
 
   static Future loadLanguage(String path) async {
@@ -52,10 +73,13 @@ class SettingsManager {
   }
 
   static void setLanguage() async {
+    String temp = currentLanguage;
     mapLanguage =
-    await parseJsonFromAssets('locale/' + cfg.getString("language").toLowerCase() + '.json');
-    String oldLanguage = cfg.getString("currentLanguage");
-    cfg.updateValue("currentLanguage", cfg.getString("language"));
-    cfg.updateValue("language", oldLanguage);
+    await parseJsonFromAssets('locale/' + language.toLowerCase() + '.json');
+    await storage.write(key: "currentLanguage", value: language);
+    await storage.write(key: "language", value: currentLanguage);
+    currentLanguage = language;
+    language = temp;
+
   }
 }
