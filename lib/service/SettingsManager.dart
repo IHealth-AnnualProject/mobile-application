@@ -46,7 +46,7 @@ class SettingsManager {
       currentLanguage = await storage.read(key: "currentLanguage");
       language = await storage.read(key: "language");
       loadLanguage(
-          'locale/' + await currentLanguage.toLowerCase() + '.json');
+          'locale/' + currentLanguage.toLowerCase()  + '.json');
       status = true;
     }
   }

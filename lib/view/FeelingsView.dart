@@ -1,3 +1,4 @@
+import 'package:betsbi/presentation/my_flutter_app_icons.dart';
 import 'package:betsbi/widget/FeelingButton.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,6 +28,47 @@ class FeelingsView extends State<FeelingsPage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
+    final gridView = CustomScrollView(
+      shrinkWrap: true,
+      primary: false,
+      slivers: <Widget>[
+        SliverPadding(
+          padding: const EdgeInsets.all(20),
+          sliver: SliverGrid.count(
+            crossAxisSpacing: 20,
+            mainAxisSpacing: 20,
+            crossAxisCount: 2,
+            children: <Widget>[
+              FeelingButton(
+                  SettingsManager.mapLanguage["FeelingGood"] != null
+                      ? SettingsManager.mapLanguage["FeelingGood"]
+                      : "",
+                  MyFlutterApp.emo_happy),
+              FeelingButton(
+                  SettingsManager.mapLanguage["FeelingVeryGood"] != null
+                      ? SettingsManager.mapLanguage["FeelingVeryGood"]
+                      : "",
+                  MyFlutterApp.emo_laugh),
+              FeelingButton(
+                  SettingsManager.mapLanguage["FeelingSad"] != null
+                      ? SettingsManager.mapLanguage["FeelingSad"]
+                      : "",
+                  MyFlutterApp.emo_unhappy),
+              FeelingButton(
+                  SettingsManager.mapLanguage["FeelingVerySad"] != null
+                      ? SettingsManager.mapLanguage["FeelingVerySad"]
+                      : "",
+                  MyFlutterApp.emo_angry),
+              FeelingButton(
+                  SettingsManager.mapLanguage["FeelingStress"] != null
+                      ? SettingsManager.mapLanguage["FeelingStress"]
+                      : "",
+                  MyFlutterApp.emo_cry),
+            ],
+          ),
+        ),
+      ],
+    );
     final titleFeelings = Text(
       SettingsManager.mapLanguage["FeelingQuestion"] != null
           ? SettingsManager.mapLanguage["FeelingQuestion"]
@@ -44,80 +86,18 @@ class FeelingsView extends State<FeelingsPage> {
           // in the middle of the parent.
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               //crossAxisAlignment: CrossAxisAlignment.center,
               //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    titleFeelings,
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Container(
-                      width: 350.0,
-                      child: FeelingButton(
-                          SettingsManager.mapLanguage["FeelingGood"] != null
-                              ? SettingsManager.mapLanguage["FeelingGood"]
-                              : ""),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: 350.0,
-                      child: FeelingButton(
-                          SettingsManager.mapLanguage["FeelingVeryGood"] != null
-                              ? SettingsManager.mapLanguage["FeelingVeryGood"]
-                              : ""),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: 350.0,
-                      child: FeelingButton(
-                          SettingsManager.mapLanguage["FeelingSad"] != null
-                              ? SettingsManager.mapLanguage["FeelingSad"]
-                              : ""),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: 350.0,
-                      child: FeelingButton(
-                          SettingsManager.mapLanguage["FeelingVerySad"] != null
-                              ? SettingsManager.mapLanguage["FeelingVerySad"]
-                              : ""),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: 350.0,
-                      child: FeelingButton(
-                          SettingsManager.mapLanguage["FeelingStress"] != null
-                              ? SettingsManager.mapLanguage["FeelingStress"]
-                              : ""),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: 350.0,
-                      child: FeelingButton(
-                          SettingsManager.mapLanguage["FeelingDepressive"] != null
-                              ? SettingsManager.mapLanguage["FeelingDepressive"]
-                              : ""),
-                    ),
-                  ],
-                ),
+              children: <Widget>[
+                titleFeelings,
                 SizedBox(
-                  height: 45,
+                  height: 50,
                 ),
+                Center(
+                  child: gridView,
+                )
               ],
             ),
           ), // This trailing comma makes auto-formatting nicer for build methods.

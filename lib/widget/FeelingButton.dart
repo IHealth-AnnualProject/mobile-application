@@ -2,32 +2,26 @@ import 'package:betsbi/controller/FeelingController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class FeelingButton extends StatelessWidget{
+class FeelingButton extends StatelessWidget {
   final String text;
+  final IconData iconData;
 
-  const FeelingButton(this.text);
+  const FeelingButton(this.text, this.iconData);
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(16.0),
+    return MaterialButton(
+      onPressed: () {
+        FeelingController.redirection(context);
+      },
       color: Color.fromRGBO(104, 79, 37, 0.8),
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          FeelingController.redirection(context);
-        },
-        child: Text(
-          this.text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: Color.fromRGBO(255, 255, 255, 100),
-              fontWeight: FontWeight.bold),
-        ),
+      textColor: Colors.white,
+      child: Icon(
+        this.iconData,
+        size: MediaQuery.of(context).size.width * 0.25,
       ),
+      padding: EdgeInsets.all(16),
+      shape: CircleBorder(),
     );
   }
-
 }
