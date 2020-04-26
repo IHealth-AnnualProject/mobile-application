@@ -15,9 +15,8 @@ class MemosPage extends StatefulWidget {
 class MemosView extends State<MemosPage> {
   int _selectedBottomIndex = 1;
 
-  void instanciateLanguage() async {
-    await SettingsManager.languageStarted();
-    setState(() {});
+  void instanciateLanguage()  {
+    SettingsManager.languageStarted().then((r) => setState(() {}));
   }
 
   @override

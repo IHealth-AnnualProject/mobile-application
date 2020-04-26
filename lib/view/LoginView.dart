@@ -8,11 +8,11 @@ import 'package:global_configuration/global_configuration.dart';
 
 import 'RegisterView.dart';
 
-void main()  async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
-  runApp(MaterialApp(
-     home:  LoginPage()));
+  GlobalConfiguration()
+      .loadFromPath("assets/cfg/settings.json")
+      .then((r) => runApp(MaterialApp(home: LoginPage())));
 }
 
 class LoginPage extends StatefulWidget {
@@ -28,21 +28,19 @@ class LoginView extends State<LoginPage> {
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void _setLanguage() async {
-    await SettingsManager.setLanguage();
-    setState(() {});
+  void _setLanguage() {
+    SettingsManager.setLanguage().then((r) => setState(() {}));
   }
 
-  void instanciateLanguage() async {
-    await SettingsManager.languageStarted();
-    setState(() {});
+  void instanciateLanguage() {
+    SettingsManager.languageStarted().then((r) => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) {
     instanciateLanguage();
 
-    RaisedButton loginButton(){
+    RaisedButton loginButton() {
       return RaisedButton(
         elevation: 8,
         shape: StadiumBorder(),
@@ -52,24 +50,27 @@ class LoginView extends State<LoginPage> {
           if (this._formKey.currentState.validate()) {
             loging = await LoginController.login(
                 userNameController.text, passwordController.text);
-            if(loging)
-            loginFlushBar(Icon(
-              Icons.done_outline,
-              color: Colors.yellow,
-            ), SettingsManager.mapLanguage["ConnectSent"] != null
-                ? SettingsManager.mapLanguage["ConnectSent"]
-                : "")..show(context).then((r) =>
-                LoginController.redirection(context));
+            if (loging)
+              loginFlushBar(
+                  Icon(
+                    Icons.done_outline,
+                    color: Colors.yellow,
+                  ),
+                  SettingsManager.mapLanguage["ConnectSent"] != null
+                      ? SettingsManager.mapLanguage["ConnectSent"]
+                      : "")
+                ..show(context)
+                    .then((r) => LoginController.redirection(context));
             else
-            loginFlushBar(
-                Icon(
-                  Icons.not_interested,
-                  color: Colors.red,
-                ),
-                SettingsManager.mapLanguage["InformationWrong"] != null
-                    ? SettingsManager.mapLanguage["InformationWrong"]
-                    : "")
-                .show(context);
+              loginFlushBar(
+                      Icon(
+                        Icons.not_interested,
+                        color: Colors.red,
+                      ),
+                      SettingsManager.mapLanguage["InformationWrong"] != null
+                          ? SettingsManager.mapLanguage["InformationWrong"]
+                          : "")
+                  .show(context);
           }
         },
         child: Text(
@@ -90,7 +91,6 @@ class LoginView extends State<LoginPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-
 
     final username = TextFormField(
       obscureText: false,
@@ -210,9 +210,14 @@ class LoginView extends State<LoginPage> {
                             height: 45,
                           ),
                           //forgotPassword,
-                          ForgotPassword(SettingsManager.mapLanguage["ForgotPassword"] != null
-                              ? SettingsManager.mapLanguage["ForgotPassword"]
-                              : "","bidule",Icons.message),
+                          ForgotPassword(
+                              SettingsManager.mapLanguage["ForgotPassword"] !=
+                                      null
+                                  ? SettingsManager
+                                      .mapLanguage["ForgotPassword"]
+                                  : "",
+                              "bidule",
+                              Icons.message),
                           SizedBox(
                             height: 45,
                           ),
@@ -256,6 +261,7 @@ class LoginView extends State<LoginPage> {
           ), // This trailing comma makes auto-formatting nicer for build methods.
         ));
   }
+
   Flushbar loginFlushBar(Icon icon, String message) {
     return Flushbar(
       icon: icon,

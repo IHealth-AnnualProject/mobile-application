@@ -24,9 +24,8 @@ class AmbianceView extends State<AmbiancePage> {
 
   //MusicPlayer musicPlayer;
 
-  void instanciateLanguage() async {
-    await SettingsManager.languageStarted();
-    setState(() {});
+  void instanciateLanguage()  {
+    SettingsManager.languageStarted().then((r) => setState(() {}));
   }
 
   @override

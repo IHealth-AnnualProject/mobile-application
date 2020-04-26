@@ -19,14 +19,13 @@ class ErrorView extends State<ErrorPage> {
   final _formKey = GlobalKey<FormState>();
   int _selectedBottomIndex = 0;
   List<User> users = [
-    User(0, 'Antoine Daniel', 'Psychologue',1),
-    User(1, 'Theodore Bulfonorio', 'User',1),
-    User(2, 'Estebaille', 'Psychologue',1),
+    User(0, 'Antoine Daniel', 'Psychologue', 1),
+    User(1, 'Theodore Bulfonorio', 'User', 1),
+    User(2, 'Estebaille', 'Psychologue', 1),
   ];
 
-  void instanciateLanguage() async {
-    await SettingsManager.languageStarted();
-    setState(() {});
+  void instanciateLanguage() {
+    SettingsManager.languageStarted().then((r) => setState(() {}));
   }
 
   @override
@@ -96,9 +95,11 @@ class ErrorView extends State<ErrorPage> {
     );
     return Scaffold(
       backgroundColor: Color.fromRGBO(228, 228, 228, 1),
-      appBar: AppSearchBar(SettingsManager.mapLanguage["SearchContainer"] != null
-          ? SettingsManager.mapLanguage["SearchContainer"]
-          : "",users),
+      appBar: AppSearchBar(
+          SettingsManager.mapLanguage["SearchContainer"] != null
+              ? SettingsManager.mapLanguage["SearchContainer"]
+              : "",
+          users),
       body: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.

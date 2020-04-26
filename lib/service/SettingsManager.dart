@@ -21,10 +21,9 @@ class SettingsManager {
         .then((jsonStr) => jsonDecode(jsonStr));
   }
 
-  static void deviceLanguage()
-  async {
+  static void deviceLanguage() async {
     String localLanguage = await Devicelocale.currentLocale;
-    switch(localLanguage){
+    switch (localLanguage) {
       case "fr":
         cfg.updateValue("currentLanguage", "FR");
         cfg.updateValue("language", "EN");
@@ -36,7 +35,7 @@ class SettingsManager {
     }
   }
 
-  static void languageStarted() async {
+  static Future<void> languageStarted() async {
     if (!status) {
       cfg = new GlobalConfiguration();
       await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
@@ -45,9 +44,8 @@ class SettingsManager {
       instanciateProperties();
       currentLanguage = await storage.read(key: "currentLanguage");
       language = await storage.read(key: "language");
-      loadLanguage(
-          'locale/' + currentLanguage.toLowerCase()  + '.json');
-      status = true;
+      loadLanguage('locale/' + currentLanguage.toLowerCase() + '.json')
+          .then((r) => status = true);
     }
   }
 
@@ -55,31 +53,29 @@ class SettingsManager {
     currentLanguage = await storage.read(key: "currentLanguage");
     language = await storage.read(key: "language");
     feelingsDate = await storage.read(key: "feelingsDate");
-    if(currentLanguage == null) {
+    if (currentLanguage == null) {
       await storage.write(key: "currentLanguage", value: "FR");
     }
-    if(language == null) {
+    if (language == null) {
       await storage.write(key: "language", value: "EN");
     }
-    if(feelingsDate == null) {
+    if (feelingsDate == null) {
       await storage.write(key: "feelingsDate", value: "");
     }
-
   }
 
-  static Future loadLanguage(String path) async {
+  static Future<void> loadLanguage(String path) async {
     await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
     mapLanguage = await parseJsonFromAssets(path);
   }
 
-  static void setLanguage() async {
+  static Future<void> setLanguage() async {
     String temp = currentLanguage;
     mapLanguage =
-    await parseJsonFromAssets('locale/' + language.toLowerCase() + '.json');
+        await parseJsonFromAssets('locale/' + language.toLowerCase() + '.json');
     await storage.write(key: "currentLanguage", value: language);
     await storage.write(key: "language", value: currentLanguage);
     currentLanguage = language;
     language = temp;
-
   }
 }

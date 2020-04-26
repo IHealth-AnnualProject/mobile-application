@@ -22,18 +22,12 @@ class SettingsView extends State<SettingsPage> {
     User(2, 'Estebaille', 'Psychologue',1),
   ];
 
-  void _setLanguage() async {
-    await SettingsManager.setLanguage();
-    setState(() {});
+  void _setLanguage()  {
+    SettingsManager.setLanguage().then((r) => setState(() {}));
   }
 
-  void instanciateLanguage() async {
-    await SettingsManager.languageStarted();
-    setState(() {});
-  }
-
-  void setNotification(){
-
+  void instanciateLanguage()  {
+    SettingsManager.languageStarted().then((r) => setState(() {}));
   }
 
   @override

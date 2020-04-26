@@ -20,9 +20,8 @@ class AccountView extends State<AccountPage> {
   User user = new User(0, 'Antoine Daniel', 'Psychologue', 1);
   final List<int> feelingsPoint = [0, 1, 2, 3, 4, 5, 6];
 
-  void instanciateLanguage() async {
-    await SettingsManager.languageStarted();
-    setState(() {});
+  void instanciateLanguage()  {
+     SettingsManager.languageStarted().then((r) => setState(() {}));
   }
 
   @override

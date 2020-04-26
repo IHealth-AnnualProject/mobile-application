@@ -6,14 +6,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ForgotPassword extends StatelessWidget {
+class ForgotPassword extends StatefulWidget {
   final String message;
   final String flushBarMessage;
   final IconData icons;
 
   ForgotPassword(this.message, this.flushBarMessage, this.icons);
-  Flushbar<String> flush;
 
+  @override
+  _ForgotPasswordState createState() => _ForgotPasswordState();
+}
+
+class _ForgotPasswordState extends State<ForgotPassword> {
+  Flushbar<String> flush;
 
   var myController = TextEditingController();
 
@@ -81,12 +86,12 @@ class ForgotPassword extends StatelessWidget {
         ]),
       ),
       icon: Icon(
-        this.icons,
+        this.widget.icons,
         color: Colors.yellow,
       ),
       flushbarPosition: FlushbarPosition.TOP,
       flushbarStyle: FlushbarStyle.GROUNDED,
-      message: this.flushBarMessage,
+      message: this.widget.flushBarMessage,
     );
     return InkWell(
         onTap: () {
@@ -99,7 +104,7 @@ class ForgotPassword extends StatelessWidget {
           }
         },
         child: new Text(
-          this.message,
+          this.widget.message,
           textAlign: TextAlign.center,
         ));
   }

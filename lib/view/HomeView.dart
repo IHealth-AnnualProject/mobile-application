@@ -36,9 +36,8 @@ class HomeView extends State<HomePage> {
     User(2, 'Estebaille', 'Psychologue',1),
   ];
 
-  void instanciateLanguage() async {
-    await SettingsManager.languageStarted();
-    setState(() {});
+  void instanciateLanguage()  {
+    SettingsManager.languageStarted().then((r) => setState(() {}));
   }
 
   @override

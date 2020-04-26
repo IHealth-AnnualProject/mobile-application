@@ -22,9 +22,8 @@ class RegisterView extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   bool registrating;
 
-  void instanciateLanguage() async {
-    await SettingsManager.languageStarted();
-    setState(() {});
+  void instanciateLanguage()  {
+    SettingsManager.languageStarted().then((r) => setState(() {}));
   }
 
   @override

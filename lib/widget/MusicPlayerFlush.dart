@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MusicPlayerFlush extends StatefulWidget {
-  String path;
-  String name;
-  AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
+  final String path;
+  final String name;
+  final AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
 
 
   MusicPlayerFlush(this.path, this.name);

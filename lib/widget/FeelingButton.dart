@@ -12,7 +12,7 @@ class FeelingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: () {
-        FeelingController.redirection(context);
+        FeelingController.redirectionFeelingToHomePage(context);
       },
       color: Color.fromRGBO(104, 79, 37, 0.8),
       textColor: Colors.white,
