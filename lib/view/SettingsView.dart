@@ -13,7 +13,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class SettingsView extends State<SettingsPage> {
-  int _selectedBottomIndex = 0;
   bool currentNotification;
   List<bool> isSelected = [true, false];
   List<User> users = [
@@ -139,7 +138,7 @@ class SettingsView extends State<SettingsPage> {
       // Center is a layout widget. It takes a single child and positions it
       // in the middle of the parent.
       // This trailing comma makes auto-formatting nicer for build methods.
-        bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex),
+        bottomNavigationBar: BottomNavigationBarFooter(null),
     );
   }
 }

@@ -13,7 +13,6 @@ class MemosPage extends StatefulWidget {
 }
 
 class MemosView extends State<MemosPage> {
-  int _selectedBottomIndex = 1;
 
   void instanciateLanguage()  {
     SettingsManager.languageStarted().then((r) => setState(() {}));
@@ -73,7 +72,7 @@ class MemosView extends State<MemosPage> {
           ],
         ),
       )), // This trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex),
+      bottomNavigationBar: BottomNavigationBarFooter(null),
     );
   }
 }

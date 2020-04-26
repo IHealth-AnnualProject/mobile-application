@@ -17,7 +17,6 @@ class ErrorPage extends StatefulWidget {
 
 class ErrorView extends State<ErrorPage> {
   final _formKey = GlobalKey<FormState>();
-  int _selectedBottomIndex = 0;
   List<User> users = [
     User(0, 'Antoine Daniel', 'Psychologue', 1),
     User(1, 'Theodore Bulfonorio', 'User', 1),
@@ -157,7 +156,7 @@ class ErrorView extends State<ErrorPage> {
           ), // This trailing comma makes auto-formatting nicer for build methods.
         ],
       ))),
-      bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex),
+      bottomNavigationBar: BottomNavigationBarFooter(null),
     );
   }
 }

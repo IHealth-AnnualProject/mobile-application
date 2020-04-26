@@ -16,7 +16,6 @@ class AmbiancePage extends StatefulWidget {
 }
 
 class AmbianceView extends State<AmbiancePage> {
-  int _selectedBottomIndex = 1;
   AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
   MusicPlayerFlush flush;
   bool musicOn;
@@ -113,7 +112,7 @@ class AmbianceView extends State<AmbiancePage> {
           ],
         ),
       )), // This trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex),
+      bottomNavigationBar: BottomNavigationBarFooter(null),
     );
   }
 }
