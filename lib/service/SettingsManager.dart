@@ -10,7 +10,6 @@ class SettingsManager {
   static LinkedHashMap<String, dynamic> mapLanguage =
       new LinkedHashMap<String, dynamic>();
   static GlobalConfiguration cfg;
-  static bool status = false;
   static FlutterSecureStorage storage;
   static String currentLanguage, language, feelingsDate;
 
@@ -36,28 +35,23 @@ class SettingsManager {
   }
 
   static Future<void> languageStarted() async {
-    if (!status) {
       cfg = new GlobalConfiguration();
       await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
-
       storage = new FlutterSecureStorage();
-      instanciateProperties();
-      currentLanguage = await storage.read(key: "currentLanguage");
-      language = await storage.read(key: "language");
-      loadLanguage('locale/' + currentLanguage.toLowerCase() + '.json')
-          .then((r) => status = true);
-    }
+      instanciateProperties().then((r) => loadLanguage('locale/' + currentLanguage.toLowerCase() + '.json'));
   }
 
-  static void instanciateProperties() async {
+  static Future<void> instanciateProperties() async {
     currentLanguage = await storage.read(key: "currentLanguage");
     language = await storage.read(key: "language");
     feelingsDate = await storage.read(key: "feelingsDate");
     if (currentLanguage == null) {
       await storage.write(key: "currentLanguage", value: "FR");
+      currentLanguage = await storage.read(key: "currentLanguage");
     }
     if (language == null) {
       await storage.write(key: "language", value: "EN");
+      language = await storage.read(key: "language");
     }
     if (feelingsDate == null) {
       await storage.write(key: "feelingsDate", value: "");

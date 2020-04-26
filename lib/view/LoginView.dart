@@ -1,4 +1,6 @@
 import 'package:betsbi/controller/LoginController.dart';
+import 'package:betsbi/controller/TokenController.dart';
+import 'package:betsbi/view/HomeView.dart';
 import 'package:betsbi/widget/ForgotPassword.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flushbar/flushbar.dart';
@@ -10,9 +12,14 @@ import 'RegisterView.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  GlobalConfiguration()
-      .loadFromPath("assets/cfg/settings.json")
-      .then((r) => runApp(MaterialApp(home: LoginPage())));
+  SettingsManager.languageStarted().then((r) =>
+      TokenController.checkTokenValidity().then((tokenValid) => tokenValid
+          ? GlobalConfiguration()
+              .loadFromPath("assets/cfg/settings.json")
+              .then((r) => runApp(MaterialApp(home: HomePage())))
+          : GlobalConfiguration()
+              .loadFromPath("assets/cfg/settings.json")
+              .then((r) => runApp(MaterialApp(home: LoginPage())))));
 }
 
 class LoginPage extends StatefulWidget {
@@ -33,13 +40,12 @@ class LoginView extends State<LoginPage> {
   }
 
   void instanciateLanguage() {
-    SettingsManager.languageStarted().then((r) => setState(() {}));
+    SettingsManager.languageStarted().then((r) => setState(() {})).whenComplete(() =>
+    setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) {
-    instanciateLanguage();
-
     RaisedButton loginButton() {
       return RaisedButton(
         elevation: 8,

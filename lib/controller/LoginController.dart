@@ -12,9 +12,11 @@ class LoginController {
 
   static void redirection(BuildContext context) {
     if (SettingsManager.feelingsDate.isNotEmpty) {
-      final tomorrow = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+      final tomorrow = DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
       feelingsParsed = DateTime.parse(SettingsManager.feelingsDate);
-      final dateToCompare = DateTime(feelingsParsed.year, feelingsParsed.month, feelingsParsed.day);
+      final dateToCompare = DateTime(
+          feelingsParsed.year, feelingsParsed.month, feelingsParsed.day);
       if (dateToCompare == tomorrow) {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => FeelingsPage()));
@@ -39,6 +41,9 @@ class LoginController {
       }),
     );
     if (response.statusCode == 201) {
+      await SettingsManager.storage.write(
+          key: "userId",
+          value: parseResponse(response.body)["user"]["id"]);
       await SettingsManager.storage.write(
           key: "token",
           value: parseResponse(response.body)["token"]["access_token"]);
