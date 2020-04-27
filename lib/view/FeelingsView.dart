@@ -12,7 +12,7 @@ class FeelingsPage extends StatefulWidget {
 }
 
 class FeelingsView extends State<FeelingsPage> {
-  void instanciateLanguage()  {
+  void instanciateLanguage() {
     SettingsManager.languageStarted().then((r) => setState(() {}));
   }
 
@@ -39,30 +39,50 @@ class FeelingsView extends State<FeelingsPage> {
             crossAxisCount: 2,
             children: <Widget>[
               FeelingButton(
+                  0,
                   SettingsManager.mapLanguage["FeelingGood"] != null
                       ? SettingsManager.mapLanguage["FeelingGood"]
                       : "",
-                  MyFlutterApp.emo_happy),
+                  MyFlutterApp.emo_happy,
+                  SettingsManager.mapLanguage["WentWrong"] != null
+                      ? SettingsManager.mapLanguage["WentWrong"]
+                      : ""),
               FeelingButton(
+                  1,
                   SettingsManager.mapLanguage["FeelingVeryGood"] != null
                       ? SettingsManager.mapLanguage["FeelingVeryGood"]
                       : "",
-                  MyFlutterApp.emo_laugh),
+                  MyFlutterApp.emo_laugh,
+                  SettingsManager.mapLanguage["WentWrong"] != null
+                      ? SettingsManager.mapLanguage["WentWrong"]
+                      : ""),
               FeelingButton(
+                  2,
                   SettingsManager.mapLanguage["FeelingSad"] != null
                       ? SettingsManager.mapLanguage["FeelingSad"]
                       : "",
-                  MyFlutterApp.emo_unhappy),
+                  MyFlutterApp.emo_unhappy,
+                  SettingsManager.mapLanguage["WentWrong"] != null
+                      ? SettingsManager.mapLanguage["WentWrong"]
+                      : ""),
               FeelingButton(
+                  3,
                   SettingsManager.mapLanguage["FeelingVerySad"] != null
                       ? SettingsManager.mapLanguage["FeelingVerySad"]
                       : "",
-                  MyFlutterApp.emo_angry),
+                  MyFlutterApp.emo_angry,
+                  SettingsManager.mapLanguage["WentWrong"] != null
+                      ? SettingsManager.mapLanguage["WentWrong"]
+                      : ""),
               FeelingButton(
+                  4,
                   SettingsManager.mapLanguage["FeelingStress"] != null
                       ? SettingsManager.mapLanguage["FeelingStress"]
                       : "",
-                  MyFlutterApp.emo_cry),
+                  MyFlutterApp.emo_cry,
+                  SettingsManager.mapLanguage["WentWrong"] != null
+                      ? SettingsManager.mapLanguage["WentWrong"]
+                      : ""),
             ],
           ),
         ),
