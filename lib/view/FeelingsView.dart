@@ -1,4 +1,4 @@
-import 'package:betsbi/presentation/my_flutter_app_icons.dart';
+import 'package:betsbi/presentation/FeelingsFontIcons.dart';
 import 'package:betsbi/widget/FeelingButton.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';

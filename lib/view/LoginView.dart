@@ -1,6 +1,5 @@
 import 'package:betsbi/controller/LoginController.dart';
 import 'package:betsbi/controller/TokenController.dart';
-import 'package:betsbi/view/HomeView.dart';
 import 'package:betsbi/widget/ForgotPassword.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flushbar/flushbar.dart';
@@ -16,7 +15,7 @@ void main() {
       TokenController.checkTokenValidity().then((tokenValid) => tokenValid
           ? GlobalConfiguration()
               .loadFromPath("assets/cfg/settings.json")
-              .then((r) => runApp(MaterialApp(home: HomePage())))
+              .then((r) => LoginController.redirectionLogin())
           : GlobalConfiguration()
               .loadFromPath("assets/cfg/settings.json")
               .then((r) => runApp(MaterialApp(home: LoginPage())))));
@@ -66,7 +65,7 @@ class LoginView extends State<LoginPage> {
                       ? SettingsManager.mapLanguage["ConnectSent"]
                       : "")
                 ..show(context)
-                    .then((r) => LoginController.redirection(context));
+                    .then((r) => LoginController.redirectionLogin());
             else
               loginFlushBar(
                       Icon(

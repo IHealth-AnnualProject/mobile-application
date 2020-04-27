@@ -10,23 +10,27 @@ import 'package:http/http.dart' as http;
 class LoginController {
   static DateTime feelingsParsed;
 
-  static void redirection(BuildContext context) {
+  static void redirectionLogin() {
     if (SettingsManager.feelingsDate.isNotEmpty) {
       final tomorrow = DateTime(
           DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
       feelingsParsed = DateTime.parse(SettingsManager.feelingsDate);
       final dateToCompare = DateTime(
-          feelingsParsed.year, feelingsParsed.month, feelingsParsed.day);
-      if (dateToCompare == tomorrow) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => FeelingsPage()));
+          feelingsParsed.year, feelingsParsed.month, feelingsParsed.day + 1);
+      if (dateToCompare.isBefore(tomorrow)) {
+        runApp(MaterialApp(
+          home: FeelingsPage(),
+        ));
       } else {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+        runApp(MaterialApp(
+          home: HomePage(),
+          initialRoute: '/',
+        ));
       }
     } else
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => FeelingsPage()));
+      runApp(MaterialApp(
+        home: FeelingsPage(),
+      ));
   }
 
   static Future<bool> login(String username, String password) async {
@@ -42,8 +46,7 @@ class LoginController {
     );
     if (response.statusCode == 201) {
       await SettingsManager.storage.write(
-          key: "userId",
-          value: parseResponse(response.body)["user"]["id"]);
+          key: "userId", value: parseResponse(response.body)["user"]["id"]);
       await SettingsManager.storage.write(
           key: "token",
           value: parseResponse(response.body)["token"]["access_token"]);

@@ -9,7 +9,7 @@
 ///   fonts:
 ///    - family:  MyFlutterApp
 ///      fonts:
-///       - asset: fonts/MyFlutterApp.ttf
+///       - asset: fonts/FeelingsFont.ttf
 ///
 ///
 /// * Fontelico, Copyright (C) 2012 by Fontello project
