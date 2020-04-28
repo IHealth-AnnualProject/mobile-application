@@ -10,8 +10,8 @@ class BrickContainer extends StatelessWidget {
   final StatefulWidget destination;
   final String image;
 
-  const BrickContainer(
-      this.colorBrick, this.textBrick, this.iconBrick, this.destination, this.image);
+  const BrickContainer({
+      this.colorBrick, this.textBrick, this.iconBrick, this.destination, this.image});
 
   @override
   Widget build(BuildContext context) {

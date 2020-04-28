@@ -39,8 +39,9 @@ class LoginView extends State<LoginPage> {
   }
 
   void instanciateLanguage() {
-    SettingsManager.languageStarted().then((r) => setState(() {})).whenComplete(() =>
-    setState(() {}));
+    SettingsManager.languageStarted()
+        .then((r) => setState(() {}))
+        .whenComplete(() => setState(() {}));
   }
 
   @override
@@ -64,8 +65,7 @@ class LoginView extends State<LoginPage> {
                   SettingsManager.mapLanguage["ConnectSent"] != null
                       ? SettingsManager.mapLanguage["ConnectSent"]
                       : "")
-                ..show(context)
-                    .then((r) => LoginController.redirectionLogin());
+                ..show(context).then((r) => LoginController.redirectionLogin());
             else
               loginFlushBar(
                       Icon(
@@ -216,13 +216,14 @@ class LoginView extends State<LoginPage> {
                           ),
                           //forgotPassword,
                           ForgotPassword(
-                              SettingsManager.mapLanguage["ForgotPassword"] !=
+                              message: SettingsManager
+                                          .mapLanguage["ForgotPassword"] !=
                                       null
                                   ? SettingsManager
                                       .mapLanguage["ForgotPassword"]
                                   : "",
-                              "bidule",
-                              Icons.message),
+                              flushBarMessage: "bidule",
+                              icons: Icons.message),
                           SizedBox(
                             height: 45,
                           ),

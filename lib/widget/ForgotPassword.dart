@@ -11,7 +11,7 @@ class ForgotPassword extends StatefulWidget {
   final String flushBarMessage;
   final IconData icons;
 
-  ForgotPassword(this.message, this.flushBarMessage, this.icons);
+  ForgotPassword({this.message, this.flushBarMessage, this.icons});
 
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();

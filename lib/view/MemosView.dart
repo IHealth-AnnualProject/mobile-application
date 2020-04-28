@@ -13,8 +13,7 @@ class MemosPage extends StatefulWidget {
 }
 
 class MemosView extends State<MemosPage> {
-
-  void instanciateLanguage()  {
+  void instanciateLanguage() {
     SettingsManager.languageStarted().then((r) => setState(() {}));
   }
 
@@ -29,7 +28,7 @@ class MemosView extends State<MemosPage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-    final titleAccount = Text(
+    final titleMemos = Text(
       SettingsManager.mapLanguage["MemosTitle"] != null
           ? SettingsManager.mapLanguage["MemosTitle"]
           : "",
@@ -41,11 +40,11 @@ class MemosView extends State<MemosPage> {
     );
     return Scaffold(
       backgroundColor: Color.fromRGBO(228, 228, 228, 1),
-      appBar: AppSearchBar(
-          SettingsManager.mapLanguage["SearchContainer"] != null
+      appBar: AppSearchBar.AppSearchBarNormal(
+          title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]
               : "",
-          ContainerController.users),
+          users: ContainerController.users),
       body: SingleChildScrollView(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
@@ -68,7 +67,7 @@ class MemosView extends State<MemosPage> {
             SizedBox(
               height: 45,
             ),
-            titleAccount,
+            titleMemos,
           ],
         ),
       )), // This trailing comma makes auto-formatting nicer for build methods.

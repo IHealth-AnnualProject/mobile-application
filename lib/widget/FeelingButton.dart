@@ -1,5 +1,4 @@
 import 'package:betsbi/controller/FeelingController.dart';
-import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/widget/FlushBarError.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,7 @@ class FeelingButton extends StatelessWidget {
   final int idButton;
   final String errorMessage;
 
-  const FeelingButton(this.idButton,this.text, this.iconData, this.errorMessage);
+  const FeelingButton({this.idButton,this.text, this.iconData, this.errorMessage});
 
   @override
   Widget build(BuildContext context) {

@@ -94,11 +94,11 @@ class ErrorView extends State<ErrorPage> {
     );
     return Scaffold(
       backgroundColor: Color.fromRGBO(228, 228, 228, 1),
-      appBar: AppSearchBar(
-          SettingsManager.mapLanguage["SearchContainer"] != null
+      appBar: AppSearchBar.AppSearchBarNormal(
+          title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]
               : "",
-          users),
+          users: users),
       body: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
@@ -140,14 +140,15 @@ class ErrorView extends State<ErrorPage> {
                     Container(
                       width: 350.0,
                       child: FinalButton(
-                          SettingsManager.mapLanguage["Submit"] != null
+                          content: SettingsManager.mapLanguage["Submit"] != null
                               ? SettingsManager.mapLanguage["Submit"]
                               : "",
-                          HomePage(),
-                          _formKey,
-                          SettingsManager.mapLanguage["ErrorSent"] != null
-                              ? SettingsManager.mapLanguage["ErrorSent"]
-                              : ""),
+                          destination: HomePage(),
+                          formKey: _formKey,
+                          barContent:
+                              SettingsManager.mapLanguage["ErrorSent"] != null
+                                  ? SettingsManager.mapLanguage["ErrorSent"]
+                                  : ""),
                     ),
                   ],
                 ),

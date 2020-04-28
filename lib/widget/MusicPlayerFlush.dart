@@ -9,7 +9,7 @@ class MusicPlayerFlush extends StatefulWidget {
   final AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
 
 
-  MusicPlayerFlush(this.path, this.name);
+  MusicPlayerFlush({this.path, this.name});
 
   @override
   _MusicPlayerFlushState createState() => _MusicPlayerFlushState();

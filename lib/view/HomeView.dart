@@ -1,4 +1,3 @@
-import 'package:betsbi/controller/LoginController.dart';
 import 'package:betsbi/view/AmbianceView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
@@ -23,7 +22,6 @@ main() {
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
 
-
   @override
   HomeView createState() => HomeView();
 }
@@ -32,12 +30,12 @@ class HomeView extends State<HomePage> {
   int _selectedBottomIndex = 0;
 
   List<User> users = [
-    User(0, 'Antoine Daniel', 'Psychologue',1),
-    User(1, 'Theodore Bulfonorio', 'User',1),
-    User(2, 'Estebaille', 'Psychologue',1),
+    User(0, 'Antoine Daniel', 'Psychologue', 1),
+    User(1, 'Theodore Bulfonorio', 'User', 1),
+    User(2, 'Estebaille', 'Psychologue', 1),
   ];
 
-  void instanciateLanguage()  {
+  void instanciateLanguage() {
     SettingsManager.languageStarted().then((r) => setState(() {}));
   }
 
@@ -68,47 +66,68 @@ class HomeView extends State<HomePage> {
             crossAxisCount: 2,
             children: <Widget>[
               BrickContainer(
-                  Color.fromRGBO(51, 171, 249, 1),
-                  SettingsManager.mapLanguage["MyAccountContainer"] != null
-                      ? SettingsManager.mapLanguage["MyAccountContainer"]
-                      : "",
-                  Icons.home, AccountPage(), "user.png"),
+                  colorBrick: Color.fromRGBO(51, 171, 249, 1),
+                  textBrick:
+                      SettingsManager.mapLanguage["MyAccountContainer"] != null
+                          ? SettingsManager.mapLanguage["MyAccountContainer"]
+                          : "",
+                  iconBrick: Icons.home,
+                  destination: AccountPage(),
+                  image: "user.png"),
               BrickContainer(
-                  Color.fromRGBO(51, 171, 249, 1),
-                  SettingsManager.mapLanguage["MyTrainingContainer"] != null
-                      ? SettingsManager.mapLanguage["MyTrainingContainer"]
-                      : "",
-                  Icons.play_for_work, null, "exercise.png"),
+                  colorBrick: Color.fromRGBO(51, 171, 249, 1),
+                  textBrick:
+                      SettingsManager.mapLanguage["MyTrainingContainer"] != null
+                          ? SettingsManager.mapLanguage["MyTrainingContainer"]
+                          : "",
+                  iconBrick: Icons.play_for_work,
+                  destination: null,
+                  image: "exercise.png"),
               BrickContainer(
-                  Color.fromRGBO(51, 171, 249, 1),
-                  SettingsManager.mapLanguage["MyMemosContainer"] != null
-                      ? SettingsManager.mapLanguage["MyMemosContainer"]
-                      : "",
-                  Icons.wrap_text, MemosPage(), "notes.png"),
+                  colorBrick: Color.fromRGBO(51, 171, 249, 1),
+                  textBrick:
+                      SettingsManager.mapLanguage["MyMemosContainer"] != null
+                          ? SettingsManager.mapLanguage["MyMemosContainer"]
+                          : "",
+                  iconBrick: Icons.wrap_text,
+                  destination: MemosPage(),
+                  image: "notes.png"),
               BrickContainer(
-                  Color.fromRGBO(51, 171, 249, 1),
-                  SettingsManager.mapLanguage["MyAmbianceContainer"] != null
-                      ? SettingsManager.mapLanguage["MyAmbianceContainer"]
-                      : "",
-                  Icons.music_note, AmbiancePage(), "training.png"),
+                  colorBrick: Color.fromRGBO(51, 171, 249, 1),
+                  textBrick:
+                      SettingsManager.mapLanguage["MyAmbianceContainer"] != null
+                          ? SettingsManager.mapLanguage["MyAmbianceContainer"]
+                          : "",
+                  iconBrick: Icons.music_note,
+                  destination: AmbiancePage(),
+                  image: "training.png"),
               BrickContainer(
-                  Color.fromRGBO(51, 171, 249, 1),
-                  SettingsManager.mapLanguage["MyQuestContainer"] != null
-                      ? SettingsManager.mapLanguage["MyQuestContainer"]
-                      : "",
-                  Icons.not_listed_location, null, "quest.png"),
+                  colorBrick: Color.fromRGBO(51, 171, 249, 1),
+                  textBrick:
+                      SettingsManager.mapLanguage["MyQuestContainer"] != null
+                          ? SettingsManager.mapLanguage["MyQuestContainer"]
+                          : "",
+                  iconBrick: Icons.not_listed_location,
+                  destination: null,
+                  image: "quest.png"),
               BrickContainer(
-                  Color.fromRGBO(51, 171, 249, 1),
-                  SettingsManager.mapLanguage["SettingsContainer"] != null
-                      ? SettingsManager.mapLanguage["SettingsContainer"]
-                      : "",
-                  Icons.settings, SettingsPage(), "settings.png"),
+                  colorBrick: Color.fromRGBO(51, 171, 249, 1),
+                  textBrick:
+                      SettingsManager.mapLanguage["SettingsContainer"] != null
+                          ? SettingsManager.mapLanguage["SettingsContainer"]
+                          : "",
+                  iconBrick: Icons.settings,
+                  destination: SettingsPage(),
+                  image: "settings.png"),
               BrickContainer(
-                  Color.fromRGBO(249, 89, 51, 1),
-                  SettingsManager.mapLanguage["ErrorContainer"] != null
-                      ? SettingsManager.mapLanguage["ErrorContainer"]
-                      : "",
-                  Icons.error, ErrorPage(), "error.png"),
+                  colorBrick: Color.fromRGBO(249, 89, 51, 1),
+                  textBrick:
+                      SettingsManager.mapLanguage["ErrorContainer"] != null
+                          ? SettingsManager.mapLanguage["ErrorContainer"]
+                          : "",
+                  iconBrick: Icons.error,
+                  destination: ErrorPage(),
+                  image: "error.png"),
             ],
           ),
         ),
@@ -116,9 +135,11 @@ class HomeView extends State<HomePage> {
     );
     return Scaffold(
       backgroundColor: Color.fromRGBO(228, 228, 228, 1),
-      appBar: AppSearchBar(SettingsManager.mapLanguage["SearchContainer"] != null
-          ? SettingsManager.mapLanguage["SearchContainer"]
-          : "",users),
+      appBar: AppSearchBar.AppSearchBarNormal(
+          title: SettingsManager.mapLanguage["SearchContainer"] != null
+              ? SettingsManager.mapLanguage["SearchContainer"]
+              : "",
+          users: users),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -130,7 +151,8 @@ class HomeView extends State<HomePage> {
           ],
         ),
       ),
-        bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex), // This trailing comma makes auto-formatting nicer for build methods.
+      bottomNavigationBar: BottomNavigationBarFooter(
+          _selectedBottomIndex), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

@@ -80,11 +80,11 @@ class AmbianceView extends State<AmbiancePage> {
     );
     return Scaffold(
       backgroundColor: Color.fromRGBO(228, 228, 228, 1),
-      appBar: AppSearchBar(
-          SettingsManager.mapLanguage["SearchContainer"] != null
-              ? SettingsManager.mapLanguage["SearchContainer"]
-              : "",
-          ContainerController.users),
+      appBar: AppSearchBar.AppSearchBarNormal(
+        title: SettingsManager.mapLanguage["SearchContainer"] != null
+          ? SettingsManager.mapLanguage["SearchContainer"]
+        : "",
+        users: ContainerController.users),
       body: SingleChildScrollView(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
