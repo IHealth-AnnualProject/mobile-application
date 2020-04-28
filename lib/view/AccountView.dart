@@ -1,12 +1,12 @@
 import 'package:betsbi/controller/ContainerController.dart';
+import 'package:betsbi/widget/AccountInformation.dart';
+import 'package:betsbi/widget/AccountTrace.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_echarts/flutter_echarts.dart';
-
 
 class AccountPage extends StatefulWidget {
   AccountPage({Key key}) : super(key: key);
@@ -15,18 +15,27 @@ class AccountPage extends StatefulWidget {
   AccountView createState() => AccountView();
 }
 
-class AccountView extends State<AccountPage> {
+class AccountView extends State<AccountPage> with TickerProviderStateMixin {
   int _selectedBottomIndex = 1;
   User user = new User(0, 'Antoine Daniel', 'Psychologue', 1);
-  final List<int> feelingsPoint = [0, 1, 2, 3, 4, 5, 6];
+  TabController _tabController;
+  bool differentView = true;
 
-  void instanciateLanguage()  {
-     SettingsManager.languageStarted().then((r) => setState(() {}));
+  void instanciateLanguage() {
+    SettingsManager.languageStarted().then((r) => setState(() {}));
   }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     instanciateLanguage();
+    _tabController = new TabController(length: 2, vsync: this, initialIndex: 1);
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -45,76 +54,42 @@ class AccountView extends State<AccountPage> {
     );
     return Scaffold(
       backgroundColor: Color.fromRGBO(228, 228, 228, 1),
-      appBar: AppSearchBar(
-          SettingsManager.mapLanguage["SearchContainer"] != null
+      appBar: AppSearchBar.AppSearchBarNormal(
+          title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]
               : "",
-          ContainerController.users),
-      body: SingleChildScrollView(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //crossAxisAlignment: CrossAxisAlignment.center,
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 100,
-            ),
-            Container(
-              height: 200,
-              width: 200,
-              decoration: BoxDecoration(
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black,
-                    offset: Offset(1.0, 6.0),
-                    blurRadius: 40.0,
-                  ),
-                ],
-                color: Color.fromRGBO(104, 79, 37, 0.8),
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage("assets/user.png"),
+          users: ContainerController.users),
+      body: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 100,
+          ),
+          Container(
+            height: 200,
+            width: 200,
+            decoration: BoxDecoration(
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Colors.black,
+                  offset: Offset(1.0, 6.0),
+                  blurRadius: 40.0,
                 ),
+              ],
+              color: Color.fromRGBO(104, 79, 37, 0.8),
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: AssetImage("assets/user.png"),
               ),
             ),
-            SizedBox(
-              height: 45,
-            ),
-            titleAccount,
-            Container(
-              child: Echarts(
-                captureAllGestures: true,
-                option: '''
-                    {
-                      title: {
-                        subtextStyle: {
-                          align: 'center',
-                        },
-                        text: 'Feelings in the week',
-                      },
-                      xAxis: {
-                        type: 'category',
-                        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                      },
-                      yAxis: {
-                        type: 'value'
-                      },
-                      series: [{
-                        data: $feelingsPoint,
-                        type: 'line'
-                      }]
-                    }
-                  ''',
-              ),
-              width: 300,
-              height: 250,
-            )
-          ],
-        ),
-      )), // This trailing comma makes auto-formatting nicer for build methods.
+          ),
+          SizedBox(
+            height: 45,
+          ),
+          titleAccount,
+          differentView ? AccountInformation() : AccountTrace(),
+        ],
+      ),
+      // This trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex),
     );
   }

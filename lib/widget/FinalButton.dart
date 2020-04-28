@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 class FinalButton extends StatelessWidget {
   final String content;
   final StatefulWidget destination;
-  final _formKey;
+  final formKey;
   final String barContent;
 
-  FinalButton(this.content, this.destination, this._formKey, this.barContent);
+  FinalButton({this.content, this.destination, this.formKey, this.barContent});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class FinalButton extends StatelessWidget {
       color: Color.fromRGBO(104, 79, 37, 0.8),
       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
       onPressed: () {
-        if (this._formKey.currentState.validate()) {
+        if (this.formKey.currentState.validate()) {
           Flushbar(
             icon: Icon(
               Icons.done_outline,

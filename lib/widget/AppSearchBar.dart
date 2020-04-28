@@ -6,11 +6,13 @@ import 'SearchApp.dart';
 class AppSearchBar extends StatefulWidget with PreferredSizeWidget {
   final users;
   final String title;
+  TabController tabController;
 
-  AppSearchBar(this.title, this.users);
+  AppSearchBar.AppSearchBarNormal({this.title, this.users});
 
-  @override
-  _AppSearchBarState createState() => _AppSearchBarState();
+  State<AppSearchBar> createState() {
+      return _AppSearchBarState();
+  }
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);

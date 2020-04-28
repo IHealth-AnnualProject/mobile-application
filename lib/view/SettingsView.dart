@@ -16,16 +16,16 @@ class SettingsView extends State<SettingsPage> {
   bool currentNotification;
   List<bool> isSelected = [true, false];
   List<User> users = [
-    User(0, 'Antoine Daniel', 'Psychologue',1),
-    User(1, 'Theodore Bulfonorio', 'User',1),
-    User(2, 'Estebaille', 'Psychologue',1),
+    User(0, 'Antoine Daniel', 'Psychologue', 1),
+    User(1, 'Theodore Bulfonorio', 'User', 1),
+    User(2, 'Estebaille', 'Psychologue', 1),
   ];
 
-  void _setLanguage()  {
+  void _setLanguage() {
     SettingsManager.setLanguage().then((r) => setState(() {}));
   }
 
-  void instanciateLanguage()  {
+  void instanciateLanguage() {
     SettingsManager.languageStarted().then((r) => setState(() {}));
   }
 
@@ -33,7 +33,7 @@ class SettingsView extends State<SettingsPage> {
   Widget build(BuildContext context) {
     instanciateLanguage();
     currentNotification = SettingsManager.cfg.getBool("pushNotification");
-    if(currentNotification)
+    if (currentNotification)
       isSelected = [true, false];
     else
       isSelected = [false, true];
@@ -61,8 +61,8 @@ class SettingsView extends State<SettingsPage> {
       onPressed: (int index) {
         setState(() {
           for (int buttonIndex = 0;
-          buttonIndex < isSelected.length;
-          buttonIndex++) {
+              buttonIndex < isSelected.length;
+              buttonIndex++) {
             if (buttonIndex == index) {
               isSelected[buttonIndex] = true;
             } else {
@@ -90,11 +90,11 @@ class SettingsView extends State<SettingsPage> {
     );
     return Scaffold(
       backgroundColor: Color.fromRGBO(228, 228, 228, 1),
-      appBar: AppSearchBar(
-          SettingsManager.mapLanguage["SearchContainer"] != null
+      appBar: AppSearchBar.AppSearchBarNormal(
+          title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]
               : "",
-          users),
+          users: users),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,
@@ -138,7 +138,7 @@ class SettingsView extends State<SettingsPage> {
       // Center is a layout widget. It takes a single child and positions it
       // in the middle of the parent.
       // This trailing comma makes auto-formatting nicer for build methods.
-        bottomNavigationBar: BottomNavigationBarFooter(null),
+      bottomNavigationBar: BottomNavigationBarFooter(null),
     );
   }
 }
