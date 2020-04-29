@@ -13,6 +13,7 @@ class _AccountTraceState extends State<AccountTrace> {
   @override
   void initState() {
     super.initState();
+    userProfile = new UserProfile.defaultConstructor();
     userProfile.getUserProfile();
   }
 

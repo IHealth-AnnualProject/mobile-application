@@ -13,26 +13,33 @@ class AccountInformation extends StatefulWidget {
 class _AccountInformationState extends State<AccountInformation> {
   UserProfile userProfile;
   final _formKey = GlobalKey<FormState>();
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
-  final ageController = TextEditingController();
+  TextEditingController firstNameController;
+  TextEditingController lastNameController;
+  TextEditingController ageController;
+  TextEditingController descriptionController;
 
   @override
   void initState() {
     super.initState();
+    userProfile = new UserProfile.defaultConstructor();
     userProfile.getUserProfile();
+    firstNameController = new TextEditingController(text: userProfile.firstName);
+    lastNameController = new TextEditingController(text: userProfile.lastName);
+    ageController = new TextEditingController(text: userProfile.age.toString());
+    descriptionController = new TextEditingController(text: userProfile.description.toString());
   }
 
   TextFormField accountFormField(
-      {dynamic initialValue,
+      {
       TextInputType inputType,
       String labelAndHintText,
-      TextEditingController controller}) {
+      TextEditingController controller,
+      int maxLine}) {
     return TextFormField(
       controller: controller,
       obscureText: false,
+      maxLines: maxLine == null ? 1 : maxLine,
       textAlign: TextAlign.left,
-      initialValue: initialValue,
       validator: (value) {
         if (value.isEmpty) {
           return SettingsManager.mapLanguage["EnterText"] != null
@@ -64,7 +71,8 @@ class _AccountInformationState extends State<AccountInformation> {
           if (userProfile.updateUserProfile(
               firstname: firstNameController.text,
               lastname: lastNameController.text,
-              age: int.parse(ageController.text))) {
+              age: int.parse(ageController.text),
+              description: descriptionController.text)) {
             Flushbar(
               icon: Icon(
                 Icons.done_outline,
@@ -105,7 +113,6 @@ class _AccountInformationState extends State<AccountInformation> {
           children: <Widget>[
             Container(
                 child: accountFormField(
-                    initialValue: userProfile.firstName,
                     labelAndHintText:
                         SettingsManager.mapLanguage["FirstNameText"],
                     inputType: TextInputType.text,
@@ -116,7 +123,6 @@ class _AccountInformationState extends State<AccountInformation> {
             ),
             Container(
                 child: accountFormField(
-                    initialValue: userProfile.lastName,
                     labelAndHintText:
                         SettingsManager.mapLanguage["LastNameText"],
                     inputType: TextInputType.text,
@@ -127,10 +133,19 @@ class _AccountInformationState extends State<AccountInformation> {
             ),
             Container(
                 child: accountFormField(
-                    initialValue: userProfile.age,
                     labelAndHintText: "Age",
                     inputType: TextInputType.number,
                     controller: ageController),
+                width: 350),
+            SizedBox(
+              height: 45,
+            ),
+            Container(
+                child: accountFormField(
+                    labelAndHintText: "Description",
+                    maxLine: 10,
+                    inputType: TextInputType.text,
+                    controller: descriptionController),
                 width: 350),
             SizedBox(
               height: 45,
