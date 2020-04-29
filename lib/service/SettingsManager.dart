@@ -11,7 +11,7 @@ class SettingsManager {
       new LinkedHashMap<String, dynamic>();
   static GlobalConfiguration cfg;
   static FlutterSecureStorage storage;
-  static String currentLanguage, language, feelingsDate;
+  static String currentLanguage, language, feelingsDate, currentToken, currentId;
 
   static Future<Map<String, dynamic>> parseJsonFromAssets(
       String assetsPath) async {
@@ -36,8 +36,8 @@ class SettingsManager {
 
   static Future<void> languageStarted() async {
       cfg = new GlobalConfiguration();
-      await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
       storage = new FlutterSecureStorage();
+      await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
       instanciateProperties().then((r) => loadLanguage('locale/' + currentLanguage.toLowerCase() + '.json'));
   }
 
@@ -59,7 +59,6 @@ class SettingsManager {
   }
 
   static Future<void> loadLanguage(String path) async {
-    await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
     mapLanguage = await parseJsonFromAssets(path);
   }
 
