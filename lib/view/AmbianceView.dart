@@ -3,10 +3,17 @@ import 'package:betsbi/controller/ContainerController.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
-import 'package:betsbi/widget/MusicPlayerFlush.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:global_configuration/global_configuration.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SettingsManager.languageStarted().then((r) => GlobalConfiguration()
+      .loadFromPath("assets/cfg/settings.json")
+      .then((r) => runApp(MaterialApp(home: AmbiancePage()))));
+}
 
 class AmbiancePage extends StatefulWidget {
   AmbiancePage({Key key}) : super(key: key);
@@ -17,13 +24,8 @@ class AmbiancePage extends StatefulWidget {
 
 class AmbianceView extends State<AmbiancePage> {
   AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
-  MusicPlayerFlush flush;
-  bool musicOn;
 
-
-  //MusicPlayer musicPlayer;
-
-  void instanciateLanguage()  {
+  void instanciateLanguage() {
     SettingsManager.languageStarted().then((r) => setState(() {}));
   }
 
@@ -32,42 +34,43 @@ class AmbianceView extends State<AmbiancePage> {
     super.initState();
   }
 
+  Flushbar flushbar() {
+    return Flushbar(
+      isDismissible: false,
+      title: "this.widget.name",
+      message: "prout",
+      flushbarStyle: FlushbarStyle.GROUNDED,
+      flushbarPosition: FlushbarPosition.BOTTOM,
+      icon: Icon(
+        Icons.music_note,
+        color: Colors.white,
+      ),
+      onStatusChanged: (FlushbarStatus status) {
+        if (status == FlushbarStatus.SHOWING) {
+          assetsAudioPlayer.open(Audio("assets/audio/song1.mp3"));
+        }
+        if (status == FlushbarStatus.DISMISSED) {
+          assetsAudioPlayer.stop();
+        }
+      },
+      mainButton: FlatButton(
+        child: Icon(
+          assetsAudioPlayer.isPlaying.value ? Icons.play_arrow : Icons.stop,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          assetsAudioPlayer.playOrPause();
+          setState(() {
+
+          });
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     instanciateLanguage();
-    musicOn = assetsAudioPlayer.isPlaying.value;
-    final buttonMusic = RaisedButton(
-        onPressed: () => Flushbar(
-          isDismissible: true,
-          title: "this.widget.name",
-          message: "prout",
-          flushbarStyle: FlushbarStyle.GROUNDED,
-          icon: Icon(
-            Icons.music_note,
-            color: Colors.white,
-          ),
-          onStatusChanged: (FlushbarStatus status) {
-            if (status == FlushbarStatus.SHOWING) {
-              assetsAudioPlayer.open(Audio("assets/audio/song1.mp3"));
-            }
-            if (status == FlushbarStatus.DISMISSED) {
-              assetsAudioPlayer.stop();
-            }
-          },
-          mainButton: FlatButton(
-            child: Icon(
-              musicOn ? Icons.play_arrow : Icons.stop,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              assetsAudioPlayer.playOrPause();
-              setState(() {
-              });
-            },
-          ),
-        )..show(context)
-
-    );
     final titleAccount = Text(
       SettingsManager.mapLanguage["RelaxingMusic"] != null
           ? SettingsManager.mapLanguage["RelaxingMusic"]
@@ -81,10 +84,10 @@ class AmbianceView extends State<AmbiancePage> {
     return Scaffold(
       backgroundColor: Color.fromRGBO(228, 228, 228, 1),
       appBar: AppSearchBar.AppSearchBarNormal(
-        title: SettingsManager.mapLanguage["SearchContainer"] != null
-          ? SettingsManager.mapLanguage["SearchContainer"]
-        : "",
-        users: ContainerController.users),
+          title: SettingsManager.mapLanguage["SearchContainer"] != null
+              ? SettingsManager.mapLanguage["SearchContainer"]
+              : "",
+          users: ContainerController.users),
       body: SingleChildScrollView(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
@@ -108,10 +111,10 @@ class AmbianceView extends State<AmbiancePage> {
               height: 45,
             ),
             titleAccount,
-            buttonMusic,
+            flushbar()
           ],
         ),
-      )), // This trailing comma makes auto-formatting nicer for build methods.
+      )), // Th
       bottomNavigationBar: BottomNavigationBarFooter(null),
     );
   }

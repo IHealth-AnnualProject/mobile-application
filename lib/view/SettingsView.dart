@@ -1,3 +1,4 @@
+import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/model/user.dart';
@@ -44,6 +45,26 @@ class SettingsView extends State<SettingsPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    RaisedButton disconnectButton() {
+      return RaisedButton(
+        elevation: 8,
+        shape: StadiumBorder(),
+        color: Color.fromRGBO(104, 79, 37, 0.8),
+        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () {
+          SettingsController.disconnect(context);
+        },
+        child: Text(
+          SettingsManager.mapLanguage["Logout"] != null
+              ? SettingsManager.mapLanguage["Logout"]
+              : "",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Color.fromRGBO(255, 255, 255, 100),
+              fontWeight: FontWeight.bold),
+        ),
+      );
+    }
     final statusPushNotification = ToggleButtons(
       color: Colors.white,
       fillColor: Colors.blue,
@@ -133,6 +154,7 @@ class SettingsView extends State<SettingsPage> {
               statusPushNotification
             ],
           ),
+          disconnectButton(),
         ],
       ),
       // Center is a layout widget. It takes a single child and positions it

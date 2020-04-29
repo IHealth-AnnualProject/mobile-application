@@ -1,24 +1,14 @@
 import 'package:betsbi/controller/LoginController.dart';
-import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/widget/ForgotPassword.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:global_configuration/global_configuration.dart';
 
 import 'RegisterView.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SettingsManager.languageStarted().then((r) =>
-      TokenController.checkTokenValidity().then((tokenValid) => tokenValid
-          ? GlobalConfiguration()
-              .loadFromPath("assets/cfg/settings.json")
-              .then((r) => LoginController.redirectionLogin())
-          : GlobalConfiguration()
-              .loadFromPath("assets/cfg/settings.json")
-              .then((r) => runApp(MaterialApp(home: LoginPage())))));
 }
 
 class LoginPage extends StatefulWidget {
@@ -38,14 +28,10 @@ class LoginView extends State<LoginPage> {
     SettingsManager.setLanguage().then((r) => setState(() {}));
   }
 
-  void instanciateLanguage() {
-    SettingsManager.languageStarted()
-        .then((r) => setState(() {}))
-        .whenComplete(() => setState(() {}));
-  }
 
   @override
   Widget build(BuildContext context) {
+
     RaisedButton loginButton() {
       return RaisedButton(
         elevation: 8,
@@ -65,7 +51,13 @@ class LoginView extends State<LoginPage> {
                   SettingsManager.mapLanguage["ConnectSent"] != null
                       ? SettingsManager.mapLanguage["ConnectSent"]
                       : "")
-                ..show(context).then((r) => LoginController.redirectionLogin());
+                ..show(context).then((r) => Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              LoginController.redirectionLogin()),
+                      ModalRoute.withName('/'),
+                    ));
             else
               loginFlushBar(
                       Icon(

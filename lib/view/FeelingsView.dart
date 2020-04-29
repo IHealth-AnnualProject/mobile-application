@@ -12,13 +12,8 @@ class FeelingsPage extends StatefulWidget {
 }
 
 class FeelingsView extends State<FeelingsPage> {
-  void instanciateLanguage() {
-    SettingsManager.languageStarted().then((r) => setState(() {}));
-  }
-
   @override
   Widget build(BuildContext context) {
-    instanciateLanguage();
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.

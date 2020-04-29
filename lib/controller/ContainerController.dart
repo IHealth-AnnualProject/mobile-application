@@ -2,7 +2,6 @@ import 'package:betsbi/model/user.dart';
 
 class ContainerController{
   static bool oneFlushBar = false;
-  static bool musicOn = false;
 
   static List<User> users = [
     User(0, 'Antoine Daniel', 'Psychologue',1),

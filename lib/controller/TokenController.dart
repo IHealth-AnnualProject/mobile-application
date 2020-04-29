@@ -10,6 +10,9 @@ class TokenController{
     await SettingsManager.storage.read(key: "token").then((token) =>
       SettingsManager.currentToken = token
     );
+    await SettingsManager.storage.read(key: "userId").then((id) =>
+      SettingsManager.currentId = id
+    );
     if (SettingsManager.currentToken != null) {
       try {
         final http.Response response = await http.get(

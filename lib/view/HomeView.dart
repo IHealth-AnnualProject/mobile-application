@@ -14,9 +14,6 @@ import 'SettingsView.dart';
 
 main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-    home: HomePage(),
-  ));
 }
 
 class HomePage extends StatefulWidget {
@@ -35,9 +32,6 @@ class HomeView extends State<HomePage> {
     User(2, 'Estebaille', 'Psychologue', 1),
   ];
 
-  void instanciateLanguage() {
-    SettingsManager.languageStarted().then((r) => setState(() {}));
-  }
 
   @override
   void initState() {
@@ -46,7 +40,6 @@ class HomeView extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    instanciateLanguage();
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.

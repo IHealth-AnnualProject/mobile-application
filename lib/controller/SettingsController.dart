@@ -1,0 +1,17 @@
+import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/view/LoginView.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+class SettingsController {
+  static void disconnect(BuildContext context) {
+    SettingsManager.currentToken = "";
+    SettingsManager.storage
+        .write(key: "token", value: "")
+        .then((r) => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+              ModalRoute.withName('/'),
+            ));
+  }
+}
