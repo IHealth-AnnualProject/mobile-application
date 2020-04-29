@@ -9,7 +9,6 @@ class AccountController {
   static Future<UserProfile> getCurrentUserInformation() async {
     if (SettingsManager.currentToken != null &&
         SettingsManager.currentToken != "") {
-      print(SettingsManager.currentId);
       final http.Response response = await http.get(
         SettingsManager.cfg.getString("apiUrl") +
             'userProfile/' +
@@ -31,7 +30,6 @@ class AccountController {
   static Future<Psychologist> getCurrentPsyInformation() async {
     if (SettingsManager.currentToken != null &&
         SettingsManager.currentToken != "") {
-      print(SettingsManager.currentId);
       final http.Response response = await http.get(
         SettingsManager.cfg.getString("apiUrl") +
             'psychologist/' +
@@ -63,11 +61,10 @@ class AccountController {
           "first_name": firstname,
           "last_name": lastname,
           "age": age,
-          "geolocation": null,
           "description": description
         }),
       );
-      print(response.body + "-" + response.statusCode.toString());
+      print(response.statusCode.toString());
       if (response.statusCode == 204) {
         return true;
       } else

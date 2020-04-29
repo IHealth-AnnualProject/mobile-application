@@ -21,11 +21,12 @@ class MainState extends State<Main> {
   Widget destination;
 
   Future<Widget> findRedirection() async {
-    SettingsManager.languageStarted().then((r) =>
-        TokenController.checkTokenValidity().then((tokenValid) => tokenValid
-            ?  destination = LoginController.redirectionLogin()
-            :  destination = LoginPage()));
-    return  destination;
+    SettingsManager.languageStarted().then((r) {
+      TokenController.checkTokenValidity().then((tokenValid) => tokenValid
+          ? destination = LoginController.redirectionLogin()
+          : destination = LoginPage());
+    });
+    return destination;
   }
 
   @override
@@ -37,21 +38,20 @@ class MainState extends State<Main> {
       builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
         if (!snapshot.hasData) {
           return Center(
-            child : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 150,
-                  child: Image.asset(
-                    "assets/logo.png",
-                    fit: BoxFit.contain,
-                  ),
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: 150,
+                child: Image.asset(
+                  "assets/logo.png",
+                  fit: BoxFit.contain,
                 ),
-                Text("Welcome to BetsBi"),
-                CircularProgressIndicator(),
-              ],
-            )
-          );
+              ),
+              Text("Welcome to BetsBi"),
+              CircularProgressIndicator(),
+            ],
+          ));
         } else {
           // data loaded:
           return destination;

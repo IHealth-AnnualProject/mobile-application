@@ -11,27 +11,36 @@ class AccountInformation extends StatefulWidget {
 }
 
 class _AccountInformationState extends State<AccountInformation> {
-  UserProfile userProfile;
+  UserProfile userProfile = new UserProfile.defaultConstructor();
   final _formKey = GlobalKey<FormState>();
   TextEditingController firstNameController;
   TextEditingController lastNameController;
   TextEditingController ageController;
   TextEditingController descriptionController;
+  bool isEntered = false;
 
   @override
   void initState() {
     super.initState();
-    userProfile = new UserProfile.defaultConstructor();
-    userProfile.getUserProfile();
-    firstNameController = new TextEditingController(text: userProfile.firstName);
-    lastNameController = new TextEditingController(text: userProfile.lastName);
-    ageController = new TextEditingController(text: userProfile.age.toString());
-    descriptionController = new TextEditingController(text: userProfile.description.toString());
+  }
+
+  void userInformation() async {
+    await userProfile.getUserProfile();
+    setState(() {
+      firstNameController = new TextEditingController()
+        ..text = userProfile.firstName;
+      lastNameController = new TextEditingController()
+        ..text = userProfile.lastName;
+      ageController = new TextEditingController()
+        ..text = userProfile.age.toString();
+      descriptionController = new TextEditingController()
+        ..text = userProfile.description;
+    });
+    isEntered = true;
   }
 
   TextFormField accountFormField(
-      {
-      TextInputType inputType,
+      {TextInputType inputType,
       String labelAndHintText,
       TextEditingController controller,
       int maxLine}) {
@@ -107,6 +116,8 @@ class _AccountInformationState extends State<AccountInformation> {
 
   @override
   Widget build(BuildContext context) {
+    if(!isEntered)
+      userInformation();
     return Form(
         key: _formKey,
         child: Column(
@@ -136,7 +147,7 @@ class _AccountInformationState extends State<AccountInformation> {
                     labelAndHintText: "Age",
                     inputType: TextInputType.number,
                     controller: ageController),
-                width: 350),
+                width: 100),
             SizedBox(
               height: 45,
             ),

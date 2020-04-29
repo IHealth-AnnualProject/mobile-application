@@ -1,4 +1,5 @@
 import 'package:betsbi/controller/ContainerController.dart';
+import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/widget/AccountInformation.dart';
 import 'package:betsbi/widget/AccountTrace.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
@@ -18,23 +19,26 @@ class AccountPage extends StatefulWidget {
 class AccountView extends State<AccountPage> with TickerProviderStateMixin {
   int _selectedBottomIndex = 1;
   User user = new User(0, 'Antoine Daniel', 'Psychologue', 1);
-  TabController _tabController;
   bool differentView = true;
+  UserProfile userProfile = new UserProfile.defaultConstructor();
 
-  void instanciateLanguage() {
-    SettingsManager.languageStarted().then((r) => setState(() {}));
-  }
+
+
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
+  }
+
+  void userInformation() async {
+    await userProfile.getUserProfile();
+    setState(() {
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    instanciateLanguage();
-    _tabController = new TabController(length: 2, vsync: this, initialIndex: 1);
+    userInformation();
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -44,7 +48,7 @@ class AccountView extends State<AccountPage> with TickerProviderStateMixin {
     // than having to individually change instances of widgets.
 
     final titleAccount = Text(
-      user.name + " lv." + user.level.toString(),
+      userProfile.username + " lv." + user.level.toString(),
       textAlign: TextAlign.center,
       style: TextStyle(
           color: Color.fromRGBO(104, 79, 37, 0.8),

@@ -1,4 +1,3 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,7 @@ import 'package:flutter/material.dart';
 class MusicPlayerFlush extends StatefulWidget {
   final String path;
   final String name;
-  final AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
+  //final AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
 
 
   MusicPlayerFlush({this.path, this.name});
@@ -22,7 +21,7 @@ class _MusicPlayerFlushState extends State<MusicPlayerFlush> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    musicOn = this.widget.assetsAudioPlayer.isPlaying.value;
+    //musicOn = this.widget.assetsAudioPlayer.isPlaying.value;
     return Flushbar(
       isDismissible: true,
       title: this.widget.name,
@@ -34,10 +33,10 @@ class _MusicPlayerFlushState extends State<MusicPlayerFlush> {
       ),
       onStatusChanged: (FlushbarStatus status) {
         if (status == FlushbarStatus.SHOWING) {
-          this.widget.assetsAudioPlayer.open(Audio(this.widget.path));
+          //this.widget.assetsAudioPlayer.open(Audio(this.widget.path));
         }
         if (status == FlushbarStatus.DISMISSED) {
-          this.widget.assetsAudioPlayer.stop();
+          //this.widget.assetsAudioPlayer.stop();
         }
       },
       mainButton: FlatButton(
@@ -46,7 +45,7 @@ class _MusicPlayerFlushState extends State<MusicPlayerFlush> {
           color: Colors.white,
         ),
         onPressed: () {
-          this.widget.assetsAudioPlayer.playOrPause();
+          //this.widget.assetsAudioPlayer.playOrPause();
           setState(() {
           });
         },

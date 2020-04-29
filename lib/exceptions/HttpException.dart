@@ -9,4 +9,12 @@ class HttpException implements Exception {
     print(cause);
     runApp(MaterialApp(home: LoginPage()));
   }
+
+  HttpException.ServorError(int errorCode){
+    print("Internal Server Error : Error Code :" + errorCode.toString());
+  }
+
+  HttpException.RequestError(int errorCode){
+    print("Request Error : Error Code :" + errorCode.toString());
+  }
 }

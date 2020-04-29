@@ -1,9 +1,7 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:betsbi/controller/ContainerController.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:global_configuration/global_configuration.dart';
@@ -23,7 +21,7 @@ class AmbiancePage extends StatefulWidget {
 }
 
 class AmbianceView extends State<AmbiancePage> {
-  AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
+  //AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
 
   void instanciateLanguage() {
     SettingsManager.languageStarted().then((r) => setState(() {}));
@@ -34,7 +32,7 @@ class AmbianceView extends State<AmbiancePage> {
     super.initState();
   }
 
-  Flushbar flushbar() {
+  /*Flushbar flushbar() {
     return Flushbar(
       isDismissible: false,
       title: "this.widget.name",
@@ -66,7 +64,7 @@ class AmbianceView extends State<AmbiancePage> {
         },
       ),
     );
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +109,7 @@ class AmbianceView extends State<AmbiancePage> {
               height: 45,
             ),
             titleAccount,
-            flushbar()
+            //flushbar()
           ],
         ),
       )), // Th
