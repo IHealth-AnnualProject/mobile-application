@@ -1,37 +1,38 @@
 import 'package:betsbi/model/userProfile.dart';
-import 'package:betsbi/widget/AccountInformation.dart';
-import 'package:betsbi/widget/AccountTrace.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AccountPage extends StatefulWidget {
-  AccountPage({Key key}) : super(key: key);
+class OtherAccountPage extends StatefulWidget {
+  final UserProfile otherUserProfile;
+
+  OtherAccountPage({Key key, @required this.otherUserProfile}) : super(key: key);
 
   @override
-  AccountView createState() => AccountView();
+  _OtherAccountView createState() => _OtherAccountView();
 }
 
-class AccountView extends State<AccountPage> {
-  int _selectedBottomIndex = 1;
-  bool differentView = true;
-  UserProfile userProfile = new UserProfile.defaultConstructor();
+class _OtherAccountView extends State<OtherAccountPage>  {
 
   @override
   void dispose() {
     super.dispose();
   }
 
-  void userInformation() async {
-    await userProfile.getUserProfile();
-    setState(() {});
+  TextField textFieldInformation({String label, int maxLine}) {
+    return TextField(
+      readOnly: true,
+      maxLines: maxLine != null ? maxLine : 1,
+      decoration: InputDecoration(
+        labelText: label,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    userInformation();
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -41,7 +42,7 @@ class AccountView extends State<AccountPage> {
     // than having to individually change instances of widgets.
 
     final titleAccount = Text(
-      userProfile.username + " lv.1",
+      this.widget.otherUserProfile.username + " lv.1",
       textAlign: TextAlign.center,
       style: TextStyle(
           color: Color.fromRGBO(104, 79, 37, 0.8),
@@ -59,18 +60,6 @@ class AccountView extends State<AccountPage> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: changeStateButton(
-                          id: 1, buttonContent: "Information")),
-                  Container(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: changeStateButton(id: 2, buttonContent: "Trace")),
-                ],
-              ),
               Container(
                 height: 200,
                 width: 200,
@@ -93,42 +82,32 @@ class AccountView extends State<AccountPage> {
                 height: 45,
               ),
               titleAccount,
-              differentView ? AccountInformation() : AccountTrace(),
+              Container(
+                  child: textFieldInformation(label: this.widget.otherUserProfile.firstName),
+                  width: 350),
+              SizedBox(
+                height: 45,
+              ),
+              Container(
+                  child: textFieldInformation(label: this.widget.otherUserProfile.lastName),
+                  width: 350),
+              SizedBox(
+                height: 45,
+              ),
+              Container(
+                  child: textFieldInformation(label: this.widget.otherUserProfile.age),
+                  width: 100),
+              SizedBox(
+                height: 45,
+              ),
+              Container(
+                  child: textFieldInformation(label: this.widget.otherUserProfile.description, maxLine: 10),
+                  width: 350),
             ],
           ),
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex),
-    );
-  }
-
-  RaisedButton changeStateButton({int id, String buttonContent}) {
-    return RaisedButton(
-      elevation: 8,
-      shape: StadiumBorder(),
-      color: Color.fromRGBO(104, 79, 37, 0.8),
-      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-      onPressed: () {
-        switch (id) {
-          case 1:
-            setState(() {
-              differentView = true;
-            });
-            break;
-          case 2:
-            setState(() {
-              differentView = false;
-            });
-            break;
-        }
-      },
-      child: Text(
-        buttonContent,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            color: Color.fromRGBO(255, 255, 255, 100),
-            fontWeight: FontWeight.bold),
-      ),
+      bottomNavigationBar: BottomNavigationBarFooter(null),
     );
   }
 }

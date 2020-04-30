@@ -1,6 +1,7 @@
 import 'package:betsbi/controller/SearchBarController.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/view/OtherAccountView.dart';
 import 'package:flutter/material.dart';
 import 'package:async/async.dart';
 
@@ -82,12 +83,13 @@ class DataSearch extends SearchDelegate<String> {
           return ListView.builder(
             itemBuilder: (context, index) => ListTile(
               onTap: () {
-                /* Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Detail(listWordsDetail: suggestionList[index]),
-          ),
-        ); */
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OtherAccountPage(
+                        otherUserProfile: suggestionList[index]),
+                  ),
+                );
               },
               trailing: Icon(Icons.account_box),
               title: RichText(

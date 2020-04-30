@@ -7,6 +7,7 @@ class UserProfile {
   String description;
   String username;
   bool isPsy;
+  String userProfileId;
 
   UserProfile.normalConstructor(
       {this.firstName,
@@ -14,7 +15,8 @@ class UserProfile {
       this.age,
       this.description,
       this.username,
-      this.isPsy});
+      this.isPsy,
+      this.userProfileId});
 
   UserProfile.defaultConstructor(
       {this.firstName = "",
@@ -30,7 +32,8 @@ class UserProfile {
         age: json['age'],
         description: json['description'],
         username: json['user']['username'],
-        isPsy: json['user']['isPsy']);
+        isPsy: json['user']['isPsy'],
+        userProfileId : json['user']['id']);
   }
 
   void getUserProfile() async {

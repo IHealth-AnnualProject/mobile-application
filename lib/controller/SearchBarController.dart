@@ -16,6 +16,7 @@ class SearchBarController{
         var users = new List<UserProfile>();
         Iterable list = json.decode(response.body);
         users = list.map((model) => UserProfile.fromJson(model)).toList();
+        users.removeWhere((user) => user.userProfileId == SettingsManager.currentId);
         if (response.statusCode == 200) {
           return users;
         } else
