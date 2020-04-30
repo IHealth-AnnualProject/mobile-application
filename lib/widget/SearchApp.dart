@@ -1,16 +1,28 @@
-import 'package:betsbi/model/user.dart';
+import 'package:betsbi/controller/SearchBarController.dart';
+import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/material.dart';
+import 'package:async/async.dart';
 
 class DataSearch extends SearchDelegate<String> {
-  final List<User> users;
+  List<UserProfile> userProfiles;
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
 
-  DataSearch(this.users);
+  DataSearch();
+
+  findUsers() {
+    return this._memoizer.runOnce(() async {
+      userProfiles = new List<UserProfile>();
+      userProfiles = await SearchBarController.getAllUserProfile();
+      return userProfiles;
+    });
+  }
 
   @override
-  String get searchFieldLabel => SettingsManager.mapLanguage["SearchContainer"] != null
-      ? SettingsManager.mapLanguage["SearchContainer"]
-      : "";
+  String get searchFieldLabel =>
+      SettingsManager.mapLanguage["SearchContainer"] != null
+          ? SettingsManager.mapLanguage["SearchContainer"]
+          : "";
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -40,12 +52,12 @@ class DataSearch extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     // show some result based on the selection
-    final suggestionList = users;
-
+    // data loaded:
+    final suggestionList = userProfiles;
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
-        title: Text(users[index].name),
-        subtitle: Text(users[index].type),
+        title: Text(userProfiles[index].username),
+        //subtitle: Text(userProfiles[index].type),
       ),
       itemCount: suggestionList.length,
     );
@@ -54,36 +66,50 @@ class DataSearch extends SearchDelegate<String> {
   @override
   Widget buildSuggestions(BuildContext context) {
     // show when someone searches for something
-
-    final suggestionList = query.isEmpty
-        ? users
-        : users
-            .where((p) => p.name.contains(RegExp(query, caseSensitive: false)))
-            .toList();
-
-    return ListView.builder(
-      itemBuilder: (context, index) => ListTile(
-        onTap: () {
-          /* Navigator.push(
+    return FutureBuilder(
+      future: findUsers(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else {
+          // data loaded:
+          final suggestionList = query.isEmpty
+              ? userProfiles
+              : userProfiles
+                  .where((p) =>
+                      p.username.contains(RegExp(query, caseSensitive: false)))
+                  .toList();
+          return ListView.builder(
+            itemBuilder: (context, index) => ListTile(
+              onTap: () {
+                /* Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => Detail(listWordsDetail: suggestionList[index]),
           ),
         ); */
-        },
-        trailing: Icon(Icons.account_box),
-        title: RichText(
-          text: TextSpan(
-              text: suggestionList[index].name.substring(0, query.length),
-              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-              children: [
-                TextSpan(
-                    text: suggestionList[index].name.substring(query.length),
-                    style: TextStyle(color: Colors.grey)),
-              ]),
-        ),
-      ),
-      itemCount: suggestionList.length,
+              },
+              trailing: Icon(Icons.account_box),
+              title: RichText(
+                text: TextSpan(
+                    text: suggestionList[index]
+                        .username
+                        .substring(0, query.length),
+                    style: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.bold),
+                    children: [
+                      TextSpan(
+                          text: suggestionList[index]
+                              .username
+                              .substring(query.length),
+                          style: TextStyle(color: Colors.grey)),
+                    ]),
+              ),
+            ),
+            itemCount: suggestionList.length,
+          );
+        }
+      },
     );
   }
 }

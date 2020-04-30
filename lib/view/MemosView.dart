@@ -1,4 +1,3 @@
-import 'package:betsbi/controller/ContainerController.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -43,8 +42,7 @@ class MemosView extends State<MemosPage> {
       appBar: AppSearchBar.AppSearchBarNormal(
           title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]
-              : "",
-          users: ContainerController.users),
+              : ""),
       body: SingleChildScrollView(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.

@@ -1,10 +1,8 @@
-import 'package:betsbi/controller/ContainerController.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/widget/AccountInformation.dart';
 import 'package:betsbi/widget/AccountTrace.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
-import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +16,8 @@ class AccountPage extends StatefulWidget {
 
 class AccountView extends State<AccountPage> with TickerProviderStateMixin {
   int _selectedBottomIndex = 1;
-  User user = new User(0, 'Antoine Daniel', 'Psychologue', 1);
   bool differentView = true;
   UserProfile userProfile = new UserProfile.defaultConstructor();
-
-
-
 
   @override
   void dispose() {
@@ -32,8 +26,7 @@ class AccountView extends State<AccountPage> with TickerProviderStateMixin {
 
   void userInformation() async {
     await userProfile.getUserProfile();
-    setState(() {
-    });
+    setState(() {});
   }
 
   @override
@@ -48,7 +41,7 @@ class AccountView extends State<AccountPage> with TickerProviderStateMixin {
     // than having to individually change instances of widgets.
 
     final titleAccount = Text(
-      userProfile.username + " lv." + user.level.toString(),
+      userProfile.username + " lv.1",
       textAlign: TextAlign.center,
       style: TextStyle(
           color: Color.fromRGBO(104, 79, 37, 0.8),
@@ -58,10 +51,10 @@ class AccountView extends State<AccountPage> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: Color.fromRGBO(228, 228, 228, 1),
       appBar: AppSearchBar.AppSearchBarNormal(
-          title: SettingsManager.mapLanguage["SearchContainer"] != null
-              ? SettingsManager.mapLanguage["SearchContainer"]
-              : "",
-          users: ContainerController.users),
+        title: SettingsManager.mapLanguage["SearchContainer"] != null
+            ? SettingsManager.mapLanguage["SearchContainer"]
+            : "",
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -69,8 +62,13 @@ class AccountView extends State<AccountPage> with TickerProviderStateMixin {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Container(width: MediaQuery.of(context).size.width / 2,child :changeStateButton(id :1, buttonContent : "Information")),
-                  Container(width: MediaQuery.of(context).size.width / 2,child :changeStateButton(id :2, buttonContent : "Trace")),
+                  Container(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: changeStateButton(
+                          id: 1, buttonContent: "Information")),
+                  Container(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: changeStateButton(id: 2, buttonContent: "Trace")),
                 ],
               ),
               Container(
@@ -104,26 +102,25 @@ class AccountView extends State<AccountPage> with TickerProviderStateMixin {
     );
   }
 
-  RaisedButton changeStateButton(
-      {int id,String buttonContent}) {
+  RaisedButton changeStateButton({int id, String buttonContent}) {
     return RaisedButton(
       elevation: 8,
       shape: StadiumBorder(),
       color: Color.fromRGBO(104, 79, 37, 0.8),
       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
       onPressed: () {
-          switch(id){
-            case 1 :
-              setState(() {
-                differentView = true;
-              });
-              break;
-            case 2 :
-              setState(() {
-                differentView = false;
-              });
-              break;
-          }
+        switch (id) {
+          case 1:
+            setState(() {
+              differentView = true;
+            });
+            break;
+          case 2:
+            setState(() {
+              differentView = false;
+            });
+            break;
+        }
       },
       child: Text(
         buttonContent,

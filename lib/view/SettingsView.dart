@@ -1,7 +1,6 @@
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
-import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +15,6 @@ class SettingsPage extends StatefulWidget {
 class SettingsView extends State<SettingsPage> {
   bool currentNotification;
   List<bool> isSelected = [true, false];
-  List<User> users = [
-    User(0, 'Antoine Daniel', 'Psychologue', 1),
-    User(1, 'Theodore Bulfonorio', 'User', 1),
-    User(2, 'Estebaille', 'Psychologue', 1),
-  ];
 
   void _setLanguage() {
     SettingsManager.setLanguage().then((r) => setState(() {}));
@@ -114,8 +108,7 @@ class SettingsView extends State<SettingsPage> {
       appBar: AppSearchBar.AppSearchBarNormal(
           title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]
-              : "",
-          users: users),
+              : ""),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,

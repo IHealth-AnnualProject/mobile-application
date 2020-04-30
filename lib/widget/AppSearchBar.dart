@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'SearchApp.dart';
 
 class AppSearchBar extends StatefulWidget with PreferredSizeWidget {
-  final users;
   final String title;
   TabController tabController;
 
-  AppSearchBar.AppSearchBarNormal({this.title, this.users});
+  AppSearchBar.AppSearchBarNormal({this.title});
 
   State<AppSearchBar> createState() {
       return _AppSearchBarState();
@@ -29,7 +28,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
             icon: Icon(Icons.search),
             onPressed: () {
               showSearch(
-                  context: context, delegate: DataSearch(this.widget.users));
+                  context: context, delegate: DataSearch());
             }),
       ],
     );

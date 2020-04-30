@@ -6,9 +6,15 @@ class UserProfile {
   String age;
   String description;
   String username;
+  bool isPsy;
 
   UserProfile.normalConstructor(
-      {this.firstName, this.lastName, this.age, this.description, this.username});
+      {this.firstName,
+      this.lastName,
+      this.age,
+      this.description,
+      this.username,
+      this.isPsy});
 
   UserProfile.defaultConstructor(
       {this.firstName = "",
@@ -19,22 +25,22 @@ class UserProfile {
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile.normalConstructor(
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      age: json['age'],
-      description: json['description'],
-      username: json['user']['username']
-    );
+        firstName: json['first_name'],
+        lastName: json['last_name'],
+        age: json['age'],
+        description: json['description'],
+        username: json['user']['username'],
+        isPsy: json['user']['isPsy']);
   }
 
   void getUserProfile() async {
-   await AccountController.getCurrentUserInformation()
+    await AccountController.getCurrentUserInformation()
         .then((userProfileResult) {
-          this.firstName = userProfileResult.firstName;
-          this.lastName = userProfileResult.lastName;
-          this.age = userProfileResult.age;
-          this.description = userProfileResult.description;
-          this.username = userProfileResult.username;
+      this.firstName = userProfileResult.firstName;
+      this.lastName = userProfileResult.lastName;
+      this.age = userProfileResult.age;
+      this.description = userProfileResult.description;
+      this.username = userProfileResult.username;
     });
   }
 

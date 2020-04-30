@@ -26,13 +26,6 @@ class HomePage extends StatefulWidget {
 class HomeView extends State<HomePage> {
   int _selectedBottomIndex = 0;
 
-  List<User> users = [
-    User(0, 'Antoine Daniel', 'Psychologue', 1),
-    User(1, 'Theodore Bulfonorio', 'User', 1),
-    User(2, 'Estebaille', 'Psychologue', 1),
-  ];
-
-
   @override
   void initState() {
     super.initState();
@@ -131,8 +124,7 @@ class HomeView extends State<HomePage> {
       appBar: AppSearchBar.AppSearchBarNormal(
           title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]
-              : "",
-          users: users),
+              : ""),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.

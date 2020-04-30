@@ -1,7 +1,6 @@
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/FinalButton.dart';
-import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,11 +16,6 @@ class MemosCreatePage extends StatefulWidget {
 
 class MemosCreateView extends State<MemosCreatePage> {
   final _formKey = GlobalKey<FormState>();
-  List<User> users = [
-    User(0, 'Antoine Daniel', 'Psychologue', 1),
-    User(1, 'Theodore Bulfonorio', 'User', 1),
-    User(2, 'Estebaille', 'Psychologue', 1),
-  ];
 
   void instanciateLanguage() {
     SettingsManager.languageStarted().then((r) => setState(() {}));
@@ -97,8 +91,7 @@ class MemosCreateView extends State<MemosCreatePage> {
       appBar: AppSearchBar.AppSearchBarNormal(
           title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]
-              : "",
-          users: users),
+              : ""),
       body: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
