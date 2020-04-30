@@ -11,7 +11,7 @@ class SettingsManager {
       new LinkedHashMap<String, dynamic>();
   static GlobalConfiguration cfg;
   static FlutterSecureStorage storage;
-  static String currentLanguage, language, feelingsDate, currentToken, currentId;
+  static String currentLanguage, language, feelingsDate, currentToken, currentId, currentProfileId;
 
   static Future<Map<String, dynamic>> parseJsonFromAssets(
       String assetsPath) async {

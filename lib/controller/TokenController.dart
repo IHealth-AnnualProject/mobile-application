@@ -3,16 +3,17 @@ import 'package:betsbi/exceptions/HttpException.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:http/http.dart' as http;
 
-class TokenController{
-
-
+class TokenController {
   static Future<bool> checkTokenValidity() async {
-    await SettingsManager.storage.read(key: "token").then((token) =>
-      SettingsManager.currentToken = token
-    );
-    await SettingsManager.storage.read(key: "userId").then((id) =>
-      SettingsManager.currentId = id
-    );
+    await SettingsManager.storage
+        .read(key: "token")
+        .then((token) => SettingsManager.currentToken = token);
+    await SettingsManager.storage
+        .read(key: "userId")
+        .then((id) => SettingsManager.currentId = id);
+    await SettingsManager.storage
+        .read(key: "profileId")
+        .then((profileID) => SettingsManager.currentProfileId = profileID);
     if (SettingsManager.currentToken != null) {
       try {
         final http.Response response = await http.get(
@@ -26,13 +27,10 @@ class TokenController{
           return true;
         } else
           return false;
-      }
-      catch(e)
-    {
+      } catch (e) {
         throw new HttpException("Error API Connection");
-    }
-  }
-    else
+      }
+    } else
       return false;
   }
 

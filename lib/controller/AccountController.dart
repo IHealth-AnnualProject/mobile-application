@@ -48,6 +48,7 @@ class AccountController {
       return Psychologist.defaultConstructor();
   }
 
+
   static Future<bool> updateCurrentUserInformation(
       {String firstname, String lastname, int age, String geolocation, String description}) async {
     if (SettingsManager.currentToken != null) {
@@ -72,4 +73,6 @@ class AccountController {
     } else
       return false;
   }
+
+
 }

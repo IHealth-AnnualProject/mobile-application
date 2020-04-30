@@ -65,13 +65,12 @@ class AccountView extends State<AccountPage> with TickerProviderStateMixin {
       body: Center(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Container(width: 150,child :changeStateButton(id :1, buttonContent : "Information")),
-                  Container(width: 150,child :changeStateButton(id :2, buttonContent : "Trace")),
+                  Container(width: MediaQuery.of(context).size.width / 2,child :changeStateButton(id :1, buttonContent : "Information")),
+                  Container(width: MediaQuery.of(context).size.width / 2,child :changeStateButton(id :2, buttonContent : "Trace")),
                 ],
               ),
               Container(

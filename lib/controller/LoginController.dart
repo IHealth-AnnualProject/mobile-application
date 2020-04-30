@@ -49,6 +49,13 @@ class LoginController {
               value: parseResponse(response.body)["token"]["access_token"])
           .then((r) => SettingsManager.currentToken =
               parseResponse(response.body)["token"]["access_token"]);
+      await SettingsManager.storage
+          .write(
+              key: "profileId",
+              value: parseResponse(response.body)["profileId"])
+          .then((r) => SettingsManager.currentProfileId =
+              parseResponse(response.body)["profileId"]);
+
       return true;
     } else
       return false;
