@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:betsbi/controller/LoginController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -19,24 +20,28 @@ class Main extends StatefulWidget {
 
 class MainState extends State<Main> {
   Widget destination;
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
 
-  Future<Widget> findRedirection() async {
-    SettingsManager.languageStarted().then((r) {
-      TokenController.checkTokenValidity().then((tokenValid) => tokenValid
-          ? destination = LoginController.redirectionLogin()
-          : destination = LoginPage());
+
+  findRedirection() {
+    return this._memoizer.runOnce(() async {
+     await SettingsManager.languageStarted().then((r) async {
+       await TokenController.checkTokenValidity().then((tokenValid) =>
+        tokenValid
+            ? destination = LoginController.redirectionLogin()
+            : destination = LoginPage());
+      });
+      return destination;
     });
-    return destination;
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-        body: FutureBuilder<Widget>(
+        body: FutureBuilder(
       future: findRedirection(),
-      builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-        if (!snapshot.hasData) {
+      builder: (context,  snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
