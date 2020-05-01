@@ -4,6 +4,9 @@
   "CheckBoxPsy": "Check Psychologist if you are one, we will check it",
   "ConfirmPassword": "Confirm Password",
   "ConnectSent": "You're now connected",
+  "CreateMemos": "Create Your Memos",
+  "Description": "Tell us more about you",
+  "Done": "Done",
   "DoneButton": "Let's Go !",
   "EmailErrorText": "Please enter correct Email",
   "EmailText": "Email",
@@ -28,6 +31,7 @@
   "LoginText": "LOGIN",
   "Logout": "Logout",
   "MemosCreateTitle": "Create your own task to do",
+  "MemosList": "My Memos",
   "MemosTitle": "Today's Memos",
   "MyAccountContainer": "My Account",
   "MyAmbianceContainer": "My Ambiance",
@@ -35,6 +39,7 @@
   "MyQuestContainer": "My Quest",
   "MyTrainingContainer": "My Training",
   "NoAccount": "Don't Have Account ?",
+  "NoInformation": "No Information on this user at the time",
   "NotSamePassword": "Both password are different",
   "NotificationPushActivated": "Notification push : ",
   "PasswordText": "Password",
@@ -52,8 +57,5 @@
   "UpdateUserInformation": "Your information have been updated",
   "UserChoice": "User",
   "UsernameText": "Username",
-  "WentWrong": "Something's went wrong",
-  "Description": "Tell us more about you",
-  "NoInformation": "No Information on this user at the time"
-
+  "WentWrong": "Something's went wrong"
 }

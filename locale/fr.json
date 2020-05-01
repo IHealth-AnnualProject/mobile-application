@@ -4,6 +4,9 @@
   "CheckBoxPsy": "Checkez Psychologue si vous en êtes un, nous le verifierons",
   "ConfirmPassword": "Confirmez votre mot de passe",
   "ConnectSent": "Vous êtes maintenant connecté",
+  "CreateMemos": "Créer votre rappel",
+  "Description": "Parle nous un peu de toi",
+  "Done": "Fini",
   "DoneButton": "C'est Parti !",
   "EmailErrorText": "Veuillez entrer un email correct",
   "EmailText": "Email",
@@ -28,6 +31,7 @@
   "LoginText": "SE CONNECTER",
   "Logout": "Se déconnecter",
   "MemosCreateTitle": "Créer votre propre tâche à effectuer",
+  "MemosList": "Mes Tâches",
   "MemosTitle": "Tâches du jour",
   "MyAccountContainer": "Mon Compte",
   "MyAmbianceContainer": "Mon Ambiance",
@@ -35,6 +39,7 @@
   "MyQuestContainer": "Mes Quêtes",
   "MyTrainingContainer": "Mon Entrainement",
   "NoAccount": "Pas de compte ?",
+  "NoInformation": "Aucune information sur cet utilisateur pour le moment",
   "NotSamePassword": "Les deux mots de passes sont différents",
   "NotificationPushActivated": "Notification push : ",
   "PasswordText": "Mot de passe",
@@ -52,8 +57,5 @@
   "UpdateUserInformation": "Vos informations ont bien été mis à jour",
   "UserChoice": "Utilisateur",
   "UsernameText": "Pseudo",
-  "WentWrong": "Une erreur est survenue !",
-  "Description": "Parle nous un peu de toi",
-  "NoInformation": "Aucune information sur cet utilisateur pour le moment"
-
+  "WentWrong": "Une erreur est survenue !"
 }

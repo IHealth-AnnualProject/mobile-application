@@ -125,18 +125,19 @@ class _AccountInformationState extends State<AccountInformation> {
         child: Column(
           children: <Widget>[
             Align(
-                alignment: Alignment.topLeft,
-                child:
-                    Text(SettingsManager.mapLanguage["PersonalInformation"],
-                    style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.cyan
-                    ),)),
-            Divider(
-                color: Colors.cyan,
-                thickness: 2,
+              alignment: Alignment.topLeft,
+              child: Text(
+                SettingsManager.mapLanguage["PersonalInformation"],
+                style: TextStyle(fontSize: 30, color: Colors.cyan),
+              ),
             ),
-            SizedBox(height: 20,),
+            Divider(
+              color: Colors.cyan,
+              thickness: 2,
+            ),
+            SizedBox(
+              height: 20,
+            ),
             Container(
                 child: accountFormField(
                     labelAndHintText:
@@ -168,7 +169,8 @@ class _AccountInformationState extends State<AccountInformation> {
             ),
             Container(
                 child: accountFormField(
-                    labelAndHintText: SettingsManager.mapLanguage["Description"],
+                    labelAndHintText:
+                        SettingsManager.mapLanguage["Description"],
                     maxLine: 10,
                     inputType: TextInputType.text,
                     controller: descriptionController),
