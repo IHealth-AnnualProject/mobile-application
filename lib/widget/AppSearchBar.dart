@@ -7,7 +7,7 @@ class AppSearchBar extends StatefulWidget with PreferredSizeWidget {
   final String title;
   TabController tabController;
 
-  AppSearchBar.AppSearchBarNormal({this.title});
+  AppSearchBar.appSearchBarNormal({this.title});
 
   State<AppSearchBar> createState() {
       return _AppSearchBarState();

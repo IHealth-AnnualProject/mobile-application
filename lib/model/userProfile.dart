@@ -36,7 +36,7 @@ class UserProfile {
         userProfileId : json['user']['id']);
   }
 
-  void getUserProfile() async {
+  Future<void> getUserProfile() async {
     await AccountController.getCurrentUserInformation()
         .then((userProfileResult) {
       this.firstName = userProfileResult.firstName;

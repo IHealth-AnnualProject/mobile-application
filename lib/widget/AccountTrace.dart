@@ -59,7 +59,7 @@ class _AccountTraceState extends State<AccountTrace> {
                         subtextStyle: {
                           align: 'center',
                         },
-                        text: 'Feelings in the week',
+                        text: 'Feelings of the week',
                       },
                       xAxis: {
                         type: 'category',

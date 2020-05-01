@@ -47,7 +47,7 @@ class _AccountView extends State<AccountPage> {
     );
     return Scaffold(
       backgroundColor: Color.fromRGBO(228, 228, 228, 1),
-      appBar: AppSearchBar.AppSearchBarNormal(
+      appBar: AppSearchBar.appSearchBarNormal(
         title: SettingsManager.mapLanguage["SearchContainer"] != null
             ? SettingsManager.mapLanguage["SearchContainer"]
             : "",

@@ -38,7 +38,7 @@ class SettingsManager {
       cfg = new GlobalConfiguration();
       storage = new FlutterSecureStorage();
       await GlobalConfiguration().loadFromPath("assets/cfg/settings.json");
-      instanciateProperties().then((r) => loadLanguage('locale/' + currentLanguage.toLowerCase() + '.json'));
+      await instanciateProperties().then((r) => loadLanguage('locale/' + currentLanguage.toLowerCase() + '.json'));
   }
 
   static Future<void> instanciateProperties() async {
@@ -55,6 +55,7 @@ class SettingsManager {
     }
     if (feelingsDate == null) {
       await storage.write(key: "feelingsDate", value: "");
+      feelingsDate = await storage.read(key: "feelingsDate");
     }
   }
 
