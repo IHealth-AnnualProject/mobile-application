@@ -11,19 +11,14 @@ class ErrorPage extends StatefulWidget {
   ErrorPage({Key key}) : super(key: key);
 
   @override
-  ErrorView createState() => ErrorView();
+  _ErrorView createState() => _ErrorView();
 }
 
-class ErrorView extends State<ErrorPage> {
+class _ErrorView extends State<ErrorPage> {
   final _formKey = GlobalKey<FormState>();
-
-  void instanciateLanguage() {
-    SettingsManager.languageStarted().then((r) => setState(() {}));
-  }
 
   @override
   Widget build(BuildContext context) {
-    instanciateLanguage();
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -38,9 +33,9 @@ class ErrorView extends State<ErrorPage> {
           : "",
       textAlign: TextAlign.center,
       style: TextStyle(
-          color: Color.fromRGBO(255, 255, 255, 100),
+          color: Colors.cyan[300],
           fontWeight: FontWeight.bold,
-          fontSize: 30),
+          fontSize: 40),
     );
     final titleError = TextFormField(
       obscureText: false,

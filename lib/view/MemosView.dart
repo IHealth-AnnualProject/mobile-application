@@ -8,25 +8,13 @@ class MemosPage extends StatefulWidget {
   MemosPage({Key key}) : super(key: key);
 
   @override
-  MemosView createState() => MemosView();
+  _MemosView createState() => _MemosView();
 }
 
-class MemosView extends State<MemosPage> {
-  void instanciateLanguage() {
-    SettingsManager.languageStarted().then((r) => setState(() {}));
-  }
+class _MemosView extends State<MemosPage> {
 
   @override
   Widget build(BuildContext context) {
-    instanciateLanguage();
-    //Locale myLocale = Localizations.localeOf(context);
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-
     final titleMemos = Text(
       SettingsManager.mapLanguage["MemosTitle"] != null
           ? SettingsManager.mapLanguage["MemosTitle"]

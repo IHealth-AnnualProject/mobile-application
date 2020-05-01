@@ -16,15 +16,11 @@ class AmbiancePage extends StatefulWidget {
   AmbiancePage({Key key}) : super(key: key);
 
   @override
-  AmbianceView createState() => AmbianceView();
+  _AmbianceView createState() => _AmbianceView();
 }
 
-class AmbianceView extends State<AmbiancePage> {
+class _AmbianceView extends State<AmbiancePage> {
   //AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
-
-  void instanciateLanguage() {
-    SettingsManager.languageStarted().then((r) => setState(() {}));
-  }
 
   @override
   void initState() {
@@ -67,7 +63,6 @@ class AmbianceView extends State<AmbiancePage> {
 
   @override
   Widget build(BuildContext context) {
-    instanciateLanguage();
     final titleAccount = Text(
       SettingsManager.mapLanguage["RelaxingMusic"] != null
           ? SettingsManager.mapLanguage["RelaxingMusic"]

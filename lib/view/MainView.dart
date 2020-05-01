@@ -9,27 +9,27 @@ import 'LoginView.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: Main(),
+    theme: ThemeData(fontFamily: 'PoetsenOne'),
+    home: MainPage(),
   ));
 }
 
-class Main extends StatefulWidget {
+class MainPage extends StatefulWidget {
   @override
-  MainState createState() => new MainState(); // TODO: implement createState
+  _MainView createState() => new _MainView();
 }
 
-class MainState extends State<Main> {
+class _MainView extends State<MainPage> {
   Widget destination;
   final AsyncMemoizer _memoizer = AsyncMemoizer();
 
-
-  findRedirection() {
+  _findRedirection() {
     return this._memoizer.runOnce(() async {
-     await SettingsManager.languageStarted().then((r) async {
-       await TokenController.checkTokenValidity().then((tokenValid) =>
-        tokenValid
-            ? destination = LoginController.redirectionLogin()
-            : destination = LoginPage());
+      await SettingsManager.languageStarted().then((r) async {
+        await TokenController.checkTokenValidity().then((tokenValid) =>
+            tokenValid
+                ? destination = LoginController.redirectionLogin()
+                : destination = LoginPage());
       });
       return destination;
     });
@@ -38,30 +38,48 @@ class MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color.fromRGBO(228, 228, 228, 1),
         body: FutureBuilder(
-      future: findRedirection(),
-      builder: (context,  snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: 150,
-                child: Image.asset(
-                  "assets/logo.png",
-                  fit: BoxFit.contain,
-                ),
-              ),
-              Text("Welcome to BetsBi"),
-              CircularProgressIndicator(),
-            ],
-          ));
-        } else {
-          // data loaded:
-          return destination;
-        }
-      },
-    ));
+          future: _findRedirection(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 45,
+                  ),
+                  Text(
+                    "Welcome to BetsBi",
+                    style: TextStyle(color: Colors.cyan[300], fontSize: 40),
+                  ),
+                  SizedBox(
+                    height: 150,
+                    child: Image.asset(
+                      "assets/logo.png",
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 45,
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: CircularProgressIndicator(
+                          backgroundColor: Color.fromRGBO(104, 79, 37, 0.8)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              );
+            } else {
+              // data loaded:
+              return destination;
+            }
+          },
+        ));
   }
 }

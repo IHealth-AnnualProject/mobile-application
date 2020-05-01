@@ -11,19 +11,14 @@ class MemosCreatePage extends StatefulWidget {
   MemosCreatePage({Key key}) : super(key: key);
 
   @override
-  MemosCreateView createState() => MemosCreateView();
+  _MemosCreateView createState() => _MemosCreateView();
 }
 
-class MemosCreateView extends State<MemosCreatePage> {
+class _MemosCreateView extends State<MemosCreatePage> {
   final _formKey = GlobalKey<FormState>();
-
-  void instanciateLanguage() {
-    SettingsManager.languageStarted().then((r) => setState(() {}));
-  }
 
   @override
   Widget build(BuildContext context) {
-    instanciateLanguage();
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.

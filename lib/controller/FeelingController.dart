@@ -12,8 +12,11 @@ class FeelingController {
   static void redirectionFeelingToHomePage(BuildContext context) {
     SettingsManager.storage
         .write(key: "feelingsDate", value: DateTime.now().toString())
-        .then((r) => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage())));
+        .then((r) => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+              (Route<dynamic> route) => false,
+            ));
   }
 
   static Future<bool> sendFeelings(int value) async {
@@ -70,11 +73,11 @@ class FeelingController {
       return null;
   }
 
-  static HashMap<String, int> renderMapFeeling(List<Feelings> feelings){
-    HashMap<String, int> mapFeeling = new HashMap<String, int>();
+  static LinkedHashMap<String, int> renderMapFeeling(List<Feelings> feelings) {
+    LinkedHashMap<String, int> mapFeeling = new LinkedHashMap<String, int>();
     feelings.forEach((feeling) => mapFeeling.putIfAbsent(
-        DateFormat('EEEE').format(feeling.dayOfFeeling), () => feeling.feelingsPoint));
+        DateFormat('EEEE').format(feeling.dayOfFeeling),
+        () => feeling.feelingsPoint));
     return mapFeeling;
   }
-
 }

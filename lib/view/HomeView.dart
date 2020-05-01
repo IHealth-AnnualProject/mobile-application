@@ -2,7 +2,6 @@ import 'package:betsbi/view/AmbianceView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/BrickContainer.dart';
-import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/MemosView.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,10 +19,10 @@ class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
 
   @override
-  HomeView createState() => HomeView();
+  _HomeView createState() => _HomeView();
 }
 
-class HomeView extends State<HomePage> {
+class _HomeView extends State<HomePage> {
   int _selectedBottomIndex = 0;
 
   @override

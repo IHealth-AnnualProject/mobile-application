@@ -20,7 +20,6 @@ class _MusicPlayerFlushState extends State<MusicPlayerFlush> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     //musicOn = this.widget.assetsAudioPlayer.isPlaying.value;
     return Flushbar(
       isDismissible: true,

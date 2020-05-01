@@ -12,30 +12,19 @@ class RegisterPage extends StatefulWidget {
   RegisterPage({Key key}) : super(key: key);
 
   @override
-  RegisterView createState() => RegisterView();
+  _RegisterView createState() => _RegisterView();
 }
 
-class RegisterView extends State<RegisterPage> {
+class _RegisterView extends State<RegisterPage> {
   List<bool> _isSelected = [true, false];
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool registrating;
 
-  void instanciateLanguage()  {
-    SettingsManager.languageStarted().then((r) => setState(() {}));
-  }
-
   @override
   Widget build(BuildContext context) {
-    instanciateLanguage();
-    //Locale myLocale = Localizations.localeOf(context);
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+
     final username = TextFormField(
       obscureText: false,
       textAlign: TextAlign.left,
@@ -214,6 +203,7 @@ class RegisterView extends State<RegisterPage> {
                             SettingsManager.mapLanguage["CheckBoxPsy"] != null
                                 ? SettingsManager.mapLanguage["CheckBoxPsy"]
                                 : "",
+                              style: TextStyle(color: Colors.cyan[300],fontSize: 17),
                           ),
                           SizedBox(
                             height: 20,
@@ -272,7 +262,7 @@ class RegisterView extends State<RegisterPage> {
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) => LoginPage()),
-                  ModalRoute.withName('/')));
+                    (Route<dynamic> route) => false,));
           else
             finalFlushBar(
                     Icon(

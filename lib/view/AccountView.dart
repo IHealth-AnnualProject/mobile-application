@@ -11,10 +11,10 @@ class AccountPage extends StatefulWidget {
   AccountPage({Key key}) : super(key: key);
 
   @override
-  AccountView createState() => AccountView();
+  _AccountView createState() => _AccountView();
 }
 
-class AccountView extends State<AccountPage> {
+class _AccountView extends State<AccountPage> {
   int _selectedBottomIndex = 1;
   bool differentView = true;
   UserProfile userProfile = new UserProfile.defaultConstructor();
@@ -43,10 +43,7 @@ class AccountView extends State<AccountPage> {
     final titleAccount = Text(
       userProfile.username + " lv.1",
       textAlign: TextAlign.center,
-      style: TextStyle(
-          color: Color.fromRGBO(104, 79, 37, 0.8),
-          fontWeight: FontWeight.bold,
-          fontSize: 30),
+      style: TextStyle(color: Colors.cyan[300], fontSize: 40),
     );
     return Scaffold(
       backgroundColor: Color.fromRGBO(228, 228, 228, 1),
@@ -65,11 +62,19 @@ class AccountView extends State<AccountPage> {
                   Container(
                       width: MediaQuery.of(context).size.width / 2,
                       child: changeStateButton(
-                          id: 1, buttonContent: "Information")),
+                          id: 1,
+                          buttonContent: "Information",
+                          colorOn: differentView)),
                   Container(
                       width: MediaQuery.of(context).size.width / 2,
-                      child: changeStateButton(id: 2, buttonContent: "Trace")),
+                      child: changeStateButton(
+                          id: 2,
+                          buttonContent: SettingsManager.mapLanguage["Trace"],
+                          colorOn: !differentView)),
                 ],
+              ),
+              SizedBox(
+                height: 45,
               ),
               Container(
                 height: 200,
@@ -82,7 +87,7 @@ class AccountView extends State<AccountPage> {
                       blurRadius: 40.0,
                     ),
                   ],
-                  color: Color.fromRGBO(104, 79, 37, 0.8),
+                  color: Colors.cyan,
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     image: AssetImage("assets/user.png"),
@@ -93,6 +98,9 @@ class AccountView extends State<AccountPage> {
                 height: 45,
               ),
               titleAccount,
+              SizedBox(
+                height: 45,
+              ),
               differentView ? AccountInformation() : AccountTrace(),
             ],
           ),
@@ -102,11 +110,14 @@ class AccountView extends State<AccountPage> {
     );
   }
 
-  RaisedButton changeStateButton({int id, String buttonContent}) {
+  RaisedButton changeStateButton({int id, String buttonContent, bool colorOn}) {
     return RaisedButton(
       elevation: 8,
-      shape: StadiumBorder(),
-      color: Color.fromRGBO(104, 79, 37, 0.8),
+      color: colorOn ? Colors.teal[700] : Colors.teal,
+      shape: RoundedRectangleBorder(
+          side: BorderSide(
+        color: Color.fromRGBO(228, 228, 228, 1),
+      )),
       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
       onPressed: () {
         switch (id) {

@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:betsbi/model/feelings.dart';
+import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
@@ -27,17 +28,32 @@ class _AccountTraceState extends State<AccountTrace> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _fetchData(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else {
-          // data loaded:
-          return Container(
-            child: Echarts(
-              captureAllGestures: true,
-              option: '''
+    return Column(
+      children: <Widget>[
+        Align(
+            alignment: Alignment.topLeft,
+            child:
+            Text(SettingsManager.mapLanguage["PersonalTrace"],
+              style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.cyan
+              ),)),
+        Divider(
+          color: Colors.cyan,
+          thickness: 2,
+        ),
+        SizedBox(height: 20,),
+        FutureBuilder(
+          future: _fetchData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            } else {
+              // data loaded:
+              return Container(
+                child: Echarts(
+                  captureAllGestures: true,
+                  option: '''
                     {
                       title: {
                         subtextStyle: {
@@ -58,12 +74,14 @@ class _AccountTraceState extends State<AccountTrace> {
                       }]
                     }
                   ''',
-            ),
-            width: 300,
-            height: 250,
-          );
-        }
-      },
+                ),
+                width: 300,
+                height: 250,
+              );
+            }
+          },
+        ),
+      ],
     );
   }
 }

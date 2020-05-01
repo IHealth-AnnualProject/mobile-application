@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 class OtherAccountPage extends StatefulWidget {
   final UserProfile otherUserProfile;
 
-  OtherAccountPage({Key key, @required this.otherUserProfile}) : super(key: key);
+  OtherAccountPage({Key key, @required this.otherUserProfile})
+      : super(key: key);
 
   @override
   _OtherAccountView createState() => _OtherAccountView();
 }
 
-class _OtherAccountView extends State<OtherAccountPage>  {
-
+class _OtherAccountView extends State<OtherAccountPage> {
   @override
   void dispose() {
     super.dispose();
@@ -26,6 +26,7 @@ class _OtherAccountView extends State<OtherAccountPage>  {
       readOnly: true,
       maxLines: maxLine != null ? maxLine : 1,
       decoration: InputDecoration(
+        fillColor: Color.fromRGBO(228, 228, 228, 1),
         labelText: label,
       ),
     );
@@ -33,21 +34,11 @@ class _OtherAccountView extends State<OtherAccountPage>  {
 
   @override
   Widget build(BuildContext context) {
-    //Locale myLocale = Localizations.localeOf(context);
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
 
     final titleAccount = Text(
       this.widget.otherUserProfile.username + " lv.1",
       textAlign: TextAlign.center,
-      style: TextStyle(
-          color: Color.fromRGBO(104, 79, 37, 0.8),
-          fontWeight: FontWeight.bold,
-          fontSize: 30),
+      style: TextStyle(color: Colors.cyan[300], fontSize: 40),
     );
     return Scaffold(
       backgroundColor: Color.fromRGBO(228, 228, 228, 1),
@@ -60,6 +51,9 @@ class _OtherAccountView extends State<OtherAccountPage>  {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              SizedBox(
+                height: 45,
+              ),
               Container(
                 height: 200,
                 width: 200,
@@ -71,7 +65,7 @@ class _OtherAccountView extends State<OtherAccountPage>  {
                       blurRadius: 40.0,
                     ),
                   ],
-                  color: Color.fromRGBO(104, 79, 37, 0.8),
+                  color: Colors.cyan,
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     image: AssetImage("assets/user.png"),
@@ -82,32 +76,80 @@ class _OtherAccountView extends State<OtherAccountPage>  {
                 height: 45,
               ),
               titleAccount,
-              Container(
-                  child: textFieldInformation(label: this.widget.otherUserProfile.firstName),
-                  width: 350),
               SizedBox(
                 height: 45,
               ),
-              Container(
-                  child: textFieldInformation(label: this.widget.otherUserProfile.lastName),
-                  width: 350),
-              SizedBox(
-                height: 45,
+              Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    SettingsManager.mapLanguage["PersonalInformation"],
+                    style: TextStyle(fontSize: 30, color: Colors.cyan),
+                  )),
+              Divider(
+                color: Colors.cyan,
+                thickness: 2,
               ),
-              Container(
-                  child: textFieldInformation(label: this.widget.otherUserProfile.age),
-                  width: 100),
+              // Or No Information or Informations
               SizedBox(
-                height: 45,
+                height: 20,
               ),
-              Container(
-                  child: textFieldInformation(label: this.widget.otherUserProfile.description, maxLine: 10),
-                  width: 350),
+              _checkAllUserProperties()
+                  ? Center(
+                      child: Text(
+                        SettingsManager.mapLanguage["NoInformation"],
+                        style: TextStyle(color: Colors.cyan, fontSize: 17),
+                      ),
+                    )
+                  : informationOtherUserAccount(),
             ],
           ),
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: BottomNavigationBarFooter(null),
     );
+  }
+
+  bool _checkAllUserProperties() {
+    if (this.widget.otherUserProfile.firstName == "" &&
+        this.widget.otherUserProfile.lastName == "" &&
+        this.widget.otherUserProfile.age == "" &&
+        this.widget.otherUserProfile.description == "") {
+      return true;
+    }
+    return false;
+  }
+
+  Column informationOtherUserAccount() {
+    return Column(children: <Widget>[
+      this.widget.otherUserProfile.firstName == "" ??
+          Container(
+              child: textFieldInformation(
+                  label: this.widget.otherUserProfile.firstName),
+              width: 350),
+      SizedBox(
+        height: 45,
+      ),
+      this.widget.otherUserProfile.lastName == "" ??
+          Container(
+              child: textFieldInformation(
+                  label: this.widget.otherUserProfile.lastName),
+              width: 350),
+      SizedBox(
+        height: 45,
+      ),
+      this.widget.otherUserProfile.age == "" ??
+          Container(
+              child:
+                  textFieldInformation(label: this.widget.otherUserProfile.age),
+              width: 100),
+      SizedBox(
+        height: 45,
+      ),
+      this.widget.otherUserProfile.description == "" ??
+          Container(
+              child: textFieldInformation(
+                  label: this.widget.otherUserProfile.description, maxLine: 10),
+              width: 350),
+    ]);
   }
 }

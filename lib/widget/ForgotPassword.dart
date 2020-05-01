@@ -8,10 +8,9 @@ import 'package:flutter/services.dart';
 
 class ForgotPassword extends StatefulWidget {
   final String message;
-  final String flushBarMessage;
   final IconData icons;
 
-  ForgotPassword({this.message, this.flushBarMessage, this.icons});
+  ForgotPassword({this.message, this.icons});
 
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();
@@ -91,7 +90,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       ),
       flushbarPosition: FlushbarPosition.TOP,
       flushbarStyle: FlushbarStyle.GROUNDED,
-      message: this.widget.flushBarMessage,
     );
     return InkWell(
         onTap: () {
@@ -105,6 +103,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         },
         child: new Text(
           this.widget.message,
+          style: TextStyle(color: Colors.cyan, fontSize: 17, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ));
   }

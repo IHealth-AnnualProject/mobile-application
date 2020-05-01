@@ -8,8 +8,9 @@ class FeelingButton extends StatelessWidget {
   final IconData iconData;
   final int idButton;
   final String errorMessage;
+  final Color colorButton;
 
-  const FeelingButton({this.idButton,this.text, this.iconData, this.errorMessage});
+  const FeelingButton({this.idButton,this.text, this.iconData, this.errorMessage, this.colorButton});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class FeelingButton extends StatelessWidget {
         );
 
       },
-      color: Color.fromRGBO(104, 79, 37, 0.8),
+      color: this.colorButton,
       textColor: Colors.white,
       child: Icon(
         this.iconData,

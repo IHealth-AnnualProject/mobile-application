@@ -15,10 +15,10 @@ class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
 
   @override
-  LoginView createState() => LoginView();
+  _LoginView createState() => _LoginView();
 }
 
-class LoginView extends State<LoginPage> {
+class _LoginView extends State<LoginPage> {
   bool loging;
   final _formKey = GlobalKey<FormState>();
   final userNameController = TextEditingController();
@@ -28,10 +28,8 @@ class LoginView extends State<LoginPage> {
     SettingsManager.setLanguage().then((r) => setState(() {}));
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     RaisedButton loginButton() {
       return RaisedButton(
         elevation: 8,
@@ -56,7 +54,7 @@ class LoginView extends State<LoginPage> {
                       MaterialPageRoute(
                           builder: (BuildContext context) =>
                               LoginController.redirectionLogin()),
-                      ModalRoute.withName('/'),
+                      (Route<dynamic> route) => false,
                     ));
             else
               loginFlushBar(
@@ -144,7 +142,7 @@ class LoginView extends State<LoginPage> {
       child: new Text(
         SettingsManager.language != null ? SettingsManager.language : "",
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.cyan,fontSize: 17),
       ),
     );
     final signUp = InkWell(
@@ -158,7 +156,7 @@ class LoginView extends State<LoginPage> {
               ? SettingsManager.mapLanguage["SignUp"]
               : "",
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.cyan,fontSize: 17),
         ));
     return Scaffold(
         backgroundColor: Color.fromRGBO(228, 228, 228, 1),
@@ -214,7 +212,6 @@ class LoginView extends State<LoginPage> {
                                   ? SettingsManager
                                       .mapLanguage["ForgotPassword"]
                                   : "",
-                              flushBarMessage: "bidule",
                               icons: Icons.message),
                           SizedBox(
                             height: 45,
@@ -246,7 +243,7 @@ class LoginView extends State<LoginPage> {
                                 SettingsManager.mapLanguage["NoAccount"] != null
                                     ? SettingsManager.mapLanguage["NoAccount"]
                                     : "",
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(color: Colors.cyan[300],fontSize: 17)),
                             signUp
                           ],
                         ),

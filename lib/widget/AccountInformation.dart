@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/AccountView.dart';
@@ -93,10 +95,11 @@ class _AccountInformationState extends State<AccountInformation> {
               duration: Duration(seconds: 1),
             )..show(context).then((r) => () {
                   Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => destination),
-                      ModalRoute.withName('/'));
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => destination),
+                    (Route<dynamic> route) => false,
+                  );
                 });
           } else
             FlushBarError(SettingsManager.mapLanguage["WentWrong"] != null
@@ -116,12 +119,24 @@ class _AccountInformationState extends State<AccountInformation> {
 
   @override
   Widget build(BuildContext context) {
-    if(!isEntered)
-      userInformation();
+    if (!isEntered) userInformation();
     return Form(
         key: _formKey,
         child: Column(
           children: <Widget>[
+            Align(
+                alignment: Alignment.topLeft,
+                child:
+                    Text(SettingsManager.mapLanguage["PersonalInformation"],
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.cyan
+                    ),)),
+            Divider(
+                color: Colors.cyan,
+                thickness: 2,
+            ),
+            SizedBox(height: 20,),
             Container(
                 child: accountFormField(
                     labelAndHintText:
@@ -153,7 +168,7 @@ class _AccountInformationState extends State<AccountInformation> {
             ),
             Container(
                 child: accountFormField(
-                    labelAndHintText: "Description",
+                    labelAndHintText: SettingsManager.mapLanguage["Description"],
                     maxLine: 10,
                     inputType: TextInputType.text,
                     controller: descriptionController),

@@ -24,7 +24,7 @@ class Feelings {
   }
 
   Future<bool> getUserFeelings() async {
-    HashMap<String, int> mapFeeling = new HashMap<String, int>();
+    LinkedHashMap<String, int> mapFeeling = new LinkedHashMap<String, int>();
     List<Feelings> feelings = await FeelingController.getAllFeelings();
     mapFeeling = FeelingController.renderMapFeeling(feelings);
     mapFeeling.forEach((key, value) {

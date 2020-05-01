@@ -11,7 +11,7 @@ class SettingsController {
         .then((r) => Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-              ModalRoute.withName('/'),
+            (Route<dynamic> route) => false
             ));
   }
 }

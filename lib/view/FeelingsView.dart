@@ -8,10 +8,10 @@ class FeelingsPage extends StatefulWidget {
   FeelingsPage({Key key}) : super(key: key);
 
   @override
-  FeelingsView createState() => FeelingsView();
+  _FeelingsView createState() => _FeelingsView();
 }
 
-class FeelingsView extends State<FeelingsPage> {
+class _FeelingsView extends State<FeelingsPage> {
   @override
   Widget build(BuildContext context) {
     //Locale myLocale = Localizations.localeOf(context);
@@ -34,14 +34,16 @@ class FeelingsView extends State<FeelingsPage> {
             crossAxisCount: 2,
             children: <Widget>[
               FeelingButton(
-                  idButton: 0,
-                  text: SettingsManager.mapLanguage["FeelingGood"] != null
-                      ? SettingsManager.mapLanguage["FeelingGood"]
-                      : "",
-                  iconData: MyFlutterApp.emo_happy,
-                  errorMessage: SettingsManager.mapLanguage["WentWrong"] != null
-                      ? SettingsManager.mapLanguage["WentWrong"]
-                      : ""),
+                idButton: 0,
+                text: SettingsManager.mapLanguage["FeelingGood"] != null
+                    ? SettingsManager.mapLanguage["FeelingGood"]
+                    : "",
+                iconData: MyFlutterApp.emo_happy,
+                errorMessage: SettingsManager.mapLanguage["WentWrong"] != null
+                    ? SettingsManager.mapLanguage["WentWrong"]
+                    : "",
+                colorButton: Colors.lime,
+              ),
               FeelingButton(
                   idButton: 1,
                   text: SettingsManager.mapLanguage["FeelingVeryGood"] != null
@@ -50,7 +52,8 @@ class FeelingsView extends State<FeelingsPage> {
                   iconData: MyFlutterApp.emo_laugh,
                   errorMessage: SettingsManager.mapLanguage["WentWrong"] != null
                       ? SettingsManager.mapLanguage["WentWrong"]
-                      : ""),
+                      : "",
+                colorButton: Colors.lime[600],),
               FeelingButton(
                   idButton: 2,
                   text: SettingsManager.mapLanguage["FeelingSad"] != null
@@ -59,7 +62,8 @@ class FeelingsView extends State<FeelingsPage> {
                   iconData: MyFlutterApp.emo_unhappy,
                   errorMessage: SettingsManager.mapLanguage["WentWrong"] != null
                       ? SettingsManager.mapLanguage["WentWrong"]
-                      : ""),
+                      : "",
+                colorButton: Colors.lime[700],),
               FeelingButton(
                   idButton: 3,
                   text: SettingsManager.mapLanguage["FeelingVerySad"] != null
@@ -68,16 +72,8 @@ class FeelingsView extends State<FeelingsPage> {
                   iconData: MyFlutterApp.emo_angry,
                   errorMessage: SettingsManager.mapLanguage["WentWrong"] != null
                       ? SettingsManager.mapLanguage["WentWrong"]
-                      : ""),
-              FeelingButton(
-                  idButton: 4,
-                  text: SettingsManager.mapLanguage["FeelingStress"] != null
-                      ? SettingsManager.mapLanguage["FeelingStress"]
                       : "",
-                  iconData: MyFlutterApp.emo_cry,
-                  errorMessage: SettingsManager.mapLanguage["WentWrong"] != null
-                      ? SettingsManager.mapLanguage["WentWrong"]
-                      : ""),
+                colorButton: Colors.lime[800],),
             ],
           ),
         ),
@@ -89,8 +85,7 @@ class FeelingsView extends State<FeelingsPage> {
           : "",
       textAlign: TextAlign.center,
       style: TextStyle(
-          color: Color.fromRGBO(255, 255, 255, 100),
-          fontWeight: FontWeight.bold,
+          color: Colors.cyan[300],
           fontSize: 40),
     );
     return Scaffold(
@@ -109,9 +104,18 @@ class FeelingsView extends State<FeelingsPage> {
                 SizedBox(
                   height: 50,
                 ),
-                Center(
-                  child: gridView,
-                )
+                gridView,
+                FeelingButton(
+                    idButton: 4,
+                    text: SettingsManager.mapLanguage["FeelingStress"] != null
+                        ? SettingsManager.mapLanguage["FeelingStress"]
+                        : "",
+                    iconData: MyFlutterApp.emo_cry,
+                    errorMessage:
+                        SettingsManager.mapLanguage["WentWrong"] != null
+                            ? SettingsManager.mapLanguage["WentWrong"]
+                            : "",
+                  colorButton: Colors.lime[900],),
               ],
             ),
           ), // This trailing comma makes auto-formatting nicer for build methods.

@@ -12,7 +12,6 @@ class FinalButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return RaisedButton(
       elevation: 8,
       shape: StadiumBorder(),
@@ -34,7 +33,7 @@ class FinalButton extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext context) => this.destination),
-                    ModalRoute.withName('/'));
+                      (Route<dynamic> route) => false,);
               });
         }
       },

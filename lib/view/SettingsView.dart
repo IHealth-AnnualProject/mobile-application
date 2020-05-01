@@ -9,10 +9,10 @@ class SettingsPage extends StatefulWidget {
   SettingsPage({Key key}) : super(key: key);
 
   @override
-  SettingsView createState() => SettingsView();
+  _SettingsView createState() => _SettingsView();
 }
 
-class SettingsView extends State<SettingsPage> {
+class _SettingsView extends State<SettingsPage> {
   bool currentNotification;
   List<bool> isSelected = [true, false];
 
@@ -20,13 +20,8 @@ class SettingsView extends State<SettingsPage> {
     SettingsManager.setLanguage().then((r) => setState(() {}));
   }
 
-  void instanciateLanguage() {
-    SettingsManager.languageStarted().then((r) => setState(() {}));
-  }
-
   @override
   Widget build(BuildContext context) {
-    instanciateLanguage();
     currentNotification = SettingsManager.cfg.getBool("pushNotification");
     if (currentNotification)
       isSelected = [true, false];
@@ -59,6 +54,7 @@ class SettingsView extends State<SettingsPage> {
         ),
       );
     }
+
     final statusPushNotification = ToggleButtons(
       color: Colors.white,
       fillColor: Colors.blue,
@@ -99,8 +95,7 @@ class SettingsView extends State<SettingsPage> {
       child: new Text(
         SettingsManager.language != null ? SettingsManager.language : "",
         textAlign: TextAlign.center,
-        style: TextStyle(
-            color: Colors.black87, fontSize: 30, fontWeight: FontWeight.bold),
+        style: TextStyle(color: Colors.cyan[700], fontSize: 40),
       ),
     );
     return Scaffold(
@@ -111,18 +106,39 @@ class SettingsView extends State<SettingsPage> {
               : ""),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          SizedBox(
+            height: 45,
+          ),
+          Container(
+            height: 200,
+            width: 200,
+            decoration: BoxDecoration(
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Colors.black,
+                  offset: Offset(1.0, 6.0),
+                  blurRadius: 40.0,
+                ),
+              ],
+              color: Colors.cyan,
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: AssetImage("assets/settings.png"),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 45,
+          ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 SettingsManager.mapLanguage["LanguageChanged"] != null
                     ? SettingsManager.mapLanguage["LanguageChanged"]
                     : "",
-                style: TextStyle(
-                    color: Colors.blueAccent,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25),
+                style: TextStyle(color: Colors.cyan, fontSize: 25),
               ),
               SizedBox(
                 width: 20,
@@ -134,20 +150,29 @@ class SettingsView extends State<SettingsPage> {
             height: 45,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 SettingsManager.mapLanguage["NotificationPushActivated"] != null
                     ? SettingsManager.mapLanguage["NotificationPushActivated"]
                     : "",
-                style: TextStyle(
-                    color: Colors.blueAccent,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25),
+                style: TextStyle(color: Colors.cyan, fontSize: 25),
               ),
               statusPushNotification
             ],
           ),
-          disconnectButton(),
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                child: disconnectButton(),
+                width: 350,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
         ],
       ),
       // Center is a layout widget. It takes a single child and positions it

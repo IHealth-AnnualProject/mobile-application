@@ -38,6 +38,8 @@
   "NotSamePassword": "Both password are different",
   "NotificationPushActivated": "Notification push : ",
   "PasswordText": "Password",
+  "PersonalInformation": "Personal Information",
+  "PersonalTrace": "Personal Trace",
   "PsyChoice": "Psychologist",
   "RegisterSent": "Thanks for your registration",
   "RelaxingMusic": "Relaxing Music",
@@ -46,8 +48,12 @@
   "SignUp": " SIGN UP",
   "Submit": "Submit",
   "Title": "Title",
+  "Trace": "Trace",
   "UpdateUserInformation": "Your information have been updated",
   "UserChoice": "User",
   "UsernameText": "Username",
-  "WentWrong": "Something's went wrong"
+  "WentWrong": "Something's went wrong",
+  "Description": "Tell us more about you",
+  "NoInformation": "No Information on this user at the time"
+
 }

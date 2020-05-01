@@ -15,7 +15,6 @@ class ListViewTextItems extends StatefulWidget {
 class _ListViewTextItemsState extends State<ListViewTextItems> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return ListView.separated(
       padding: const EdgeInsets.all(8),
       itemCount: this.widget.items.length,
