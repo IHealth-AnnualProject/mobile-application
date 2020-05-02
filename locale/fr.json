@@ -58,5 +58,6 @@
   "UserChoice": "Utilisateur",
   "UsernameText": "Pseudo",
   "WentWrong": "Une erreur est survenue !",
-  "TooOld": "Vous ne pouvez pas être aussi vieux"
+  "TooOld": "Vous ne pouvez pas être aussi vieux",
+  "DueDate": "Date de fin"
 }

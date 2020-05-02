@@ -58,6 +58,8 @@
   "UserChoice": "User",
   "UsernameText": "Username",
   "WentWrong": "Something's went wrong",
-  "TooOld": "You can't be that old"
+  "TooOld": "You can't be that old",
+  "DueDate": "Due Date"
+
 
 }

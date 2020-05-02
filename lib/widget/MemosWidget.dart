@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 class MemosWidget extends StatefulWidget {
   final String title;
   bool isDone;
+  final String dueDate;
 
-  MemosWidget({this.title, this.isDone});
+  MemosWidget({this.title, this.isDone = false, this.dueDate});
 
   @override
   _MemosWidgetState createState() => _MemosWidgetState();
@@ -19,12 +20,21 @@ class _MemosWidgetState extends State<MemosWidget> {
       alignment: Alignment.topLeft,
       child: Wrap(
         alignment: WrapAlignment.center,
+        spacing: 20,
         children: <Widget>[
           Text(
             this.widget.title,
             style: TextStyle(fontSize: 25, color: Colors.cyan),
           ),
-          SizedBox(width: 20,),
+          Text(
+            SettingsManager.mapLanguage["DueDate"] +
+                " " +
+                this.widget.dueDate,
+            style: TextStyle(fontSize: 25, color: Colors.cyan[700]),
+          ),
+          SizedBox(
+            width: 20,
+          ),
           this.widget.isDone
               ? Text(
                   SettingsManager.mapLanguage["Done"],

@@ -1,10 +1,10 @@
-import 'package:betsbi/view/MemosCreateView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/widget/MemosWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MemosPage extends StatefulWidget {
   MemosPage({Key key}) : super(key: key);
@@ -15,18 +15,14 @@ class MemosPage extends StatefulWidget {
 
 class _MemosView extends State<MemosPage> {
   List<Widget> list = new List<Widget>();
+  final _formKey = GlobalKey<FormState>();
+  final titleController = TextEditingController();
+  TextEditingController dueDateController = TextEditingController();
+  bool canCreate = false;
 
   @override
   void initState() {
     super.initState();
-    list.add(new MemosWidget(
-      title: "Ranger les chaussettes",
-      isDone: false,
-    ));
-    list.add(new MemosWidget(
-      title: "Manger les chaussures",
-      isDone: false,
-    ));
   }
 
   @override
@@ -90,8 +86,9 @@ class _MemosView extends State<MemosPage> {
               )),
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MemosCreatePage()));
+                setState(() {
+                  canCreate = true;
+                });
               },
               child: Text(
                 SettingsManager.mapLanguage["CreateMemos"],
@@ -101,6 +98,11 @@ class _MemosView extends State<MemosPage> {
                     fontWeight: FontWeight.bold),
               ),
             ),
+            canCreate
+                ? formToCreateMemoOnDueDate()
+                : SizedBox(
+                    height: 45,
+                  ),
             SizedBox(
               height: 45,
             ),
@@ -110,7 +112,6 @@ class _MemosView extends State<MemosPage> {
                 itemCount: list.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
-                    height: 50,
                     child: list[index],
                   );
                 }),
@@ -119,5 +120,118 @@ class _MemosView extends State<MemosPage> {
       )), // This trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: BottomNavigationBarFooter(null),
     );
+  }
+
+  Form formToCreateMemoOnDueDate() {
+    return Form(
+      key: _formKey,
+      child: Wrap(
+        alignment: WrapAlignment.spaceAround,
+        children: <Widget>[
+          Container(
+            width: MediaQuery.of(context).size.width / 3,
+            child: memosFormField(
+                labelAndHint: SettingsManager.mapLanguage["Title"],
+                textInputType: TextInputType.text,
+                textEditingController: titleController),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width / 3,
+            child: dateFormField(
+                labelAndHint: SettingsManager.mapLanguage["DueDate"],
+                textEditingController: titleController),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width / 3,
+            child: RaisedButton(
+              elevation: 8,
+              shape: StadiumBorder(),
+              color: Color.fromRGBO(104, 79, 37, 0.8),
+              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              onPressed: () {
+                if (this._formKey.currentState.validate()) {
+                  setState(() {
+                    list.add(new MemosWidget(
+                      title: titleController.text,
+                      dueDate: dueDateController.text,
+                    ));
+                    canCreate = false;
+                  });
+                }
+              },
+              child: Text(
+                SettingsManager.mapLanguage["Submit"],
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 100),
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  TextFormField memosFormField(
+      {String labelAndHint,
+      TextInputType textInputType,
+      TextEditingController textEditingController}) {
+    return TextFormField(
+      obscureText: false,
+      textAlign: TextAlign.left,
+      controller: textEditingController,
+      keyboardType: textInputType,
+      validator: (value) {
+        if (value.isEmpty) {
+          return SettingsManager.mapLanguage["EnterText"] != null
+              ? SettingsManager.mapLanguage["EnterText"]
+              : "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          labelText: labelAndHint,
+          filled: true,
+          fillColor: Colors.white,
+          hintText: labelAndHint,
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
+    );
+  }
+  TextFormField dateFormField(
+      {String labelAndHint,
+      TextEditingController textEditingController}) {
+    return TextFormField(
+      obscureText: false,
+      textAlign: TextAlign.left,
+      controller: dueDateController,
+      onTap: () => _selectDate(),
+      validator: (value) {
+        if (value.isEmpty) {
+          return SettingsManager.mapLanguage["EnterText"] != null
+              ? SettingsManager.mapLanguage["EnterText"]
+              : "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          labelText: labelAndHint,
+          filled: true,
+          fillColor: Colors.white,
+          hintText: labelAndHint,
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
+    );
+  }
+
+  Future _selectDate() async {
+    DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: new DateTime.now(),
+        firstDate: new DateTime(1996),
+        lastDate: new DateTime(DateTime.now().year+2)
+    );
+    if(picked != null) setState(() => dueDateController.text = DateFormat.yMMMd().format(picked));
   }
 }
