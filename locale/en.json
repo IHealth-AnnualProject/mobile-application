@@ -2,12 +2,17 @@
   "AccountFooter": "Account",
   "ChatFooter": "Chat",
   "CheckBoxPsy": "Check Psychologist if you are one, we will check it",
+  "ChooseDifficulty": "Choose the difficulty",
   "ConfirmPassword": "Confirm Password",
+  "CongratsBegin": "Congrats you gained ",
+  "CongratsEnd": " experience solving the quest, you should be pried of you",
   "ConnectSent": "You're now connected",
   "CreateMemos": "Create Your Memos",
+  "CreateQuest": "Create Your Quest",
   "Description": "Tell us more about you",
   "Done": "Done",
   "DoneButton": "Let's Go !",
+  "DueDate": "Due Date",
   "EmailErrorText": "Please enter correct Email",
   "EmailText": "Email",
   "EnterMail": "You'll receive a mail to change your password",
@@ -46,6 +51,8 @@
   "PersonalInformation": "Personal Information",
   "PersonalTrace": "Personal Trace",
   "PsyChoice": "Psychologist",
+  "QuestCreateTitle": "Create the Quest you want to realize",
+  "QuestToday": "Today's Quest",
   "RegisterSent": "Thanks for your registration",
   "RelaxingMusic": "Relaxing Music",
   "SearchContainer": "Find other user.....",
@@ -53,13 +60,10 @@
   "SignUp": " SIGN UP",
   "Submit": "Submit",
   "Title": "Title",
+  "TooOld": "You can't be that old",
   "Trace": "Trace",
   "UpdateUserInformation": "Your information have been updated",
   "UserChoice": "User",
   "UsernameText": "Username",
-  "WentWrong": "Something's went wrong",
-  "TooOld": "You can't be that old",
-  "DueDate": "Due Date"
-
-
+  "WentWrong": "Something's went wrong"
 }

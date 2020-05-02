@@ -1,4 +1,5 @@
 import 'package:betsbi/view/AmbianceView.dart';
+import 'package:betsbi/view/QuestView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/BrickContainer.dart';
@@ -93,7 +94,7 @@ class _HomeView extends State<HomePage> {
                           ? SettingsManager.mapLanguage["MyQuestContainer"]
                           : "",
                   iconBrick: Icons.not_listed_location,
-                  destination: null,
+                  destination: QuestPage(),
                   image: "quest.png"),
               BrickContainer(
                   colorBrick: Color.fromRGBO(51, 171, 249, 1),

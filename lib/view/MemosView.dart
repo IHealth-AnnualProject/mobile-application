@@ -107,14 +107,15 @@ class _MemosView extends State<MemosPage> {
               height: 45,
             ),
             ListView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(8),
-                itemCount: list.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    child: list[index],
-                  );
-                }),
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(8),
+              itemCount: list.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  child: list[index],
+                );
+              },
+            ),
           ],
         ),
       )), // This trailing comma makes auto-formatting nicer for build methods.
@@ -199,9 +200,9 @@ class _MemosView extends State<MemosPage> {
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
   }
+
   TextFormField dateFormField(
-      {String labelAndHint,
-      TextEditingController textEditingController}) {
+      {String labelAndHint, TextEditingController textEditingController}) {
     return TextFormField(
       obscureText: false,
       textAlign: TextAlign.left,
@@ -230,8 +231,9 @@ class _MemosView extends State<MemosPage> {
         context: context,
         initialDate: new DateTime.now(),
         firstDate: new DateTime(1996),
-        lastDate: new DateTime(DateTime.now().year+2)
-    );
-    if(picked != null) setState(() => dueDateController.text = DateFormat.yMMMd().format(picked));
+        lastDate: new DateTime(DateTime.now().year + 2));
+    if (picked != null)
+      setState(
+          () => dueDateController.text = DateFormat.yMMMd().format(picked));
   }
 }

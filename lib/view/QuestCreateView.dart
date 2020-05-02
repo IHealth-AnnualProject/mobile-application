@@ -7,15 +7,25 @@ import 'package:flutter/material.dart';
 
 import 'HomeView.dart';
 
-class MemosCreatePage extends StatefulWidget {
-  MemosCreatePage({Key key}) : super(key: key);
+class QuestCreatePage extends StatefulWidget {
+  QuestCreatePage({Key key}) : super(key: key);
 
   @override
-  _MemosCreateView createState() => _MemosCreateView();
+  _QuestCreateView createState() => _QuestCreateView();
 }
 
-class _MemosCreateView extends State<MemosCreatePage> {
+class _QuestCreateView extends State<QuestCreatePage> {
   final _formKey = GlobalKey<FormState>();
+  List difficulty = ["easy", "normal", "hard"];
+  List<DropdownMenuItem<String>> _dropDownMenuItems;
+  String _currentDifficulty;
+
+  @override
+  void initState() {
+    _dropDownMenuItems = getDropDownMenuItems();
+    _currentDifficulty = _dropDownMenuItems[0].value;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +38,14 @@ class _MemosCreateView extends State<MemosCreatePage> {
     // than having to individually change instances of widgets.
 
     final titleFeelings = Text(
-      SettingsManager.mapLanguage["ErrorTitle"] != null
-          ? SettingsManager.mapLanguage["ErrorTitle"]
+      SettingsManager.mapLanguage["QuestCreateTitle"] != null
+          ? SettingsManager.mapLanguage["QuestCreateTitle"]
           : "",
       textAlign: TextAlign.center,
       style: TextStyle(
-          color: Color.fromRGBO(255, 255, 255, 100),
+          color: Colors.cyan[300],
           fontWeight: FontWeight.bold,
-          fontSize: 30),
+          fontSize: 40),
     );
     final titleError = TextFormField(
       obscureText: false,
@@ -125,6 +135,39 @@ class _MemosCreateView extends State<MemosCreatePage> {
                     SizedBox(
                       height: 45,
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          SettingsManager.mapLanguage["ChooseDifficulty"],
+                          style:
+                              TextStyle(color: Colors.cyan[700], fontSize: 17),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15.0),
+                            border: Border.all(
+                                color: Colors.red,
+                                style: BorderStyle.solid,
+                                width: 0.80),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              value: _currentDifficulty,
+                              items: _dropDownMenuItems,
+                              onChanged: changedDropDownItem,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 45,
+                    ),
                     Container(
                       width: 350.0,
                       child: FinalButton(
@@ -147,5 +190,19 @@ class _MemosCreateView extends State<MemosCreatePage> {
       ))),
       bottomNavigationBar: BottomNavigationBarFooter(null),
     );
+  }
+
+  void changedDropDownItem(String selectedDifficulty) {
+    setState(() {
+      _currentDifficulty = selectedDifficulty;
+    });
+  }
+
+  List<DropdownMenuItem<String>> getDropDownMenuItems() {
+    List<DropdownMenuItem<String>> items = new List();
+    for (String each in difficulty) {
+      items.add(new DropdownMenuItem(value: each, child: new Text(each)));
+    }
+    return items;
   }
 }
