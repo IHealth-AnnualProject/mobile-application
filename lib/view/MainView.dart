@@ -4,14 +4,20 @@ import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'LoginView.dart';
 
 void main() {
-  runApp(MaterialApp(
-    theme: ThemeData(fontFamily: 'PoetsenOne'),
-    home: MainPage(),
-  ));
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
+    (_) => runApp(
+      MaterialApp(
+        theme: ThemeData(fontFamily: 'PoetsenOne'),
+        home: MainPage(),
+      ),
+    ),
+  );
 }
 
 class MainPage extends StatefulWidget {
@@ -25,7 +31,7 @@ class _MainView extends State<MainPage> {
 
   _findRedirection() {
     return this._memoizer.runOnce(() async {
-       await SettingsManager.languageStarted().then((r) async {
+      await SettingsManager.languageStarted().then((r) async {
         await TokenController.checkTokenValidity().then((tokenValid) =>
             tokenValid
                 ? destination = LoginController.redirectionLogin()
