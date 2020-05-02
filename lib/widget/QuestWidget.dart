@@ -81,17 +81,27 @@ class _QuestWidgetState extends State<QuestWidget> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      backgroundColor: Color.fromRGBO(228, 228, 228, 1),
+      backgroundColor: Colors.white,
       title: Container(
+        width: MediaQuery.of(context).size.width,
         alignment: Alignment.center,
-        child: Image.asset("assets/congrats.png"),
+        child: Image.asset("assets/congrats.gif"),
       ),
-      content: Text(
-        SettingsManager.mapLanguage["CongratsBegin"] +
-            this.widget.gainExperience.toString() +
-            SettingsManager.mapLanguage["CongratsEnd"],
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.cyan, fontSize: 17),
+      content: Text.rich(
+        TextSpan(
+          text: SettingsManager.mapLanguage["CongratsBegin"],
+          style: TextStyle(color: Colors.cyan, fontSize: 17),
+          children: [
+            TextSpan(
+              text: this.widget.gainExperience.toString(),
+              style: TextStyle(color: Colors.cyan[700], fontSize: 17),
+            ),
+            TextSpan(
+              text: SettingsManager.mapLanguage["CongratsEnd"],
+              style: TextStyle(color: Colors.cyan, fontSize: 17),
+            ),
+          ],
+        ),
       ),
       actions: [
         okButton,
