@@ -47,14 +47,14 @@ class UserProfile {
     });
   }
 
-  bool updateUserProfile(
+  Future<bool> updateUserProfile(
       {String firstname,
       String lastname,
       int age,
       String geolocation,
-      String description}) {
+      String description}) async {
     bool isUpdated = false;
-    AccountController.updateCurrentUserInformation(
+    await AccountController.updateCurrentUserInformation(
             firstname: firstname,
             lastname: lastname,
             age: age,
