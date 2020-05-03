@@ -12,7 +12,9 @@ class Feelings {
 
   Feelings.normalConstructor({this.dayOfFeeling, this.feelingsPoint})
     : moralDays = new List<String>(),
-      moralStats = new List<int>() ;
+      moralStats = new List<int>();
+
+
 
   Feelings.defaultConstructor({DateTime dayOfFeeling , String feelingsPoint  })
   : dayOfFeeling = dayOfFeeling ?? DateTime.now(),

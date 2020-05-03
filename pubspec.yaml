@@ -25,6 +25,8 @@ dependencies:
   flutter_secure_storage: ^3.3.3
   async: 2.4.0
   intl: ^0.16.1
+  intro_views_flutter: ^2.6.0
+  fab_circular_menu: ^1.0.0
   flutter:
     sdk: flutter
   yaml: ^2.2.0

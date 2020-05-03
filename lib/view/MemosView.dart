@@ -77,35 +77,6 @@ class _MemosView extends State<MemosPage> {
             SizedBox(
               height: 45,
             ),
-            RaisedButton(
-              elevation: 8,
-              color: Color.fromRGBO(104, 79, 37, 0.8),
-              shape: StadiumBorder(
-                  side: BorderSide(
-                color: Color.fromRGBO(228, 228, 228, 1),
-              )),
-              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-              onPressed: () {
-                setState(() {
-                  canCreate = true;
-                });
-              },
-              child: Text(
-                SettingsManager.mapLanguage["CreateMemos"],
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Color.fromRGBO(255, 255, 255, 100),
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            canCreate
-                ? formToCreateMemoOnDueDate()
-                : SizedBox(
-                    height: 45,
-                  ),
-            SizedBox(
-              height: 45,
-            ),
             ListView.builder(
               shrinkWrap: true,
               padding: const EdgeInsets.all(8),
@@ -118,56 +89,84 @@ class _MemosView extends State<MemosPage> {
             ),
           ],
         ),
-      )), // This trailing comma makes auto-formatting nicer for build methods.
+      )), // T
+    floatingActionButton: FloatingActionButton.extended(
+      label: Text(SettingsManager.mapLanguage["CreateMemos"]),
+      backgroundColor: Colors.cyan[700],
+      icon: Icon(Icons.add),
+      onPressed: () => showAlertDialog(context),
+    ), // his trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: BottomNavigationBarFooter(null),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text(SettingsManager.mapLanguage["Cancel"]),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    Widget cancelButton = FlatButton(
+      child: Text(SettingsManager.mapLanguage["Submit"]),
+      onPressed: () {
+        if (this._formKey.currentState.validate()) {
+          setState(() {
+            list.add(new MemosWidget(
+              title: titleController.text,
+              dueDate: dueDateController.text,
+            ));
+            canCreate = false;
+          });
+        }
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      title: Text(SettingsManager.mapLanguage["CreateMemos"], style: TextStyle(color: Colors.cyan, fontSize: 40),),
+      content: formToCreateMemoOnDueDate(),
+      actions: [
+        okButton,
+        cancelButton
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 
   Form formToCreateMemoOnDueDate() {
     return Form(
       key: _formKey,
-      child: Wrap(
-        alignment: WrapAlignment.spaceAround,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            width: MediaQuery.of(context).size.width / 3,
-            child: memosFormField(
-                labelAndHint: SettingsManager.mapLanguage["Title"],
-                textInputType: TextInputType.text,
-                textEditingController: titleController),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width / 3,
-            child: dateFormField(
-                labelAndHint: SettingsManager.mapLanguage["DueDate"],
-                textEditingController: titleController),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width / 3,
-            child: RaisedButton(
-              elevation: 8,
-              shape: StadiumBorder(),
-              color: Color.fromRGBO(104, 79, 37, 0.8),
-              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-              onPressed: () {
-                if (this._formKey.currentState.validate()) {
-                  setState(() {
-                    list.add(new MemosWidget(
-                      title: titleController.text,
-                      dueDate: dueDateController.text,
-                    ));
-                    canCreate = false;
-                  });
-                }
-              },
-              child: Text(
-                SettingsManager.mapLanguage["Submit"],
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Color.fromRGBO(255, 255, 255, 100),
-                    fontWeight: FontWeight.bold),
+          Row(
+            children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width / 3,
+                child: memosFormField(
+                    labelAndHint: SettingsManager.mapLanguage["Title"],
+                    textInputType: TextInputType.text,
+                    textEditingController: titleController),
               ),
-            ),
+              Container(
+                width: MediaQuery.of(context).size.width / 3,
+                child: dateFormField(
+                    labelAndHint: SettingsManager.mapLanguage["DueDate"],
+                    textEditingController: titleController),
+              ),
+            ],
           ),
         ],
       ),

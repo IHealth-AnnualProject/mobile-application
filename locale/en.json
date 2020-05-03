@@ -1,5 +1,6 @@
 {
   "AccountFooter": "Account",
+  "Cancel": "Cancel",
   "ChatFooter": "Chat",
   "CheckBoxPsy": "Check Psychologist if you are one, we will check it",
   "ChooseDifficulty": "Choose the difficulty",
@@ -7,7 +8,7 @@
   "CongratsBegin": "Congrats you gained ",
   "CongratsEnd": " experience solving the quest, you should be pried of you",
   "ConnectSent": "You're now connected",
-  "CreateMemos": "Create Your Memos",
+  "CreateMemos": "Create Your own Memos",
   "CreateQuest": "Create Your Quest",
   "Description": "Tell us more about you",
   "Done": "Done",

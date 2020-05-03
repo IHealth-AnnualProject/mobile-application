@@ -1,5 +1,6 @@
 {
   "AccountFooter": "Compte",
+  "Cancel": "Fermer",
   "ChatFooter": "Chat",
   "CheckBoxPsy": "Checkez Psychologue si vous en êtes un, nous le verifierons",
   "ChooseDifficulty": "Choisissez la difficulté",
@@ -7,7 +8,8 @@
   "CongratsBegin": "Félicitations vous avez gagné ",
   "CongratsEnd": " experience en finissant votre quête, vous devriez être fier de vous",
   "ConnectSent": "Vous êtes maintenant connecté",
-  "CreateMemos": "Créer votre rappel",
+  "CreateMemos": "Créer votre propre rappel",
+  "CreateQuest": "Créer votre Quête",
   "Description": "Parle nous un peu de toi",
   "Done": "Fini",
   "DoneButton": "C'est Parti !",
@@ -64,6 +66,5 @@
   "UpdateUserInformation": "Vos informations ont bien été mis à jour",
   "UserChoice": "Utilisateur",
   "UsernameText": "Pseudo",
-  "WentWrong": "Une erreur est survenue !",
-  "CreateQuest": "Créer votre Quête"
+  "WentWrong": "Une erreur est survenue !"
 }
