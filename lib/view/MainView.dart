@@ -27,7 +27,8 @@ class MainPage extends StatefulWidget {
 
 class _MainView extends State<MainPage> {
   Widget destination;
-  final AsyncMemoizer _memoizer = AsyncMemoizer();
+  bool test = false;
+  AsyncMemoizer _memoizer = AsyncMemoizer();
 
   _findRedirection() {
     return this._memoizer.runOnce(() async {
@@ -39,6 +40,12 @@ class _MainView extends State<MainPage> {
       });
       return destination;
     });
+  }
+
+  @override
+  void dispose() {
+    this._memoizer = AsyncMemoizer();
+    super.dispose();
   }
 
   @override

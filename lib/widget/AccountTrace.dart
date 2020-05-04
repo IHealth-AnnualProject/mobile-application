@@ -11,7 +11,7 @@ class AccountTrace extends StatefulWidget {
 
 class _AccountTraceState extends State<AccountTrace> {
   Feelings feelings;
-  final AsyncMemoizer _memoizer = AsyncMemoizer();
+  AsyncMemoizer _memoizer = AsyncMemoizer();
 
   @override
   void initState() {
@@ -24,6 +24,12 @@ class _AccountTraceState extends State<AccountTrace> {
       await feelings.getUserFeelings();
       return 'REMOTE DATA';
     });
+  }
+
+  @override
+  void dispose() {
+    this._memoizer = AsyncMemoizer();
+    super.dispose();
   }
 
   @override
