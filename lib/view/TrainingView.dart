@@ -1,6 +1,7 @@
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/view/ExerciseListView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:flutter/cupertino.dart';
@@ -90,32 +91,35 @@ class _TrainingView extends State<TrainingPage> with WidgetsBindingObserver {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      Container(
-                        height: 150,
-                        width: 150,
-                        decoration: BoxDecoration(
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              color: Colors.black,
-                              offset: Offset(1.0, 6.0),
-                              blurRadius: 40.0,
+                      GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ExerciseListViewPage(
+                              leading: "assets/math.png",
+                              type: "Math",
                             ),
-                          ],
-                          color: Colors.cyan,
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: AssetImage("assets/math.png"),
+                          ),
+                        ),
+                        child: Container(
+                          height: 150,
+                          width: 150,
+                          decoration: BoxDecoration(
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: Colors.black,
+                                offset: Offset(1.0, 6.0),
+                                blurRadius: 40.0,
+                              ),
+                            ],
+                            color: Colors.cyan,
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage("assets/math.png"),
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        SettingsManager.mapLanguage["ExerciseMath"],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.cyan, fontSize: 17),
-                      )
                     ],
                   ),
                   SizedBox(
@@ -123,32 +127,35 @@ class _TrainingView extends State<TrainingPage> with WidgetsBindingObserver {
                   ),
                   Column(
                     children: <Widget>[
-                      Container(
-                        height: 150,
-                        width: 150,
-                        decoration: BoxDecoration(
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              color: Colors.black,
-                              offset: Offset(1.0, 6.0),
-                              blurRadius: 40.0,
+                      GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ExerciseListViewPage(
+                              leading: "assets/muscle.png",
+                              type: "Muscle",
                             ),
-                          ],
-                          color: Colors.cyan,
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: AssetImage("assets/muscle.png"),
+                          ),
+                        ),
+                        child: Container(
+                          height: 150,
+                          width: 150,
+                          decoration: BoxDecoration(
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: Colors.black,
+                                offset: Offset(1.0, 6.0),
+                                blurRadius: 40.0,
+                              ),
+                            ],
+                            color: Colors.cyan,
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage("assets/muscle.png"),
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        SettingsManager.mapLanguage["ExercisePhysical"],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.cyan, fontSize: 17),
-                      )
                     ],
                   ),
                 ],
@@ -156,31 +163,34 @@ class _TrainingView extends State<TrainingPage> with WidgetsBindingObserver {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                height: 150,
-                width: 150,
-                decoration: BoxDecoration(
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(1.0, 6.0),
-                      blurRadius: 40.0,
+              GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ExerciseListViewPage(
+                      leading: "assets/emergency.png",
+                      type: "Emergency",
                     ),
-                  ],
-                  color: Colors.cyan,
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: AssetImage("assets/emergency.png"),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                SettingsManager.mapLanguage["ExerciseEmergency"],
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.cyan, fontSize: 17),
+                child: Container(
+                  height: 150,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black,
+                        offset: Offset(1.0, 6.0),
+                        blurRadius: 40.0,
+                      ),
+                    ],
+                    color: Colors.cyan,
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage("assets/emergency.png"),
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
                 height: 45,
