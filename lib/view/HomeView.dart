@@ -2,6 +2,7 @@ import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/view/AmbianceView.dart';
 import 'package:betsbi/view/QuestView.dart';
+import 'package:betsbi/view/TrainingView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/BrickContainer.dart';
@@ -85,7 +86,7 @@ class _HomeView extends State<HomePage> with WidgetsBindingObserver {
                           ? SettingsManager.mapLanguage["MyTrainingContainer"]
                           : "",
                   iconBrick: Icons.play_for_work,
-                  destination: null,
+                  destination: TrainingPage(),
                   image: "exercise.png"),
               BrickContainer(
                   colorBrick: Color.fromRGBO(51, 171, 249, 1),

@@ -34,9 +34,6 @@ class TokenController {
     await SettingsManager.storage
         .read(key: "userId")
         .then((id) => SettingsManager.currentId = id);
-    await SettingsManager.storage
-        .read(key: "profileId")
-        .then((profileID) => SettingsManager.currentProfileId = profileID);
   }
 
   static Map<String, dynamic> parseResponse(String response) {

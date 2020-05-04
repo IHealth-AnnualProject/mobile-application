@@ -32,7 +32,7 @@ class BrickContainer extends StatelessWidget {
             Image.asset(
               "assets/" + this.image,
             ),
-            new Text(
+            Text(
               this.textBrick,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.cyan, fontSize: 17),

@@ -15,8 +15,7 @@ class SettingsManager {
       language,
       feelingsDate,
       currentToken,
-      currentId,
-      currentProfileId;
+      currentId;
 
   static Future<Map<String, dynamic>> parseJsonFromAssets(
       String assetsPath) async {

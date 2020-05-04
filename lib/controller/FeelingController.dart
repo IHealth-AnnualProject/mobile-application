@@ -54,7 +54,7 @@ class FeelingController {
     final http.Response response = await http.get(
       SettingsManager.cfg.getString("apiUrl") +
           'userProfile/' +
-          SettingsManager.currentProfileId +
+          SettingsManager.currentId +
           '/moral-stats',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
