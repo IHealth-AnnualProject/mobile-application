@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class TokenController {
   static Future<bool> checkTokenValidity() async {
-    setTokenUserIdAndUserProfileIDFromStorageToSettingsManagerVariables();
+    await setTokenUserIdAndUserProfileIDFromStorageToSettingsManagerVariables();
     if (SettingsManager.currentToken != null) {
       try {
         final http.Response response = await http.get(
@@ -26,7 +26,7 @@ class TokenController {
       return false;
   }
 
-  static void setTokenUserIdAndUserProfileIDFromStorageToSettingsManagerVariables() async
+  static Future<void> setTokenUserIdAndUserProfileIDFromStorageToSettingsManagerVariables() async
   {
     await SettingsManager.storage
         .read(key: "token")
