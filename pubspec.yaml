@@ -26,8 +26,8 @@ dependencies:
   async: 2.4.0
   intl: ^0.16.1
   intro_views_flutter: ^2.6.0
-  fab_circular_menu: ^1.0.0
   video_player: ^0.10.9+1
+  timer_count_down: ^1.0.1
   flutter:
     sdk: flutter
   yaml: ^2.2.0

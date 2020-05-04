@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:betsbi/controller/LoginController.dart';
+import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +16,12 @@ void main() {
       MaterialApp(
         theme: ThemeData(fontFamily: 'PoetsenOne'),
         home: MainPage(),
+        builder: (BuildContext context, Widget widget) {
+          ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
+            return SettingsController.buildError(context, errorDetails);
+          };
+          return widget;
+        },
       ),
     ),
   );
@@ -27,7 +34,6 @@ class MainPage extends StatefulWidget {
 
 class _MainView extends State<MainPage> {
   Widget destination;
-  bool test = false;
   AsyncMemoizer _memoizer = AsyncMemoizer();
 
   _findRedirection() {
