@@ -13,10 +13,9 @@ class FeelingController {
     SettingsManager.storage
         .write(key: "feelingsDate", value: DateTime.now().toString())
         .then((r) => Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-              (Route<dynamic> route) => false,
-            ));
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+            (Route<dynamic> route) => false));
   }
 
   static Future<bool> sendFeelings(int value) async {

@@ -16,9 +16,9 @@ class FeelingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: () {
-        FeelingController.sendFeelings(this.idButton).then((isSent) =>
+        FeelingController.sendFeelings(this.idButton).then((isSent)  =>
             isSent ?
-            FeelingController.redirectionFeelingToHomePage(context)
+             FeelingController.redirectionFeelingToHomePage(context)
             : FlushBarError(this.errorMessage).showFlushBar(context)
         );
 

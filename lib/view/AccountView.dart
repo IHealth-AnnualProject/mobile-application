@@ -1,3 +1,5 @@
+import 'package:betsbi/controller/SettingsController.dart';
+import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/widget/AccountInformation.dart';
 import 'package:betsbi/widget/AccountTrace.dart';
@@ -14,20 +16,38 @@ class AccountPage extends StatefulWidget {
   _AccountView createState() => _AccountView();
 }
 
-class _AccountView extends State<AccountPage> {
+class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
   int _selectedBottomIndex = 1;
   bool differentView = true;
   UserProfile userProfile = new UserProfile.defaultConstructor();
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      TokenController.checkTokenValidity().then((result) {
+        if (!result) SettingsController.disconnect(context);
+      });
+    }
   }
 
   void userInformation() async {
     await userProfile.getUserProfile();
     setState(() {});
   }
+
+
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,5 @@
+import 'package:betsbi/controller/SettingsController.dart';
+import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/view/AmbianceView.dart';
 import 'package:betsbi/view/QuestView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
@@ -23,12 +25,28 @@ class HomePage extends StatefulWidget {
   _HomeView createState() => _HomeView();
 }
 
-class _HomeView extends State<HomePage> {
+class _HomeView extends State<HomePage> with WidgetsBindingObserver {
   int _selectedBottomIndex = 0;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      TokenController.checkTokenValidity().then((result) {
+        if (!result) SettingsController.disconnect(context);
+      });
+    }
   }
 
   @override

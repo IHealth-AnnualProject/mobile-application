@@ -1,3 +1,5 @@
+import 'package:betsbi/controller/SettingsController.dart';
+import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/FinalButton.dart';
@@ -14,7 +16,7 @@ class QuestCreatePage extends StatefulWidget {
   _QuestCreateView createState() => _QuestCreateView();
 }
 
-class _QuestCreateView extends State<QuestCreatePage> {
+class _QuestCreateView extends State<QuestCreatePage> with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>();
   List difficulty = ["easy", "normal", "hard"];
   List<DropdownMenuItem<String>> _dropDownMenuItems;
@@ -25,6 +27,22 @@ class _QuestCreateView extends State<QuestCreatePage> {
     _dropDownMenuItems = getDropDownMenuItems();
     _currentDifficulty = _dropDownMenuItems[0].value;
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      TokenController.checkTokenValidity().then((result) {
+        if (!result) SettingsController.disconnect(context);
+      });
+    }
   }
 
   @override

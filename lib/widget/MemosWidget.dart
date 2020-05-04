@@ -47,7 +47,6 @@ class _MemosWidgetState extends State<MemosWidget> {
                       side: BorderSide(
                     color: Color.fromRGBO(228, 228, 228, 1),
                   )),
-                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                   onPressed: () {
                     setState(() {
                       this.widget.isDone = true;

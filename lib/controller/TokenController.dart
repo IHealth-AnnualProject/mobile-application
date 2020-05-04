@@ -5,15 +5,7 @@ import 'package:http/http.dart' as http;
 
 class TokenController {
   static Future<bool> checkTokenValidity() async {
-    await SettingsManager.storage
-        .read(key: "token")
-        .then((token) => SettingsManager.currentToken = token);
-    await SettingsManager.storage
-        .read(key: "userId")
-        .then((id) => SettingsManager.currentId = id);
-    await SettingsManager.storage
-        .read(key: "profileId")
-        .then((profileID) => SettingsManager.currentProfileId = profileID);
+    setTokenUserIdAndUserProfileIDFromStorageToSettingsManagerVariables();
     if (SettingsManager.currentToken != null) {
       try {
         final http.Response response = await http.get(
@@ -32,6 +24,19 @@ class TokenController {
       }
     } else
       return false;
+  }
+
+  static void setTokenUserIdAndUserProfileIDFromStorageToSettingsManagerVariables() async
+  {
+    await SettingsManager.storage
+        .read(key: "token")
+        .then((token) => SettingsManager.currentToken = token);
+    await SettingsManager.storage
+        .read(key: "userId")
+        .then((id) => SettingsManager.currentId = id);
+    await SettingsManager.storage
+        .read(key: "profileId")
+        .then((profileID) => SettingsManager.currentProfileId = profileID);
   }
 
   static Map<String, dynamic> parseResponse(String response) {

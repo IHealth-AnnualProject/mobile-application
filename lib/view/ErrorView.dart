@@ -1,3 +1,5 @@
+import 'package:betsbi/controller/SettingsController.dart';
+import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/FinalButton.dart';
@@ -14,8 +16,28 @@ class ErrorPage extends StatefulWidget {
   _ErrorView createState() => _ErrorView();
 }
 
-class _ErrorView extends State<ErrorPage> {
+class _ErrorView extends State<ErrorPage> with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      TokenController.checkTokenValidity().then((result) {
+        if (!result) SettingsController.disconnect(context);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

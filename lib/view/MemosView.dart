@@ -1,3 +1,5 @@
+import 'package:betsbi/controller/SettingsController.dart';
+import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -8,12 +10,13 @@ import 'package:intl/intl.dart';
 
 class MemosPage extends StatefulWidget {
   MemosPage({Key key}) : super(key: key);
+  //todo bug on value.isinfinite
 
   @override
   _MemosView createState() => _MemosView();
 }
 
-class _MemosView extends State<MemosPage> {
+class _MemosView extends State<MemosPage> with WidgetsBindingObserver {
   List<Widget> list = new List<Widget>();
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
@@ -21,8 +24,23 @@ class _MemosView extends State<MemosPage> {
   bool canCreate = false;
 
   @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      TokenController.checkTokenValidity().then((result) {
+        if (!result) SettingsController.disconnect(context);
+      });
+    }
   }
 
   @override
@@ -40,18 +58,12 @@ class _MemosView extends State<MemosPage> {
           title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]
               : ""),
-      body: SingleChildScrollView(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          child: Center(
+      body:  Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           //crossAxisAlignment: CrossAxisAlignment.center,
           //mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 45,
-            ),
             Container(
               height: 200,
               width: 200,
@@ -70,13 +82,7 @@ class _MemosView extends State<MemosPage> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 45,
-            ),
             titleMemos,
-            SizedBox(
-              height: 45,
-            ),
             ListView.builder(
               shrinkWrap: true,
               padding: const EdgeInsets.all(8),
@@ -89,7 +95,7 @@ class _MemosView extends State<MemosPage> {
             ),
           ],
         ),
-      )), // T
+      ), // T
     floatingActionButton: FloatingActionButton.extended(
       label: Text(SettingsManager.mapLanguage["CreateMemos"]),
       backgroundColor: Colors.cyan[700],

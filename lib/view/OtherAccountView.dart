@@ -1,3 +1,5 @@
+import 'package:betsbi/controller/SettingsController.dart';
+import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
@@ -15,10 +17,24 @@ class OtherAccountPage extends StatefulWidget {
   _OtherAccountView createState() => _OtherAccountView();
 }
 
-class _OtherAccountView extends State<OtherAccountPage> {
+class _OtherAccountView extends State<OtherAccountPage> with WidgetsBindingObserver {
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      TokenController.checkTokenValidity()
+          .then((result) => result == false ?? SettingsController.disconnect(context));
+    }
   }
 
   TextField textFieldInformation({String label, int maxLine}) {

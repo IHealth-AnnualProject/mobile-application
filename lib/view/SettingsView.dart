@@ -1,4 +1,5 @@
 import 'package:betsbi/controller/SettingsController.dart';
+import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -12,12 +13,32 @@ class SettingsPage extends StatefulWidget {
   _SettingsView createState() => _SettingsView();
 }
 
-class _SettingsView extends State<SettingsPage> {
+class _SettingsView extends State<SettingsPage>  with WidgetsBindingObserver {
   bool currentNotification;
   List<bool> isSelected = [true, false];
 
   void _setLanguage() {
     SettingsManager.setLanguage().then((r) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      TokenController.checkTokenValidity().then((result) {
+        if (!result) SettingsController.disconnect(context);
+      });
+    }
   }
 
   @override
