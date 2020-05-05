@@ -36,24 +36,24 @@ class _ExerciseListView extends State<ExerciseListViewPage>
       case "Math":
         list.add(
           exercise(
-              leading: this.widget.leading,
               title: "test",
+              leading: this.widget.leading,
               type: SettingsManager.mapLanguage["ExerciseMath"]),
         );
         break;
       case "Emergency":
         list.add(
           exercise(
-              leading: this.widget.leading,
               title: "test",
+              leading: this.widget.leading,
               type: SettingsManager.mapLanguage["ExerciseEmergency"]),
         );
         break;
       case "Muscle":
         list.add(
           exercise(
-              leading: this.widget.leading,
               title: "test",
+              leading: this.widget.leading,
               type: SettingsManager.mapLanguage["ExercisePhysical"]),
         );
         break;
@@ -69,12 +69,13 @@ class _ExerciseListView extends State<ExerciseListViewPage>
   ListTile exercise({String leading, String title, String type}) {
     return ListTile(
       leading: CircleAvatar(
-        backgroundImage: AssetImage(leading),
-      ),
+          backgroundColor: Colors.white,
+          backgroundImage: AssetImage(leading),
+        ),
       title: Text(title),
       onTap: () {
         showAlertDialog(context);
-        _controller.play();
+        //_controller.play();
       },
       subtitle: Text(type),
     );

@@ -6,6 +6,8 @@ import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'ExerciseListView.dart';
+
 class TrainingPage extends StatefulWidget {
   TrainingPage({Key key}) : super(key: key);
 
@@ -106,49 +108,60 @@ class _TrainingView extends State<TrainingPage> with WidgetsBindingObserver {
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     elevation: 10,
-                    child: Container(
-                      height: MediaQuery.of(context).size.width + 20,
-                      width: MediaQuery.of(context).size.width - 20,
-                      color: Color.fromRGBO(0, 157, 153, 1),
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 20,
+                    child: GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ExerciseListViewPage(
+                            type: "Math",
+                            leading: "assets/math.png",
                           ),
-                          Container(
-                            height: 200,
-                            width: 200,
-                            decoration: BoxDecoration(
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                  color: Colors.black,
-                                  offset: Offset(1.0, 6.0),
-                                  blurRadius: 40.0,
+                        ),
+                      ),
+                      child: Container(
+                        height: MediaQuery.of(context).size.width + 20,
+                        width: MediaQuery.of(context).size.width - 20,
+                        color: Color.fromRGBO(0, 157, 153, 1),
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              height: 200,
+                              width: 200,
+                              decoration: BoxDecoration(
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    color: Colors.black,
+                                    offset: Offset(1.0, 6.0),
+                                    blurRadius: 40.0,
+                                  ),
+                                ],
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: AssetImage("assets/math.png"),
                                 ),
-                              ],
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage("assets/math.png"),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          title(
-                              content:
-                                  SettingsManager.mapLanguage["ExerciseMath"]),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          content(
-                              content: SettingsManager
-                                  .mapLanguage["MathExplanation"]),
-                          SizedBox(
-                            height: 20,
-                          )
-                        ],
+                            SizedBox(
+                              height: 20,
+                            ),
+                            title(
+                                content: SettingsManager
+                                    .mapLanguage["ExerciseMath"]),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            content(
+                                content: SettingsManager
+                                    .mapLanguage["MathExplanation"]),
+                            SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -157,49 +170,60 @@ class _TrainingView extends State<TrainingPage> with WidgetsBindingObserver {
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     elevation: 10,
-                    child: Container(
-                      height: MediaQuery.of(context).size.width + 20,
-                      width: MediaQuery.of(context).size.width - 20,
-                      color: Color.fromRGBO(0, 157, 153, 1),
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 20,
+                    child: GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ExerciseListViewPage(
+                            leading: "assets/muscle.png",
+                            type: "Muscle",
                           ),
-                          Container(
-                            height: 200,
-                            width: 200,
-                            decoration: BoxDecoration(
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                  color: Colors.black,
-                                  offset: Offset(1.0, 6.0),
-                                  blurRadius: 40.0,
+                        ),
+                      ),
+                      child: Container(
+                        height: MediaQuery.of(context).size.width + 20,
+                        width: MediaQuery.of(context).size.width - 20,
+                        color: Color.fromRGBO(0, 157, 153, 1),
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              height: 200,
+                              width: 200,
+                              decoration: BoxDecoration(
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    color: Colors.black,
+                                    offset: Offset(1.0, 6.0),
+                                    blurRadius: 40.0,
+                                  ),
+                                ],
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: AssetImage("assets/muscle.png"),
                                 ),
-                              ],
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage("assets/muscle.png"),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          title(
-                              content: SettingsManager
-                                  .mapLanguage["ExercisePhysical"]),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          content(
-                              content: SettingsManager
-                                  .mapLanguage["TrainingExplanation"]),
-                          SizedBox(
-                            height: 20,
-                          )
-                        ],
+                            SizedBox(
+                              height: 20,
+                            ),
+                            title(
+                                content: SettingsManager
+                                    .mapLanguage["ExercisePhysical"]),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            content(
+                                content: SettingsManager
+                                    .mapLanguage["TrainingExplanation"]),
+                            SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -208,49 +232,60 @@ class _TrainingView extends State<TrainingPage> with WidgetsBindingObserver {
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     elevation: 10,
-                    child: Container(
-                      height: MediaQuery.of(context).size.width + 20,
-                      width: MediaQuery.of(context).size.width - 20,
-                      color: Color.fromRGBO(0, 157, 153, 1),
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 20,
+                    child: GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ExerciseListViewPage(
+                            type: "Emergency",
+                            leading: "assets/emergency.png",
                           ),
-                          Container(
-                            height: 200,
-                            width: 200,
-                            decoration: BoxDecoration(
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                  color: Colors.black,
-                                  offset: Offset(1.0, 6.0),
-                                  blurRadius: 40.0,
+                        ),
+                      ),
+                      child: Container(
+                        height: MediaQuery.of(context).size.width + 20,
+                        width: MediaQuery.of(context).size.width - 20,
+                        color: Color.fromRGBO(0, 157, 153, 1),
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              height: 200,
+                              width: 200,
+                              decoration: BoxDecoration(
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    color: Colors.black,
+                                    offset: Offset(1.0, 6.0),
+                                    blurRadius: 40.0,
+                                  ),
+                                ],
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: AssetImage("assets/emergency.png"),
                                 ),
-                              ],
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage("assets/emergency.png"),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          title(
-                              content: SettingsManager
-                                  .mapLanguage["ExerciseEmergency"]),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          content(
-                              content: SettingsManager
-                                  .mapLanguage["EmergencyExplanation"]),
-                          SizedBox(
-                            height: 20,
-                          )
-                        ],
+                            SizedBox(
+                              height: 20,
+                            ),
+                            title(
+                                content: SettingsManager
+                                    .mapLanguage["ExerciseEmergency"]),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            content(
+                                content: SettingsManager
+                                    .mapLanguage["EmergencyExplanation"]),
+                            SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
