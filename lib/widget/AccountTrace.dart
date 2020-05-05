@@ -63,6 +63,7 @@ class _AccountTraceState extends State<AccountTrace> {
               return CircularProgressIndicator();
             } else {
               // data loaded:
+              print(this.widget.userProfile.userProfileId+"voila");
               return Container(
                 child: Echarts(
                   captureAllGestures: true,

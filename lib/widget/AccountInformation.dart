@@ -34,7 +34,7 @@ class _AccountInformationState extends State<AccountInformation> {
   }
 
   void userInformation() async {
-    await userProfile.getUserProfile();
+    await userProfile.getUserProfile(userID: this.widget.userProfile.userProfileId);
     setState(() {
       firstNameController = new TextEditingController()
         ..text = userProfile.firstName;

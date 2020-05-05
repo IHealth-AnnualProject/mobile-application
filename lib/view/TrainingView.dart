@@ -107,11 +107,14 @@ class _TrainingView extends State<TrainingPage> with WidgetsBindingObserver {
                     ),
                     elevation: 10,
                     child: Container(
-                      height: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width + 20,
                       width: MediaQuery.of(context).size.width - 20,
                       color: Color.fromRGBO(0, 157, 153, 1),
                       child: Column(
                         children: <Widget>[
+                          SizedBox(
+                            height: 20,
+                          ),
                           Container(
                             height: 200,
                             width: 200,
@@ -137,7 +140,7 @@ class _TrainingView extends State<TrainingPage> with WidgetsBindingObserver {
                               content:
                                   SettingsManager.mapLanguage["ExerciseMath"]),
                           SizedBox(
-                            height: 45,
+                            height: 20,
                           ),
                           content(
                               content: SettingsManager
@@ -155,11 +158,14 @@ class _TrainingView extends State<TrainingPage> with WidgetsBindingObserver {
                     ),
                     elevation: 10,
                     child: Container(
-                      height: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width + 20,
                       width: MediaQuery.of(context).size.width - 20,
                       color: Color.fromRGBO(0, 157, 153, 1),
                       child: Column(
                         children: <Widget>[
+                          SizedBox(
+                            height: 20,
+                          ),
                           Container(
                             height: 200,
                             width: 200,
@@ -185,7 +191,7 @@ class _TrainingView extends State<TrainingPage> with WidgetsBindingObserver {
                               content: SettingsManager
                                   .mapLanguage["ExercisePhysical"]),
                           SizedBox(
-                            height: 45,
+                            height: 20,
                           ),
                           content(
                               content: SettingsManager
@@ -203,11 +209,14 @@ class _TrainingView extends State<TrainingPage> with WidgetsBindingObserver {
                     ),
                     elevation: 10,
                     child: Container(
-                      height: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width + 20,
                       width: MediaQuery.of(context).size.width - 20,
                       color: Color.fromRGBO(0, 157, 153, 1),
                       child: Column(
                         children: <Widget>[
+                          SizedBox(
+                            height: 20,
+                          ),
                           Container(
                             height: 200,
                             width: 200,
@@ -233,7 +242,7 @@ class _TrainingView extends State<TrainingPage> with WidgetsBindingObserver {
                               content: SettingsManager
                                   .mapLanguage["ExerciseEmergency"]),
                           SizedBox(
-                            height: 45,
+                            height: 20,
                           ),
                           content(
                               content: SettingsManager
@@ -248,117 +257,6 @@ class _TrainingView extends State<TrainingPage> with WidgetsBindingObserver {
                 ],
               ),
             ),
-            /* Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ExerciseListViewPage(
-                              leading: "assets/math.png",
-                              type: "Math",
-                            ),
-                          ),
-                        ),
-                        child: Container(
-                          height: 150,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Colors.black,
-                                offset: Offset(1.0, 6.0),
-                                blurRadius: 40.0,
-                              ),
-                            ],
-                            color: Colors.cyan,
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage("assets/math.png"),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 45,
-                  ),
-                  Column(
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ExerciseListViewPage(
-                              leading: "assets/muscle.png",
-                              type: "Muscle",
-                            ),
-                          ),
-                        ),
-                        child: Container(
-                          height: 150,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Colors.black,
-                                offset: Offset(1.0, 6.0),
-                                blurRadius: 40.0,
-                              ),
-                            ],
-                            color: Colors.cyan,
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage("assets/muscle.png"),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ExerciseListViewPage(
-                      leading: "assets/emergency.png",
-                      type: "Emergency",
-                    ),
-                  ),
-                ),
-                child: Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.black,
-                        offset: Offset(1.0, 6.0),
-                        blurRadius: 40.0,
-                      ),
-                    ],
-                    color: Colors.cyan,
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage("assets/emergency.png"),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 45,
-              )
-            */
           ],
         ),
       ),

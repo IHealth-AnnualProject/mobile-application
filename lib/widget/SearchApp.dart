@@ -103,18 +103,23 @@ class DataSearch extends SearchDelegate<String> {
                     : Text(SettingsManager.mapLanguage["UserChoice"]),
                 title: RichText(
                   text: TextSpan(
-                      text: suggestionList[index]
-                          .username
-                          .substring(0, query.length),
-                      style: TextStyle(
-                          color: Colors.red, fontWeight: FontWeight.bold),
-                      children: [
-                        TextSpan(
-                            text: suggestionList[index]
-                                .username
-                                .substring(query.length),
-                            style: TextStyle(color: Colors.grey)),
-                      ]),
+                    text: suggestionList[index]
+                        .username
+                        .substring(0, query.length),
+                    style: TextStyle(
+                        color: Color.fromRGBO(0, 157, 153, 1),
+                        fontWeight: FontWeight.bold),
+                    children: [
+                      TextSpan(
+                        text: suggestionList[index]
+                            .username
+                            .substring(query.length),
+                        style: TextStyle(
+                          color: Color.fromRGBO(0, 157, 153, 1),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

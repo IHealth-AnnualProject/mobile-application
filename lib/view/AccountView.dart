@@ -50,7 +50,7 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
 
   findUserInformation() {
     return this._memoizer.runOnce(() async {
-      await userProfile.getUserProfile();
+      await userProfile.getUserProfile(userID: this.widget.userId);
       setState(() {});
       return userProfile;
     });
@@ -58,6 +58,7 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    print(this.widget.userId);
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -84,6 +85,7 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
                 } else {
+                  print(userProfile.username);
                   return SingleChildScrollView(
                     child: Column(
                       children: <Widget>[

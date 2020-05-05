@@ -30,6 +30,7 @@ class _ErrorView extends State<ErrorPage> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
@@ -55,9 +56,7 @@ class _ErrorView extends State<ErrorPage> with WidgetsBindingObserver {
           : "",
       textAlign: TextAlign.center,
       style: TextStyle(
-          color: Colors.cyan[300],
-          fontWeight: FontWeight.bold,
-          fontSize: 40),
+          color: Color.fromRGBO(0, 157, 153, 1), fontWeight: FontWeight.bold, fontSize: 40),
     );
     final titleError = TextFormField(
       obscureText: false,
@@ -109,63 +108,68 @@ class _ErrorView extends State<ErrorPage> with WidgetsBindingObserver {
               ? SettingsManager.mapLanguage["SearchContainer"]
               : ""),
       body: Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          child: SingleChildScrollView(
-              child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //crossAxisAlignment: CrossAxisAlignment.center,
-        //mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: 30,
-              ),
-              titleFeelings,
-              SizedBox(
-                height: 45,
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      width: 350.0,
-                      child: titleError,
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 30,
+                  ),
+                  titleFeelings,
+                  SizedBox(
+                    height: 45,
+                  ),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width: 350.0,
+                          child: titleError,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          width: 350.0,
+                          child: descriptionError,
+                        ),
+                        SizedBox(
+                          height: 45,
+                        ),
+                        Container(
+                          width: 350.0,
+                          child: FinalButton(
+                              content:
+                                  SettingsManager.mapLanguage["Submit"] != null
+                                      ? SettingsManager.mapLanguage["Submit"]
+                                      : "",
+                              destination: HomePage(),
+                              formKey: _formKey,
+                              barContent:
+                                  SettingsManager.mapLanguage["ErrorSent"] !=
+                                          null
+                                      ? SettingsManager.mapLanguage["ErrorSent"]
+                                      : ""),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: 350.0,
-                      child: descriptionError,
-                    ),
-                    SizedBox(
-                      height: 45,
-                    ),
-                    Container(
-                      width: 350.0,
-                      child: FinalButton(
-                          content: SettingsManager.mapLanguage["Submit"] != null
-                              ? SettingsManager.mapLanguage["Submit"]
-                              : "",
-                          destination: HomePage(),
-                          formKey: _formKey,
-                          barContent:
-                              SettingsManager.mapLanguage["ErrorSent"] != null
-                                  ? SettingsManager.mapLanguage["ErrorSent"]
-                                  : ""),
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                ],
+              ), // This trailing comma makes auto-formatting nicer for build methods.
             ],
-          ), // This trailing comma makes auto-formatting nicer for build methods.
-        ],
-      ))),
+          ),
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBarFooter(null),
     );
   }
