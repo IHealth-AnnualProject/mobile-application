@@ -1,6 +1,5 @@
 import 'package:async/async.dart';
 import 'package:betsbi/controller/LoginController.dart';
-import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +17,7 @@ void main() {
         home: MainPage(),
         builder: (BuildContext context, Widget widget) {
           ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
-            return SettingsController.buildError(context, errorDetails);
+            return LoginPage();
           };
           return widget;
         },

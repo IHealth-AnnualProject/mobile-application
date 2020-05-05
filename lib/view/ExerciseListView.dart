@@ -11,7 +11,7 @@ class ExerciseListViewPage extends StatefulWidget {
   final String leading;
   final String type;
   ExerciseListViewPage({this.leading, this.type, Key key}) : super(key: key);
-
+  //todo correct problem with video
   @override
   _ExerciseListView createState() => _ExerciseListView();
 }
@@ -25,6 +25,7 @@ class _ExerciseListView extends State<ExerciseListViewPage>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -59,14 +60,14 @@ class _ExerciseListView extends State<ExerciseListViewPage>
         break;
     }
     _controller = VideoPlayerController.network(
-        'https://archive.org/details/ins_max_30/Cardio+Challenge.mp4')
+        'http://techslides.com/demos/sample-videos/small.mp4')
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
       });
   }
 
-  ListTile exercise({String leading, String title, String type}) {
+  ListTile exercise({@required String leading, String title, String type}) {
     return ListTile(
       leading: CircleAvatar(
           backgroundColor: Colors.white,
@@ -75,7 +76,7 @@ class _ExerciseListView extends State<ExerciseListViewPage>
       title: Text(title),
       onTap: () {
         showAlertDialog(context);
-        //_controller.play();
+        _controller.play();
       },
       subtitle: Text(type),
     );
