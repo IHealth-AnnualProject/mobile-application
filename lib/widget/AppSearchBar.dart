@@ -21,7 +21,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Color.fromRGBO(104, 79, 37, 0.8),
+      backgroundColor: Color.fromRGBO(0, 116, 113, 1),
       title: Text(this.widget.title),
       actions: <Widget>[
         IconButton(

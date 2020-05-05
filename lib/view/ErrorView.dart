@@ -104,7 +104,6 @@ class _ErrorView extends State<ErrorPage> with WidgetsBindingObserver {
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
     return Scaffold(
-      backgroundColor: Color.fromRGBO(228, 228, 228, 1),
       appBar: AppSearchBar.appSearchBarNormal(
           title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]

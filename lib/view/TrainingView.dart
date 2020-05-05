@@ -44,7 +44,6 @@ class _TrainingView extends State<TrainingPage> with WidgetsBindingObserver {
       style: TextStyle(color: Colors.cyan[300], fontSize: 40),
     );
     return Scaffold(
-      backgroundColor: Color.fromRGBO(228, 228, 228, 1),
       appBar: AppSearchBar.appSearchBarNormal(
           title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]

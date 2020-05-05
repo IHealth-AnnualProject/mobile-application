@@ -29,11 +29,11 @@ class _QuestWidgetState extends State<QuestWidget> {
       children: <Widget>[
         Text(
           this.widget.title,
-          style: TextStyle(fontSize: 25, color: Colors.cyan),
+          style: TextStyle(fontSize: 25, color: Color.fromRGBO(0, 157, 153, 1)),
         ),
         Text(
           this.widget.questSate,
-          style: TextStyle(fontSize: 25, color: Colors.cyan[700]),
+          style: TextStyle(fontSize: 25, color: Color.fromRGBO(0, 157, 153, 1)),
         ),
         SizedBox(
           width: 20,
@@ -41,11 +41,11 @@ class _QuestWidgetState extends State<QuestWidget> {
         this.widget.isDone
             ? Text(
                 SettingsManager.mapLanguage["Done"],
-                style: TextStyle(color: Colors.lime[700], fontSize: 25),
+                style: TextStyle(color: Color.fromRGBO(255, 195, 0, 1), fontSize: 25),
               )
             : RaisedButton(
                 elevation: 8,
-                color: Colors.lime[700],
+                color: Color.fromRGBO(255, 195, 0, 1),
                 shape: StadiumBorder(
                     side: BorderSide(
                   color: Color.fromRGBO(228, 228, 228, 1),
@@ -90,15 +90,15 @@ class _QuestWidgetState extends State<QuestWidget> {
       content: Text.rich(
         TextSpan(
           text: SettingsManager.mapLanguage["CongratsBegin"],
-          style: TextStyle(color: Colors.cyan, fontSize: 17),
+          style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
           children: [
             TextSpan(
               text: this.widget.gainExperience.toString(),
-              style: TextStyle(color: Colors.cyan[700], fontSize: 17),
+              style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontWeight: FontWeight.bold, fontSize: 17),
             ),
             TextSpan(
               text: SettingsManager.mapLanguage["CongratsEnd"],
-              style: TextStyle(color: Colors.cyan, fontSize: 17),
+              style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
             ),
           ],
         ),

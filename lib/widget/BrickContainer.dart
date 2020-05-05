@@ -19,25 +19,32 @@ class BrickContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GestureDetector(
-        onTap: () {
-          if (this.destination != null)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => this.destination));
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Image.asset(
-              "assets/" + this.image,
-            ),
-            Text(
-              this.textBrick,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.cyan, fontSize: 17),
-            ),
-          ],
+    return Card(
+      elevation: 10,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: Container(
+        child: GestureDetector(
+          onTap: () {
+            if (this.destination != null)
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => this.destination));
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Image.asset(
+                "assets/" + this.image,
+              ),
+              Text(
+                this.textBrick,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Color.fromRGBO(2, 168, 168, 1), fontSize: 17),
+              ),
+            ],
+          ),
         ),
       ),
     );

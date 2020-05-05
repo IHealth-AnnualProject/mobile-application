@@ -61,7 +61,7 @@ class _QuestCreateView extends State<QuestCreatePage> with WidgetsBindingObserve
           : "",
       textAlign: TextAlign.center,
       style: TextStyle(
-          color: Colors.cyan[300],
+          color: Color.fromRGBO(0, 157, 153, 1),
           fontWeight: FontWeight.bold,
           fontSize: 40),
     );
@@ -110,7 +110,6 @@ class _QuestCreateView extends State<QuestCreatePage> with WidgetsBindingObserve
               OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
     return Scaffold(
-      backgroundColor: Color.fromRGBO(228, 228, 228, 1),
       appBar: AppSearchBar.appSearchBarNormal(
           title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]
@@ -159,7 +158,7 @@ class _QuestCreateView extends State<QuestCreatePage> with WidgetsBindingObserve
                         Text(
                           SettingsManager.mapLanguage["ChooseDifficulty"],
                           style:
-                              TextStyle(color: Colors.cyan[700], fontSize: 17),
+                              TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
                         ),
                         SizedBox(
                           width: 20,

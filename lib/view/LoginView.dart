@@ -34,7 +34,7 @@ class _LoginView extends State<LoginPage> {
       return RaisedButton(
         elevation: 8,
         shape: StadiumBorder(),
-        color: Color.fromRGBO(104, 79, 37, 0.8),
+        color: Color.fromRGBO(255, 195, 0, 1),
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () async {
           if (this._formKey.currentState.validate()) {
@@ -142,7 +142,7 @@ class _LoginView extends State<LoginPage> {
       child: new Text(
         SettingsManager.language != null ? SettingsManager.language : "",
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.cyan,fontSize: 17),
+        style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1),fontSize: 17),
       ),
     );
     final signUp = InkWell(
@@ -156,10 +156,9 @@ class _LoginView extends State<LoginPage> {
               ? SettingsManager.mapLanguage["SignUp"]
               : "",
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.cyan,fontSize: 17),
+          style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1),fontSize: 17),
         ));
     return Scaffold(
-        backgroundColor: Color.fromRGBO(228, 228, 228, 1),
         body: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
@@ -243,7 +242,7 @@ class _LoginView extends State<LoginPage> {
                                 SettingsManager.mapLanguage["NoAccount"] != null
                                     ? SettingsManager.mapLanguage["NoAccount"]
                                     : "",
-                                style: TextStyle(color: Colors.cyan[300],fontSize: 17)),
+                                style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1),fontSize: 17)),
                             signUp
                           ],
                         ),

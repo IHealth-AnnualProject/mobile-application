@@ -34,6 +34,7 @@ class _MemosView extends State<MemosPage> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
@@ -50,20 +51,20 @@ class _MemosView extends State<MemosPage> with WidgetsBindingObserver {
           ? SettingsManager.mapLanguage["MemosList"]
           : "",
       textAlign: TextAlign.center,
-      style: TextStyle(color: Colors.cyan[300], fontSize: 40),
+      style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
     );
     return Scaffold(
-      backgroundColor: Color.fromRGBO(228, 228, 228, 1),
       appBar: AppSearchBar.appSearchBarNormal(
           title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]
               : ""),
-      body:  Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //crossAxisAlignment: CrossAxisAlignment.center,
-          //mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(
+              height: 45,
+            ),
             Container(
               height: 200,
               width: 200,
@@ -75,33 +76,40 @@ class _MemosView extends State<MemosPage> with WidgetsBindingObserver {
                     blurRadius: 40.0,
                   ),
                 ],
-                color: Colors.cyan,
+                color: Colors.white,
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   image: AssetImage("assets/notes.png"),
                 ),
               ),
             ),
+            SizedBox(
+              height: 45,
+            ),
             titleMemos,
-            ListView.builder(
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(8),
-              itemCount: list.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  child: list[index],
-                );
-              },
+            Column(
+              children: <Widget>[
+                ListView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(8),
+                  itemCount: list.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      child: list[index],
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),
       ), // T
-    floatingActionButton: FloatingActionButton.extended(
-      label: Text(SettingsManager.mapLanguage["CreateMemos"]),
-      backgroundColor: Colors.cyan[700],
-      icon: Icon(Icons.add),
-      onPressed: () => showAlertDialog(context),
-    ), // his trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text(SettingsManager.mapLanguage["CreateMemos"]),
+        backgroundColor: Color.fromRGBO(0, 157, 153, 1),
+        icon: Icon(Icons.add),
+        onPressed: () => showAlertDialog(context),
+      ), // his trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: BottomNavigationBarFooter(null),
     );
   }
@@ -133,12 +141,12 @@ class _MemosView extends State<MemosPage> with WidgetsBindingObserver {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       backgroundColor: Colors.white,
-      title: Text(SettingsManager.mapLanguage["CreateMemos"], style: TextStyle(color: Colors.cyan, fontSize: 40),),
+      title: Text(
+        SettingsManager.mapLanguage["CreateMemos"],
+        style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
+      ),
       content: formToCreateMemoOnDueDate(),
-      actions: [
-        okButton,
-        cancelButton
-      ],
+      actions: [okButton, cancelButton],
     );
 
     // show the dialog

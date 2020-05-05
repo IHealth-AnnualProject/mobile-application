@@ -112,7 +112,6 @@ class _FeelingsView extends State<FeelingsPage> with WidgetsBindingObserver {
           fontSize: 40),
     );
     return Scaffold(
-        backgroundColor: Color.fromRGBO(228, 228, 228, 1),
         body: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.

@@ -103,7 +103,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         },
         child: new Text(
           this.widget.message,
-          style: TextStyle(color: Colors.cyan, fontSize: 17, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ));
   }

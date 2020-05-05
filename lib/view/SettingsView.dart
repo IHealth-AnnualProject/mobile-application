@@ -59,7 +59,7 @@ class _SettingsView extends State<SettingsPage>  with WidgetsBindingObserver {
       return RaisedButton(
         elevation: 8,
         shape: StadiumBorder(),
-        color: Color.fromRGBO(104, 79, 37, 0.8),
+        color: Color.fromRGBO(255, 195, 0, 1),
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           SettingsController.disconnect(context);
@@ -116,11 +116,10 @@ class _SettingsView extends State<SettingsPage>  with WidgetsBindingObserver {
       child: new Text(
         SettingsManager.language != null ? SettingsManager.language : "",
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.cyan[700], fontSize: 40),
+        style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
       ),
     );
     return Scaffold(
-      backgroundColor: Color.fromRGBO(228, 228, 228, 1),
       appBar: AppSearchBar.appSearchBarNormal(
           title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]
@@ -142,7 +141,7 @@ class _SettingsView extends State<SettingsPage>  with WidgetsBindingObserver {
                   blurRadius: 40.0,
                 ),
               ],
-              color: Colors.cyan,
+              color: Colors.white,
               shape: BoxShape.circle,
               image: DecorationImage(
                 image: AssetImage("assets/settings.png"),
@@ -159,7 +158,7 @@ class _SettingsView extends State<SettingsPage>  with WidgetsBindingObserver {
                 SettingsManager.mapLanguage["LanguageChanged"] != null
                     ? SettingsManager.mapLanguage["LanguageChanged"]
                     : "",
-                style: TextStyle(color: Colors.cyan, fontSize: 25),
+                style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 25),
               ),
               SizedBox(
                 width: 20,
@@ -177,7 +176,7 @@ class _SettingsView extends State<SettingsPage>  with WidgetsBindingObserver {
                 SettingsManager.mapLanguage["NotificationPushActivated"] != null
                     ? SettingsManager.mapLanguage["NotificationPushActivated"]
                     : "",
-                style: TextStyle(color: Colors.cyan, fontSize: 25),
+                style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 25),
               ),
               statusPushNotification
             ],

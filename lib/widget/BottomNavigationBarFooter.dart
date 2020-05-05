@@ -19,19 +19,19 @@ class _BottomNavigationBarFooterState extends State<BottomNavigationBarFooter> {
     return BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home, color: Color.fromRGBO(255, 195, 0, 1),),
             title: Text(SettingsManager.mapLanguage["HomeFooter"] != null
                 ? SettingsManager.mapLanguage["HomeFooter"]
                 : ""),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_box),
+            icon: Icon(Icons.account_box, color: Color.fromRGBO(255, 195, 0, 1),),
             title: Text(SettingsManager.mapLanguage["AccountFooter"] != null
                 ? SettingsManager.mapLanguage["AccountFooter"]
                 : ""),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
+            icon: Icon(Icons.chat, color: Color.fromRGBO(255, 195, 0, 1),),
             title: Text(SettingsManager.mapLanguage["ChatFooter"] != null
                 ? SettingsManager.mapLanguage["ChatFooter"]
                 : ""),
@@ -48,19 +48,19 @@ class _BottomNavigationBarFooterState extends State<BottomNavigationBarFooter> {
     return BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home, color: Color.fromRGBO(255, 195, 0, 1),),
             title: Text(SettingsManager.mapLanguage["HomeFooter"] != null
                 ? SettingsManager.mapLanguage["HomeFooter"]
                 : ""),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_box),
+            icon: Icon(Icons.account_box, color: Color.fromRGBO(255, 195, 0, 1),),
             title: Text(SettingsManager.mapLanguage["AccountFooter"] != null
                 ? SettingsManager.mapLanguage["AccountFooter"]
                 : ""),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
+            icon: Icon(Icons.chat, color: Color.fromRGBO(255, 195, 0, 1),),
             title: Text(SettingsManager.mapLanguage["ChatFooter"] != null
                 ? SettingsManager.mapLanguage["ChatFooter"]
                 : ""),

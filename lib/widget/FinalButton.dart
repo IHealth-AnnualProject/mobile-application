@@ -15,7 +15,7 @@ class FinalButton extends StatelessWidget {
     return RaisedButton(
       elevation: 8,
       shape: StadiumBorder(),
-      color: Color.fromRGBO(104, 79, 37, 0.8),
+      color: Color.fromRGBO(255, 195, 0, 1),
       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
       onPressed: () {
         if (this.formKey.currentState.validate()) {

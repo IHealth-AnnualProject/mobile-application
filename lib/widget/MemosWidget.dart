@@ -24,13 +24,13 @@ class _MemosWidgetState extends State<MemosWidget> {
         children: <Widget>[
           Text(
             this.widget.title,
-            style: TextStyle(fontSize: 25, color: Colors.cyan),
+            style: TextStyle(fontSize: 25, color: Color.fromRGBO(0, 157, 153, 1)),
           ),
           Text(
             SettingsManager.mapLanguage["DueDate"] +
                 " " +
                 this.widget.dueDate,
-            style: TextStyle(fontSize: 25, color: Colors.cyan[700]),
+            style: TextStyle(fontSize: 25, color: Color.fromRGBO(0, 157, 153, 1), fontWeight: FontWeight.bold),
           ),
           SizedBox(
             width: 20,
@@ -38,14 +38,14 @@ class _MemosWidgetState extends State<MemosWidget> {
           this.widget.isDone
               ? Text(
                   SettingsManager.mapLanguage["Done"],
-                  style: TextStyle(color: Colors.lime[700], fontSize: 25),
+                  style: TextStyle(color: Colors.white, fontSize: 25),
                 )
               : RaisedButton(
                   elevation: 8,
-                  color: Colors.lime[700],
+                  color: Color.fromRGBO(255, 195, 0, 1),
                   shape: StadiumBorder(
                       side: BorderSide(
-                    color: Color.fromRGBO(228, 228, 228, 1),
+                    color: Color.fromRGBO(255, 195, 0, 1),
                   )),
                   onPressed: () {
                     setState(() {

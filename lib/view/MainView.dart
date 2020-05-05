@@ -57,7 +57,6 @@ class _MainView extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(228, 228, 228, 1),
         body: FutureBuilder(
           future: _findRedirection(),
           builder: (context, snapshot) {
