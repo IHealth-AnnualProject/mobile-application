@@ -26,14 +26,17 @@ class TokenController {
       return false;
   }
 
-  static Future<void> setTokenUserIdAndUserProfileIDFromStorageToSettingsManagerVariables() async
-  {
+  static Future<void>
+      setTokenUserIdAndUserProfileIDFromStorageToSettingsManagerVariables() async {
     await SettingsManager.storage
         .read(key: "token")
         .then((token) => SettingsManager.currentToken = token);
     await SettingsManager.storage
         .read(key: "userId")
         .then((id) => SettingsManager.currentId = id);
+    await SettingsManager.storage
+        .read(key: "isPsy")
+        .then((isPsy) => SettingsManager.isPsy = isPsy);
   }
 
   static Map<String, dynamic> parseResponse(String response) {

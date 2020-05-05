@@ -15,7 +15,7 @@ class SettingsManager {
       language,
       feelingsDate,
       currentToken,
-      currentId;
+      currentId, isPsy;
 
   static Future<Map<String, dynamic>> parseJsonFromAssets(
       String assetsPath) async {
@@ -50,6 +50,7 @@ class SettingsManager {
     currentLanguage = await storage.read(key: "currentLanguage");
     language = await storage.read(key: "language");
     feelingsDate = await storage.read(key: "feelingsDate");
+    isPsy = await storage.read(key: "isPsy");
     if (currentLanguage == null) {
       await storage.write(key: "currentLanguage", value: "FR");
       currentLanguage = await storage.read(key: "currentLanguage");
@@ -61,6 +62,10 @@ class SettingsManager {
     if (feelingsDate == null) {
       await storage.write(key: "feelingsDate", value: "");
       feelingsDate = await storage.read(key: "feelingsDate");
+    }
+    if (isPsy == null) {
+      await storage.write(key: "isPsy", value: "false");
+      isPsy = await storage.read(key: "isPsy");
     }
   }
 

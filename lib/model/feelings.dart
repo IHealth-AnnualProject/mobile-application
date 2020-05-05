@@ -25,9 +25,9 @@ class Feelings {
         dayOfFeeling: DateTime.parse(json['created']), feelingsPoint: json['value']);
   }
 
-  Future<bool> getUserFeelings() async {
+  Future<bool> getUserFeelings(String userID) async {
     LinkedHashMap<String, int> mapFeeling = new LinkedHashMap<String, int>();
-    List<Feelings> feelings = await FeelingController.getAllFeelings();
+    List<Feelings> feelings = await FeelingController.getAllFeelings(userID);
     mapFeeling = FeelingController.renderMapFeeling(feelings);
     mapFeeling.forEach((key, value) {
       this.moralStats.add(value);

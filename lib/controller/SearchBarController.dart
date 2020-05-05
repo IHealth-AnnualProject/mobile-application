@@ -17,6 +17,7 @@ class SearchBarController{
         Iterable list = json.decode(response.body);
         users = list.map((model) => UserProfile.fromJson(model)).toList();
         users.removeWhere((user) => user.userProfileId == SettingsManager.currentId);
+        // remove psy from list if you're already a psy
         if (response.statusCode == 200) {
           return users;
         } else

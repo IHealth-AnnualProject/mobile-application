@@ -9,6 +9,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AccountInformation extends StatefulWidget {
+  final bool isReadOnly;
+  final bool isPsy;
+  final UserProfile userProfile;
+  AccountInformation(
+      {@required this.isReadOnly, this.isPsy, this.userProfile, Key key})
+      : super(key: key);
+
   State<AccountInformation> createState() => _AccountInformationState();
 }
 
@@ -52,6 +59,7 @@ class _AccountInformationState extends State<AccountInformation> {
       obscureText: false,
       maxLines: maxLine == null ? 1 : maxLine,
       maxLength: maxLength,
+      readOnly: this.widget.isReadOnly,
       textAlign: TextAlign.left,
       validator: (value) {
         if (value.isEmpty) {
@@ -83,7 +91,7 @@ class _AccountInformationState extends State<AccountInformation> {
       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
       onPressed: () async {
         if (this._formKey.currentState.validate()) {
-          if ( await userProfile.updateUserProfile(
+          if (await userProfile.updateUserProfile(
               firstname: firstNameController.text,
               lastname: lastNameController.text,
               age: int.parse(ageController.text),
@@ -101,7 +109,7 @@ class _AccountInformationState extends State<AccountInformation> {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => AccountPage()),
+                        builder: (BuildContext context) => AccountPage(userId: this.widget.userProfile.userProfileId,isPsy: this.widget.isPsy,)),
                     (Route<dynamic> route) => false,
                   );
                 });

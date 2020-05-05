@@ -10,20 +10,30 @@ import 'package:http/http.dart' as http;
 class LoginController {
   static DateTime feelingsParsed;
 
-  static Widget redirectionLogin() {
-    if (SettingsManager.feelingsDate.isNotEmpty) {
-      final tomorrow = DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
-      feelingsParsed = DateTime.parse(SettingsManager.feelingsDate);
-      final dateToCompare = DateTime(
-          feelingsParsed.year, feelingsParsed.month, feelingsParsed.day + 1);
-      if (dateToCompare.isBefore(tomorrow)) {
+  static Widget redirectionLogin({bool isPsy = false}) {
+    if(SettingsManager.isPsy.toLowerCase() == 'false') {
+      if (SettingsManager.feelingsDate.isNotEmpty) {
+        final tomorrow = DateTime(
+            DateTime
+                .now()
+                .year, DateTime
+            .now()
+            .month, DateTime
+            .now()
+            .day + 1);
+        feelingsParsed = DateTime.parse(SettingsManager.feelingsDate);
+        final dateToCompare = DateTime(
+            feelingsParsed.year, feelingsParsed.month, feelingsParsed.day + 1);
+        if (dateToCompare.isBefore(tomorrow)) {
+          return FeelingsPage();
+        } else {
+          return HomePage(isPsy: false,);
+        }
+      } else
         return FeelingsPage();
-      } else {
-        return HomePage();
-      }
-    } else
-      return FeelingsPage();
+    }
+    else
+      return HomePage(isPsy: true,);
   }
 
   static Future<bool> login(String username, String password) async {
@@ -49,6 +59,12 @@ class LoginController {
               value: parseResponse(response.body)["token"]["access_token"])
           .then((r) => SettingsManager.currentToken =
               parseResponse(response.body)["token"]["access_token"]);
+      await SettingsManager.storage
+          .write(
+          key: "isPsy",
+          value: parseResponse(response.body)["user"]["isPsy"].toString())
+          .then((r) => SettingsManager.isPsy =
+      parseResponse(response.body)["user"]["isPsy"].toString());
       return true;
     } else
       return false;

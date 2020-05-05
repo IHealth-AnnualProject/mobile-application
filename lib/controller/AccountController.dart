@@ -6,13 +6,13 @@ import 'package:betsbi/service/SettingsManager.dart';
 import 'package:http/http.dart' as http;
 
 class AccountController {
-  static Future<UserProfile> getCurrentUserInformation() async {
+  static Future<UserProfile> getCurrentUserInformation(String userID) async {
     if (SettingsManager.currentToken != null &&
         SettingsManager.currentToken != "") {
       final http.Response response = await http.get(
         SettingsManager.cfg.getString("apiUrl") +
             'userProfile/' +
-            SettingsManager.currentId +
+            userID +
             '/user',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

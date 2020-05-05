@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/model/userProfile.dart';
@@ -10,7 +11,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AccountPage extends StatefulWidget {
-  AccountPage({Key key}) : super(key: key);
+  final bool isPsy;
+  final String userId;
+  AccountPage({this.isPsy = false, @required this.userId, Key key})
+      : super(key: key);
 
   @override
   _AccountView createState() => _AccountView();
@@ -19,7 +23,9 @@ class AccountPage extends StatefulWidget {
 class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
   int _selectedBottomIndex = 1;
   bool differentView = true;
+  bool isReadOnly = false;
   UserProfile userProfile = new UserProfile.defaultConstructor();
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
 
   @override
   void dispose() {
@@ -42,16 +48,16 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
     }
   }
 
-  void userInformation() async {
-    await userProfile.getUserProfile();
-    setState(() {});
+  findUserInformation() {
+    return this._memoizer.runOnce(() async {
+      await userProfile.getUserProfile();
+      setState(() {});
+      return userProfile;
+    });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
-    userInformation();
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -72,59 +78,58 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
             : "",
       ),
       body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: changeStateButton(
-                          id: 1,
-                          buttonContent: "Information",
-                          colorOn: differentView)),
-                  Container(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: changeStateButton(
-                          id: 2,
-                          buttonContent: SettingsManager.mapLanguage["Trace"],
-                          colorOn: !differentView)),
-                ],
-              ),
-              SizedBox(
-                height: 45,
-              ),
-              Container(
-                height: 200,
-                width: 200,
-                decoration: BoxDecoration(
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(1.0, 6.0),
-                      blurRadius: 40.0,
+          child: FutureBuilder(
+              future: findUserInformation(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else {
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        accountButton(),
+                        SizedBox(
+                          height: 45,
+                        ),
+                        Container(
+                          height: 200,
+                          width: 200,
+                          decoration: BoxDecoration(
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: Colors.black,
+                                offset: Offset(1.0, 6.0),
+                                blurRadius: 40.0,
+                              ),
+                            ],
+                            color: Colors.cyan,
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage("assets/user.png"),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 45,
+                        ),
+                        titleAccount,
+                        SizedBox(
+                          height: 45,
+                        ),
+                        differentView
+                            ? AccountInformation(
+                                userProfile: userProfile,
+                                isReadOnly: isReadOnly,
+                                isPsy: this.widget.isPsy,
+                              )
+                            : AccountTrace(
+                                userProfile: userProfile,
+                              ),
+                      ],
                     ),
-                  ],
-                  color: Colors.cyan,
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: AssetImage("assets/user.png"),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 45,
-              ),
-              titleAccount,
-              SizedBox(
-                height: 45,
-              ),
-              differentView ? AccountInformation() : AccountTrace(),
-            ],
-          ),
-        ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+                  );
+                }
+              })), // This trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex),
     );
   }
@@ -160,5 +165,69 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
             fontWeight: FontWeight.bold),
       ),
     );
+  }
+
+  Row accountButton() {
+    Row row;
+    if (this.widget.isPsy) {
+      isReadOnly = false;
+      row = Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+              width: MediaQuery.of(context).size.width / 1,
+              child: changeStateButton(
+                  id: 1, buttonContent: "Information", colorOn: differentView)),
+        ],
+      );
+    } else {
+      isReadOnly = false;
+      row = Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+              width: MediaQuery.of(context).size.width / 2,
+              child: changeStateButton(
+                  id: 1, buttonContent: "Information", colorOn: differentView)),
+          Container(
+              width: MediaQuery.of(context).size.width / 2,
+              child: changeStateButton(
+                  id: 2,
+                  buttonContent: SettingsManager.mapLanguage["Trace"],
+                  colorOn: !differentView)),
+        ],
+      );
+    }
+    if (this.widget.isPsy && this.widget.userId != SettingsManager.currentId) {
+      isReadOnly = true;
+      row = Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+              width: MediaQuery.of(context).size.width / 2,
+              child: changeStateButton(
+                  id: 1, buttonContent: "Information", colorOn: differentView)),
+          Container(
+              width: MediaQuery.of(context).size.width / 2,
+              child: changeStateButton(
+                  id: 2,
+                  buttonContent: SettingsManager.mapLanguage["Trace"],
+                  colorOn: !differentView)),
+        ],
+      );
+    }
+    if (!this.widget.isPsy && this.widget.userId != SettingsManager.currentId) {
+      isReadOnly = true;
+      row = Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+              width: MediaQuery.of(context).size.width / 1,
+              child: changeStateButton(
+                  id: 1, buttonContent: "Information", colorOn: differentView)),
+        ],
+      );
+    }
+    return row;
   }
 }

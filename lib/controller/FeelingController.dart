@@ -50,11 +50,11 @@ class FeelingController {
     return feelings;
   }
 
-  static Future<List<Feelings>> getAllFeelings() async {
+  static Future<List<Feelings>> getAllFeelings(String userId) async {
     final http.Response response = await http.get(
       SettingsManager.cfg.getString("apiUrl") +
           'userProfile/' +
-          SettingsManager.currentId +
+          userId +
           '/moral-stats',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',

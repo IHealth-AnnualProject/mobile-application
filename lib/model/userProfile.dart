@@ -23,7 +23,9 @@ class UserProfile {
       this.lastName = "",
       this.age = "",
       this.description = "",
-      this.username = ""});
+      this.username = "",
+      this.isPsy = false,
+      this.userProfileId = ""});
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile.normalConstructor(
@@ -33,17 +35,19 @@ class UserProfile {
         description: json['description'],
         username: json['user']['username'],
         isPsy: json['user']['isPsy'],
-        userProfileId : json['user']['id']);
+        userProfileId: json['user']['id']);
   }
 
-  Future<void> getUserProfile() async {
-    await AccountController.getCurrentUserInformation()
+  Future<UserProfile> getUserProfile({String userID}) async {
+     await AccountController.getCurrentUserInformation(userID)
         .then((userProfileResult) {
       this.firstName = userProfileResult.firstName;
       this.lastName = userProfileResult.lastName;
       this.age = userProfileResult.age;
       this.description = userProfileResult.description;
       this.username = userProfileResult.username;
+      this.userProfileId = userProfileResult.userProfileId;
+      this.isPsy = userProfileResult.isPsy;
     });
   }
 

@@ -1,17 +1,23 @@
 import 'package:async/async.dart';
 import 'package:betsbi/model/feelings.dart';
+import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 
 class AccountTrace extends StatefulWidget {
+  final UserProfile userProfile;
+
+  AccountTrace({Key key, @required this.userProfile})
+      : super(key: key);
+
   State<AccountTrace> createState() => _AccountTraceState();
 }
 
 class _AccountTraceState extends State<AccountTrace> {
   Feelings feelings;
-  AsyncMemoizer _memoizer = AsyncMemoizer();
+  AsyncMemoizer _memorizer = AsyncMemoizer();
 
   @override
   void initState() {
@@ -19,16 +25,17 @@ class _AccountTraceState extends State<AccountTrace> {
   }
 
   _fetchData() {
-    return this._memoizer.runOnce(() async {
+    return this._memorizer.runOnce(() async {
       feelings = new Feelings.normalConstructor();
-      await feelings.getUserFeelings();
-      return 'REMOTE DATA';
+      await feelings.getUserFeelings(this.widget.userProfile.userProfileId);
+      setState(() {});
+      return feelings;
     });
   }
 
   @override
   void dispose() {
-    this._memoizer = AsyncMemoizer();
+    this._memorizer = AsyncMemoizer();
     super.dispose();
   }
 

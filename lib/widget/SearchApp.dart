@@ -1,7 +1,7 @@
 import 'package:betsbi/controller/SearchBarController.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/view/OtherAccountView.dart';
+import 'package:betsbi/view/AccountView.dart';
 import 'package:flutter/material.dart';
 import 'package:async/async.dart';
 
@@ -77,17 +77,17 @@ class DataSearch extends SearchDelegate<String> {
           final suggestionList = query.isEmpty
               ? userProfiles
               : userProfiles
-                  .where((p) =>
-                      p.username.contains(RegExp(query, caseSensitive: false)))
-                  .toList();
+              .where((p) =>
+              p.username.contains(RegExp(query, caseSensitive: false)))
+              .toList();
           return ListView.builder(
             itemBuilder: (context, index) => ListTile(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => OtherAccountPage(
-                        otherUserProfile: suggestionList[index]),
+                    builder: (context) => AccountPage(isPsy: SettingsManager.isPsy.toLowerCase() == 'true' ? true : false,
+                        userId: suggestionList[index].userProfileId),
                   ),
                 );
               },
