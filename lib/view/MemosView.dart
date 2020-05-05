@@ -10,7 +10,6 @@ import 'package:intl/intl.dart';
 
 class MemosPage extends StatefulWidget {
   MemosPage({Key key}) : super(key: key);
-  //todo bug on value.isinfinite
 
   @override
   _MemosView createState() => _MemosView();

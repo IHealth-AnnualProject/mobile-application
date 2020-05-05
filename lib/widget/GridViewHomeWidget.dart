@@ -57,7 +57,7 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
                           : "",
                   iconBrick: Icons.play_for_work,
                   destination: TrainingPage(),
-                  image: "exercise.png"),
+                  image: "training.png"),
               BrickContainer(
                   colorBrick: Color.fromRGBO(51, 171, 249, 1),
                   textBrick:
@@ -122,7 +122,7 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
                           : "",
                   iconBrick: Icons.play_for_work,
                   destination: TrainingPage(),
-                  image: "exercise.png"),
+                  image: "training.png"),
               BrickContainer(
                   colorBrick: Color.fromRGBO(51, 171, 249, 1),
                   textBrick:
@@ -140,7 +140,7 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
                           : "",
                   iconBrick: Icons.music_note,
                   destination: AmbiancePage(),
-                  image: "training.png"),
+                  image: "exercise.png"),
               BrickContainer(
                   colorBrick: Color.fromRGBO(51, 171, 249, 1),
                   textBrick:
