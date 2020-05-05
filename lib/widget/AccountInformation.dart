@@ -34,7 +34,8 @@ class _AccountInformationState extends State<AccountInformation> {
   }
 
   void userInformation() async {
-    await userProfile.getUserProfile(userID: this.widget.userProfile.userProfileId);
+    await userProfile.getUserProfile(
+        userID: this.widget.userProfile.userProfileId);
     setState(() {
       firstNameController = new TextEditingController()
         ..text = userProfile.firstName;
@@ -87,7 +88,7 @@ class _AccountInformationState extends State<AccountInformation> {
     return RaisedButton(
       elevation: 8,
       shape: StadiumBorder(),
-      color: Color.fromRGBO(104, 79, 37, 0.8),
+      color: Color.fromRGBO(255, 195, 0, 1),
       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
       onPressed: () async {
         if (this._formKey.currentState.validate()) {
@@ -109,7 +110,10 @@ class _AccountInformationState extends State<AccountInformation> {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => AccountPage(userId: this.widget.userProfile.userProfileId,isPsy: this.widget.isPsy,)),
+                        builder: (BuildContext context) => AccountPage(
+                              userId: this.widget.userProfile.userProfileId,
+                              isPsy: this.widget.isPsy,
+                            )),
                     (Route<dynamic> route) => false,
                   );
                 });
@@ -140,11 +144,12 @@ class _AccountInformationState extends State<AccountInformation> {
             alignment: Alignment.topLeft,
             child: Text(
               SettingsManager.mapLanguage["PersonalInformation"],
-              style: TextStyle(fontSize: 30, color: Colors.cyan),
+              style: TextStyle(
+                  fontSize: 30, color: Color.fromRGBO(0, 157, 153, 1)),
             ),
           ),
           Divider(
-            color: Colors.cyan,
+            color: Color.fromRGBO(0, 157, 153, 1),
             thickness: 2,
           ),
           SizedBox(
@@ -203,6 +208,9 @@ class _AccountInformationState extends State<AccountInformation> {
                         : "",
               ),
               width: 350),
+          SizedBox(
+            height: 20,
+          ),
         ],
       ),
     );

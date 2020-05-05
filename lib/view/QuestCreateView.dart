@@ -16,7 +16,8 @@ class QuestCreatePage extends StatefulWidget {
   _QuestCreateView createState() => _QuestCreateView();
 }
 
-class _QuestCreateView extends State<QuestCreatePage> with WidgetsBindingObserver {
+class _QuestCreateView extends State<QuestCreatePage>
+    with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>();
   List difficulty = ["easy", "normal", "hard"];
   List<DropdownMenuItem<String>> _dropDownMenuItems;
@@ -115,96 +116,104 @@ class _QuestCreateView extends State<QuestCreatePage> with WidgetsBindingObserve
               ? SettingsManager.mapLanguage["SearchContainer"]
               : ""),
       body: Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          child: SingleChildScrollView(
-              child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //crossAxisAlignment: CrossAxisAlignment.center,
-        //mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: 30,
-              ),
-              titleFeelings,
-              SizedBox(
-                height: 45,
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      width: 350.0,
-                      child: titleError,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: 350.0,
-                      child: descriptionError,
-                    ),
-                    SizedBox(
-                      height: 45,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //crossAxisAlignment: CrossAxisAlignment.center,
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 30,
+                  ),
+                  titleFeelings,
+                  SizedBox(
+                    height: 45,
+                  ),
+                  Form(
+                    key: _formKey,
+                    child: Column(
                       children: <Widget>[
-                        Text(
-                          SettingsManager.mapLanguage["ChooseDifficulty"],
-                          style:
-                              TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
+                        Container(
+                          width: 350.0,
+                          child: titleError,
                         ),
                         SizedBox(
-                          width: 20,
+                          height: 20,
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15.0),
-                            border: Border.all(
-                                color: Colors.red,
-                                style: BorderStyle.solid,
-                                width: 0.80),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              value: _currentDifficulty,
-                              items: _dropDownMenuItems,
-                              onChanged: changedDropDownItem,
+                          width: 350.0,
+                          child: descriptionError,
+                        ),
+                        SizedBox(
+                          height: 45,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              SettingsManager.mapLanguage["ChooseDifficulty"],
+                              style: TextStyle(
+                                  color: Color.fromRGBO(0, 157, 153, 1),
+                                  fontSize: 17),
                             ),
-                          ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15.0),
+                                border: Border.all(
+                                    color: Colors.red,
+                                    style: BorderStyle.solid,
+                                    width: 0.80),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  value: _currentDifficulty,
+                                  items: _dropDownMenuItems,
+                                  onChanged: changedDropDownItem,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 45,
+                        ),
+                        Container(
+                          width: 350.0,
+                          child: FinalButton(
+                              content:
+                                  SettingsManager.mapLanguage["Submit"] != null
+                                      ? SettingsManager.mapLanguage["Submit"]
+                                      : "",
+                              destination: HomePage(),
+                              formKey: _formKey,
+                              barContent:
+                                  SettingsManager.mapLanguage["ErrorSent"] !=
+                                          null
+                                      ? SettingsManager.mapLanguage["ErrorSent"]
+                                      : ""),
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 45,
-                    ),
-                    Container(
-                      width: 350.0,
-                      child: FinalButton(
-                          content: SettingsManager.mapLanguage["Submit"] != null
-                              ? SettingsManager.mapLanguage["Submit"]
-                              : "",
-                          destination: HomePage(),
-                          formKey: _formKey,
-                          barContent:
-                              SettingsManager.mapLanguage["ErrorSent"] != null
-                                  ? SettingsManager.mapLanguage["ErrorSent"]
-                                  : ""),
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                ],
+              ), // This trailing comma makes auto-formatting nicer for build methods.
             ],
-          ), // This trailing comma makes auto-formatting nicer for build methods.
-        ],
-      ))),
+          ),
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBarFooter(null),
     );
   }

@@ -58,7 +58,6 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    print(this.widget.userId);
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -70,7 +69,7 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
     final titleAccount = Text(
       userProfile.username + " lv.1",
       textAlign: TextAlign.center,
-      style: TextStyle(color: Colors.cyan[300], fontSize: 40),
+      style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
     );
     return Scaffold(
       appBar: AppSearchBar.appSearchBarNormal(
@@ -78,60 +77,59 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
             ? SettingsManager.mapLanguage["SearchContainer"]
             : "",
       ),
-      body: Center(
-          child: FutureBuilder(
-              future: findUserInformation(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                } else {
-                  print(userProfile.username);
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        accountButton(),
-                        SizedBox(
-                          height: 45,
+      body: FutureBuilder(
+        future: findUserInformation(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else {
+            return SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  accountButton(),
+                  SizedBox(
+                    height: 45,
+                  ),
+                  Container(
+                    height: 200,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.black,
+                          offset: Offset(1.0, 6.0),
+                          blurRadius: 40.0,
                         ),
-                        Container(
-                          height: 200,
-                          width: 200,
-                          decoration: BoxDecoration(
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Colors.black,
-                                offset: Offset(1.0, 6.0),
-                                blurRadius: 40.0,
-                              ),
-                            ],
-                            color: Colors.cyan,
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage("assets/user.png"),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 45,
-                        ),
-                        titleAccount,
-                        SizedBox(
-                          height: 45,
-                        ),
-                        differentView
-                            ? AccountInformation(
-                                userProfile: userProfile,
-                                isReadOnly: isReadOnly,
-                                isPsy: this.widget.isPsy,
-                              )
-                            : AccountTrace(
-                                userProfile: userProfile,
-                              ),
                       ],
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage("assets/user.png"),
+                      ),
                     ),
-                  );
-                }
-              })), // This trailing comma makes auto-formatting nicer for build methods.
+                  ),
+                  SizedBox(
+                    height: 45,
+                  ),
+                  titleAccount,
+                  SizedBox(
+                    height: 45,
+                  ),
+                  differentView
+                      ? AccountInformation(
+                          userProfile: userProfile,
+                          isReadOnly: isReadOnly,
+                          isPsy: this.widget.isPsy,
+                        )
+                      : AccountTrace(
+                          userProfile: userProfile,
+                        ),
+                ],
+              ),
+            );
+          }
+        },
+      ), // This trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex),
     );
   }

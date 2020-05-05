@@ -9,8 +9,7 @@ import 'package:flutter_echarts/flutter_echarts.dart';
 class AccountTrace extends StatefulWidget {
   final UserProfile userProfile;
 
-  AccountTrace({Key key, @required this.userProfile})
-      : super(key: key);
+  AccountTrace({Key key, @required this.userProfile}) : super(key: key);
 
   State<AccountTrace> createState() => _AccountTraceState();
 }
@@ -45,17 +44,18 @@ class _AccountTraceState extends State<AccountTrace> {
       children: <Widget>[
         Align(
             alignment: Alignment.topLeft,
-            child:
-            Text(SettingsManager.mapLanguage["PersonalTrace"],
+            child: Text(
+              SettingsManager.mapLanguage["PersonalTrace"],
               style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.cyan
-              ),)),
+                  fontSize: 30, color: Color.fromRGBO(0, 157, 153, 1)),
+            )),
         Divider(
-          color: Colors.cyan,
+          color: Color.fromRGBO(0, 157, 153, 1),
           thickness: 2,
         ),
-        SizedBox(height: 20,),
+        SizedBox(
+          height: 20,
+        ),
         FutureBuilder(
           future: _fetchData(),
           builder: (context, snapshot) {
@@ -63,11 +63,13 @@ class _AccountTraceState extends State<AccountTrace> {
               return CircularProgressIndicator();
             } else {
               // data loaded:
-              print(this.widget.userProfile.userProfileId+"voila");
-              return Container(
-                child: Echarts(
-                  captureAllGestures: true,
-                  option: '''
+              print(this.widget.userProfile.userProfileId + "voila");
+              return Card(
+                elevation: 10,
+                child: Container(
+                  child: Echarts(
+                    captureAllGestures: true,
+                    option: '''
                     {
                       title: {
                         subtextStyle: {
@@ -88,9 +90,10 @@ class _AccountTraceState extends State<AccountTrace> {
                       }]
                     }
                   ''',
+                  ),
+                  width: 300,
+                  height: 250,
                 ),
-                width: 300,
-                height: 250,
               );
             }
           },
