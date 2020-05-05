@@ -77,35 +77,45 @@ class DataSearch extends SearchDelegate<String> {
           final suggestionList = query.isEmpty
               ? userProfiles
               : userProfiles
-              .where((p) =>
-              p.username.contains(RegExp(query, caseSensitive: false)))
-              .toList();
+                  .where((p) =>
+                      p.username.contains(RegExp(query, caseSensitive: false)))
+                  .toList();
           return ListView.builder(
-            itemBuilder: (context, index) => ListTile(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AccountPage(isPsy: SettingsManager.isPsy.toLowerCase() == 'true' ? true : false,
-                        userId: suggestionList[index].userProfileId),
-                  ),
-                );
-              },
-              trailing: Icon(Icons.account_box),
-              title: RichText(
-                text: TextSpan(
-                    text: suggestionList[index]
-                        .username
-                        .substring(0, query.length),
-                    style: TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.bold),
-                    children: [
-                      TextSpan(
-                          text: suggestionList[index]
-                              .username
-                              .substring(query.length),
-                          style: TextStyle(color: Colors.grey)),
-                    ]),
+            itemBuilder: (context, index) => Card(
+              child: ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AccountPage(
+                          isPsy: SettingsManager.isPsy.toLowerCase() == 'true'
+                              ? true
+                              : false,
+                          userId: suggestionList[index].userProfileId),
+                    ),
+                  );
+                },
+                trailing: userProfiles[index].isPsy
+                    ? Icon(Icons.spa)
+                    : Icon(Icons.account_box),
+                subtitle: userProfiles[index].isPsy
+                    ? Text(SettingsManager.mapLanguage["PsyChoice"])
+                    : Text(SettingsManager.mapLanguage["UserChoice"]),
+                title: RichText(
+                  text: TextSpan(
+                      text: suggestionList[index]
+                          .username
+                          .substring(0, query.length),
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold),
+                      children: [
+                        TextSpan(
+                            text: suggestionList[index]
+                                .username
+                                .substring(query.length),
+                            style: TextStyle(color: Colors.grey)),
+                      ]),
+                ),
               ),
             ),
             itemCount: suggestionList.length,
