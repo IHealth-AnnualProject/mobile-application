@@ -11,7 +11,6 @@ class ExerciseListViewPage extends StatefulWidget {
   final String leading;
   final String type;
   ExerciseListViewPage({this.leading, this.type, Key key}) : super(key: key);
-  //todo correct problem with video
   @override
   _ExerciseListView createState() => _ExerciseListView();
 }
@@ -70,9 +69,9 @@ class _ExerciseListView extends State<ExerciseListViewPage>
   ListTile exercise({@required String leading, String title, String type}) {
     return ListTile(
       leading: CircleAvatar(
-          backgroundColor: Colors.white,
-          backgroundImage: AssetImage(leading),
-        ),
+        backgroundColor: Colors.white,
+        backgroundImage: AssetImage(leading),
+      ),
       title: Text(title),
       onTap: () {
         showAlertDialog(context);

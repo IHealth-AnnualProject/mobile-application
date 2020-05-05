@@ -68,7 +68,7 @@ class _MainView extends State<MainPage> {
                   ),
                   Text(
                     "Welcome to BetsBi",
-                    style: TextStyle(color: Colors.cyan[300], fontSize: 40),
+                    style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
                   ),
                   SizedBox(
                     height: 150,
