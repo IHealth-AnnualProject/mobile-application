@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:betsbi/model/psychologist.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/AccountView.dart';
@@ -11,16 +12,16 @@ import 'package:flutter/material.dart';
 class AccountInformation extends StatefulWidget {
   final bool isReadOnly;
   final bool isPsy;
-  final UserProfile userProfile;
+  final String profileID;
   AccountInformation(
-      {@required this.isReadOnly, this.isPsy, this.userProfile, Key key})
+      {@required this.isReadOnly, this.isPsy, this.profileID, Key key})
       : super(key: key);
 
   State<AccountInformation> createState() => _AccountInformationState();
 }
 
 class _AccountInformationState extends State<AccountInformation> {
-  UserProfile userProfile = new UserProfile.defaultConstructor();
+  var userProfile;
   final _formKey = GlobalKey<FormState>();
   TextEditingController firstNameController;
   TextEditingController lastNameController;
@@ -31,57 +32,75 @@ class _AccountInformationState extends State<AccountInformation> {
   @override
   void initState() {
     super.initState();
+    if (!this.widget.isPsy)
+      userProfile = new UserProfile.defaultConstructor();
+    else
+      userProfile = new Psychologist.defaultConstructor();
   }
 
   void userInformation() async {
-    await userProfile.getUserProfile(
-        userID: this.widget.userProfile.userProfileId);
-    setState(() {
-      firstNameController = new TextEditingController()
-        ..text = userProfile.firstName;
-      lastNameController = new TextEditingController()
-        ..text = userProfile.lastName;
-      ageController = new TextEditingController()
-        ..text = userProfile.age.toString();
-      descriptionController = new TextEditingController()
-        ..text = userProfile.description;
-    });
+    if (this.widget.isPsy) {
+      await userProfile.getUserProfile(userID: this.widget.profileID);
+      setState(() {
+        firstNameController = new TextEditingController()
+          ..text = userProfile.firstName;
+        lastNameController = new TextEditingController()
+          ..text = userProfile.lastName;
+        ageController = new TextEditingController()
+          ..text = userProfile.birthdate;
+        descriptionController = new TextEditingController()
+          ..text = userProfile.description;
+      });
+    } else {
+      await userProfile.getUserProfile(userID: this.widget.profileID);
+      setState(() {
+        ageController = new TextEditingController()
+          ..text = userProfile.birthdate.toString();
+        descriptionController = new TextEditingController()
+          ..text = userProfile.description;
+      });
+    }
     isEntered = true;
   }
 
-  TextFormField accountFormField(
+  Container accountFormField(
       {TextInputType inputType,
       String labelAndHintText,
       TextEditingController controller,
       int maxLine,
       int maxLength}) {
-    return TextFormField(
-      controller: controller,
-      obscureText: false,
-      maxLines: maxLine == null ? 1 : maxLine,
-      maxLength: maxLength,
-      readOnly: this.widget.isReadOnly,
-      textAlign: TextAlign.left,
-      validator: (value) {
-        if (value.isEmpty) {
-          return SettingsManager.mapLanguage["EnterText"] != null
-              ? SettingsManager.mapLanguage["EnterText"]
-              : "";
-        }
-        if (maxLength == 3 && int.parse(value) > 120) {
-          return SettingsManager.mapLanguage["TooOld"];
-        }
-        return null;
-      },
-      keyboardType: inputType,
-      decoration: InputDecoration(
-          labelText: labelAndHintText != null ? labelAndHintText : "",
-          filled: true,
-          fillColor: Colors.white,
-          hintText: labelAndHintText != null ? labelAndHintText : "",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
+    Container result;
+    result = Container(
+      width: 350,
+      child: TextFormField(
+        controller: controller,
+        obscureText: false,
+        maxLines: maxLine == null ? 1 : maxLine,
+        maxLength: maxLength,
+        readOnly: this.widget.isReadOnly,
+        textAlign: TextAlign.left,
+        validator: (value) {
+          if (value.isEmpty) {
+            return SettingsManager.mapLanguage["EnterText"] != null
+                ? SettingsManager.mapLanguage["EnterText"]
+                : "";
+          }
+          if (maxLength == 3 && int.parse(value) > 120) {
+            return SettingsManager.mapLanguage["TooOld"];
+          }
+          return null;
+        },
+        keyboardType: inputType,
+        decoration: InputDecoration(
+            labelText: labelAndHintText != null ? labelAndHintText : "",
+            filled: true,
+            fillColor: Colors.white,
+            hintText: labelAndHintText != null ? labelAndHintText : "",
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
+      ),
     );
+    return result;
   }
 
   RaisedButton finalButton({String barContent, String buttonContent}) {
@@ -95,8 +114,9 @@ class _AccountInformationState extends State<AccountInformation> {
           if (await userProfile.updateUserProfile(
               firstname: firstNameController.text,
               lastname: lastNameController.text,
-              age: int.parse(ageController.text),
-              description: descriptionController.text)) {
+              birthdate: int.parse(ageController.text),
+              description: descriptionController.text,
+              isPsy: this.widget.isPsy)) {
             Flushbar(
               icon: Icon(
                 Icons.done_outline,
@@ -111,7 +131,7 @@ class _AccountInformationState extends State<AccountInformation> {
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext context) => AccountPage(
-                              userId: this.widget.userProfile.userProfileId,
+                              userId: this.widget.profileID,
                               isPsy: this.widget.isPsy,
                             )),
                     (Route<dynamic> route) => false,
@@ -155,59 +175,60 @@ class _AccountInformationState extends State<AccountInformation> {
           SizedBox(
             height: 20,
           ),
-          Container(
-              child: accountFormField(
+          this.widget.isPsy
+              ? accountFormField(
                   labelAndHintText:
                       SettingsManager.mapLanguage["FirstNameText"],
                   inputType: TextInputType.text,
                   controller: firstNameController,
-                  maxLength: 100),
-              width: 350),
+                  maxLength: 100)
+              : Container(),
           SizedBox(
             height: 45,
           ),
-          Container(
-              child: accountFormField(
+          this.widget.isPsy
+              ? accountFormField(
                   labelAndHintText: SettingsManager.mapLanguage["LastNameText"],
                   inputType: TextInputType.text,
                   controller: lastNameController,
-                  maxLength: 100),
-              width: 350),
+                  maxLength: 100)
+              : Container(),
           SizedBox(
             height: 45,
           ),
-          Container(
-              child: accountFormField(
-                  labelAndHintText: "Age",
-                  inputType: TextInputType.number,
-                  controller: ageController,
-                  maxLength: 3),
-              width: 350),
+          accountFormField(
+              labelAndHintText: "Age",
+              inputType: TextInputType.number,
+              controller: ageController,
+              maxLength: 3),
           SizedBox(
             height: 45,
           ),
-          Container(
-              child: accountFormField(
-                  labelAndHintText: SettingsManager.mapLanguage["Description"],
-                  maxLine: 10,
-                  inputType: TextInputType.text,
-                  controller: descriptionController,
-                  maxLength: 300),
-              width: 350),
+          accountFormField(
+              labelAndHintText: SettingsManager.mapLanguage["Description"],
+              maxLine: 10,
+              inputType: TextInputType.text,
+              controller: descriptionController,
+              maxLength: 300),
           SizedBox(
             height: 45,
           ),
-          Container(
-              child: finalButton(
-                buttonContent: SettingsManager.mapLanguage["Submit"] != null
-                    ? SettingsManager.mapLanguage["Submit"]
-                    : "",
-                barContent:
-                    SettingsManager.mapLanguage["UpdateUserInformation"] != null
+          SettingsManager.currentId == this.widget.profileID
+              ? Container(
+                  child: finalButton(
+                    buttonContent: SettingsManager.mapLanguage["Submit"] != null
+                        ? SettingsManager.mapLanguage["Submit"]
+                        : "",
+                    barContent: SettingsManager
+                                .mapLanguage["UpdateUserInformation"] !=
+                            null
                         ? SettingsManager.mapLanguage["UpdateUserInformation"]
                         : "",
-              ),
-              width: 350),
+                  ),
+                  width: 350)
+              : Container(
+                  child: Text("UPCOMING"),
+                ),
           SizedBox(
             height: 20,
           ),

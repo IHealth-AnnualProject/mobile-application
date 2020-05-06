@@ -1,21 +1,21 @@
 import 'package:betsbi/controller/SearchBarController.dart';
-import 'package:betsbi/model/userProfile.dart';
+import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/AccountView.dart';
 import 'package:flutter/material.dart';
 import 'package:async/async.dart';
 
 class DataSearch extends SearchDelegate<String> {
-  List<UserProfile> userProfiles;
+  List<User> users;
   final AsyncMemoizer _memoizer = AsyncMemoizer();
 
   DataSearch();
 
   findUsers() {
     return this._memoizer.runOnce(() async {
-      userProfiles = new List<UserProfile>();
-      userProfiles = await SearchBarController.getAllUserProfile();
-      return userProfiles;
+      users = new List<User>();
+      users = await SearchBarController.getAllProfile();
+      return users;
     });
   }
 
@@ -54,10 +54,10 @@ class DataSearch extends SearchDelegate<String> {
   Widget buildResults(BuildContext context) {
     // show some result based on the selection
     // data loaded:
-    final suggestionList = userProfiles;
+    final suggestionList = users;
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
-        title: Text(userProfiles[index].username),
+        title: Text(users[index].username),
         //subtitle: Text(userProfiles[index].type),
       ),
       itemCount: suggestionList.length,
@@ -75,8 +75,8 @@ class DataSearch extends SearchDelegate<String> {
         } else {
           // data loaded:
           final suggestionList = query.isEmpty
-              ? userProfiles
-              : userProfiles
+              ? users
+              : users
                   .where((p) =>
                       p.username.contains(RegExp(query, caseSensitive: false)))
                   .toList();
@@ -88,17 +88,15 @@ class DataSearch extends SearchDelegate<String> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => AccountPage(
-                          isPsy: SettingsManager.isPsy.toLowerCase() == 'true'
-                              ? true
-                              : false,
-                          userId: suggestionList[index].userProfileId),
+                          isPsy: suggestionList[index].isPsy,
+                          userId: suggestionList[index].profileId),
                     ),
                   );
                 },
-                trailing: userProfiles[index].isPsy
+                trailing: users[index].isPsy
                     ? Icon(Icons.spa)
                     : Icon(Icons.account_box),
-                subtitle: userProfiles[index].isPsy
+                subtitle: users[index].isPsy
                     ? Text(SettingsManager.mapLanguage["PsyChoice"])
                     : Text(SettingsManager.mapLanguage["UserChoice"]),
                 title: RichText(

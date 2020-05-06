@@ -6,6 +6,7 @@ import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:global_configuration/global_configuration.dart';
+import 'package:video_player/video_player.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +24,7 @@ class AmbiancePage extends StatefulWidget {
 
 class _AmbianceView extends State<AmbiancePage> with WidgetsBindingObserver {
   //AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
+  VideoPlayerController _videoPlayerController1;
 
   @override
   void dispose() {
@@ -35,6 +37,7 @@ class _AmbianceView extends State<AmbiancePage> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
@@ -86,7 +89,7 @@ class _AmbianceView extends State<AmbiancePage> with WidgetsBindingObserver {
           : "",
       textAlign: TextAlign.center,
       style: TextStyle(
-          color: Color.fromRGBO(104, 79, 37, 0.8),
+          color: Color.fromRGBO(0, 157, 153, 1),
           fontWeight: FontWeight.bold,
           fontSize: 30),
     );
@@ -96,9 +99,8 @@ class _AmbianceView extends State<AmbiancePage> with WidgetsBindingObserver {
               ? SettingsManager.mapLanguage["SearchContainer"]
               : ""),
       body: SingleChildScrollView(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          child: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           //crossAxisAlignment: CrossAxisAlignment.center,
@@ -110,8 +112,19 @@ class _AmbianceView extends State<AmbiancePage> with WidgetsBindingObserver {
             Container(
               height: 200,
               width: 200,
-              child: Image(
-                image: AssetImage("assets/notes.png"),
+              decoration: BoxDecoration(
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: Colors.black,
+                    offset: Offset(1.0, 6.0),
+                    blurRadius: 40.0,
+                  ),
+                ],
+                color: Colors.white,
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage("assets/notes.png"),
+                ),
               ),
             ),
             SizedBox(
@@ -121,7 +134,7 @@ class _AmbianceView extends State<AmbiancePage> with WidgetsBindingObserver {
             //flushbar()
           ],
         ),
-      )), // Th
+      ), // Th
       bottomNavigationBar: BottomNavigationBarFooter(null),
     );
   }

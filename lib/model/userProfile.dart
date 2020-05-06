@@ -1,69 +1,56 @@
 import 'package:betsbi/controller/AccountController.dart';
+import 'package:betsbi/model/user.dart';
 
-class UserProfile {
-  String firstName;
-  String lastName;
-  String age;
-  String description;
-  String username;
-  bool isPsy;
-  String userProfileId;
-
+class UserProfile extends User {
   UserProfile.normalConstructor(
-      {this.firstName,
-      this.lastName,
-      this.age,
-      this.description,
-      this.username,
-      this.isPsy,
-      this.userProfileId});
+      {String birthdate,
+      String description,
+      String username,
+      String userProfileId,
+      bool isPsy = false})
+      : super(userProfileId, username, description, birthdate, isPsy);
 
   UserProfile.defaultConstructor(
-      {this.firstName = "",
-      this.lastName = "",
-      this.age = "",
-      this.description = "",
-      this.username = "",
-      this.isPsy = false,
-      this.userProfileId = ""});
+      {String birthdate = "",
+      String description = "",
+      String username = "",
+      String userProfileId = "",
+      bool isPsy = false})
+      : super(userProfileId, username, description, birthdate, isPsy);
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile.normalConstructor(
-        firstName: json['first_name'],
-        lastName: json['last_name'],
-        age: json['age'],
+        birthdate: json['birthdate'],
         description: json['description'],
         username: json['user']['username'],
-        isPsy: json['user']['isPsy'],
         userProfileId: json['user']['id']);
   }
 
-  Future<UserProfile> getUserProfile({String userID}) async {
-     await AccountController.getCurrentUserInformation(userID)
+  Future<void> getUserProfile({String userID}) async {
+    await AccountController.getCurrentUserInformation(userID)
         .then((userProfileResult) {
-      this.firstName = userProfileResult.firstName;
-      this.lastName = userProfileResult.lastName;
-      this.age = userProfileResult.age;
+      this.birthdate = userProfileResult.birthdate;
       this.description = userProfileResult.description;
       this.username = userProfileResult.username;
-      this.userProfileId = userProfileResult.userProfileId;
-      this.isPsy = userProfileResult.isPsy;
+      this.profileId = userProfileResult.profileId;
     });
   }
 
   Future<bool> updateUserProfile(
       {String firstname,
       String lastname,
-      int age,
+      DateTime birthdate,
       String geolocation,
-      String description}) async {
+      String description,
+      bool isPsy}) async {
     bool isUpdated = false;
     await AccountController.updateCurrentUserInformation(
             firstname: firstname,
             lastname: lastname,
-            age: age,
+        birthdate: birthdate,
             geolocation: "",
-            description: description)
+            description: description,
+            isPsy: isPsy)
         .then((worked) => isUpdated = worked);
     return isUpdated;
   }

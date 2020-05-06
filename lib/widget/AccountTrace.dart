@@ -1,15 +1,14 @@
 import 'package:async/async.dart';
 import 'package:betsbi/model/feelings.dart';
-import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 
 class AccountTrace extends StatefulWidget {
-  final UserProfile userProfile;
+  final String profileID;
 
-  AccountTrace({Key key, @required this.userProfile}) : super(key: key);
+  AccountTrace({Key key, @required this.profileID}) : super(key: key);
 
   State<AccountTrace> createState() => _AccountTraceState();
 }
@@ -26,7 +25,7 @@ class _AccountTraceState extends State<AccountTrace> {
   _fetchData() {
     return this._memorizer.runOnce(() async {
       feelings = new Feelings.normalConstructor();
-      await feelings.getUserFeelings(this.widget.userProfile.userProfileId);
+      await feelings.getUserFeelings(this.widget.profileID);
       setState(() {});
       return feelings;
     });
@@ -63,7 +62,7 @@ class _AccountTraceState extends State<AccountTrace> {
               return CircularProgressIndicator();
             } else {
               // data loaded:
-              print(this.widget.userProfile.userProfileId + "voila");
+              print(this.widget.profileID + "voila");
               return Card(
                 elevation: 10,
                 child: Container(

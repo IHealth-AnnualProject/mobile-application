@@ -1,58 +1,71 @@
 import 'package:betsbi/controller/AccountController.dart';
+import 'package:betsbi/model/user.dart';
 
-class Psychologist {
+class Psychologist extends User {
   String firstName;
   String lastName;
-  String age;
-  String description;
-  String username;
 
   Psychologist.normalConstructor(
       {this.firstName,
       this.lastName,
-      this.age,
-      this.description,
-      this.username});
+      String profileId,
+      String username,
+      String description,
+      String birthdate,
+      bool isPsy = true})
+      : super(profileId, username, description, birthdate, isPsy);
 
   Psychologist.defaultConstructor(
       {this.firstName = "",
       this.lastName = "",
-      this.age = "",
-      this.description = "",
-      this.username = ""});
+      String profileId = "",
+      String username = "",
+      String description = "",
+      String birthdate = "",
+      bool isPsy = true})
+      : super(profileId, username, description, birthdate, isPsy);
 
   factory Psychologist.fromJson(Map<String, dynamic> json) {
     return Psychologist.normalConstructor(
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      username: json['user']['username'],
-      age: json['age'],
-      description: json['description'],
-    );
+        firstName: json['first_name'],
+        lastName: json['last_name'],
+        username: json['user']['username'],
+        birthdate: json['birthdate'],
+        description: json['description'],
+        profileId: json['id']);
+  }
+
+  factory Psychologist.fromJsonForSearch(Map<String, dynamic> json) {
+    return Psychologist.normalConstructor(
+        birthdate: json['birthdate'],
+        description: json['description'],
+        username: json['user']['username'],
+        profileId: json['id']);
   }
 
   Future<void> getUserProfile({String userID}) async {
-    await AccountController.getCurrentUserInformation(userID)
+    await AccountController.getCurrentPsyInformation(userID)
         .then((userProfileResult) {
       this.firstName = userProfileResult.firstName;
       this.lastName = userProfileResult.lastName;
-      this.age = userProfileResult.age;
+      this.birthdate = userProfileResult.birthdate;
       this.description = userProfileResult.description;
       this.username = userProfileResult.username;
+      this.profileId = userProfileResult.profileId;
     });
   }
 
   bool updatePsyProfile(
       {String firstname,
       String lastname,
-      int age,
+      DateTime birthdate,
       String geolocation,
       String description}) {
     bool isUpdated = false;
     AccountController.updateCurrentUserInformation(
             firstname: firstname,
             lastname: lastname,
-            age: age,
+            birthdate: birthdate,
             geolocation: "",
             description: description)
         .then((worked) => isUpdated = worked);

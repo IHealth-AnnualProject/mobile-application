@@ -23,7 +23,6 @@ class GridViewHomeWidget extends StatefulWidget {
 class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return this.widget.isPsy ? gridviewPsyView() : gridviewUserView();
   }
 

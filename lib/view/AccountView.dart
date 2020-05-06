@@ -1,6 +1,8 @@
 import 'package:async/async.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
+import 'package:betsbi/model/psychologist.dart';
+import 'package:betsbi/model/user.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/widget/AccountInformation.dart';
 import 'package:betsbi/widget/AccountTrace.dart';
@@ -13,7 +15,7 @@ import 'package:flutter/material.dart';
 class AccountPage extends StatefulWidget {
   final bool isPsy;
   final String userId;
-  AccountPage({this.isPsy = false, @required this.userId, Key key})
+  AccountPage({this.isPsy, @required this.userId, Key key})
       : super(key: key);
 
   @override
@@ -24,7 +26,7 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
   int _selectedBottomIndex = 1;
   bool differentView = true;
   bool isReadOnly = false;
-  UserProfile userProfile = new UserProfile.defaultConstructor();
+  User profile;
   final AsyncMemoizer _memoizer = AsyncMemoizer();
 
   @override
@@ -37,6 +39,11 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    print(this.widget.isPsy);
+    if (!this.widget.isPsy)
+      profile = new UserProfile.defaultConstructor();
+    else
+      profile = new Psychologist.defaultConstructor();
   }
 
   @override
@@ -50,14 +57,15 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
 
   findUserInformation() {
     return this._memoizer.runOnce(() async {
-      await userProfile.getUserProfile(userID: this.widget.userId);
+      await profile.getUserProfile(userID: this.widget.userId);
       setState(() {});
-      return userProfile;
+      return profile;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    print(this.widget.isPsy.toString()+"inside");
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -65,9 +73,8 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-
     final titleAccount = Text(
-      userProfile.username + " lv.1",
+      profile.username + " lv.1",
       textAlign: TextAlign.center,
       style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
     );
@@ -83,6 +90,7 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
           } else {
+            print(profile.username);
             return SingleChildScrollView(
               child: Column(
                 children: <Widget>[
@@ -117,12 +125,12 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
                   ),
                   differentView
                       ? AccountInformation(
-                          userProfile: userProfile,
+                          profileID: profile.profileId,
                           isReadOnly: isReadOnly,
                           isPsy: this.widget.isPsy,
                         )
                       : AccountTrace(
-                          userProfile: userProfile,
+                          profileID: profile.profileId,
                         ),
                 ],
               ),
@@ -198,7 +206,7 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
         ],
       );
     }
-    if (this.widget.isPsy && this.widget.userId != SettingsManager.currentId) {
+    if (!this.widget.isPsy && this.widget.userId != SettingsManager.currentId) {
       isReadOnly = true;
       row = Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -216,7 +224,7 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
         ],
       );
     }
-    if (!this.widget.isPsy && this.widget.userId != SettingsManager.currentId) {
+    if (this.widget.isPsy && this.widget.userId != SettingsManager.currentId) {
       isReadOnly = true;
       row = Row(
         mainAxisAlignment: MainAxisAlignment.center,

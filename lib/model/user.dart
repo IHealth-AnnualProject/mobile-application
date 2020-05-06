@@ -1,22 +1,12 @@
-import 'feelings.dart';
+abstract class User {
+  String birthdate;
+  String description;
+  String username;
+  String profileId;
+  bool isPsy;
 
-class User {
-  String name;
-  String email;
-  String type;
-  int id;
-  int level;
-  List<Feelings> feelings;
+  User(this.profileId, this.username, this.description, this.birthdate, this.isPsy);
 
-  //User({this.id, this.name, this.email, this.level});
+  Future<void> getUserProfile({String userID});
 
-  User(this.id, this.name, this.email, this.level);
-
-  /*factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-        id: json['id'],
-        name: json['name'],
-        email: json['email'],
-        level: json['level']);
-  }*/
 }
