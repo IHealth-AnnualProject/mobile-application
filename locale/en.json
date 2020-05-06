@@ -72,5 +72,6 @@
   "UpdateUserInformation": "Your information have been updated",
   "UserChoice": "User",
   "UsernameText": "Username",
-  "WentWrong": "Something's went wrong"
+  "WentWrong": "Something's went wrong",
+  "Birthdate": "Birth Date"
 }

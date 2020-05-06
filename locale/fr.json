@@ -72,5 +72,6 @@
   "UpdateUserInformation": "Vos informations ont bien été mis à jour",
   "UserChoice": "Utilisateur",
   "UsernameText": "Pseudo",
-  "WentWrong": "Une erreur est survenue !"
+  "WentWrong": "Une erreur est survenue !",
+  "Birthdate": "Date de naissance"
 }

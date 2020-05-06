@@ -65,7 +65,6 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    print(this.widget.isPsy.toString()+"inside");
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -90,7 +89,6 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
           } else {
-            print(profile.username);
             return SingleChildScrollView(
               child: Column(
                 children: <Widget>[

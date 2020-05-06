@@ -19,7 +19,6 @@ class AccountController {
           'Authorization': 'Bearer ' + SettingsManager.currentToken,
         },
       );
-      print(response.body);
       if (response.statusCode == 200) {
         return UserProfile.fromJson(json.decode(response.body));
       } else
@@ -31,7 +30,6 @@ class AccountController {
   static Future<Psychologist> getCurrentPsyInformation(String psyId) async {
     if (SettingsManager.currentToken != null &&
         SettingsManager.currentToken != "") {
-      print(psyId+"invalid");
       final http.Response response = await http.get(
         SettingsManager.cfg.getString("apiUrl") +
             'psychologist/' +
@@ -50,15 +48,37 @@ class AccountController {
       return Psychologist.defaultConstructor();
   }
 
-
   static Future<bool> updateCurrentUserInformation(
-      {String firstname, String lastname, DateTime birthdate, String geolocation, String description, bool isPsy}) async {
-    String pathUser;
-    if(isPsy) pathUser = 'psychologist';
-    else pathUser = 'userProfile';
+      {String birthdate, String geolocation, String description}) async {
     if (SettingsManager.currentToken != null) {
       final http.Response response = await http.patch(
-        SettingsManager.cfg.getString("apiUrl") + pathUser,
+        SettingsManager.cfg.getString("apiUrl") + 'userProfile',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer ' + SettingsManager.currentToken,
+        },
+        body: jsonEncode(<String, dynamic>{
+          "birthdate": birthdate,
+          "description": description
+        }),
+      );
+      if (response.statusCode == 204) {
+        return true;
+      } else
+        return false;
+    } else
+      return false;
+  }
+
+  static Future<bool> updateCurrentPsyInformation(
+      {String firstname,
+      String lastname,
+      String birthdate,
+      String geolocation,
+      String description}) async {
+    if (SettingsManager.currentToken != null) {
+      final http.Response response = await http.patch(
+        SettingsManager.cfg.getString("apiUrl") + 'psychologist',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer ' + SettingsManager.currentToken,
@@ -70,7 +90,7 @@ class AccountController {
           "description": description
         }),
       );
-      print(response.statusCode.toString());
+      print(response.body);
       if (response.statusCode == 204) {
         return true;
       } else
@@ -78,31 +98,4 @@ class AccountController {
     } else
       return false;
   }
-
-  static Future<bool> updateCurrentPsyInformation(
-      {String firstname, String lastname, int age, String geolocation, String description}) async {
-    if (SettingsManager.currentToken != null) {
-      final http.Response response = await http.patch(
-        SettingsManager.cfg.getString("apiUrl") + '/psychologist',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer ' + SettingsManager.currentToken,
-        },
-        body: jsonEncode(<String, dynamic>{
-          "first_name": firstname,
-          "last_name": lastname,
-          "age": age,
-          "description": description
-        }),
-      );
-      print(response.statusCode.toString());
-      if (response.statusCode == 204) {
-        return true;
-      } else
-        return false;
-    } else
-      return false;
-  }
-
-
 }

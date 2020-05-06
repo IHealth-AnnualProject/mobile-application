@@ -55,14 +55,14 @@ class Psychologist extends User {
     });
   }
 
-  bool updatePsyProfile(
+  Future<bool> updateProfile(
       {String firstname,
       String lastname,
-      DateTime birthdate,
+      String birthdate,
       String geolocation,
-      String description}) {
+      String description}) async {
     bool isUpdated = false;
-    AccountController.updateCurrentUserInformation(
+    await AccountController.updateCurrentPsyInformation(
             firstname: firstname,
             lastname: lastname,
             birthdate: birthdate,

@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:betsbi/model/psychologist.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -8,6 +7,7 @@ import 'package:betsbi/widget/FlushBarError.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AccountInformation extends StatefulWidget {
   final bool isReadOnly;
@@ -103,6 +103,19 @@ class _AccountInformationState extends State<AccountInformation> {
     return result;
   }
 
+  Future<bool> updateInformation()  {
+    if (this.widget.isPsy)
+      return  userProfile.updateProfile(
+          firstname: firstNameController.text,
+          lastname: lastNameController.text,
+          birthdate: ageController.text,
+          description: descriptionController.text);
+    else
+      return  userProfile.updateProfile(
+          birthdate: ageController.text,
+          description: descriptionController.text);
+  }
+
   RaisedButton finalButton({String barContent, String buttonContent}) {
     return RaisedButton(
       elevation: 8,
@@ -111,12 +124,7 @@ class _AccountInformationState extends State<AccountInformation> {
       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
       onPressed: () async {
         if (this._formKey.currentState.validate()) {
-          if (await userProfile.updateUserProfile(
-              firstname: firstNameController.text,
-              lastname: lastNameController.text,
-              birthdate: int.parse(ageController.text),
-              description: descriptionController.text,
-              isPsy: this.widget.isPsy)) {
+          if (await updateInformation()) {
             Flushbar(
               icon: Icon(
                 Icons.done_outline,
@@ -196,11 +204,32 @@ class _AccountInformationState extends State<AccountInformation> {
           SizedBox(
             height: 45,
           ),
-          accountFormField(
-              labelAndHintText: "Age",
-              inputType: TextInputType.number,
+          Container(
+            width: 350,
+            child: TextFormField(
               controller: ageController,
-              maxLength: 3),
+              obscureText: false,
+              maxLines: 1,
+              readOnly: this.widget.isReadOnly,
+              onTap: () => _selectDate(),
+              textAlign: TextAlign.left,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return SettingsManager.mapLanguage["EnterText"] != null
+                      ? SettingsManager.mapLanguage["EnterText"]
+                      : "";
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                  labelText: SettingsManager.mapLanguage["Birthdate"],
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: SettingsManager.mapLanguage["Birthdate"],
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16.0))),
+            ),
+          ),
           SizedBox(
             height: 45,
           ),
@@ -235,5 +264,18 @@ class _AccountInformationState extends State<AccountInformation> {
         ],
       ),
     );
+  }
+
+  Future _selectDate() async {
+    if (SettingsManager.currentId == this.widget.profileID) {
+      DateTime picked = await showDatePicker(
+          context: context,
+          initialDate: new DateTime(1920),
+          firstDate: new DateTime(1920),
+          lastDate: new DateTime(DateTime.now().year));
+      if (picked != null)
+        setState(
+            () => ageController.text = DateFormat('yyyy-MM-dd').format(picked));
+    }
   }
 }
