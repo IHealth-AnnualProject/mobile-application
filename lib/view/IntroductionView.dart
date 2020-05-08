@@ -1,10 +1,9 @@
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/view/LoginView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
-
-import 'HomeView.dart';
 
 class IntroductionPage extends StatefulWidget {
   @override
@@ -176,7 +175,7 @@ class _IntroductionState extends State<IntroductionPage> {
                 .then((_) => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HomePage(),
+                        builder: (context) => LoginPage(),
                       ), //MaterialPageRoute
                     )),
         onTapDoneButton: () =>
@@ -185,7 +184,7 @@ class _IntroductionState extends State<IntroductionPage> {
                 .then((_) => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HomePage(),
+                        builder: (context) => LoginPage(),
                       ), //MaterialPageRoute
                     )),
       ),

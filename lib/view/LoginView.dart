@@ -7,10 +7,6 @@ import 'package:flutter/material.dart';
 
 import 'RegisterView.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-}
-
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
 

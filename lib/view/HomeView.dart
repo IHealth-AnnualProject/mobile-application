@@ -7,9 +7,6 @@ import 'package:betsbi/widget/GridViewHomeWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-main() {
-  WidgetsFlutterBinding.ensureInitialized();
-}
 
 class HomePage extends StatefulWidget {
   final bool isPsy;

@@ -53,18 +53,25 @@ class SettingsManager {
     feelingsDate = await storage.read(key: "feelingsDate");
     isPsy = await storage.read(key: "isPsy");
     firstEntry = await storage.read(key: "firstEntry");
-    await _checkSettingifNullRecoverItFromSettings(currentLanguage,"currentLanguage", "FR");
-    await _checkSettingifNullRecoverItFromSettings(language,"language", "EN");
-    await _checkSettingifNullRecoverItFromSettings(feelingsDate,"feelingsDate", "");
-    await _checkSettingifNullRecoverItFromSettings(isPsy,"isPsy", "false");
-    await _checkSettingifNullRecoverItFromSettings(firstEntry,"firstEntry", "true");
-  }
-
-  static Future<void> _checkSettingifNullRecoverItFromSettings(String valueToRecover ,String key, String defaultValue)
-  async {
-    if (valueToRecover == null) {
-      await storage.write(key: key, value:defaultValue);
-      valueToRecover = await storage.read(key: key);
+    if (currentLanguage == null) {
+      await storage.write(key: "currentLanguage", value:"FR");
+      currentLanguage = await storage.read(key: "currentLanguage");
+    }
+    if (language == null) {
+      await storage.write(key: "language", value:"EN");
+      language = await storage.read(key: "language");
+    }
+    if (feelingsDate == null) {
+      await storage.write(key: "feelingsDate", value:"");
+      feelingsDate = await storage.read(key: "feelingsDate");
+    }
+    if (isPsy == null) {
+      await storage.write(key: "isPsy", value:"false");
+      isPsy = await storage.read(key: "isPsy");
+    }
+    if (firstEntry == null) {
+      await storage.write(key: "firstEntry", value:"true");
+      firstEntry = await storage.read(key: "firstEntry");
     }
   }
 

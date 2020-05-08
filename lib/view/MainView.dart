@@ -2,7 +2,6 @@ import 'package:async/async.dart';
 import 'package:betsbi/controller/LoginController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/view/HomeView.dart';
 import 'package:betsbi/view/IntroductionView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,9 +42,9 @@ class _MainView extends State<MainPage> {
         await TokenController.checkTokenValidity().then((tokenValid) =>
             tokenValid
                 ? destination = LoginController.redirectionLogin()
-                : SettingsManager.firstEntry == "true"
+                : SettingsManager.firstEntry == 'true'
                     ? destination = IntroductionPage()
-                    : destination = HomePage());
+                    : destination = LoginPage());
       });
       return destination;
     });
