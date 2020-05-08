@@ -1,6 +1,6 @@
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/AccountView.dart';
-import 'package:betsbi/view/ChatView.dart';
+import 'package:betsbi/view/ChatListContactView.dart';
 import 'package:betsbi/view/HomeView.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +40,7 @@ class BottomNavigationController {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChatPage(),
+              builder: (context) => ChatListContactPage(),
             ),
           );
         break;

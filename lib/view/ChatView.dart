@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:ui';
-
 import 'package:betsbi/model/message.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -34,26 +32,21 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   _connectSocket() {
-    socket = io('http://51.255.169.122:4001', <String, dynamic>{
+    socket = io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
     socket.on('connection', (data) => print(data));
-    socket.on('newMessage', (data) => print(data));
+    socket.on('newMessage', (data) => _onNewMessage(data));
     socket.on('join', (data) => print(data));
     socket.connect();
     socket.emit("sub", <String, dynamic>{
       'token': SettingsManager.currentToken,
     });
-
-    //todo trier les messages reçus par utilisateur
-    /*socket.on('event', (data) => print(data));
-    socket.on('disconnect', (_) => print('disconnect'));
-    socket.on('fromServer', (_) => print(_));*/
   }
 
-  onNewMessage(dynamic data) {
-    Message receivedMessage = Message.fromJson(json.decode(data));
+  _onNewMessage(dynamic data) {
+    Message receivedMessage = Message.fromJson(data);
     if (this.widget.userContacted.profileId == receivedMessage.userFromID) {
       list.insert(1, hisMessage(content: receivedMessage.content));
       setState(() {});
@@ -65,9 +58,7 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       resizeToAvoidBottomPadding: true,
       appBar: AppSearchBar.appSearchBarNormal(
-        title: SettingsManager.mapLanguage["SearchContainer"] != null
-            ? SettingsManager.mapLanguage["SearchContainer"]
-            : "",
+        title: this.widget.userContacted.username,
       ),
       body: ListView.builder(
         reverse: true,
@@ -108,13 +99,13 @@ class _ChatPageState extends State<ChatPage> {
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {
               if (mTextMessageController.text.isNotEmpty) {
-                /*socket.emit("sendMessage", <String, dynamic>{
-                      'token': SettingsManager.currentToken,
-                      'data': {
-                        'content': mTextMessageController.text,
-                        'idReceiver': this.widget.userContacted.profileId
-                      }
-                    });*/
+                socket.emit("sendMessage", <String, dynamic>{
+                  'token': SettingsManager.currentToken,
+                  'data': {
+                    'content': mTextMessageController.text,
+                    'idReceiver': this.widget.userContacted.profileId
+                  }
+                });
                 list.insert(
                   1,
                   myMessage(content: mTextMessageController.text),
@@ -132,22 +123,26 @@ class _ChatPageState extends State<ChatPage> {
   Bubble myMessage({@required content}) {
     return Bubble(
       margin: BubbleEdges.only(top: 10),
-      alignment: Alignment.bottomLeft,
-      nip: BubbleNip.rightTop,
-      color: Color.fromRGBO(225, 255, 199, 1.0),
-      child: Text(content, textAlign: TextAlign.right, style: TextStyle(fontSize: 25),),
+      alignment: Alignment.topLeft,
+      nip: BubbleNip.leftTop,
+      child: Text(
+        content,
+        textAlign: TextAlign.right,
+        style: TextStyle(fontSize: 25),
+      ),
     );
   }
 
-
-  Container hisMessage({@required content}) {
-    return Container(
-      color: Colors.cyan,
-      alignment: Alignment.bottomRight,
-      child: ListTile(
-        leading: Text("Him"),
-        subtitle: Text(DateTime.now().toIso8601String()),
-        title: Text(content),
+  Bubble hisMessage({@required content}) {
+    return Bubble(
+      margin: BubbleEdges.only(top: 10),
+      alignment: Alignment.topRight,
+      nip: BubbleNip.rightTop,
+      color: Color.fromRGBO(225, 255, 199, 1.0),
+      child: Text(
+        content,
+        textAlign: TextAlign.right,
+        style: TextStyle(fontSize: 25),
       ),
     );
   }

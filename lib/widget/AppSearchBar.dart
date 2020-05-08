@@ -5,7 +5,6 @@ import 'SearchApp.dart';
 
 class AppSearchBar extends StatefulWidget with PreferredSizeWidget {
   final String title;
-  TabController tabController;
 
   AppSearchBar.appSearchBarNormal({this.title});
 

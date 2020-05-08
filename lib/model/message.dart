@@ -8,8 +8,8 @@ class Message {
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-      userFromID: json['from'],
-      content: json['content'],
+      userFromID: json['message']['from'],
+      content: json['message']['textMessage'],
     );
   }
 }
