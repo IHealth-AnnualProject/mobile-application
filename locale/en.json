@@ -1,5 +1,6 @@
 {
   "AccountFooter": "Account",
+  "Birthdate": "Birth Date",
   "Cancel": "Cancel",
   "ChatFooter": "Chat",
   "CheckBoxPsy": "Check Psychologist if you are one, we will check it",
@@ -62,6 +63,7 @@
   "RegisterSent": "Thanks for your registration",
   "RelaxingMusic": "Relaxing Music",
   "SearchContainer": "Find other user.....",
+  "SendMessage": "Send your message",
   "SettingsContainer": "Settings",
   "SignUp": " SIGN UP",
   "Submit": "Submit",
@@ -73,6 +75,14 @@
   "UserChoice": "User",
   "UsernameText": "Username",
   "WentWrong": "Something's went wrong",
-  "Birthdate": "Birth Date",
-  "SendMessage": "Send your message"
+  "UserIntroduction": "Vous pouvez créer un compte utilisateur ou psychologue qui sera vérifiée",
+  "QuestIntroduction": "Vous pouvez créér des quetes à réaliser pour le lendemain offrant de l'experience. Vous pouvez aussi créer des mémos, rappels utiles pour tout les jours",
+  "TrainingIntroduction": "Vous pouvez suivre des exercices physiques, des entrainements de maths et de logiques et des exercices respiratoires d'urgence",
+  "AmbianceIntroduction": "Vous avez accès à des musiques relaxantes et la possibilité de changer la couleur de l'écran pour la relaxation",
+  "ChatIntroduction": "Vous pouvez chatter librement avec d'autres utilisateurs ou encore des psychologues",
+  "User": "Users",
+  "Quest": "Quest",
+  "Training": "Training",
+  "Ambiance": "Ambiance",
+  "Chat": "Chat"
 }

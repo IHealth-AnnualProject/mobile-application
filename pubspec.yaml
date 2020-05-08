@@ -27,7 +27,6 @@ dependencies:
   intl: ^0.16.1
   intro_views_flutter: ^2.6.0
   video_player: ^0.10.9+1
-  timer_count_down: ^1.0.1
   chewie_audio: ^1.0.0+1
   socket_io_client: ^0.9.10
   bubble: ^1.1.9+1

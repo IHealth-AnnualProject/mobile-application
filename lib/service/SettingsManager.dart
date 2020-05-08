@@ -11,6 +11,7 @@ class SettingsManager {
       new LinkedHashMap<String, dynamic>();
   static GlobalConfiguration cfg;
   static FlutterSecureStorage storage;
+  static String firstEntry;
   static String currentLanguage,
       language,
       feelingsDate,
@@ -51,22 +52,25 @@ class SettingsManager {
     language = await storage.read(key: "language");
     feelingsDate = await storage.read(key: "feelingsDate");
     isPsy = await storage.read(key: "isPsy");
-    if (currentLanguage == null) {
-      await storage.write(key: "currentLanguage", value: "FR");
-      currentLanguage = await storage.read(key: "currentLanguage");
+    firstEntry = await storage.read(key: "firstEntry");
+    await _checkSettingifNullRecoverItFromSettings(currentLanguage,"currentLanguage", "FR");
+    await _checkSettingifNullRecoverItFromSettings(language,"language", "EN");
+    await _checkSettingifNullRecoverItFromSettings(feelingsDate,"feelingsDate", "");
+    await _checkSettingifNullRecoverItFromSettings(isPsy,"isPsy", "false");
+    await _checkSettingifNullRecoverItFromSettings(firstEntry,"firstEntry", "true");
+  }
+
+  static Future<void> _checkSettingifNullRecoverItFromSettings(String valueToRecover ,String key, String defaultValue)
+  async {
+    if (valueToRecover == null) {
+      await storage.write(key: key, value:defaultValue);
+      valueToRecover = await storage.read(key: key);
     }
-    if (language == null) {
-      await storage.write(key: "language", value: "EN");
-      language = await storage.read(key: "language");
-    }
-    if (feelingsDate == null) {
-      await storage.write(key: "feelingsDate", value: "");
-      feelingsDate = await storage.read(key: "feelingsDate");
-    }
-    if (isPsy == null) {
-      await storage.write(key: "isPsy", value: "false");
-      isPsy = await storage.read(key: "isPsy");
-    }
+  }
+
+  static Future<void> updateValueOfConfigurationSecureStorage(String key, String value)
+  async {
+    await storage.write(key: key, value: value);
   }
 
   static Future<void> loadLanguage(String path) async {
