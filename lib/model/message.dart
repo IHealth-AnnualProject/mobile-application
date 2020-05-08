@@ -1,14 +1,15 @@
-class Message{
+import 'package:flutter/cupertino.dart';
+
+class Message {
+  String userFromID;
   String content;
-  int idSender;
-  int idReceiver;
-  bool status;
-  DateTime sendDate;
 
-  Message(this.content,this.idSender,this.idReceiver,this.sendDate,{this.status:false});
+  Message({@required this.userFromID, @required this.content});
 
-  void setStatus(bool status)
-  {
-    this.status = status;
+  factory Message.fromJson(Map<String, dynamic> json) {
+    return Message(
+      userFromID: json['from'],
+      content: json['content'],
+    );
   }
 }

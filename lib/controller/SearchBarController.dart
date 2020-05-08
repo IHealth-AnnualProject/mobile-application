@@ -33,7 +33,6 @@ class SearchBarController {
       users.addAll(
           list.map((model) => Psychologist.fromJsonForSearch(model)).toList());
       users.removeWhere((user) => user.profileId == SettingsManager.currentId);
-      users.forEach((e) => print(e.profileId));
       if (responseProfileUSer.statusCode == 200) {
         return users;
       } else

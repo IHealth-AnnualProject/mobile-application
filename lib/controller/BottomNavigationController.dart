@@ -1,5 +1,6 @@
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/AccountView.dart';
+import 'package:betsbi/view/ChatView.dart';
 import 'package:betsbi/view/HomeView.dart';
 import 'package:flutter/material.dart';
 
@@ -35,6 +36,13 @@ class BottomNavigationController {
           );
         break;
       case 2:
+        if (currentIndex != 2)
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatPage(),
+            ),
+          );
         break;
     }
     return selectedBottomIndex;

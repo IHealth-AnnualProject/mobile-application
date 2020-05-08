@@ -7,7 +7,7 @@ import 'package:async/async.dart';
 
 class DataSearch extends SearchDelegate<String> {
   List<User> users;
-  final AsyncMemoizer _memoizer = AsyncMemoizer();
+  AsyncMemoizer _memoizer = AsyncMemoizer();
 
   DataSearch();
 
@@ -74,6 +74,8 @@ class DataSearch extends SearchDelegate<String> {
           return CircularProgressIndicator();
         } else {
           // data loaded:
+          // todo test
+          _memoizer = AsyncMemoizer();
           final suggestionList = query.isEmpty
               ? users
               : users

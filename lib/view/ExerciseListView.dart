@@ -25,6 +25,7 @@ class _ExerciseListView extends State<ExerciseListViewPage>
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
     _controller.dispose();
+
   }
 
   @override

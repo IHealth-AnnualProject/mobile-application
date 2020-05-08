@@ -73,5 +73,6 @@
   "UserChoice": "Utilisateur",
   "UsernameText": "Pseudo",
   "WentWrong": "Une erreur est survenue !",
-  "Birthdate": "Date de naissance"
+  "Birthdate": "Date de naissance",
+  "SendMessage": "Envoyez votre message"
 }
