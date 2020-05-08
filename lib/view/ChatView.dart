@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:betsbi/controller/SettingsController.dart';
+import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/model/message.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -18,7 +20,7 @@ class ChatPage extends StatefulWidget {
   _ChatPageState createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   TextEditingController mTextMessageController = new TextEditingController();
   List<Widget> list;
   Socket socket;
@@ -26,13 +28,30 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     list = new List<Widget>();
     _connectSocket();
     list.add(lineSendMessage());
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      TokenController.checkTokenValidity().then((result) {
+        if (!result) SettingsController.disconnect(context);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   _connectSocket() {
-    socket = io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
+    socket =
+        io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
