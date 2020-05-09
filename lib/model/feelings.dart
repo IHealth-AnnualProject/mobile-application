@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:betsbi/controller/FeelingController.dart';
+import 'package:flutter/cupertino.dart';
 
 class Feelings {
   DateTime dayOfFeeling;
@@ -25,9 +26,9 @@ class Feelings {
         dayOfFeeling: DateTime.parse(json['created']), feelingsPoint: json['value']);
   }
 
-  Future<bool> getUserFeelings(String userID) async {
+  Future<bool> getUserFeelings(String userID, BuildContext context) async {
     LinkedHashMap<String, int> mapFeeling = new LinkedHashMap<String, int>();
-    List<Feelings> feelings = await FeelingController.getAllFeelings(userID);
+    List<Feelings> feelings = await FeelingController.getAllFeelings(userID, context);
     mapFeeling = FeelingController.renderMapFeeling(feelings);
     mapFeeling.forEach((key, value) {
       this.moralStats.add(value);

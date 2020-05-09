@@ -2,9 +2,6 @@ import 'dart:ui';
 import 'package:betsbi/model/psychologist.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/view/AccountView.dart';
-import 'package:betsbi/widget/FlushBarError.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -103,17 +100,23 @@ class _AccountInformationState extends State<AccountInformation> {
     return result;
   }
 
-  Future<bool> updateInformation()  {
+  Future<bool> updateInformation() {
     if (this.widget.isPsy)
-      return  userProfile.updateProfile(
+      return userProfile.updateProfile(
           firstname: firstNameController.text,
           lastname: lastNameController.text,
           birthdate: ageController.text,
-          description: descriptionController.text);
+          description: descriptionController.text,
+          profileId : this.widget.profileID,
+          isPsy : this.widget.isPsy,
+          context: context);
     else
-      return  userProfile.updateProfile(
+      return userProfile.updateProfile(
           birthdate: ageController.text,
-          description: descriptionController.text);
+          description: descriptionController.text,
+          profileId : this.widget.profileID,
+          isPsy : this.widget.isPsy,
+          context : context);
   }
 
   RaisedButton finalButton({String barContent, String buttonContent}) {
@@ -124,33 +127,9 @@ class _AccountInformationState extends State<AccountInformation> {
       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
       onPressed: () async {
         if (this._formKey.currentState.validate()) {
-          if (await updateInformation()) {
-            Flushbar(
-              icon: Icon(
-                Icons.done_outline,
-                color: Colors.yellow,
-              ),
-              flushbarPosition: FlushbarPosition.TOP,
-              flushbarStyle: FlushbarStyle.GROUNDED,
-              message: barContent,
-              duration: Duration(seconds: 1),
-            )..show(context).then((r) => () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => AccountPage(
-                              userId: this.widget.profileID,
-                              isPsy: this.widget.isPsy,
-                            )),
-                    (Route<dynamic> route) => false,
-                  );
-                });
-          } else
-            FlushBarError(SettingsManager.mapLanguage["WentWrong"] != null
-                ? SettingsManager.mapLanguage["WentWrong"]
-                : "");
-        }
-      },
+          await updateInformation();
+
+      }},
       child: Text(
         buttonContent,
         textAlign: TextAlign.center,

@@ -41,7 +41,7 @@ class _AmbianceView extends State<AmbiancePage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      TokenController.checkTokenValidity().then((result) {
+      TokenController.checkTokenValidity(context).then((result) {
         if (!result) SettingsController.disconnect(context);
       });
     }

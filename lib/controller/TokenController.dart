@@ -1,29 +1,38 @@
 import 'dart:convert';
-import 'package:betsbi/exceptions/HttpException.dart';
+import 'package:betsbi/model/Response.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/widget/FlushBarMessage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class TokenController {
-  static Future<bool> checkTokenValidity() async {
+  static Future<bool> checkTokenValidity(BuildContext context) async {
     await setTokenUserIdAndUserProfileIDFromStorageToSettingsManagerVariables();
     if (SettingsManager.currentToken != null) {
-      try {
-        final http.Response response = await http.get(
-          SettingsManager.cfg.getString("apiUrl") + 'auth/is-token-valid',
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer ' + SettingsManager.currentToken,
-          },
-        );
-        if (response.statusCode == 200) {
-          return true;
-        } else
-          return false;
-      } catch (e) {
-        throw new HttpException("Error API Connection");
-      }
-    } else
+      final http.Response response = await http.get(
+        SettingsManager.cfg.getString("apiUrl") + 'auth/is-token-valid',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer ' + SettingsManager.currentToken,
+        },
+      );
+      return _checkResponseUserAndUpdateListIFOK(response, context);
+    }
+    return false;
+  }
+
+  static bool _checkResponseUserAndUpdateListIFOK(
+      http.Response response, BuildContext context) {
+    if (response.statusCode >= 100 && response.statusCode < 400) {
+      return true;
+    } else {
+      FlushBarMessage.errorMessage(
+          content: Response
+              .fromJson(json.decode(response.body))
+              .content)
+          .showFlushBar(context);
       return false;
+    }
   }
 
   static Future<void>

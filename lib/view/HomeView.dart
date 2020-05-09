@@ -34,7 +34,7 @@ class _HomeView extends State<HomePage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      TokenController.checkTokenValidity().then((result) {
+      TokenController.checkTokenValidity(context).then((result) {
         if (!result) SettingsController.disconnect(context);
       });
     }
@@ -42,21 +42,12 @@ class _HomeView extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    //Locale myLocale = Localizations.localeOf(context);
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppSearchBar.appSearchBarNormal(
           title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]
               : ""),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
           children: <Widget>[
             Expanded(
@@ -66,7 +57,7 @@ class _HomeView extends State<HomePage> with WidgetsBindingObserver {
         ),
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
-          _selectedBottomIndex), // This trailing comma makes auto-formatting nicer for build methods.
+          _selectedBottomIndex),
     );
   }
 }

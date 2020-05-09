@@ -39,7 +39,7 @@ class _MainView extends State<MainPage> {
   _findRedirection() {
     return this._memoizer.runOnce(() async {
       await SettingsManager.languageStarted().then((r) async {
-        await TokenController.checkTokenValidity().then((tokenValid) =>
+        await TokenController.checkTokenValidity(context).then((tokenValid) =>
             tokenValid
                 ? destination = LoginController.redirectionLogin()
                 : SettingsManager.firstEntry == 'true'

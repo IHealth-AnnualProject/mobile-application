@@ -39,7 +39,6 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    print(this.widget.isPsy);
     if (!this.widget.isPsy)
       profile = new UserProfile.defaultConstructor();
     else
@@ -49,7 +48,7 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      TokenController.checkTokenValidity().then((result) {
+      TokenController.checkTokenValidity(context).then((result) {
         if (!result) SettingsController.disconnect(context);
       });
     }
@@ -188,7 +187,7 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
       );
     }
     if(SettingsManager.isPsy == "true" && this.widget.userId != SettingsManager.currentId) {
-      isReadOnly = false;
+      isReadOnly = true;
       row = Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -206,7 +205,7 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
       );
     }
     if (SettingsManager.isPsy == "false" && this.widget.userId == SettingsManager.currentId) {
-      isReadOnly = true;
+      isReadOnly = false;
       row = Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -224,7 +223,7 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
       );
     }
     if (SettingsManager.isPsy == "true" && this.widget.isPsy == true) {
-      isReadOnly = false;
+      SettingsManager.currentId == this.widget.userId ? isReadOnly = false : isReadOnly = true;
       row = Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

@@ -27,7 +27,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
             icon: Icon(Icons.search),
             onPressed: () {
               showSearch(
-                  context: context, delegate: DataSearch());
+                  context: context, delegate: DataSearch(context));
             }),
       ],
     );

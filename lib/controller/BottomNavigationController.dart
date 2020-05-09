@@ -10,7 +10,7 @@ class BottomNavigationController {
     switch (selectedBottomIndex) {
       case 0:
         if (currentIndex != 0)
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
               builder: (context) => HomePage(
@@ -19,11 +19,12 @@ class BottomNavigationController {
                     : false,
               ),
             ),
+            (Route<dynamic> route) => false,
           );
         break;
       case 1:
         if (currentIndex != 1)
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
               builder: (context) => AccountPage(
@@ -33,15 +34,17 @@ class BottomNavigationController {
                     : false,
               ),
             ),
+            (Route<dynamic> route) => false,
           );
         break;
       case 2:
         if (currentIndex != 2)
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
               builder: (context) => ChatListContactPage(),
             ),
+            (Route<dynamic> route) => false,
           );
         break;
     }

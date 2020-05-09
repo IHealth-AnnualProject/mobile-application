@@ -1,8 +1,10 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'package:betsbi/model/response.dart';
 import 'package:betsbi/model/feelings.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/HomeView.dart';
+import 'package:betsbi/widget/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -18,7 +20,7 @@ class FeelingController {
             (Route<dynamic> route) => false));
   }
 
-  static Future<bool> sendFeelings(int value) async {
+  static Future<void> sendFeelings(int value, BuildContext context) async {
     final http.Response response = await http.post(
       SettingsManager.cfg.getString("apiUrl") + 'userProfile/moral-stats',
       headers: <String, String>{
@@ -29,10 +31,17 @@ class FeelingController {
         'value': value,
       }),
     );
-    if (response.statusCode == 201) {
-      return true;
+    checkResponseAndRedirectifOk(response, context);
+  }
+
+  static void checkResponseAndRedirectifOk(
+      http.Response response, BuildContext context) {
+    if (response.statusCode >= 100 && response.statusCode < 400) {
+      redirectionFeelingToHomePage(context);
     } else
-      return false;
+      FlushBarMessage.errorMessage(
+              content: Response.fromJson(json.decode(response.body)).content)
+          .showFlushBar(context);
   }
 
   static int weekNumber(DateTime date) {
@@ -50,7 +59,8 @@ class FeelingController {
     return feelings;
   }
 
-  static Future<List<Feelings>> getAllFeelings(String userId) async {
+  static Future<List<Feelings>> getAllFeelings(
+      String userId, BuildContext context) async {
     final http.Response response = await http.get(
       SettingsManager.cfg.getString("apiUrl") +
           'userProfile/' +
@@ -61,15 +71,26 @@ class FeelingController {
         'Authorization': 'Bearer ' + SettingsManager.currentToken,
       },
     );
-    var feelings = new List<Feelings>();
-    Iterable list = json.decode(response.body);
-    feelings = list.map((model) => Feelings.fromJson(model)).toList();
-    List<Feelings> allFeelings = toListFeelings(feelings);
-    allFeelings.sort((a, b) => a.dayOfFeeling.compareTo(b.dayOfFeeling));
-    if (response.statusCode == 200) {
+    return checkResponseAndReturnListFeelingsIfOk(response, context);
+  }
+
+  static List<Feelings> checkResponseAndReturnListFeelingsIfOk(
+      http.Response response, BuildContext context) {
+    if (response.statusCode >= 100 && response.statusCode < 400) {
+      var feelings = new List<Feelings>();
+      Iterable list = json.decode(response.body);
+      feelings = list.map((model) => Feelings.fromJson(model)).toList();
+      List<Feelings> allFeelings = toListFeelings(feelings);
+      allFeelings.sort((a, b) => a.dayOfFeeling.compareTo(b.dayOfFeeling));
       return allFeelings;
-    } else
+    } else {
+      FlushBarMessage.errorMessage(
+          content: Response
+              .fromJson(json.decode(response.body))
+              .content)
+          .showFlushBar(context);
       return null;
+    }
   }
 
   static LinkedHashMap<String, int> renderMapFeeling(List<Feelings> feelings) {

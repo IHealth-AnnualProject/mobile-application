@@ -8,13 +8,14 @@ import 'package:async/async.dart';
 class DataSearch extends SearchDelegate<String> {
   List<User> users;
   AsyncMemoizer _memoizer = AsyncMemoizer();
+  final BuildContext context;
 
-  DataSearch();
+  DataSearch(this.context);
 
   findUsers() {
     return this._memoizer.runOnce(() async {
       users = new List<User>();
-      users = await SearchBarController.getAllProfile();
+      users = await SearchBarController.getAllProfile(this.context);
       return users;
     });
   }

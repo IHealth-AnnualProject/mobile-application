@@ -34,34 +34,8 @@ class _LoginView extends State<LoginPage> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () async {
           if (this._formKey.currentState.validate()) {
-            loging = await LoginController.login(
-                userNameController.text, passwordController.text);
-            if (loging)
-              loginFlushBar(
-                  Icon(
-                    Icons.done_outline,
-                    color: Colors.yellow,
-                  ),
-                  SettingsManager.mapLanguage["ConnectSent"] != null
-                      ? SettingsManager.mapLanguage["ConnectSent"]
-                      : "")
-                ..show(context).then((r) => Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              LoginController.redirectionLogin()),
-                      (Route<dynamic> route) => false,
-                    ));
-            else
-              loginFlushBar(
-                      Icon(
-                        Icons.not_interested,
-                        color: Colors.red,
-                      ),
-                      SettingsManager.mapLanguage["InformationWrong"] != null
-                          ? SettingsManager.mapLanguage["InformationWrong"]
-                          : "")
-                  .show(context);
+            await LoginController.login(
+                userNameController.text, passwordController.text, context);
           }
         },
         child: Text(
@@ -138,7 +112,7 @@ class _LoginView extends State<LoginPage> {
       child: new Text(
         SettingsManager.language != null ? SettingsManager.language : "",
         textAlign: TextAlign.center,
-        style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1),fontSize: 17),
+        style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
       ),
     );
     final signUp = InkWell(
@@ -152,104 +126,105 @@ class _LoginView extends State<LoginPage> {
               ? SettingsManager.mapLanguage["SignUp"]
               : "",
           textAlign: TextAlign.center,
-          style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1),fontSize: 17),
+          style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
         ));
     return Scaffold(
         body: Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //crossAxisAlignment: CrossAxisAlignment.center,
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 100,
-                    ),
-                    SizedBox(
-                      height: 150,
-                      child: Image.asset(
-                        "assets/logo.png",
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 45,
-                    ),
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: 350.0,
-                            child: username,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            width: 350.0,
-                            child: password,
-                          ),
-                          SizedBox(
-                            height: 45,
-                          ),
-                          //forgotPassword,
-                          ForgotPassword(
-                              message: SettingsManager
-                                          .mapLanguage["ForgotPassword"] !=
-                                      null
-                                  ? SettingsManager
-                                      .mapLanguage["ForgotPassword"]
-                                  : "",
-                              icons: Icons.message),
-                          SizedBox(
-                            height: 45,
-                          ),
-                          Container(
-                            width: 350.0,
-                            child: loginButton(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+      // Center is a layout widget. It takes a single child and positions it
+      // in the middle of the parent.
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //crossAxisAlignment: CrossAxisAlignment.center,
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: 100,
+                ),
+                SizedBox(
+                  height: 150,
+                  child: Image.asset(
+                    "assets/logo.png",
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 SizedBox(
                   height: 45,
                 ),
-                Container(
-                  width: 350,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //crossAxisAlignment: CrossAxisAlignment.end,
+                Form(
+                  key: _formKey,
+                  child: Column(
                     children: <Widget>[
-                      language,
                       Container(
-                        alignment: Alignment.center,
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                                SettingsManager.mapLanguage["NoAccount"] != null
-                                    ? SettingsManager.mapLanguage["NoAccount"]
-                                    : "",
-                                style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1),fontSize: 17)),
-                            signUp
-                          ],
-                        ),
+                        width: 350.0,
+                        child: username,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        width: 350.0,
+                        child: password,
+                      ),
+                      SizedBox(
+                        height: 45,
+                      ),
+                      //forgotPassword,
+                      ForgotPassword(
+                          message: SettingsManager
+                                      .mapLanguage["ForgotPassword"] !=
+                                  null
+                              ? SettingsManager.mapLanguage["ForgotPassword"]
+                              : "",
+                          icons: Icons.message),
+                      SizedBox(
+                        height: 45,
+                      ),
+                      Container(
+                        width: 350.0,
+                        child: loginButton(),
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
-          ), // This trailing comma makes auto-formatting nicer for build methods.
-        ));
+            SizedBox(
+              height: 45,
+            ),
+            Container(
+              width: 350,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  language,
+                  Container(
+                    alignment: Alignment.center,
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                            SettingsManager.mapLanguage["NoAccount"] != null
+                                ? SettingsManager.mapLanguage["NoAccount"]
+                                : "",
+                            style: TextStyle(
+                                color: Color.fromRGBO(0, 157, 153, 1),
+                                fontSize: 17)),
+                        signUp
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    ));
   }
 
   Flushbar loginFlushBar(Icon icon, String message) {

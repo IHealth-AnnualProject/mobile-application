@@ -39,7 +39,7 @@ class _ChatListContactPageState extends State<ChatListContactPage>
   findUsers() {
     return this._memoizer.runOnce(() async {
       users = new List<User>();
-      users = await SearchBarController.getAllProfile();
+      users = await SearchBarController.getAllProfile(context);
       return users;
     });
   }
@@ -47,7 +47,7 @@ class _ChatListContactPageState extends State<ChatListContactPage>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      TokenController.checkTokenValidity().then((result) {
+      TokenController.checkTokenValidity(context).then((result) {
         if (!result) SettingsController.disconnect(context);
       });
     }

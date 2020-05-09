@@ -25,7 +25,7 @@ class _AccountTraceState extends State<AccountTrace> {
   _fetchData() {
     return this._memorizer.runOnce(() async {
       feelings = new Feelings.normalConstructor();
-      await feelings.getUserFeelings(this.widget.profileID);
+      await feelings.getUserFeelings(this.widget.profileID, context);
       setState(() {});
       return feelings;
     });

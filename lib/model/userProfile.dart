@@ -1,5 +1,6 @@
 import 'package:betsbi/controller/AccountController.dart';
 import 'package:betsbi/model/user.dart';
+import 'package:flutter/cupertino.dart';
 
 class UserProfile extends User {
   UserProfile.normalConstructor(
@@ -26,8 +27,8 @@ class UserProfile extends User {
         userProfileId: json['user']['id']);
   }
 
-  Future<void> getUserProfile({String userID}) async {
-    await AccountController.getCurrentUserInformation(userID)
+  Future<void> getUserProfile({String userID, BuildContext context}) async {
+    await AccountController.getCurrentUserInformation(userID, context)
         .then((userProfileResult) {
       this.birthdate = userProfileResult.birthdate;
       this.description = userProfileResult.description;
@@ -39,12 +40,18 @@ class UserProfile extends User {
   Future<bool> updateProfile(
       {String birthdate,
       String geolocation,
-      String description}) async {
+      String description,
+      String profileId,
+      bool isPsy,
+      BuildContext context}) async {
     bool isUpdated = false;
     await AccountController.updateCurrentUserInformation(
-        birthdate: birthdate,
+            birthdate: birthdate,
             geolocation: "",
-            description: description)
+            description: description,
+            profileId: profileId,
+            isPsy: isPsy,
+            context: context)
         .then((worked) => isUpdated = worked);
     return isUpdated;
   }
