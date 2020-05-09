@@ -175,18 +175,19 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
 
   Row accountButton() {
     Row row;
-    if (this.widget.isPsy) {
-      isReadOnly = false;
+    if (SettingsManager.isPsy == "false" && this.widget.userId != SettingsManager.currentId) {
+      isReadOnly = true;
       row = Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Container(
-              width: MediaQuery.of(context).size.width / 1,
+              width: MediaQuery.of(context).size.width,
               child: changeStateButton(
-                  id: 1, buttonContent: "Information", colorOn: differentView)),
+                  id: 1, buttonContent: "Information", colorOn: differentView),),
         ],
       );
-    } else {
+    }
+    if(SettingsManager.isPsy == "true" && this.widget.userId != SettingsManager.currentId) {
       isReadOnly = false;
       row = Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -204,7 +205,7 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
         ],
       );
     }
-    if (!this.widget.isPsy && this.widget.userId != SettingsManager.currentId) {
+    if (SettingsManager.isPsy == "false" && this.widget.userId == SettingsManager.currentId) {
       isReadOnly = true;
       row = Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -212,18 +213,18 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
           Container(
               width: MediaQuery.of(context).size.width / 2,
               child: changeStateButton(
-                  id: 1, buttonContent: "Information", colorOn: differentView)),
+                  id: 1, buttonContent: "Information", colorOn: differentView),),
           Container(
               width: MediaQuery.of(context).size.width / 2,
               child: changeStateButton(
                   id: 2,
                   buttonContent: SettingsManager.mapLanguage["Trace"],
-                  colorOn: !differentView)),
+                  colorOn: !differentView),),
         ],
       );
     }
-    if (this.widget.isPsy && this.widget.userId != SettingsManager.currentId) {
-      isReadOnly = true;
+    if (SettingsManager.isPsy == "true" && this.widget.isPsy == true) {
+      isReadOnly = false;
       row = Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
