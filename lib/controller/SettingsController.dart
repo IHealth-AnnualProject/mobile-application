@@ -1,5 +1,7 @@
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/view/IntroductionView.dart';
 import 'package:betsbi/view/LoginView.dart';
+import 'package:betsbi/view/SettingsView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +17,14 @@ class SettingsController {
                     (Route<dynamic> route) => false),
               ),
         );
+  }
+
+  static void reloadIntroductionPage(BuildContext context) {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => IntroductionPage(destination: SettingsPage(),),),
+            (Route<dynamic> route) => false);
   }
 
 }

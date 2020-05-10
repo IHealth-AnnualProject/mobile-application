@@ -43,7 +43,7 @@ class _MainView extends State<MainPage> {
             tokenValid
                 ? destination = LoginController.redirectionLogin()
                 : SettingsManager.firstEntry == 'true'
-                    ? destination = IntroductionPage()
+                    ? destination = IntroductionPage(destination: LoginPage(),)
                     : destination = LoginPage());
       });
       return destination;

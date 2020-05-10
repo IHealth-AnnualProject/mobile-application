@@ -13,7 +13,7 @@ class SettingsPage extends StatefulWidget {
   _SettingsView createState() => _SettingsView();
 }
 
-class _SettingsView extends State<SettingsPage>  with WidgetsBindingObserver {
+class _SettingsView extends State<SettingsPage> with WidgetsBindingObserver {
   bool currentNotification;
   List<bool> isSelected = [true, false];
 
@@ -32,6 +32,7 @@ class _SettingsView extends State<SettingsPage>  with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
@@ -48,13 +49,6 @@ class _SettingsView extends State<SettingsPage>  with WidgetsBindingObserver {
       isSelected = [true, false];
     else
       isSelected = [false, true];
-    //Locale myLocale = Localizations.localeOf(context);
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     RaisedButton disconnectButton() {
       return RaisedButton(
         elevation: 8,
@@ -67,6 +61,27 @@ class _SettingsView extends State<SettingsPage>  with WidgetsBindingObserver {
         child: Text(
           SettingsManager.mapLanguage["Logout"] != null
               ? SettingsManager.mapLanguage["Logout"]
+              : "",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Color.fromRGBO(255, 255, 255, 100),
+              fontWeight: FontWeight.bold),
+        ),
+      );
+    }
+
+    RaisedButton reloadIntroductionPage() {
+      return RaisedButton(
+        elevation: 8,
+        shape: StadiumBorder(),
+        color: Color.fromRGBO(255, 195, 0, 1),
+        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () {
+          SettingsController.reloadIntroductionPage(context);
+        },
+        child: Text(
+          SettingsManager.mapLanguage["ReloadIntroduction"] != null
+              ? SettingsManager.mapLanguage["ReloadIntroduction"]
               : "",
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -158,7 +173,8 @@ class _SettingsView extends State<SettingsPage>  with WidgetsBindingObserver {
                 SettingsManager.mapLanguage["LanguageChanged"] != null
                     ? SettingsManager.mapLanguage["LanguageChanged"]
                     : "",
-                style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 25),
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 157, 153, 1), fontSize: 25),
               ),
               SizedBox(
                 width: 20,
@@ -176,11 +192,16 @@ class _SettingsView extends State<SettingsPage>  with WidgetsBindingObserver {
                 SettingsManager.mapLanguage["NotificationPushActivated"] != null
                     ? SettingsManager.mapLanguage["NotificationPushActivated"]
                     : "",
-                style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 25),
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 157, 153, 1), fontSize: 25),
               ),
               statusPushNotification
             ],
           ),
+          SizedBox(
+            height: 45,
+          ),
+          reloadIntroductionPage(),
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
