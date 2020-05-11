@@ -85,5 +85,7 @@
   "UserIntroduction": "Vous pouvez créer un compte utilisateur ou psychologue qui sera vérifiée",
   "UsernameText": "Pseudo",
   "WentWrong": "Une erreur est survenue !",
-  "ReloadIntroduction": "Re-visionner les pages d'introductions"
+  "ReloadIntroduction": "Re-visionner les pages d'introductions",
+  "Delete": "Supprimer",
+  "Report": "Signaler"
 }

@@ -85,6 +85,8 @@
   "Training": "Training",
   "Ambiance": "Ambiance",
   "Chat": "Chat",
-  "ReloadIntroduction": "Watch again Introduction Page"
+  "ReloadIntroduction": "Watch again Introduction Page",
+  "Delete": "Delete",
+  "Report": "Report"
 
 }

@@ -38,7 +38,7 @@ class _MemosWidgetState extends State<MemosWidget> {
           this.widget.isDone
               ? Text(
                   SettingsManager.mapLanguage["Done"],
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+                  style: TextStyle(color: Color.fromRGBO(255, 195, 0, 1), fontSize: 25),
                 )
               : RaisedButton(
                   elevation: 8,
