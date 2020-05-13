@@ -1,8 +1,10 @@
 import 'dart:ui';
+import 'package:async/async.dart';
+import 'package:betsbi/controller/ChatController.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
+import 'package:betsbi/model/contact.dart';
 import 'package:betsbi/model/message.dart';
-import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
@@ -12,7 +14,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 class ChatPage extends StatefulWidget {
-  final User userContacted;
+  final Contact userContacted;
 
   ChatPage({this.userContacted});
 
@@ -24,14 +26,12 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   TextEditingController mTextMessageController = new TextEditingController();
   List<Widget> list;
   Socket socket;
+  AsyncMemoizer _memoizer = AsyncMemoizer();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    list = new List<Widget>();
-    _connectSocket();
-    list.add(lineSendMessage());
   }
 
   @override
@@ -46,6 +46,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    this._memoizer = AsyncMemoizer();
     super.dispose();
   }
 
@@ -64,9 +65,28 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
     });
   }
 
+  _instanciateChatWithAllMessageAndInput() {
+    return this._memoizer.runOnce(() async {
+      list = new List<Widget>();
+      _connectSocket();
+      await ChatController.getAllMessageIdFromContact(
+              contactID: this.widget.userContacted.userId)
+          .then((listMessage) {
+        listMessage.forEach((message) {
+          list.add(SettingsManager.currentId == message.userFromID
+              ? myMessage(content: message.content)
+              : hisMessage(content: message.content));
+        });
+      });
+      list.add(lineSendMessage());
+      list = list.reversed.toList();
+
+    });
+  }
+
   _onNewMessage(dynamic data) {
     Message receivedMessage = Message.fromJson(data);
-    if (this.widget.userContacted.profileId == receivedMessage.userFromID) {
+    if (this.widget.userContacted.userId == receivedMessage.userFromID) {
       list.insert(1, hisMessage(content: receivedMessage.content));
       setState(() {});
     }
@@ -79,14 +99,24 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       appBar: AppSearchBar.appSearchBarNormal(
         title: this.widget.userContacted.username,
       ),
-      body: ListView.builder(
-        reverse: true,
-        padding: const EdgeInsets.all(8),
-        itemCount: list.length,
-        itemBuilder: (BuildContext context, int index) {
-          return list[index];
-        },
-      ),
+      body: FutureBuilder(
+          future: _instanciateChatWithAllMessageAndInput(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return ListView.builder(
+                reverse: true,
+                padding: const EdgeInsets.all(8),
+                itemCount: list.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return list[index];
+                },
+              );
+            }
+          }),
       bottomNavigationBar: BottomNavigationBarFooter(2),
     );
   }
@@ -122,7 +152,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                   'token': SettingsManager.currentToken,
                   'data': {
                     'content': mTextMessageController.text,
-                    'idReceiver': this.widget.userContacted.profileId
+                    'idReceiver': this.widget.userContacted.userId
                   }
                 });
                 list.insert(

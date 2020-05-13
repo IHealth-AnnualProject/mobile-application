@@ -1,15 +1,16 @@
 import 'package:async/async.dart';
-import 'package:betsbi/controller/SearchBarController.dart';
+import 'package:betsbi/controller/ChatController.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
-import 'package:betsbi/model/user.dart';
+import 'package:betsbi/model/contact.dart';
+import 'package:betsbi/model/message.dart';
 import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/view/ChatView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/ContactChat.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 class ChatListContactPage extends StatefulWidget {
   @override
@@ -19,10 +20,36 @@ class ChatListContactPage extends StatefulWidget {
 class _ChatListContactPageState extends State<ChatListContactPage>
     with WidgetsBindingObserver {
   List<Widget> list;
-  List<User> users;
+  List<Contact> contacts;
   AsyncMemoizer _memoizer = AsyncMemoizer();
+  Socket socket;
 
+  _connectSocket() {
+    socket =
+        io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+    socket.on('connection', (data) => print(data));
+    socket.on('newMessage', (data) => _onNewMessage(data));
+    socket.on('join', (data) => print(data));
+    socket.connect();
+    socket.emit("sub", <String, dynamic>{
+      'token': SettingsManager.currentToken,
+    });
+  }
 
+  _onNewMessage(dynamic data) {
+    Message receivedMessage = Message.fromJson(data);
+    int index = 0;
+    contacts.forEach((element) {
+      if (element.userId == receivedMessage.userFromID) {
+        contacts[index].newMessage++;
+      }
+      index++;
+    });
+    setState(() {});
+  }
 
   @override
   void dispose() {
@@ -39,9 +66,10 @@ class _ChatListContactPageState extends State<ChatListContactPage>
 
   findUsers() {
     return this._memoizer.runOnce(() async {
-      users = new List<User>();
-      users = await SearchBarController.getAllProfile(context);
-      return users;
+      contacts = new List<Contact>();
+      _connectSocket();
+      contacts = await ChatController.getAllContact(context: context);
+      return context;
     });
   }
 
@@ -52,43 +80,6 @@ class _ChatListContactPageState extends State<ChatListContactPage>
         if (!result) SettingsController.disconnect(context);
       });
     }
-  }
-
-  Slidable userToChatWith({User user}) {
-    return Slidable(
-      actionPane: SlidableDrawerActionPane(),
-      actionExtentRatio: 0.25,
-      child: Container(
-        color: Colors.white,
-        child: ListTile(
-          leading: user.isPsy ? Icon(Icons.spa) : Icon(Icons.account_box),
-          title: Text(user.username),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ChatPage(userContacted: user,)),
-            );
-          },
-          subtitle: Text(user.isPsy
-              ? SettingsManager.mapLanguage["PsyChoice"]
-              : SettingsManager.mapLanguage["UserChoice"]),
-        ),
-      ),
-      actions: <Widget>[
-        IconSlideAction(
-          caption: SettingsManager.mapLanguage["Delete"],
-          color: Colors.red,
-          icon: Icons.delete,
-          onTap: () => print("archive"),
-        ),
-        IconSlideAction(
-          caption: SettingsManager.mapLanguage["Report"],
-          color: Colors.black87,
-          icon: Icons.report,
-          onTap: () => print('Share'),
-        ),
-      ],
-    );
   }
 
   @override
@@ -107,9 +98,11 @@ class _ChatListContactPageState extends State<ChatListContactPage>
             // data loaded:
             return ListView.builder(
               itemBuilder: (context, index) => Card(
-                child: userToChatWith(user: users[index]),
+                child: ContactChat(
+                  contact: contacts[index],
+                ),
               ),
-              itemCount: users.length,
+              itemCount: contacts.length,
             );
           }
         },
