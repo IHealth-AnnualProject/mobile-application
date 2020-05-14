@@ -1,3 +1,5 @@
+import 'package:async/async.dart';
+import 'package:betsbi/controller/MemosController.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
@@ -12,26 +14,37 @@ class MemosPage extends StatefulWidget {
   MemosPage({Key key}) : super(key: key);
 
   @override
-  _MemosView createState() => _MemosView();
+  MemosView createState() => MemosView();
 }
 
-class _MemosView extends State<MemosPage> with WidgetsBindingObserver {
-  List<Widget> list = new List<Widget>();
+class MemosView extends State<MemosPage> with WidgetsBindingObserver {
+  List<MemosWidget> list = List<MemosWidget>();
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   TextEditingController dueDateController = TextEditingController();
   bool canCreate = false;
+  AsyncMemoizer _memoizer = AsyncMemoizer();
+  MemosWidget memosWidget;
+  Widget currentPage;
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+    _memoizer = AsyncMemoizer();
   }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+  }
+
+  getAllMemos() {
+    return this._memoizer.runOnce(() async {
+      list = await MemosController.getALlMemos(this);
+      return list;
+    });
   }
 
   @override
@@ -86,20 +99,28 @@ class _MemosView extends State<MemosPage> with WidgetsBindingObserver {
               height: 45,
             ),
             titleMemos,
-            Column(
-              children: <Widget>[
-                ListView.builder(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  itemCount: list.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      child: list[index],
+            FutureBuilder(
+                future: getAllMemos(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return Column(
+                      children: <Widget>[
+                        ListView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.all(8),
+                          itemCount: list.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              child: list[index],
+                            );
+                          },
+                        ),
+                      ],
                     );
-                  },
-                ),
-              ],
-            ),
+                  }
+                }),
           ],
         ),
       ), // T
@@ -126,13 +147,20 @@ class _MemosView extends State<MemosPage> with WidgetsBindingObserver {
       child: Text(SettingsManager.mapLanguage["Submit"]),
       onPressed: () {
         if (this._formKey.currentState.validate()) {
-          setState(() {
-            list.add(new MemosWidget(
-              title: titleController.text,
-              dueDate: dueDateController.text,
-            ));
-            canCreate = false;
-          });
+          MemosController.addNewMemoToMemos(
+                  titleController.text, dueDateController.text)
+              .then(
+            (memoId) => this.setState(() {
+              list.add(
+                new MemosWidget(
+                  title: titleController.text,
+                  dueDate: dueDateController.text,
+                  id: memoId,
+                ),
+              );
+              canCreate = false;
+            }),
+          );
         }
       },
     );
