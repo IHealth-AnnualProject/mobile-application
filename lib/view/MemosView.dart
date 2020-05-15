@@ -47,6 +47,14 @@ class MemosView extends State<MemosPage> with WidgetsBindingObserver {
     });
   }
 
+  refreshMemosList() async {
+    MemosController.getALlMemos(this).then((listMemosWid) {
+      setState(() {
+        list = listMemosWid;
+      });
+    });
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
@@ -156,6 +164,7 @@ class MemosView extends State<MemosPage> with WidgetsBindingObserver {
                   title: titleController.text,
                   dueDate: dueDateController.text,
                   id: memoId,
+                  parent: this,
                 ),
               );
               canCreate = false;

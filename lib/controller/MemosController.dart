@@ -5,17 +5,18 @@ import 'package:betsbi/widget/MemosWidget.dart';
 import 'package:flutter/cupertino.dart';
 
 class MemosController {
-  static Future<int> addNewMemoToMemos(
-      String title, String dueDate) async {
+  static Future<int> addNewMemoToMemos(String title, String dueDate) async {
     SQLLiteMemos sqlLiteMemos = new SQLLiteMemos();
     int idMemo;
     await sqlLiteMemos.openDatabaseandCreateTable().then(
-          (value)  =>  sqlLiteMemos.insert(
-            new Memo(
-              title: title,
-              dueDate: dueDate,
-            ),
-          ).then((memoId) => idMemo = memoId),
+          (value) => sqlLiteMemos
+              .insert(
+                new Memo(
+                  title: title,
+                  dueDate: dueDate,
+                ),
+              )
+              .then((memoId) => idMemo = memoId),
         );
     return idMemo;
   }
@@ -38,6 +39,7 @@ class MemosController {
                       title: memo.title,
                       dueDate: memo.dueDate,
                       id: memo.id,
+                      parent: parent,
                     ),
                   ),
                 ),

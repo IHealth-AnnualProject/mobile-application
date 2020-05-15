@@ -8,8 +8,9 @@ class MemosWidget extends StatefulWidget {
   final String title;
   final String dueDate;
   final int id;
+  final MemosView parent;
 
-  MemosWidget({this.title, this.dueDate, this.id});
+  MemosWidget({this.title, this.dueDate, this.id, this.parent});
 
   @override
   _MemosWidgetState createState() => _MemosWidgetState();
@@ -47,15 +48,8 @@ class _MemosWidgetState extends State<MemosWidget> {
               color: Color.fromRGBO(255, 195, 0, 1),
             )),
             onPressed: () {
-              //todo faire plus propre
               MemosController.deleteMemoFromMemos(this.widget.id).then(
-                (value) => Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MemosPage(),
-                  ),
-                  (Route<dynamic> route) => false,
-                ),
+                (value) => this.widget.parent.refreshMemosList(),
               );
             },
             child: Text(
