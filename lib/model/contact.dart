@@ -8,8 +8,8 @@ class Contact {
 
   factory Contact.fromJson(Map<String, dynamic> json) {
     return Contact(
-        isPsy: json['isPsy'],
-        username: json['username'],
-        userId: json['id']);
+        isPsy: json['isPsy'], username: json['username'], userId: json['id']);
   }
+
+  setNewMessage(int value) => this.newMessage = value;
 }

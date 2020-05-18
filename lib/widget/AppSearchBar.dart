@@ -1,3 +1,4 @@
+import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,7 @@ class AppSearchBar extends StatefulWidget with PreferredSizeWidget {
   AppSearchBar.appSearchBarNormal({this.title});
 
   State<AppSearchBar> createState() {
-      return _AppSearchBarState();
+    return _AppSearchBarState();
   }
 
   @override
@@ -22,12 +23,27 @@ class _AppSearchBarState extends State<AppSearchBar> {
     return AppBar(
       backgroundColor: Color.fromRGBO(0, 116, 113, 1),
       title: Text(this.widget.title),
+      leading: Navigator.canPop(context)
+          ? IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HistoricalManager
+                      .historical[HistoricalManager.historical.length - 2],
+                ),
+                (Route<dynamic> route) => false,
+              ),
+            )
+          : Container(),
       actions: <Widget>[
         IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
               showSearch(
-                  context: context, delegate: DataSearch(context));
+                context: context,
+                delegate: DataSearch(context),
+              );
             }),
       ],
     );

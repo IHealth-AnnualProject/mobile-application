@@ -4,6 +4,7 @@ import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/model/psychologist.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/model/userProfile.dart';
+import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/widget/AccountInformation.dart';
 import 'package:betsbi/widget/AccountTrace.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
@@ -39,6 +40,7 @@ class _AccountView extends State<AccountPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    HistoricalManager.historical.add(this.widget);
     if (!this.widget.isPsy)
       profile = new UserProfile.defaultConstructor();
     else

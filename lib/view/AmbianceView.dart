@@ -1,5 +1,6 @@
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
+import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
@@ -36,6 +37,7 @@ class _AmbianceView extends State<AmbiancePage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    HistoricalManager.historical.add(this.widget);
   }
 
   @override

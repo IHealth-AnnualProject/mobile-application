@@ -12,6 +12,7 @@ class SettingsManager {
   static GlobalConfiguration cfg;
   static FlutterSecureStorage storage;
   static String firstEntry;
+  static int newMessage = 0;
   static String currentLanguage,
       language,
       feelingsDate,

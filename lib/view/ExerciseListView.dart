@@ -1,5 +1,6 @@
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
+import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
@@ -32,6 +33,7 @@ class _ExerciseListView extends State<ExerciseListViewPage>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    HistoricalManager.historical.add(this.widget);
     list = new List<Widget>();
     switch (this.widget.type) {
       case "Math":

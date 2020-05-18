@@ -15,6 +15,9 @@ class SQLLiteMemos implements ISQLLITEManager {
         await db.execute(
           'CREATE TABLE memo(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, dueDate TEXT)',
         );
+        await db.execute(
+          'CREATE TABLE message(id INTEGER PRIMARY KEY AUTOINCREMENT, userIdTo TEXT, userIdFrom TEXT)',
+        );
       },
       version: 1,
     );

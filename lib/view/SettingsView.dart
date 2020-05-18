@@ -1,5 +1,6 @@
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
+import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -31,6 +32,8 @@ class _SettingsView extends State<SettingsPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    HistoricalManager.historical.add(this.widget);
+
   }
 
   @override

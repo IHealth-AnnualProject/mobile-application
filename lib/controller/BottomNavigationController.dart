@@ -5,6 +5,7 @@ import 'package:betsbi/view/HomeView.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavigationController {
+
   static int onBottomTapped(
       int currentIndex, int selectedBottomIndex, BuildContext context) {
     switch (selectedBottomIndex) {

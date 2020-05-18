@@ -5,7 +5,9 @@ import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/model/contact.dart';
 import 'package:betsbi/model/message.dart';
+import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/sqlite/SQLLiteNewMessage.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:bubble/bubble.dart';
@@ -32,6 +34,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    HistoricalManager.historical.add(this.widget);
   }
 
   @override
@@ -50,25 +53,15 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  _connectSocket() {
-    socket =
-        io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': false,
-    });
-    socket.on('connection', (data) => print(data));
-    socket.on('newMessage', (data) => _onNewMessage(data));
-    socket.on('join', (data) => print(data));
-    socket.connect();
-    socket.emit("sub", <String, dynamic>{
-      'token': SettingsManager.currentToken,
-    });
-  }
-
   _instanciateChatWithAllMessageAndInput() {
     return this._memoizer.runOnce(() async {
       list = new List<Widget>();
-      _connectSocket();
+      socket =
+          io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
+        'transports': ['websocket'],
+        'autoConnect': false,
+      });
+      socket.on('newMessage', (data) => _onNewMessage(data));
       await ChatController.getAllMessageIdFromContact(
               contactID: this.widget.userContacted.userId)
           .then((listMessage) {
@@ -80,7 +73,13 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       });
       list.add(lineSendMessage());
       list = list.reversed.toList();
-
+      SQLLiteNewMessage newMessage = new SQLLiteNewMessage();
+      SettingsManager.newMessage -= await newMessage
+          .countByIdFromAndTo(
+              userIdFrom: this.widget.userContacted.userId,
+              userIdTo: SettingsManager.currentId)
+          .then((value) async =>
+              await newMessage.deleteById(this.widget.userContacted.userId));
     });
   }
 

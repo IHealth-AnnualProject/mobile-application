@@ -1,3 +1,4 @@
+import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,13 @@ class IntroductionPage extends StatefulWidget {
 }
 
 class _IntroductionState extends State<IntroductionPage> {
+
+  @override
+  void initStat(){
+    super.initState();
+    HistoricalManager.historical.add(this.widget);
+  }
+
   final pages = [
     PageViewModel(
       pageColor: Color.fromRGBO(128, 195, 241, 1),

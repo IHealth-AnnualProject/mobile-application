@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:betsbi/model/contact.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/sqlite/SQLLiteNewMessage.dart';
 import 'package:betsbi/view/ChatView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,14 @@ class ContactChat extends StatefulWidget {
 }
 
 class _contactChatState extends State<ContactChat> {
+  SQLLiteNewMessage newMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    newMessage = SQLLiteNewMessage();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Slidable(

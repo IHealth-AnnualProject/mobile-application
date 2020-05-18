@@ -4,6 +4,7 @@ import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/model/contact.dart';
 import 'package:betsbi/model/message.dart';
+import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
@@ -21,25 +22,10 @@ class _ChatListContactPageState extends State<ChatListContactPage>
     with WidgetsBindingObserver {
   List<Widget> list;
   List<Contact> contacts;
-  AsyncMemoizer _memoizer = AsyncMemoizer();
   Socket socket;
+  AsyncMemoizer _memoizer = AsyncMemoizer();
 
-  _connectSocket() {
-    socket =
-        io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': false,
-    });
-    socket.on('connection', (data) => print(data));
-    socket.on('newMessage', (data) => _onNewMessage(data));
-    socket.on('join', (data) => print(data));
-    socket.connect();
-    socket.emit("sub", <String, dynamic>{
-      'token': SettingsManager.currentToken,
-    });
-  }
-
-  _onNewMessage(dynamic data) {
+  _onNewMessage(dynamic data) async {
     Message receivedMessage = Message.fromJson(data);
     int index = 0;
     contacts.forEach((element) {
@@ -62,12 +48,18 @@ class _ChatListContactPageState extends State<ChatListContactPage>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    HistoricalManager.historical.add(this.widget);
   }
 
   findUsers() {
     return this._memoizer.runOnce(() async {
       contacts = new List<Contact>();
-      _connectSocket();
+      socket =
+          io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
+        'transports': ['websocket'],
+        'autoConnect': false,
+      });
+      socket.on('newMessage', (data) => _onNewMessage(data));
       contacts = await ChatController.getAllContact(context: context);
       return context;
     });
@@ -84,6 +76,7 @@ class _ChatListContactPageState extends State<ChatListContactPage>
 
   @override
   Widget build(BuildContext context) {
+    print(SettingsManager.newMessage);
     return Scaffold(
       appBar: AppSearchBar.appSearchBarNormal(
           title: SettingsManager.mapLanguage["SearchContainer"] != null
@@ -107,7 +100,7 @@ class _ChatListContactPageState extends State<ChatListContactPage>
           }
         },
       ),
-      bottomNavigationBar: BottomNavigationBarFooter(null),
+      bottomNavigationBar: BottomNavigationBarFooter(2),
     );
   }
 }

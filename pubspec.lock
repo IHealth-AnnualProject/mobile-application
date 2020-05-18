@@ -105,7 +105,7 @@ packages:
       name: flushbar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.2"
+    version: "1.10.4"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -363,7 +363,7 @@ packages:
       name: video_player
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.10"
+    version: "0.10.11"
   video_player_platform_interface:
     dependency: transitive
     description:

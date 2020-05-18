@@ -1,5 +1,6 @@
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
+import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -19,10 +20,12 @@ class HomePage extends StatefulWidget {
 class _HomeView extends State<HomePage> with WidgetsBindingObserver {
   int _selectedBottomIndex = 0;
 
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    HistoricalManager.historical.add(this.widget);
   }
 
   @override
@@ -60,4 +63,5 @@ class _HomeView extends State<HomePage> with WidgetsBindingObserver {
           _selectedBottomIndex),
     );
   }
+
 }
