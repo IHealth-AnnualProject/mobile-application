@@ -4,6 +4,8 @@ import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/state/IMemoViewState.dart';
 import 'package:betsbi/view/MemosView.dart';
+import 'package:betsbi/widget/AppBarOffline.dart';
+import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/MemosWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -58,9 +60,7 @@ class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
       style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
     );
     return Scaffold(
-      appBar: AppBar(
-        title: Text(SettingsManager.mapLanguage["OfflineMode"]),
-      ),
+      appBar: AppBarOffline(),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -121,22 +121,7 @@ class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
         icon: Icon(Icons.add),
         onPressed: () => showAlertDialog(context),
       ), // his trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: RaisedButton(
-        elevation: 8,
-        shape: StadiumBorder(),
-        color: Color.fromRGBO(255, 195, 0, 1),
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        child: Text(
-          SettingsManager.mapLanguage["LoginPage"],
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: Color.fromRGBO(255, 255, 255, 100),
-              fontWeight: FontWeight.bold),
-        ),
-      ),
+      bottomNavigationBar: BottomNavigationBarFooter(1, isOffLine: true,)
     );
   }
 

@@ -136,7 +136,8 @@ class _LoginView extends State<LoginPage> {
           textAlign: TextAlign.center,
           style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
         ));
-    return SwipeUp(
+    return Scaffold(body :
+      SwipeUp(
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -243,7 +244,7 @@ class _LoginView extends State<LoginPage> {
         ),
       ),
       onSwipe: () => offlineChoiceFlushBar().show(context),
-    );
+    ));
   }
 
   Flushbar loginFlushBar(Icon icon, String message) {

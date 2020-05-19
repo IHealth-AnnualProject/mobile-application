@@ -2,12 +2,11 @@ import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
-import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/GridViewHomeWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 
 class HomePage extends StatefulWidget {
   final bool isPsy;
@@ -19,7 +18,6 @@ class HomePage extends StatefulWidget {
 
 class _HomeView extends State<HomePage> with WidgetsBindingObserver {
   int _selectedBottomIndex = 0;
-
 
   @override
   void initState() {
@@ -59,9 +57,7 @@ class _HomeView extends State<HomePage> with WidgetsBindingObserver {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarFooter(
-          _selectedBottomIndex),
+      bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex),
     );
   }
-
 }
