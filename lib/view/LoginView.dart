@@ -6,6 +6,7 @@ import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swipe_up/swipe_up.dart';
 
 import 'RegisterView.dart';
 
@@ -135,7 +136,7 @@ class _LoginView extends State<LoginPage> {
           textAlign: TextAlign.center,
           style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
         ));
-    return Scaffold(
+    return SwipeUp(
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -232,29 +233,16 @@ class _LoginView extends State<LoginPage> {
           ),
         ), // This trailing comma makes auto-formatting nicer for build methods.
       ),
-      bottomNavigationBar: RaisedButton(
-        elevation: 8,
-        shape: StadiumBorder(),
-        color: Color.fromRGBO(255, 195, 0, 1),
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MemosPage(
-                isOffline: true,
-              ),
-            ),
-          );
-        },
+      child: Material(
+        color: Colors.transparent,
         child: Text(
-          SettingsManager.mapLanguage["OfflineMode"] + " Memo",
-          textAlign: TextAlign.center,
+          SettingsManager.mapLanguage["OfflineMode"],
           style: TextStyle(
-              color: Color.fromRGBO(255, 255, 255, 100),
-              fontWeight: FontWeight.bold),
+            color: Color.fromRGBO(0, 157, 153, 1),
+          ),
         ),
       ),
+      onSwipe: () => offlineChoiceFlushBar().show(context),
     );
   }
 
@@ -265,6 +253,32 @@ class _LoginView extends State<LoginPage> {
       flushbarStyle: FlushbarStyle.GROUNDED,
       message: message,
       duration: Duration(seconds: 1),
+    );
+  }
+
+  Flushbar offlineChoiceFlushBar() {
+    return Flushbar(
+      flushbarPosition: FlushbarPosition.BOTTOM,
+      flushbarStyle: FlushbarStyle.GROUNDED,
+      title: SettingsManager.mapLanguage["OfflineMode"],
+      message: SettingsManager.mapLanguage["OfflineContent"],
+      mainButton: FlatButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MemosPage(
+                isOffline: true,
+              ),
+            ),
+          ); // result = true
+        },
+        child: Text(
+          "GO",
+          style: TextStyle(color: Colors.amber),
+        ),
+      ),
+      duration: Duration(seconds: 2),
     );
   }
 }
