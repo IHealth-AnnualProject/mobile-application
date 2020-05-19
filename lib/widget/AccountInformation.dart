@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:betsbi/controller/CheckController.dart';
 import 'package:betsbi/model/psychologist.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -76,17 +77,7 @@ class _AccountInformationState extends State<AccountInformation> {
         maxLength: maxLength,
         readOnly: this.widget.isReadOnly,
         textAlign: TextAlign.left,
-        validator: (value) {
-          if (value.isEmpty) {
-            return SettingsManager.mapLanguage["EnterText"] != null
-                ? SettingsManager.mapLanguage["EnterText"]
-                : "";
-          }
-          if (maxLength == 3 && int.parse(value) > 120) {
-            return SettingsManager.mapLanguage["TooOld"];
-          }
-          return null;
-        },
+        validator: (value) => CheckController.checkField(value),
         keyboardType: inputType,
         decoration: InputDecoration(
             labelText: labelAndHintText != null ? labelAndHintText : "",

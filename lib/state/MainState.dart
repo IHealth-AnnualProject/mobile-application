@@ -38,7 +38,7 @@ class MainState extends State<MainPage> {
         body: FutureBuilder(
           future: _findRedirection(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+            if (!snapshot.hasData) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
