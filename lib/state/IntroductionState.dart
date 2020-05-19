@@ -1,4 +1,3 @@
-import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/IntroductionView.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +10,6 @@ class IntroductionState extends State<IntroductionPage> {
   @override
   void initState(){
     super.initState();
-    HistoricalManager.historical.add(this.widget);
   }
 
   final pages = [
