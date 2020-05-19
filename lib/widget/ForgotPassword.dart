@@ -28,7 +28,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       keyboardType: TextInputType.emailAddress,
       controller: myController,
       validator: (value) {
-        return CheckController.checkEmail(value);
+        return CheckController.checkField(value,emailToCheck: value);
       },
       style: TextStyle(color: Colors.white),
       maxLines: 1,

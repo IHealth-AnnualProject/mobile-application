@@ -1,3 +1,4 @@
+import 'package:betsbi/controller/CheckController.dart';
 import 'package:betsbi/controller/LoginController.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/view/LoginView.dart';
@@ -5,6 +6,7 @@ import 'package:betsbi/view/MemosView.dart';
 import 'package:betsbi/view/RegisterView.dart';
 import 'package:betsbi/widget/ForgotPassword.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/widget/TextFormFieldCustomBetsBi.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +52,7 @@ class LoginState extends State<LoginPage> {
         ),
       );
     }
+
     //Locale myLocale = Localizations.localeOf(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -57,55 +60,6 @@ class LoginState extends State<LoginPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-
-    final username = TextFormField(
-      obscureText: false,
-      controller: userNameController,
-      textAlign: TextAlign.left,
-      validator: (value) {
-        if (value.isEmpty) {
-          return SettingsManager.mapLanguage["EnterText"] != null
-              ? SettingsManager.mapLanguage["EnterText"]
-              : "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-          labelText: SettingsManager.mapLanguage["UsernameText"] != null
-              ? SettingsManager.mapLanguage["UsernameText"]
-              : "",
-          filled: true,
-          fillColor: Colors.white,
-          hintText: SettingsManager.mapLanguage["UsernameText"] != null
-              ? SettingsManager.mapLanguage["UsernameText"]
-              : "",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
-    );
-    final password = TextFormField(
-      obscureText: true,
-      controller: passwordController,
-      textAlign: TextAlign.left,
-      validator: (value) {
-        if (value.isEmpty) {
-          return SettingsManager.mapLanguage["EnterText"] != null
-              ? SettingsManager.mapLanguage["EnterText"]
-              : "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-          labelText: SettingsManager.mapLanguage["PasswordText"] != null
-              ? SettingsManager.mapLanguage["PasswordText"]
-              : "",
-          filled: true,
-          fillColor: Colors.white,
-          hintText: SettingsManager.mapLanguage["PasswordText"] != null
-              ? SettingsManager.mapLanguage["PasswordText"]
-              : "",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
-    );
     final language = InkWell(
       onTap: () {
         _setLanguage();
@@ -163,14 +117,36 @@ class LoginState extends State<LoginPage> {
                       children: <Widget>[
                         Container(
                           width: 350.0,
-                          child: username,
+                          child: TextFormFieldCustomBetsBi(
+                            obscureText: false,
+                            controller: userNameController,
+                            textAlign: TextAlign.left,
+                            validator: (value) => CheckController.checkField(value),
+                            labelText:
+                                SettingsManager.mapLanguage["UsernameText"],
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText:
+                                SettingsManager.mapLanguage["UsernameText"],
+                          ),
                         ),
                         SizedBox(
                           height: 20,
                         ),
                         Container(
                           width: 350.0,
-                          child: password,
+                          child: TextFormFieldCustomBetsBi(
+                            obscureText: true,
+                            controller: passwordController,
+                            textAlign: TextAlign.left,
+                            validator: (value) => CheckController.checkField(value),
+                            labelText:
+                                SettingsManager.mapLanguage["PasswordText"],
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText:
+                                SettingsManager.mapLanguage["PasswordText"],
+                          ),
                         ),
                         SizedBox(
                           height: 45,
