@@ -1,6 +1,6 @@
 import 'package:betsbi/controller/MemosController.dart';
 import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/view/MemosView.dart';
+import 'package:betsbi/state/IMemoViewState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +8,7 @@ class MemosWidget extends StatefulWidget {
   final String title;
   final String dueDate;
   final int id;
-  final MemosView parent;
+  final IMemoViewState parent;
 
   MemosWidget({this.title, this.dueDate, this.id, this.parent});
 

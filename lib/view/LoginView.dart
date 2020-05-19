@@ -1,4 +1,6 @@
 import 'package:betsbi/controller/LoginController.dart';
+import 'package:betsbi/service/HistoricalManager.dart';
+import 'package:betsbi/view/MemosView.dart';
 import 'package:betsbi/widget/ForgotPassword.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flushbar/flushbar.dart';
@@ -15,13 +17,18 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginView extends State<LoginPage> {
-  bool loging;
   final _formKey = GlobalKey<FormState>();
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
 
   void _setLanguage() {
     SettingsManager.setLanguage().then((r) => setState(() {}));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    HistoricalManager.historical.add(this.widget);
   }
 
   @override
@@ -129,102 +136,126 @@ class _LoginView extends State<LoginPage> {
           style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
         ));
     return Scaffold(
-        body: Center(
-      // Center is a layout widget. It takes a single child and positions it
-      // in the middle of the parent.
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //crossAxisAlignment: CrossAxisAlignment.center,
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 100,
-                ),
-                SizedBox(
-                  height: 150,
-                  child: Image.asset(
-                    "assets/logo.png",
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                SizedBox(
-                  height: 45,
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: 350.0,
-                        child: username,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: 350.0,
-                        child: password,
-                      ),
-                      SizedBox(
-                        height: 45,
-                      ),
-                      //forgotPassword,
-                      ForgotPassword(
-                          message: SettingsManager
-                                      .mapLanguage["ForgotPassword"] !=
-                                  null
-                              ? SettingsManager.mapLanguage["ForgotPassword"]
-                              : "",
-                          icons: Icons.message),
-                      SizedBox(
-                        height: 45,
-                      ),
-                      Container(
-                        width: 350.0,
-                        child: loginButton(),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 45,
-            ),
-            Container(
-              width: 350,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //crossAxisAlignment: CrossAxisAlignment.end,
+      body: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //crossAxisAlignment: CrossAxisAlignment.center,
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  language,
-                  Container(
-                    alignment: Alignment.center,
-                    child: Row(
+                  SizedBox(
+                    height: 100,
+                  ),
+                  SizedBox(
+                    height: 150,
+                    child: Image.asset(
+                      "assets/logo.png",
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 45,
+                  ),
+                  Form(
+                    key: _formKey,
+                    child: Column(
                       children: <Widget>[
-                        Text(
-                            SettingsManager.mapLanguage["NoAccount"] != null
-                                ? SettingsManager.mapLanguage["NoAccount"]
+                        Container(
+                          width: 350.0,
+                          child: username,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          width: 350.0,
+                          child: password,
+                        ),
+                        SizedBox(
+                          height: 45,
+                        ),
+                        //forgotPassword,
+                        ForgotPassword(
+                            message: SettingsManager
+                                        .mapLanguage["ForgotPassword"] !=
+                                    null
+                                ? SettingsManager.mapLanguage["ForgotPassword"]
                                 : "",
-                            style: TextStyle(
-                                color: Color.fromRGBO(0, 157, 153, 1),
-                                fontSize: 17)),
-                        signUp
+                            icons: Icons.message),
+                        SizedBox(
+                          height: 45,
+                        ),
+                        Container(
+                          width: 350.0,
+                          child: loginButton(),
+                        ),
                       ],
                     ),
                   ),
                 ],
               ),
-            )
-          ],
+              SizedBox(
+                height: 45,
+              ),
+              Container(
+                width: 350,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    language,
+                    Container(
+                      alignment: Alignment.center,
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                              SettingsManager.mapLanguage["NoAccount"] != null
+                                  ? SettingsManager.mapLanguage["NoAccount"]
+                                  : "",
+                              style: TextStyle(
+                                  color: Color.fromRGBO(0, 157, 153, 1),
+                                  fontSize: 17)),
+                          signUp
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+      bottomNavigationBar: RaisedButton(
+        elevation: 8,
+        shape: StadiumBorder(),
+        color: Color.fromRGBO(255, 195, 0, 1),
+        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MemosPage(
+                isOffline: true,
+              ),
+            ),
+          );
+        },
+        child: Text(
+          SettingsManager.mapLanguage["OfflineMode"] + " Memo",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Color.fromRGBO(255, 255, 255, 100),
+              fontWeight: FontWeight.bold),
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    ));
+      ),
+    );
   }
 
   Flushbar loginFlushBar(Icon icon, String message) {

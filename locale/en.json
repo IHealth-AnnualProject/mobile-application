@@ -87,6 +87,10 @@
   "Chat": "Chat",
   "ReloadIntroduction": "Watch again Introduction Page",
   "Delete": "Delete",
-  "Report": "Report"
+  "Report": "Report",
+  "OfflineMode": "OffLine Mode",
+  "LoginPage": "Login Page"
+
+
 
 }

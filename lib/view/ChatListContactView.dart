@@ -76,7 +76,6 @@ class _ChatListContactPageState extends State<ChatListContactPage>
 
   @override
   Widget build(BuildContext context) {
-    print(SettingsManager.newMessage);
     return Scaffold(
       appBar: AppSearchBar.appSearchBarNormal(
           title: SettingsManager.mapLanguage["SearchContainer"] != null

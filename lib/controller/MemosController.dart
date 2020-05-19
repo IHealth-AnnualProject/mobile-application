@@ -1,6 +1,6 @@
 import 'package:betsbi/model/memo.dart';
 import 'package:betsbi/sqlite/SQLLiteMemos.dart';
-import 'package:betsbi/view/MemosView.dart';
+import 'package:betsbi/state/IMemoViewState.dart';
 import 'package:betsbi/widget/MemosWidget.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -28,7 +28,7 @@ class MemosController {
         .then((value) => sqlLiteMemos.delete(id));
   }
 
-  static Future<List<Widget>> getALlMemos(MemosView parent) async {
+  static Future<List<Widget>> getALlMemos(IMemoViewState parent) async {
     SQLLiteMemos sqlLiteMemos = new SQLLiteMemos();
     List<MemosWidget> list = new List<MemosWidget>();
     await sqlLiteMemos.openDatabaseandCreateTable().then(

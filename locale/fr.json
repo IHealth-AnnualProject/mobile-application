@@ -87,5 +87,7 @@
   "WentWrong": "Une erreur est survenue !",
   "ReloadIntroduction": "Re-visionner les pages d'introductions",
   "Delete": "Supprimer",
-  "Report": "Signaler"
+  "Report": "Signaler",
+  "OfflineMode": "Mode Hors Ligne",
+  "LoginPage": "Page de connexion"
 }
