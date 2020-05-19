@@ -1,3 +1,4 @@
+import 'package:betsbi/controller/CheckController.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
@@ -7,6 +8,7 @@ import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/FinalButton.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/widget/TextFormFieldCustomBetsBi.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +17,9 @@ class QuestCreateState extends State<QuestCreatePage>
   final _formKey = GlobalKey<FormState>();
   List difficulty = ["easy", "normal", "hard"];
   List<DropdownMenuItem<String>> _dropDownMenuItems;
+  final TextEditingController titleController = new TextEditingController();
+  final TextEditingController descriptionController =
+      new TextEditingController();
   String _currentDifficulty;
 
   @override
@@ -51,7 +56,7 @@ class QuestCreateState extends State<QuestCreatePage>
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-    final titleFeelings = Text(
+    final questTitle = Text(
       SettingsManager.mapLanguage["QuestCreateTitle"] != null
           ? SettingsManager.mapLanguage["QuestCreateTitle"]
           : "",
@@ -60,50 +65,6 @@ class QuestCreateState extends State<QuestCreatePage>
           color: Color.fromRGBO(0, 157, 153, 1),
           fontWeight: FontWeight.bold,
           fontSize: 40),
-    );
-    final titleError = TextFormField(
-      obscureText: false,
-      textAlign: TextAlign.left,
-      validator: (value) {
-        if (value.isEmpty) {
-          return SettingsManager.mapLanguage["EnterText"] != null
-              ? SettingsManager.mapLanguage["EnterText"]
-              : "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-          labelText: SettingsManager.mapLanguage["Title"] != null
-              ? SettingsManager.mapLanguage["Title"]
-              : "",
-          filled: true,
-          fillColor: Colors.white,
-          hintText: SettingsManager.mapLanguage["Title"] != null
-              ? SettingsManager.mapLanguage["Title"]
-              : "",
-          border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
-    );
-    final descriptionError = TextFormField(
-      obscureText: false,
-      textAlign: TextAlign.start,
-      maxLines: 15,
-      validator: (value) {
-        if (value.isEmpty) {
-          return SettingsManager.mapLanguage["EnterText"] != null
-              ? SettingsManager.mapLanguage["EnterText"]
-              : "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-          labelText: "Description",
-          filled: true,
-          fillColor: Colors.white,
-          hintText: "Description",
-          alignLabelWithHint: true,
-          border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
     return Scaffold(
       appBar: AppSearchBar.appSearchBarNormal(
@@ -126,7 +87,7 @@ class QuestCreateState extends State<QuestCreatePage>
                   SizedBox(
                     height: 30,
                   ),
-                  titleFeelings,
+                  questTitle,
                   SizedBox(
                     height: 45,
                   ),
@@ -136,14 +97,35 @@ class QuestCreateState extends State<QuestCreatePage>
                       children: <Widget>[
                         Container(
                           width: 350.0,
-                          child: titleError,
+                          child: TextFormFieldCustomBetsBi(
+                            obscureText: false,
+                            textAlign: TextAlign.left,
+                            controller: titleController,
+                            validator: (value) =>
+                                CheckController.checkField(value),
+                            labelText: SettingsManager.mapLanguage["Title"],
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: SettingsManager.mapLanguage["Title"],
+                          ),
                         ),
                         SizedBox(
                           height: 20,
                         ),
                         Container(
                           width: 350.0,
-                          child: descriptionError,
+                          child: TextFormFieldCustomBetsBi(
+                            obscureText: false,
+                            textAlign: TextAlign.left,
+                            maxLines: 15,
+                            controller: descriptionController,
+                            validator: (value) =>
+                                CheckController.checkField(value),
+                            labelText: "Description",
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: "Description",
+                          ),
                         ),
                         SizedBox(
                           height: 45,
@@ -186,16 +168,16 @@ class QuestCreateState extends State<QuestCreatePage>
                           width: 350.0,
                           child: FinalButton(
                               content:
-                              SettingsManager.mapLanguage["Submit"] != null
-                                  ? SettingsManager.mapLanguage["Submit"]
-                                  : "",
+                                  SettingsManager.mapLanguage["Submit"] != null
+                                      ? SettingsManager.mapLanguage["Submit"]
+                                      : "",
                               destination: HomePage(),
                               formKey: _formKey,
                               barContent:
-                              SettingsManager.mapLanguage["ErrorSent"] !=
-                                  null
-                                  ? SettingsManager.mapLanguage["ErrorSent"]
-                                  : ""),
+                                  SettingsManager.mapLanguage["ErrorSent"] !=
+                                          null
+                                      ? SettingsManager.mapLanguage["ErrorSent"]
+                                      : ""),
                         ),
                         SizedBox(
                           height: 20,

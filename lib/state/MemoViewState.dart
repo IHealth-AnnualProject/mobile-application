@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+import 'package:betsbi/controller/CheckController.dart';
 import 'package:betsbi/controller/MemosController.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
@@ -230,14 +231,7 @@ class MemosViewState extends State<MemosPage> with WidgetsBindingObserver, IMemo
       textAlign: TextAlign.left,
       controller: textEditingController,
       keyboardType: textInputType,
-      validator: (value) {
-        if (value.isEmpty) {
-          return SettingsManager.mapLanguage["EnterText"] != null
-              ? SettingsManager.mapLanguage["EnterText"]
-              : "";
-        }
-        return null;
-      },
+      validator: (value) => CheckController.checkField(value),
       decoration: InputDecoration(
           labelText: labelAndHint,
           filled: true,
@@ -255,14 +249,7 @@ class MemosViewState extends State<MemosPage> with WidgetsBindingObserver, IMemo
       textAlign: TextAlign.left,
       controller: dueDateController,
       onTap: () => _selectDate(),
-      validator: (value) {
-        if (value.isEmpty) {
-          return SettingsManager.mapLanguage["EnterText"] != null
-              ? SettingsManager.mapLanguage["EnterText"]
-              : "";
-        }
-        return null;
-      },
+      validator: (value) => CheckController.checkField(value),
       decoration: InputDecoration(
           labelText: labelAndHint,
           filled: true,

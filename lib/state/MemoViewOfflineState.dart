@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+import 'package:betsbi/controller/CheckController.dart';
 import 'package:betsbi/controller/MemosController.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -14,8 +15,8 @@ import 'package:intl/intl.dart';
 class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
   List<MemosWidget> list = List<MemosWidget>();
   final _formKey = GlobalKey<FormState>();
-  final titleController = TextEditingController();
-  TextEditingController dueDateController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController dueDateController = TextEditingController();
   bool canCreate = false;
   AsyncMemoizer _memoizer = AsyncMemoizer();
   MemosWidget memosWidget;
@@ -215,14 +216,7 @@ class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
       textAlign: TextAlign.left,
       controller: textEditingController,
       keyboardType: textInputType,
-      validator: (value) {
-        if (value.isEmpty) {
-          return SettingsManager.mapLanguage["EnterText"] != null
-              ? SettingsManager.mapLanguage["EnterText"]
-              : "";
-        }
-        return null;
-      },
+      validator: (value) => CheckController.checkField(value),
       decoration: InputDecoration(
           labelText: labelAndHint,
           filled: true,
@@ -240,14 +234,7 @@ class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
       textAlign: TextAlign.left,
       controller: dueDateController,
       onTap: () => _selectDate(),
-      validator: (value) {
-        if (value.isEmpty) {
-          return SettingsManager.mapLanguage["EnterText"] != null
-              ? SettingsManager.mapLanguage["EnterText"]
-              : "";
-        }
-        return null;
-      },
+      validator: (value) => CheckController.checkField(value),
       decoration: InputDecoration(
           labelText: labelAndHint,
           filled: true,

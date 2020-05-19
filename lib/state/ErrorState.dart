@@ -1,3 +1,4 @@
+import 'package:betsbi/controller/CheckController.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
@@ -7,12 +8,16 @@ import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/FinalButton.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/widget/TextFormFieldCustomBetsBi.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class ErrorState extends State<ErrorPage> with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController titleEditingController =
+      new TextEditingController();
+  final TextEditingController descriptionEditingController =
+      new TextEditingController();
 
   @override
   void dispose() {
@@ -46,124 +51,98 @@ class ErrorState extends State<ErrorPage> with WidgetsBindingObserver {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-    final titleFeelings = Text(
+    final errorTitle = Text(
       SettingsManager.mapLanguage["ErrorTitle"] != null
           ? SettingsManager.mapLanguage["ErrorTitle"]
           : "",
       textAlign: TextAlign.center,
       style: TextStyle(
-          color: Color.fromRGBO(0, 157, 153, 1), fontWeight: FontWeight.bold, fontSize: 40),
-    );
-    final titleError = TextFormField(
-      obscureText: false,
-      textAlign: TextAlign.left,
-      validator: (value) {
-        if (value.isEmpty) {
-          return SettingsManager.mapLanguage["EnterText"] != null
-              ? SettingsManager.mapLanguage["EnterText"]
-              : "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-          labelText: SettingsManager.mapLanguage["Title"] != null
-              ? SettingsManager.mapLanguage["Title"]
-              : "",
-          filled: true,
-          fillColor: Colors.white,
-          hintText: SettingsManager.mapLanguage["Title"] != null
-              ? SettingsManager.mapLanguage["Title"]
-              : "",
-          border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
-    );
-    final descriptionError = TextFormField(
-      obscureText: false,
-      textAlign: TextAlign.start,
-      maxLines: 15,
-      validator: (value) {
-        if (value.isEmpty) {
-          return SettingsManager.mapLanguage["EnterText"] != null
-              ? SettingsManager.mapLanguage["EnterText"]
-              : "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-          labelText: "Description",
-          filled: true,
-          fillColor: Colors.white,
-          hintText: "Description",
-          alignLabelWithHint: true,
-          border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
+          color: Color.fromRGBO(0, 157, 153, 1),
+          fontWeight: FontWeight.bold,
+          fontSize: 40),
     );
     return Scaffold(
       appBar: AppSearchBar.appSearchBarNormal(
           title: SettingsManager.mapLanguage["SearchContainer"] != null
               ? SettingsManager.mapLanguage["SearchContainer"]
               : ""),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 30,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: 30,
+                ),
+                errorTitle,
+                SizedBox(
+                  height: 45,
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        width: 350.0,
+                        child: TextFormFieldCustomBetsBi(
+                          obscureText: false,
+                          textAlign: TextAlign.start,
+                          controller: titleEditingController,
+                          validator: (value) =>
+                              CheckController.checkField(value),
+                          labelText: SettingsManager.mapLanguage["Title"],
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: SettingsManager.mapLanguage["Title"],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        width: 350.0,
+                        child: TextFormFieldCustomBetsBi(
+                          obscureText: false,
+                          textAlign: TextAlign.start,
+                          controller: descriptionEditingController,
+                          maxLines: 15,
+                          validator: (value) =>
+                              CheckController.checkField(value),
+                          labelText: "Description",
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: "Description",
+                        ),
+                      ),
+                      SizedBox(
+                        height: 45,
+                      ),
+                      Container(
+                        width: 350.0,
+                        child: FinalButton(
+                            content:
+                                SettingsManager.mapLanguage["Submit"] != null
+                                    ? SettingsManager.mapLanguage["Submit"]
+                                    : "",
+                            destination: HomePage(),
+                            formKey: _formKey,
+                            barContent:
+                                SettingsManager.mapLanguage["ErrorSent"] != null
+                                    ? SettingsManager.mapLanguage["ErrorSent"]
+                                    : ""),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ],
                   ),
-                  titleFeelings,
-                  SizedBox(
-                    height: 45,
-                  ),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          width: 350.0,
-                          child: titleError,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          width: 350.0,
-                          child: descriptionError,
-                        ),
-                        SizedBox(
-                          height: 45,
-                        ),
-                        Container(
-                          width: 350.0,
-                          child: FinalButton(
-                              content:
-                              SettingsManager.mapLanguage["Submit"] != null
-                                  ? SettingsManager.mapLanguage["Submit"]
-                                  : "",
-                              destination: HomePage(),
-                              formKey: _formKey,
-                              barContent:
-                              SettingsManager.mapLanguage["ErrorSent"] !=
-                                  null
-                                  ? SettingsManager.mapLanguage["ErrorSent"]
-                                  : ""),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ), // This trailing comma makes auto-formatting nicer for build methods.
-            ],
-          ),
+                ),
+              ],
+            ), // This trailing comma makes auto-formatting nicer for build methods.
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBarFooter(null),

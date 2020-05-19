@@ -7,6 +7,7 @@ class TextFormFieldCustomBetsBi extends StatelessWidget {
   final TextEditingController controller;
   final FormFieldValidator<String> validator;
   final String labelText;
+  final int maxLines;
   final TextInputType keyBoardType;
   final bool filled;
   final Color fillColor;
@@ -21,6 +22,7 @@ class TextFormFieldCustomBetsBi extends StatelessWidget {
       this.filled,
       this.fillColor,
       this.hintText,
+      this.maxLines = 1,
       this.keyBoardType = TextInputType.text,
       Key key})
       : super(key: key);
@@ -32,6 +34,7 @@ class TextFormFieldCustomBetsBi extends StatelessWidget {
       controller: this.controller,
       textAlign: this.textAlign,
       validator: this.validator,
+      maxLines: this.maxLines,
       keyboardType: this.keyBoardType,
       decoration: InputDecoration(
           labelText: this.labelText,
