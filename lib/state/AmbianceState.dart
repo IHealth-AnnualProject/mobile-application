@@ -7,12 +7,16 @@ import 'package:betsbi/view/AmbianceView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/MusicPlayerCardItem.dart';
+import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AmbianceState extends State<AmbiancePage> with WidgetsBindingObserver {
+class AmbianceState extends State<AmbiancePage>
+    with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
   List<Widget> list;
+  Animation<double> _animation;
+  AnimationController _animationController;
 
   @override
   void dispose() {
@@ -23,6 +27,14 @@ class AmbianceState extends State<AmbiancePage> with WidgetsBindingObserver {
 
   @override
   void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 260),
+    );
+
+    final curvedAnimation =
+        CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
+    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     HistoricalManager.historical.add(this.widget);
@@ -101,6 +113,41 @@ class AmbianceState extends State<AmbiancePage> with WidgetsBindingObserver {
         ),
       ),
       bottomNavigationBar: BottomNavigationBarFooter(null),
+      floatingActionButton: FloatingActionBubble(
+        animation: _animation,
+        iconColor: Colors.blue,
+        icon: AnimatedIcons.ellipsis_search,
+        onPress: () {
+          _animationController.isCompleted
+              ? _animationController.reverse()
+              : _animationController.forward();
+        },
+        // Menu items
+        items: <Bubble>[
+          // Floating action menu item
+          Bubble(
+            title: "PlayLists",
+            iconColor: Colors.white,
+            bubbleColor: Colors.blue,
+            icon: Icons.list,
+            titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () {
+              _animationController.reverse();
+            },
+          ),
+          // Floating action menu item
+          Bubble(
+            title: SettingsManager.mapLanguage["RelaxingColor"],
+            iconColor: Colors.white,
+            bubbleColor: Colors.blue,
+            icon: Icons.spa,
+            titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () {
+              print("relaxing");
+            },
+          ),
+        ],
+      ),
     );
   }
 }
