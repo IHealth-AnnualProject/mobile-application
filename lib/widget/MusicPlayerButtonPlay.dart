@@ -18,6 +18,7 @@ class MusicPlayerFlushState extends State<MusicPlayerButtonPlay> {
   Widget build(BuildContext context) {
     this.widget.parent.assetsAudioPlayer.playOrPause();
     return FlatButton(
+      color: Color.fromRGBO(0, 157, 153, 1),
       child: Icon(
         this.widget.parent.assetsAudioPlayer.isPlaying.value ? Icons.play_arrow : Icons.pause,
         color: Colors.white,
