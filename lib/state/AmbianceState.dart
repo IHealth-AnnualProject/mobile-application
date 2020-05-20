@@ -6,7 +6,8 @@ import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/AmbianceView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
-import 'package:betsbi/widget/MusicPlayerFlush.dart';
+import 'package:betsbi/widget/MusicPlayerButtonPlay.dart';
+import 'package:betsbi/widget/MusicPlayerProgressIndicator.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class AmbianceState extends State<AmbiancePage> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    assetsAudioPlayer.stop();
     super.dispose();
   }
 
@@ -92,7 +94,9 @@ class AmbianceState extends State<AmbiancePage> with WidgetsBindingObserver {
               shape: StadiumBorder(),
               color: Color.fromRGBO(255, 195, 0, 1),
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-              onPressed: () => flushbar().show(context),
+              onPressed: () {
+                flushbar().show(context);
+              },
               child: Text(
                 SettingsManager.mapLanguage["LoginText"] != null
                     ? SettingsManager.mapLanguage["LoginText"]
@@ -110,13 +114,13 @@ class AmbianceState extends State<AmbiancePage> with WidgetsBindingObserver {
     );
   }
 
-
-
-  Flushbar flushbar(){
+  Flushbar flushbar() {
     return Flushbar<String>(
       isDismissible: true,
       title: "song1",
-      message: "prout",
+      messageText: MusicPlayerProgressIndicator(
+        parent: this,
+      ),
       flushbarStyle: FlushbarStyle.GROUNDED,
       icon: Icon(
         Icons.music_note,
@@ -124,13 +128,19 @@ class AmbianceState extends State<AmbiancePage> with WidgetsBindingObserver {
       ),
       onStatusChanged: (FlushbarStatus status) {
         if (status == FlushbarStatus.SHOWING) {
-          this.assetsAudioPlayer.open(Audio("assets/audio/song1.mp3"));
+          this.assetsAudioPlayer.open(
+                Audio(
+                  "assets/audio/song1.mp3",
+                ),
+              );
         }
         if (status == FlushbarStatus.DISMISSED) {
           this.assetsAudioPlayer.stop();
         }
       },
-      mainButton: MusicPlayerFlush(parent: this,),
+      mainButton: MusicPlayerButtonPlay(
+        parent: this,
+      ),
     );
   }
 }

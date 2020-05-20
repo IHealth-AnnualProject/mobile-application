@@ -2,17 +2,17 @@ import 'package:betsbi/state/AmbianceState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class MusicPlayerFlush extends StatefulWidget {
+class MusicPlayerButtonPlay extends StatefulWidget {
   final AmbianceState parent;
 
-  MusicPlayerFlush({this.parent});
+  MusicPlayerButtonPlay({this.parent});
 
 
   @override
   MusicPlayerFlushState createState() => MusicPlayerFlushState();
 }
 
-class MusicPlayerFlushState extends State<MusicPlayerFlush> {
+class MusicPlayerFlushState extends State<MusicPlayerButtonPlay> {
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,8 @@ class MusicPlayerFlushState extends State<MusicPlayerFlush> {
         color: Colors.white,
       ),
       onPressed: () {
-        setState(() {});
+        setState(() {
+        });
       },
     );
   }
