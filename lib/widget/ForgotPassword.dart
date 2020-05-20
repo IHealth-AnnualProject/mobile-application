@@ -28,7 +28,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       keyboardType: TextInputType.emailAddress,
       controller: myController,
       validator: (value) {
-        return CheckController.checkField(value,emailToCheck: value);
+        return CheckController.checkField(value, emailToCheck: value);
       },
       style: TextStyle(color: Colors.white),
       maxLines: 1,
@@ -54,14 +54,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   Widget build(BuildContext context) {
     flush = Flushbar<String>(
       isDismissible: true,
-      onStatusChanged: (FlushbarStatus status){
-        if(status == FlushbarStatus.DISMISSED) {
+      onStatusChanged: (FlushbarStatus status) {
+        if (status == FlushbarStatus.DISMISSED) {
           ContainerController.oneFlushBar = false;
         }
-        if(status == FlushbarStatus.SHOWING) {
+        if (status == FlushbarStatus.SHOWING) {
           ContainerController.oneFlushBar = true;
         }
-        if(status == FlushbarStatus.IS_APPEARING){
+        if (status == FlushbarStatus.IS_APPEARING) {
           ContainerController.oneFlushBar = true;
         }
       },
@@ -103,7 +103,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         },
         child: new Text(
           this.widget.message,
-          style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Color.fromRGBO(0, 157, 153, 1),
+              fontSize: 17,
+              fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ));
   }

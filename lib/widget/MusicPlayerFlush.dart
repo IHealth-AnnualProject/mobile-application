@@ -1,54 +1,31 @@
-import 'package:flushbar/flushbar.dart';
+import 'package:betsbi/state/AmbianceState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MusicPlayerFlush extends StatefulWidget {
-  final String path;
-  final String name;
-  //final AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
+  final AmbianceState parent;
 
+  MusicPlayerFlush({this.parent});
 
-  MusicPlayerFlush({this.path, this.name});
 
   @override
-  _MusicPlayerFlushState createState() => _MusicPlayerFlushState();
+  MusicPlayerFlushState createState() => MusicPlayerFlushState();
 }
 
-class _MusicPlayerFlushState extends State<MusicPlayerFlush> {
-  bool musicOn;
-
+class MusicPlayerFlushState extends State<MusicPlayerFlush> {
 
   @override
   Widget build(BuildContext context) {
-    //musicOn = this.widget.assetsAudioPlayer.isPlaying.value;
-    return Flushbar(
-      isDismissible: true,
-      title: this.widget.name,
-      message: "prout",
-      flushbarStyle: FlushbarStyle.GROUNDED,
-      icon: Icon(
-        Icons.music_note,
+    this.widget.parent.assetsAudioPlayer.playOrPause();
+    return FlatButton(
+      child: Icon(
+        this.widget.parent.assetsAudioPlayer.isPlaying.value ? Icons.play_arrow : Icons.pause,
         color: Colors.white,
       ),
-      onStatusChanged: (FlushbarStatus status) {
-        if (status == FlushbarStatus.SHOWING) {
-          //this.widget.assetsAudioPlayer.open(Audio(this.widget.path));
-        }
-        if (status == FlushbarStatus.DISMISSED) {
-          //this.widget.assetsAudioPlayer.stop();
-        }
+      onPressed: () {
+        setState(() {});
       },
-      mainButton: FlatButton(
-        child: Icon(
-          musicOn ? Icons.play_arrow : Icons.stop,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          //this.widget.assetsAudioPlayer.playOrPause();
-          setState(() {
-          });
-        },
-      ),
-    )..show(context);
+    );
   }
+
 }
