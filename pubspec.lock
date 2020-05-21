@@ -21,7 +21,7 @@ packages:
       name: assets_audio_player
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.5.0+4"
+    version: "1.5.0+5"
   async:
     dependency: "direct main"
     description:
@@ -419,14 +419,14 @@ packages:
       name: video_player_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.3"
+    version: "0.1.3+1"
   webview_flutter:
     dependency: transitive
     description:
       name: webview_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.22"
+    version: "0.3.22+1"
   xml:
     dependency: transitive
     description:

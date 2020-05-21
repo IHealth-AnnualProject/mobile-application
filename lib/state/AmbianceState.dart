@@ -1,9 +1,10 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:betsbi/controller/AmbianceController.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/AmbianceView.dart';
+import 'package:betsbi/view/RelaxingView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/MusicPlayerCardItem.dart';
@@ -13,7 +14,6 @@ import 'package:flutter/material.dart';
 
 class AmbianceState extends State<AmbiancePage>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
-  AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
   List<Widget> list;
   Animation<double> _animation;
   AnimationController _animationController;
@@ -21,7 +21,9 @@ class AmbianceState extends State<AmbiancePage>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    assetsAudioPlayer.stop();
+    if (AmbianceController.musicFlush != null &&
+        AmbianceController.musicFlush.isShowing())
+      AmbianceController.musicFlush.dismiss();
     super.dispose();
   }
 
@@ -41,12 +43,16 @@ class AmbianceState extends State<AmbiancePage>
     list = new List<Widget>();
     list.add(
       MusicPlayerCardItem(
-        parent: this,
         artistName: "Monsieur TOEIC",
         songName: "Song 1",
         path: "assets/audio/song1.mp3",
       ),
     );
+    if (AmbianceController.song.isOpen()) {
+      AmbianceController.musicFlush
+          .dismiss()
+          .then((value) => AmbianceController.musicFlush..show(context));
+    }
   }
 
   @override
@@ -143,7 +149,13 @@ class AmbianceState extends State<AmbiancePage>
             icon: Icons.spa,
             titleStyle: TextStyle(fontSize: 16, color: Colors.white),
             onPress: () {
-              print("relaxing");
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RelaxingView(),
+                ),
+                (Route<dynamic> route) => false,
+              );
             },
           ),
         ],

@@ -1,11 +1,9 @@
-import 'package:betsbi/state/AmbianceState.dart';
+import 'package:betsbi/controller/AmbianceController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MusicPlayerProgressIndicator extends StatefulWidget {
-  final AmbianceState parent;
-
-  MusicPlayerProgressIndicator({this.parent});
+  MusicPlayerProgressIndicator();
 
   @override
   MusicPlayerProgressIndicatorState createState() =>
@@ -20,16 +18,20 @@ class MusicPlayerProgressIndicatorState
   @override
   void initState() {
     super.initState();
-    this.widget.parent.assetsAudioPlayer.onReadyToPlay.listen((audio) {
-      setState(() {
-        maxValue =
-            this.widget.parent.assetsAudioPlayer.current.value.audio.duration;
-      });
+    AmbianceController.assetsAudioPlayer.onReadyToPlay.listen((audio) {
+      if (mounted) {
+        setState(() {
+          maxValue =
+              AmbianceController.assetsAudioPlayer.current.value.audio.duration;
+        });
+      }
     });
-    this.widget.parent.assetsAudioPlayer.currentPosition.listen((audio) {
-      setState(() {
-        actualValue = audio;
-      });
+    AmbianceController.assetsAudioPlayer.currentPosition.listen((audio) {
+      if (mounted) {
+        setState(() {
+          actualValue = audio;
+        });
+      }
     });
   }
 
@@ -45,10 +47,7 @@ class MusicPlayerProgressIndicatorState
         max: maxValue.inSeconds.toDouble(),
         onChanged: (double value) {
           setState(() {
-            this
-                .widget
-                .parent
-                .assetsAudioPlayer
+            AmbianceController.assetsAudioPlayer
                 .seek(Duration(seconds: value.floor()));
           });
         },
