@@ -14,11 +14,12 @@ class RelaxingState extends State<RelaxingView> {
         Color firstColor = ColorPaletteRelaxing.firstPalette.first;
         ColorPaletteRelaxing.firstPalette.removeAt(0);
         ColorPaletteRelaxing.firstPalette.add(firstColor);
-        Navigator.pushAndRemoveUntil(
-          context,
-          _createRoute(),
-          (Route<dynamic> route) => false,
-        );
+        if (mounted) {
+          Navigator.push(
+            context,
+            _createRoute(),
+          );
+        }
       },
     );
   }

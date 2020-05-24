@@ -39,7 +39,8 @@ class AmbianceState extends State<AmbiancePage>
     _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    HistoricalManager.historical.add(this.widget);
+    if (HistoricalManager.historical.last.toString() != this.widget.toString())
+      HistoricalManager.historical.add(this.widget);
     list = new List<Widget>();
     list.add(
       MusicPlayerCardItem(
@@ -66,6 +67,7 @@ class AmbianceState extends State<AmbiancePage>
 
   @override
   Widget build(BuildContext context) {
+    print(HistoricalManager.historical);
     final titleAmbiance = Text(
       SettingsManager.mapLanguage["RelaxingMusic"] != null
           ? SettingsManager.mapLanguage["RelaxingMusic"]

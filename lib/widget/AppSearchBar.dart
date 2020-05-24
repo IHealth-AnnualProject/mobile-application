@@ -23,17 +23,23 @@ class _AppSearchBarState extends State<AppSearchBar> {
     return AppBar(
       backgroundColor: Color.fromRGBO(0, 116, 113, 1),
       title: Text(this.widget.title),
-      leading: Navigator.canPop(context)
+      leading: HistoricalManager.historical.length >= 2
           ? IconButton(
               icon: Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () => Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HistoricalManager
-                      .historical[HistoricalManager.historical.length - 2],
-                ),
-                (Route<dynamic> route) => false,
-              ),
+              onPressed: () {
+                Widget destination = HistoricalManager
+                    .historical[HistoricalManager.historical.length - 2];
+                HistoricalManager.historical.removeLast();
+                HistoricalManager.historical.removeLast();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => destination,
+                  ),
+                  (Route<dynamic> route) => false,
+                );
+
+              },
             )
           : Container(),
       actions: <Widget>[

@@ -14,6 +14,7 @@ class AmbianceController {
     return musicFlush = Flushbar<String>(
       backgroundColor: Colors.white,
       isDismissible: false,
+
       titleText: Text(
         songName,
         textAlign: TextAlign.center,
