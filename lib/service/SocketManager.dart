@@ -4,6 +4,7 @@ import 'package:betsbi/model/newMessage.dart';
 import 'package:betsbi/sqlite/SQLLiteNewMessage.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
+import 'SQLLiteManager.dart';
 import 'SettingsManager.dart';
 
 class SocketManager {
@@ -23,7 +24,7 @@ class SocketManager {
       'token': SettingsManager.currentToken,
     });
     SQLLiteNewMessage sqlLiteNewMessage = new SQLLiteNewMessage();
-    sqlLiteNewMessage.openDatabaseandCreateTable().then((value) async =>
+    SQLLiteManager.openDatabaseAndCreateTable().then((value) async =>
         SettingsManager.newMessage +=
             await sqlLiteNewMessage.countByIdTo(SettingsManager.currentId));
   }
