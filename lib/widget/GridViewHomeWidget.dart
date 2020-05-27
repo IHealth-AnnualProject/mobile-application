@@ -22,11 +22,6 @@ class GridViewHomeWidget extends StatefulWidget {
 }
 
 class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return AnimationLimiter(child: gridViewUserOrPsy());
-  }
-
   final homeUser = [
     BrickContainer(
         colorBrick: Color.fromRGBO(51, 171, 249, 1),
@@ -149,5 +144,10 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimationLimiter(child: gridViewUserOrPsy());
   }
 }

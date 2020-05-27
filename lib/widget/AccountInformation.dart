@@ -98,16 +98,16 @@ class _AccountInformationState extends State<AccountInformation> {
           lastname: lastNameController.text,
           birthdate: ageController.text,
           description: descriptionController.text,
-          profileId : this.widget.profileID,
-          isPsy : this.widget.isPsy,
+          profileId: this.widget.profileID,
+          isPsy: this.widget.isPsy,
           context: context);
     else
       return userProfile.updateProfile(
           birthdate: ageController.text,
           description: descriptionController.text,
-          profileId : this.widget.profileID,
-          isPsy : this.widget.isPsy,
-          context : context);
+          profileId: this.widget.profileID,
+          isPsy: this.widget.isPsy,
+          context: context);
   }
 
   RaisedButton finalButton({String barContent, String buttonContent}) {
@@ -119,8 +119,8 @@ class _AccountInformationState extends State<AccountInformation> {
       onPressed: () async {
         if (this._formKey.currentState.validate()) {
           await updateInformation();
-
-      }},
+        }
+      },
       child: Text(
         buttonContent,
         textAlign: TextAlign.center,
@@ -153,26 +153,30 @@ class _AccountInformationState extends State<AccountInformation> {
           SizedBox(
             height: 20,
           ),
-          this.widget.isPsy
-              ? accountFormField(
-                  labelAndHintText:
-                      SettingsManager.mapLanguage["FirstNameText"],
-                  inputType: TextInputType.text,
-                  controller: firstNameController,
-                  maxLength: 100)
-              : Container(),
-          SizedBox(
-            height: 45,
-          ),
-          this.widget.isPsy
-              ? accountFormField(
-                  labelAndHintText: SettingsManager.mapLanguage["LastNameText"],
-                  inputType: TextInputType.text,
-                  controller: lastNameController,
-                  maxLength: 100)
-              : Container(),
-          SizedBox(
-            height: 45,
+          Visibility(
+            visible: this.widget.isPsy,
+            child: Column(
+              children: <Widget>[
+                accountFormField(
+                    labelAndHintText:
+                        SettingsManager.mapLanguage["FirstNameText"],
+                    inputType: TextInputType.text,
+                    controller: firstNameController,
+                    maxLength: 100),
+                SizedBox(
+                  height: 45,
+                ),
+                accountFormField(
+                    labelAndHintText:
+                        SettingsManager.mapLanguage["FirstNameText"],
+                    inputType: TextInputType.text,
+                    controller: firstNameController,
+                    maxLength: 100),
+                SizedBox(
+                  height: 45,
+                ),
+              ],
+            ),
           ),
           Container(
             width: 350,

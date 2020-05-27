@@ -26,7 +26,6 @@ class _AccountTraceState extends State<AccountTrace> {
     return this._memorizer.runOnce(() async {
       feelings = new Feelings.normalConstructor();
       await feelings.getUserFeelings(this.widget.profileID, context);
-      setState(() {});
       return feelings;
     });
   }
@@ -62,7 +61,7 @@ class _AccountTraceState extends State<AccountTrace> {
               return CircularProgressIndicator();
             } else {
               // data loaded:
-              print(this.widget.profileID + "voila");
+              //print(feelings.moralDays);
               return Card(
                 elevation: 10,
                 child: Container(

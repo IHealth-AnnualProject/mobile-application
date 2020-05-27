@@ -38,10 +38,12 @@ class _AppSearchBarState extends State<AppSearchBar> {
                   ),
                   (Route<dynamic> route) => false,
                 );
-
               },
             )
-          : Container(),
+          : Visibility(
+              child: Container(),
+              visible: false,
+            ),
       actions: <Widget>[
         IconButton(
             icon: Icon(Icons.search),
