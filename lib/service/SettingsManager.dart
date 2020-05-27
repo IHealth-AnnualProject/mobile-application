@@ -1,8 +1,6 @@
 import 'dart:collection';
-import 'dart:convert';
-
+import 'package:betsbi/service/JsonParserManager.dart';
 import 'package:devicelocale/devicelocale.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:global_configuration/global_configuration.dart';
 
@@ -20,13 +18,6 @@ class SettingsManager {
       currentId,
       isPsy;
 
-  static Future<Map<String, dynamic>> parseJsonFromAssets(
-      String assetsPath) async {
-    return await rootBundle
-        .loadString(assetsPath)
-        .then((jsonStr) => jsonDecode(jsonStr));
-  }
-
   static void deviceLanguage() async {
     String localLanguage = await Devicelocale.currentLocale;
     switch (localLanguage) {
@@ -41,15 +32,15 @@ class SettingsManager {
     }
   }
 
-  static Future<void> languageStarted() async {
+  static Future<void> instanciateConfigurationAndLoadLanguage() async {
     cfg = new GlobalConfiguration();
     storage = new FlutterSecureStorage();
     await GlobalConfiguration().loadFromPath("assets/cfg/settings.json").then(
-        (r) => instanciateProperties().then((r) =>
+        (r) => instanciateConfiguration().then((r) =>
             loadLanguage('locale/' + currentLanguage.toLowerCase() + '.json')));
   }
 
-  static Future<void> instanciateProperties() async {
+  static Future<void> instanciateConfiguration() async {
     currentLanguage = await storage.read(key: "currentLanguage");
     if (currentLanguage == null) {
       await storage.write(key: "currentLanguage", value: "FR");
@@ -78,18 +69,16 @@ class SettingsManager {
   }
 
   static Future<void> updateValueOfConfigurationSecureStorage(
-      String key, String value) async {
-    await storage.write(key: key, value: value);
-  }
+          String key, String value) async =>
+      await storage.write(key: key, value: value);
 
-  static Future<void> loadLanguage(String path) async {
-    mapLanguage = await parseJsonFromAssets(path);
-  }
+  static Future<void> loadLanguage(String path) async =>
+      mapLanguage = await JsonParserManager.parseJsonFromAssetsToMap(path);
 
   static Future<void> setLanguage() async {
     String temp = currentLanguage;
-    mapLanguage =
-        await parseJsonFromAssets('locale/' + language.toLowerCase() + '.json');
+    mapLanguage = await JsonParserManager.parseJsonFromAssetsToMap(
+        'locale/' + language.toLowerCase() + '.json');
     await storage.write(key: "currentLanguage", value: language);
     await storage.write(key: "language", value: currentLanguage);
     currentLanguage = language;

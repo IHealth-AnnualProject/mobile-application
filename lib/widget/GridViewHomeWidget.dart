@@ -24,7 +24,7 @@ class GridViewHomeWidget extends StatefulWidget {
 class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
   @override
   Widget build(BuildContext context) {
-    return AnimationLimiter(child: gridviewUserOrPsy());
+    return AnimationLimiter(child: gridViewUserOrPsy());
   }
 
   final homeUser = [
@@ -131,7 +131,7 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
         image: "error.png"),
   ];
 
-  GridView gridviewUserOrPsy() {
+  GridView gridViewUserOrPsy() {
     return GridView.builder(
       itemCount: this.widget.isPsy ? homePsy.length : homeUser.length,
       gridDelegate:

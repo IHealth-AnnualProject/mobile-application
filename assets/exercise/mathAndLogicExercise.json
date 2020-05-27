@@ -1,0 +1,34 @@
+[
+  {
+    "Name": "Tutorial Exercise",
+    "Difficulty": "Easy",
+    "Type": "Logic",
+    "InputPipe": {
+      "0": "start",
+      "6": "pipe-to-left",
+      "7": "straight-horiz",
+      "8": "pipe-to-left",
+      "14": "straight-horiz",
+      "20": "pipe-to-left",
+      "21": "straight-horiz",
+      "22": "pipe-to-left",
+      "28": "straight-horiz",
+      "29": "pipe-to-left",
+      "35": "end"
+    },
+    "ResultPipe": {
+      "0": "start",
+      "6": "pipe-to-left",
+      "7": "straight-verti",
+      "8": "pipe-to-left",
+      "14": "straight-horiz",
+      "20": "pipe-to-left",
+      "21": "straight-horiz",
+      "22": "pipe-to-left",
+      "28": "straight-horiz",
+      "29": "pipe-to-left",
+      "35": "end"
+    }
+
+  }
+]
