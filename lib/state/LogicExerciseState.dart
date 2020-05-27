@@ -1,6 +1,6 @@
+import 'package:betsbi/controller/ExerciseController.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/ExerciseView.dart';
-import 'package:betsbi/widget/PipeElement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ class LogicExerciseState extends State<ExerciseView> {
   @override
   void initState() {
     super.initState();
-    createListWidgetOverMapString();
+    ExerciseController.createListWidgetOverMapString(exercise: this.widget.exercise,logicExerciseState: this,listCasePipeGame: listCaseExercise);
   }
 
   @override
@@ -69,18 +69,7 @@ class LogicExerciseState extends State<ExerciseView> {
     );
   }
 
-  void createListWidgetOverMapString() {
-    this.widget.exercise.inputPipe.forEach(
-          (key, value) => listCaseExercise[int.parse(key)] = PipeElement(
-            idMap: key,
-            name: value,
-            logicExerciseState: this,
-          ),
-        );
-  }
-
   void checkMapEquality() {
-    print(this.widget.exercise.inputPipe);
     setState(() {
       if (mapEquals(
           this.widget.exercise.inputPipe, this.widget.exercise.outputPipe)) {
