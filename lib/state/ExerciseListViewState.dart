@@ -93,7 +93,7 @@ class ExerciseListViewState extends State<ExerciseListViewPage>
     Iterable listFromJson = json.decode(jsonToDecode);
     List<Exercise> exercises = new List<Exercise>();
     exercises.addAll(
-        listFromJson.map((model) => Exercise.fromJsonToTube(model)).toList());
+        listFromJson.map((model) => Exercise.fromJsonToList(model)).toList());
     exercises.forEach(
       (element) {
         list.add(

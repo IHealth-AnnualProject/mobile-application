@@ -29,6 +29,13 @@
       "29": "pipe-to-left",
       "35": "end"
     }
-
+  },
+  {
+    "Name": "Tutorial Exercise",
+    "Difficulty": "Easy",
+    "Type": "Math",
+    "Question" : "1 + 1 = ?",
+    "Answers": ["1","11","322"],
+    "Result": "1"
   }
 ]

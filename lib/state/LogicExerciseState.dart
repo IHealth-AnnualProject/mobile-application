@@ -9,7 +9,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 class LogicExerciseState extends State<ExerciseView> {
   List<Widget> listCaseExercise =
       new List<Widget>.generate(36, (i) => Container());
-  bool isCongratsHiden = false;
+  bool isCongratsHidden = false;
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class LogicExerciseState extends State<ExerciseView> {
               ),
             ),
             Visibility(
-              visible: isCongratsHiden,
+              visible: isCongratsHidden,
               child: Text(SettingsManager.mapLanguage["Congratulations"],
                   style: TextStyle(
                       color: Color.fromRGBO(0, 157, 153, 1), fontSize: 30)),
@@ -73,9 +73,9 @@ class LogicExerciseState extends State<ExerciseView> {
     setState(() {
       if (mapEquals(
           this.widget.exercise.inputPipe, this.widget.exercise.outputPipe)) {
-        isCongratsHiden = true;
+        isCongratsHidden = true;
       } else
-        isCongratsHiden = false;
+        isCongratsHidden = false;
     });
   }
 }
