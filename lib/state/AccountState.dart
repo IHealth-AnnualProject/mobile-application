@@ -167,8 +167,9 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
 
   Row accountButton() {
     Row row;
-    if (SettingsManager.isPsy == "false" &&
-        this.widget.userId != SettingsManager.currentId) {
+    if (SettingsManager.applicationProperties.isPsy() == "false" &&
+        this.widget.userId !=
+            SettingsManager.applicationProperties.getCurrentId()) {
       isReadOnly = true;
       row = Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -181,8 +182,9 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
         ],
       );
     }
-    if (SettingsManager.isPsy == "true" &&
-        this.widget.userId != SettingsManager.currentId) {
+    if (SettingsManager.applicationProperties.isPsy() == "true" &&
+        this.widget.userId !=
+            SettingsManager.applicationProperties.getCurrentId()) {
       isReadOnly = true;
       row = Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -200,8 +202,9 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
         ],
       );
     }
-    if (SettingsManager.isPsy == "false" &&
-        this.widget.userId == SettingsManager.currentId) {
+    if (SettingsManager.applicationProperties.isPsy() == "false" &&
+        this.widget.userId ==
+            SettingsManager.applicationProperties.getCurrentId()) {
       isReadOnly = false;
       row = Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -221,8 +224,9 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
         ],
       );
     }
-    if (SettingsManager.isPsy == "true" && this.widget.isPsy == true) {
-      SettingsManager.currentId == this.widget.userId
+    if (SettingsManager.applicationProperties.isPsy() == "true" &&
+        this.widget.isPsy == true) {
+      SettingsManager.applicationProperties.getCurrentId() == this.widget.userId
           ? isReadOnly = false
           : isReadOnly = true;
       row = Row(

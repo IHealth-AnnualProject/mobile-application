@@ -19,7 +19,7 @@ class AccountController {
           '/user',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.currentToken,
+        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
       },
     );
     return _checkResponseAndGetUserInformationIfOk(response, context);
@@ -46,7 +46,7 @@ class AccountController {
           '/user',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.currentToken,
+        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
       },
     );
     return _checkResponseAndGetPsyInformationIfOk(response, context);
@@ -75,7 +75,7 @@ class AccountController {
       SettingsManager.cfg.getString("apiUrl") + 'userProfile',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.currentToken,
+        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
       },
       body: jsonEncode(<String, dynamic>{
         "birthdate": birthdate,
@@ -104,7 +104,7 @@ class AccountController {
       SettingsManager.cfg.getString("apiUrl") + 'psychologist',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.currentToken,
+        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
       },
       body: jsonEncode(<String, dynamic>{
         "first_name": firstname,

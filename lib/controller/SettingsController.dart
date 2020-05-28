@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class SettingsController {
   static void disconnect(BuildContext context) {
-    SettingsManager.currentToken = "";
+    SettingsManager.applicationProperties.setCurrentToken("");
     SettingsManager.storage.write(key: "token", value: "").then(
           (r) => SettingsManager.storage.write(key: "isPsy", value: "").then(
                 (_) => Navigator.pushAndRemoveUntil(

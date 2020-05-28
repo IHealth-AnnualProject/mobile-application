@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:betsbi/model/applicationProperties.dart';
 import 'package:betsbi/service/JsonParserManager.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,14 +10,8 @@ class SettingsManager {
       new LinkedHashMap<String, dynamic>();
   static GlobalConfiguration cfg;
   static FlutterSecureStorage storage;
-  static String firstEntry;
-  static int newMessage = 0;
-  static String currentLanguage,
-      language,
-      feelingsDate,
-      currentToken,
-      currentId,
-      isPsy;
+  static ApplicationProperties applicationProperties =
+      new ApplicationProperties.defaultConstructor();
 
   static void deviceLanguage() async {
     String localLanguage = await Devicelocale.currentLocale;
@@ -36,36 +31,20 @@ class SettingsManager {
     cfg = new GlobalConfiguration();
     storage = new FlutterSecureStorage();
     await GlobalConfiguration().loadFromPath("assets/cfg/settings.json").then(
-        (r) => instanciateConfiguration().then((r) =>
-            loadLanguage('locale/' + currentLanguage.toLowerCase() + '.json')));
+          (r) => instanciateConfiguration().then(
+            (r) => loadLanguage('locale/' +
+                applicationProperties.getCurrentLanguage().toLowerCase() +
+                '.json'),
+          ),
+        );
   }
 
   static Future<void> instanciateConfiguration() async {
-    currentLanguage = await storage.read(key: "currentLanguage");
-    if (currentLanguage == null) {
-      await storage.write(key: "currentLanguage", value: "FR");
-      currentLanguage = await storage.read(key: "currentLanguage");
-    }
-    language = await storage.read(key: "language");
-    if (language == null) {
-      await storage.write(key: "language", value: "EN");
-      language = await storage.read(key: "language");
-    }
-    feelingsDate = await storage.read(key: "feelingsDate");
-    if (feelingsDate == null) {
-      await storage.write(key: "feelingsDate", value: "");
-      feelingsDate = await storage.read(key: "feelingsDate");
-    }
-    isPsy = await storage.read(key: "isPsy");
-    if (isPsy == null) {
-      await storage.write(key: "isPsy", value: "false");
-      isPsy = await storage.read(key: "isPsy");
-    }
-    firstEntry = await storage.read(key: "firstEntry");
-    if (firstEntry == null) {
-      await storage.write(key: "firstEntry", value: "true");
-      firstEntry = await storage.read(key: "firstEntry");
-    }
+    await applicationProperties.getCurrentLanguageOfApplication(storage);
+    await applicationProperties.getLanguageOfApplication(storage);
+    await applicationProperties.getFeelingsDateOfApplication(storage);
+    await applicationProperties.getPsyOfApplication(storage);
+    await applicationProperties.getFirstEntryOfApplication(storage);
   }
 
   static Future<void> updateValueOfConfigurationSecureStorage(
@@ -76,12 +55,16 @@ class SettingsManager {
       mapLanguage = await JsonParserManager.parseJsonFromAssetsToMap(path);
 
   static Future<void> setLanguage() async {
-    String temp = currentLanguage;
-    mapLanguage = await JsonParserManager.parseJsonFromAssetsToMap(
-        'locale/' + language.toLowerCase() + '.json');
-    await storage.write(key: "currentLanguage", value: language);
-    await storage.write(key: "language", value: currentLanguage);
-    currentLanguage = language;
-    language = temp;
+    String temp = applicationProperties.getCurrentLanguage();
+    mapLanguage = await JsonParserManager.parseJsonFromAssetsToMap('locale/' +
+        applicationProperties.getLanguage().toLowerCase() +
+        '.json');
+    await storage.write(
+        key: "currentLanguage", value: applicationProperties.getLanguage());
+    await storage.write(
+        key: "language", value: applicationProperties.getCurrentLanguage());
+    applicationProperties
+        .setCurrentLanguage(applicationProperties.getLanguage());
+    applicationProperties.setLanguage(temp);
   }
 }

@@ -65,7 +65,7 @@ class LoginState extends State<LoginPage> {
         _setLanguage();
       },
       child: new Text(
-        SettingsManager.language != null ? SettingsManager.language : "",
+        SettingsManager.applicationProperties.getLanguage() != null ? SettingsManager.applicationProperties.getLanguage() : "",
         textAlign: TextAlign.center,
         style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
       ),

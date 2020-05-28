@@ -33,7 +33,7 @@ class BottomNavigationBarFooterState extends State<BottomNavigationBarFooter> {
                 : ""),
           ),
           BottomNavigationBarItem(
-            icon: SettingsManager.newMessage != 0
+            icon: SettingsManager.applicationProperties.getNewMessage() != 0
                 ? Badge(
                     shape: BadgeShape.circle,
                     borderRadius: 100,
@@ -81,7 +81,7 @@ class BottomNavigationBarFooterState extends State<BottomNavigationBarFooter> {
                 : ""),
           ),
           BottomNavigationBarItem(
-            icon: SettingsManager.newMessage != 0
+            icon: SettingsManager.applicationProperties.getNewMessage() != 0
                 ? Badge(
                     shape: BadgeShape.circle,
                     borderRadius: 100,

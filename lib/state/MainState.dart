@@ -18,7 +18,7 @@ class MainState extends State<MainPage> {
         await TokenController.checkTokenValidity(context).then((tokenValid) =>
         tokenValid
             ? destination = LoginController.redirectionLogin()
-            : SettingsManager.firstEntry == 'true'
+            : SettingsManager.applicationProperties.getFirstEntry() == 'true'
             ? destination = IntroductionPage(destination: LoginPage(),)
             : destination = LoginPage());
       });

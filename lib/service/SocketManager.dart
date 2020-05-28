@@ -21,12 +21,14 @@ class SocketManager {
     socket.on('join', (data) => _onJoin(data));
     socket.connect();
     socket.emit("sub", <String, dynamic>{
-      'token': SettingsManager.currentToken,
+      'token': SettingsManager.applicationProperties.getCurrentToken(),
     });
     SQLLiteNewMessage sqlLiteNewMessage = new SQLLiteNewMessage();
     SQLLiteManager.openDatabaseAndCreateTable().then((value) async =>
-        SettingsManager.newMessage +=
-            await sqlLiteNewMessage.countByIdTo(SettingsManager.currentId));
+        SettingsManager.applicationProperties.setNewMessage(
+            SettingsManager.applicationProperties.getNewMessage() +
+                await sqlLiteNewMessage.countByIdTo(
+                    SettingsManager.applicationProperties.getCurrentId())));
   }
 
   static _onConnection(dynamic data) {
@@ -47,12 +49,13 @@ class SocketManager {
   }
 
   static _onNewMessage(dynamic data) {
-    SettingsManager.newMessage++;
+    SettingsManager.applicationProperties.setNewMessage(
+        SettingsManager.applicationProperties.getNewMessage() + 1);
     SQLLiteNewMessage sqlLiteNewMessage = new SQLLiteNewMessage();
     Message receivedMessage = Message.fromJson(data);
     sqlLiteNewMessage.insert(
       new NewMessage(
-        userIdTo: SettingsManager.currentId,
+        userIdTo: SettingsManager.applicationProperties.getCurrentId(),
         userIdFrom: receivedMessage.userFromID,
       ),
     );

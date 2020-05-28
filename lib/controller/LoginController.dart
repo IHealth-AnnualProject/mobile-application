@@ -15,11 +15,13 @@ class LoginController {
 
   static Widget redirectionLogin({bool isPsy = false}) {
     SocketManager.connectSocket();
-    if (SettingsManager.isPsy.toLowerCase() == 'false') {
-      if (SettingsManager.feelingsDate.isNotEmpty) {
+    if (SettingsManager.applicationProperties.isPsy().toLowerCase() ==
+        'false') {
+      if (SettingsManager.applicationProperties.getFeelingsDate().isNotEmpty) {
         final tomorrow = DateTime(
             DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
-        feelingsParsed = DateTime.parse(SettingsManager.feelingsDate);
+        feelingsParsed = DateTime.parse(
+            SettingsManager.applicationProperties.getFeelingsDate());
         final dateToCompare = DateTime(
             feelingsParsed.year, feelingsParsed.month, feelingsParsed.day + 1);
         if (dateToCompare.isBefore(tomorrow)) {
@@ -55,20 +57,20 @@ class LoginController {
   static Future writePropertiesAfterLogin(http.Response response) async {
     await SettingsManager.storage
         .write(key: "userId", value: parseResponse(response.body)["user"]["id"])
-        .then((r) => SettingsManager.currentId =
-            parseResponse(response.body)["user"]["id"]);
+        .then((r) => SettingsManager.applicationProperties
+            .setCurrentId(parseResponse(response.body)["user"]["id"]));
     await SettingsManager.storage
         .write(
             key: "token",
             value: parseResponse(response.body)["token"]["access_token"])
-        .then((r) => SettingsManager.currentToken =
-            parseResponse(response.body)["token"]["access_token"]);
+        .then((r) => SettingsManager.applicationProperties.setCurrentToken(
+            parseResponse(response.body)["token"]["access_token"]));
     await SettingsManager.storage
         .write(
             key: "isPsy",
             value: parseResponse(response.body)["user"]["isPsy"].toString())
-        .then((r) => SettingsManager.isPsy =
-            parseResponse(response.body)["user"]["isPsy"].toString());
+        .then((r) => SettingsManager.applicationProperties.setIsPsy(
+            parseResponse(response.body)["user"]["isPsy"].toString()));
   }
 
   static Future<void> checkResponseAndRedirectifOK(

@@ -16,7 +16,7 @@ class BottomNavigationController {
             context,
             MaterialPageRoute(
               builder: (context) => HomePage(
-                isPsy: SettingsManager.isPsy.toLowerCase() == 'true'
+                isPsy: SettingsManager.applicationProperties.isPsy().toLowerCase() == 'true'
                     ? true
                     : false,
               ),
@@ -30,8 +30,8 @@ class BottomNavigationController {
             context,
             MaterialPageRoute(
               builder: (context) => AccountPage(
-                userId: SettingsManager.currentId,
-                isPsy: SettingsManager.isPsy.toLowerCase() == 'true'
+                userId: SettingsManager.applicationProperties.getCurrentId(),
+                isPsy: SettingsManager.applicationProperties.isPsy().toLowerCase() == 'true'
                     ? true
                     : false,
               ),

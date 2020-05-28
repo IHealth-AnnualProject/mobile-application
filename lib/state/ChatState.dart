@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
-
 class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   TextEditingController mTextMessageController = new TextEditingController();
   List<Widget> list;
@@ -50,15 +49,16 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       list = new List<Widget>();
       socket =
           io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
-            'transports': ['websocket'],
-            'autoConnect': false,
-          });
+        'transports': ['websocket'],
+        'autoConnect': false,
+      });
       socket.on('newMessage', (data) => _onNewMessage(data));
       await ChatController.getAllMessageIdFromContact(
-          contactID: this.widget.userContacted.userId)
+              contactID: this.widget.userContacted.userId)
           .then((listMessage) {
         listMessage.forEach((message) {
-          list.add(SettingsManager.currentId == message.userFromID
+          list.add(SettingsManager.applicationProperties.getCurrentId() ==
+                  message.userFromID
               ? myMessage(content: message.content)
               : hisMessage(content: message.content));
         });
@@ -66,12 +66,15 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       list.add(lineSendMessage());
       list = list.reversed.toList();
       SQLLiteNewMessage newMessage = new SQLLiteNewMessage();
-      SettingsManager.newMessage -= await newMessage
-          .countByIdFromAndTo(
-          userIdFrom: this.widget.userContacted.userId,
-          userIdTo: SettingsManager.currentId)
-          .then((value) async =>
-      await newMessage.deleteById(this.widget.userContacted.userId));
+      SettingsManager.applicationProperties.setNewMessage(
+          SettingsManager.applicationProperties.getNewMessage() -
+              await newMessage
+                  .countByIdFromAndTo(
+                      userIdFrom: this.widget.userContacted.userId,
+                      userIdTo:
+                          SettingsManager.applicationProperties.getCurrentId())
+                  .then((value) async => await newMessage
+                      .deleteById(this.widget.userContacted.userId)));
     });
   }
 
@@ -140,7 +143,8 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
             onPressed: () {
               if (mTextMessageController.text.isNotEmpty) {
                 socket.emit("sendMessage", <String, dynamic>{
-                  'token': SettingsManager.currentToken,
+                  'token':
+                      SettingsManager.applicationProperties.getCurrentToken(),
                   'data': {
                     'content': mTextMessageController.text,
                     'idReceiver': this.widget.userContacted.userId

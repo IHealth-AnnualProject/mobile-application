@@ -19,7 +19,7 @@ class ChatController {
           '/user',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.currentToken,
+        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
       },
     );
     return _checkResponseAndGetAllMessageIfOk(response, context);
@@ -46,7 +46,7 @@ class ChatController {
       SettingsManager.cfg.getString("apiUrl") + 'conversation/',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.currentToken,
+        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
       },
     );
     return _checkResponseAndGetAllContactIfOk(response, context);
@@ -62,7 +62,7 @@ class ChatController {
       contacts.forEach((element) async {
         element.setNewMessage(
           await newMessage.countByIdFromAndTo(
-              userIdTo: SettingsManager.currentId, userIdFrom: element.userId),
+              userIdTo: SettingsManager.applicationProperties.getCurrentId(), userIdFrom: element.userId),
         );
       });
       return contacts;

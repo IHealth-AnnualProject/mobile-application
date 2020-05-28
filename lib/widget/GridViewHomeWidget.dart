@@ -29,8 +29,9 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
             ? SettingsManager.mapLanguage["MyAccountContainer"]
             : "",
         iconBrick: Icons.home,
-        destination:
-            AccountPage(userId: SettingsManager.currentId, isPsy: false),
+        destination: AccountPage(
+            userId: SettingsManager.applicationProperties.getCurrentId(),
+            isPsy: false),
         image: "user.png"),
     BrickContainer(
         colorBrick: Color.fromRGBO(51, 171, 249, 1),
@@ -89,8 +90,9 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
             ? SettingsManager.mapLanguage["MyAccountContainer"]
             : "",
         iconBrick: Icons.home,
-        destination:
-            AccountPage(userId: SettingsManager.currentId, isPsy: true),
+        destination: AccountPage(
+            userId: SettingsManager.applicationProperties.getCurrentId(),
+            isPsy: true),
         image: "user.png"),
     BrickContainer(
         colorBrick: Color.fromRGBO(51, 171, 249, 1),

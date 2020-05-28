@@ -16,7 +16,7 @@ class SearchBarController {
       SettingsManager.cfg.getString("apiUrl") + 'userProfile',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.currentToken,
+        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
       },
     );
     _checkResponseUserAndUpdateListIFOK(responseProfileUSer, users, context);
@@ -25,7 +25,7 @@ class SearchBarController {
       SettingsManager.cfg.getString("apiUrl") + 'psychologist',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.currentToken,
+        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
       },
     );
     _checkResponsePSYAndUpdateListIFOK(responseProfilePsy, users, context);
@@ -50,7 +50,7 @@ class SearchBarController {
       list = json.decode(response.body);
       users.addAll(
           list.map((model) => Psychologist.fromJsonForSearch(model)).toList());
-      users.removeWhere((user) => user.profileId == SettingsManager.currentId);
+      users.removeWhere((user) => user.profileId == SettingsManager.applicationProperties.getCurrentToken());
     } else
       FlushBarMessage.errorMessage(
               content: Response.fromJson(json.decode(response.body)).content)

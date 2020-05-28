@@ -216,7 +216,7 @@ class _AccountInformationState extends State<AccountInformation> {
           SizedBox(
             height: 45,
           ),
-          SettingsManager.currentId == this.widget.profileID
+          SettingsManager.applicationProperties.getCurrentId() == this.widget.profileID
               ? Container(
                   child: finalButton(
                     buttonContent: SettingsManager.mapLanguage["Submit"] != null
@@ -241,7 +241,7 @@ class _AccountInformationState extends State<AccountInformation> {
   }
 
   Future _selectDate() async {
-    if (SettingsManager.currentId == this.widget.profileID) {
+    if (SettingsManager.applicationProperties.getCurrentId() == this.widget.profileID) {
       DateTime picked = await showDatePicker(
           context: context,
           initialDate: new DateTime(1920),

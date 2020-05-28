@@ -25,7 +25,7 @@ class FeelingController {
       SettingsManager.cfg.getString("apiUrl") + 'userProfile/moral-stats',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.currentToken,
+        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
       },
       body: jsonEncode(<String, int>{
         'value': value,
@@ -68,7 +68,7 @@ class FeelingController {
           '/moral-stats',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.currentToken,
+        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
       },
     );
     return checkResponseAndReturnListFeelingsIfOk(response, context);
