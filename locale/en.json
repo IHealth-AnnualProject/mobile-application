@@ -94,7 +94,10 @@
   "AddToPlaylist": "Add to playlist",
   "RelaxingColor": "Relaxing Color",
   "Congratulations": "Congratulation you did it !",
-  "Exercise": "exercise"
+  "Exercise": "exercise",
+  "PipeGameExplanation": "Turn pipe until it is good",
+  "MathExerciseExplanation": "Choose the correct answer"
+
 
 
 }

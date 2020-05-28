@@ -1,6 +1,9 @@
 import 'package:betsbi/controller/ExerciseController.dart';
+import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/ExerciseView.dart';
+import 'package:betsbi/widget/AppSearchBar.dart';
+import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,49 +16,66 @@ class LogicExerciseState extends State<ExerciseView> {
 
   @override
   void initState() {
+    HistoricalManager.historical.add(this.widget);
     super.initState();
-    ExerciseController.createListWidgetOverMapString(exercise: this.widget.exercise,logicExerciseState: this,listCasePipeGame: listCaseExercise);
+    ExerciseController.createListWidgetOverMapString(
+        exercise: this.widget.exercise,
+        logicExerciseState: this,
+        listCasePipeGame: listCaseExercise);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
+      appBar: AppSearchBar.appSearchBarNormal(
+        title: SettingsManager.mapLanguage["SearchContainer"] != null
+            ? SettingsManager.mapLanguage["SearchContainer"]
+            : "",
+      ),
+      body:  Column(
           children: <Widget>[
-            RotatedBox(
-              quarterTurns: 0,
-              child: Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    top: BorderSide(width: 1.0, color: Colors.black87),
-                    left: BorderSide(width: 1.0, color: Colors.black87),
-                    right: BorderSide(width: 1.0, color: Colors.black87),
-                    bottom: BorderSide(width: 1.0, color: Colors.black87),
-                  ),
+            Text(
+              SettingsManager.mapLanguage["PipeGameExplanation"],
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              decoration: const BoxDecoration(
+                border: Border(
+                  top: BorderSide(width: 1.0, color: Colors.black87),
+                  left: BorderSide(width: 1.0, color: Colors.black87),
+                  right: BorderSide(width: 1.0, color: Colors.black87),
+                  bottom: BorderSide(width: 1.0, color: Colors.black87),
                 ),
-                height: 360,
-                width: 360,
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  itemCount: listCaseExercise.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 6),
-                  itemBuilder: (context, index) =>
-                      AnimationConfiguration.staggeredGrid(
-                    position: index,
-                    duration: Duration(milliseconds: 375),
-                    columnCount: 6,
-                    child: ScaleAnimation(
-                      child: FadeInAnimation(
-                        child: Card(
-                          child: listCaseExercise[index],
-                        ),
+              ),
+              height: 360,
+              width: 360,
+              child: GridView.builder(
+                shrinkWrap: true,
+                itemCount: listCaseExercise.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 6),
+                itemBuilder: (context, index) =>
+                    AnimationConfiguration.staggeredGrid(
+                  position: index,
+                  duration: Duration(milliseconds: 375),
+                  columnCount: 6,
+                  child: ScaleAnimation(
+                    child: FadeInAnimation(
+                      child: Card(
+                        child: listCaseExercise[index],
                       ),
                     ),
                   ),
                 ),
               ),
+            ),
+            SizedBox(
+              height: 20,
             ),
             Visibility(
               visible: isCongratsHidden,
@@ -65,7 +85,7 @@ class LogicExerciseState extends State<ExerciseView> {
             ),
           ],
         ),
-      ),
+      bottomNavigationBar: BottomNavigationBarFooter(null),
     );
   }
 

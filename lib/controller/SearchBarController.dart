@@ -27,7 +27,7 @@ class SearchBarController {
         context: context, type: 'math');
     List<Widget> searchList = new List<Widget>();
     return ExerciseController.decodeJsonAndStoreItInsideExerciseList(
-        jsonWithOutputList, searchList, "assets/math.png");
+        jsonWithOutputList, searchList, "assets/math.png", context);
   }
 
   static Future<List<SearchItem>> getAllPropsAccordingToCategoryChosen(

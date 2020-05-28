@@ -1,5 +1,8 @@
+import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/ExerciseView.dart';
+import 'package:betsbi/widget/AppSearchBar.dart';
+import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,27 +13,41 @@ class MathExerciseState extends State<ExerciseView> {
   @override
   void initState() {
     convertAnswersToListWidget();
+    HistoricalManager.historical.add(this.widget);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
+        appBar: AppSearchBar.appSearchBarNormal(
+        title: SettingsManager.mapLanguage["SearchContainer"] != null
+        ? SettingsManager.mapLanguage["SearchContainer"]
+            : "",
+        ),
+        body:  Column(
           children: <Widget>[
+            Text(
+              SettingsManager.mapLanguage["MathExerciseExplanation"],
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
+            ),
+            SizedBox(
+              height: 20,
+            ),
             Text(
               this.widget.exercise.question,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
+                  color: Color.fromRGBO(0, 157, 153, 1), fontSize: 30),
             ),
             SizedBox(
               height: 45,
             ),
             Container(
               height: 200,
-              child: ListView.builder(
+              child:  ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemCount: questionList.length,
@@ -38,6 +55,7 @@ class MathExerciseState extends State<ExerciseView> {
                   return Wrap(
                     children: <Widget>[
                       questionList[index],
+                      SizedBox(width: 10,)
                     ],
                   );
                 },
@@ -51,7 +69,7 @@ class MathExerciseState extends State<ExerciseView> {
             ),
           ],
         ),
-      ),
+      bottomNavigationBar: BottomNavigationBarFooter(null),
     );
   }
 

@@ -48,7 +48,7 @@ class ExerciseListViewState extends State<ExerciseListViewPage>
               context: context, type: this.widget.type),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              ExerciseController.decodeJsonAndStoreItInsideExerciseList(snapshot.data.toString(),list,this.widget.leading);
+              ExerciseController.decodeJsonAndStoreItInsideExerciseList(snapshot.data.toString(),list,this.widget.leading, context);
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
                 itemCount: list.length,

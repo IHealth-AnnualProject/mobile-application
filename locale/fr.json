@@ -93,5 +93,8 @@
   "LoginPage": "Page de connexion",
   "AddToPlaylist": "Ajouter à la playlist",
   "RelaxingColor": "Couleur relaxante",
-  "Congratulations": "Félicitation tu as réussi !"
+  "Congratulations": "Félicitation tu as réussi !",
+  "PipeGameExplanation": "Tournez les tubes jusqu'à ce que tout coïncide",
+  "MathExerciseExplanation": "Choisissez la bonne réponse"
+
 }

@@ -15,7 +15,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AccountState extends State<AccountPage> with WidgetsBindingObserver {
-  int _selectedBottomIndex = 1;
   bool differentView = true;
   bool isReadOnly = false;
   User profile;
@@ -57,13 +56,6 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    //Locale myLocale = Localizations.localeOf(context);
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     final titleAccount = Text(
       profile.username + " lv.1",
       textAlign: TextAlign.center,
@@ -128,7 +120,7 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
           }
         },
       ), // This trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex),
+      bottomNavigationBar: BottomNavigationBarFooter(1),
     );
   }
 

@@ -49,7 +49,7 @@ class ExerciseController {
     );
   }
 
-  static List<Exercise> decodeJsonAndStoreItInsideExerciseList(String jsonToDecode, List<Widget> inputList, String leading) {
+  static List<Exercise> decodeJsonAndStoreItInsideExerciseList(String jsonToDecode, List<Widget> inputList, String leading, BuildContext context) {
     Iterable listFromJson = json.decode(jsonToDecode);
     List<Exercise> exercises = new List<Exercise>();
     exercises.addAll(
@@ -57,7 +57,7 @@ class ExerciseController {
     exercises.forEach(
           (element) {
         inputList.add(
-          exercise(leading: leading, exercise: element),
+          exercise(leading: leading, exercise: element, context: context),
         );
       },
     );
