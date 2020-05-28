@@ -62,7 +62,7 @@
   "QuestToday": "Today's Quest",
   "RegisterSent": "Thanks for your registration",
   "RelaxingMusic": "Relaxing Music",
-  "SearchContainer": "Find other user.....",
+  "SearchContainer": "Search.....",
   "SendMessage": "Send your message",
   "SettingsContainer": "Settings",
   "SignUp": " SIGN UP",
@@ -93,7 +93,8 @@
   "LoginPage": "Login Page",
   "AddToPlaylist": "Add to playlist",
   "RelaxingColor": "Relaxing Color",
-  "Congratulations": "Congratulation you did it !"
+  "Congratulations": "Congratulation you did it !",
+  "Exercise": "exercise"
 
 
 }

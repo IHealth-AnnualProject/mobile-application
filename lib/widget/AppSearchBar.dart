@@ -1,3 +1,4 @@
+import 'package:betsbi/controller/SearchBarController.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,13 +47,25 @@ class _AppSearchBarState extends State<AppSearchBar> {
             ),
       actions: <Widget>[
         IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: DataSearch(context),
+          icon: Icon(Icons.search),
+          onPressed: () {
+            showSearch(
+              context: context,
+              delegate: DataSearch(context),
+            );
+          },
+        ),
+        PopupMenuButton<String>(
+          onSelected: (choice) => SearchBarController.searchCategory = choice,
+          itemBuilder: (BuildContext context) {
+            return SearchBarController.searchChoicesCategory.map((String choice) {
+              return PopupMenuItem<String>(
+                value: choice,
+                child: Text(choice),
               );
-            }),
+            }).toList();
+          },
+        )
       ],
     );
   }

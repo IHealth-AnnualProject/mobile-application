@@ -1,16 +1,13 @@
 import 'package:betsbi/controller/ExerciseController.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
-import 'package:betsbi/model/exercise.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/ExerciseListView.dart';
-import 'package:betsbi/view/ExerciseView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
 
 class ExerciseListViewState extends State<ExerciseListViewPage>
     with WidgetsBindingObserver {
@@ -28,27 +25,6 @@ class ExerciseListViewState extends State<ExerciseListViewPage>
     WidgetsBinding.instance.addObserver(this);
     HistoricalManager.historical.add(this.widget);
     list = new List<Widget>();
-  }
-
-  ListTile exercise({@required String leading, Exercise exercise}) {
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: Colors.white,
-        backgroundImage: AssetImage(leading),
-      ),
-      title: Text(exercise.name),
-      onTap: () {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ExerciseView(exercise),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        //_controller.play();
-      },
-      subtitle: Text(exercise.type),
-    );
   }
 
   @override
@@ -72,7 +48,7 @@ class ExerciseListViewState extends State<ExerciseListViewPage>
               context: context, type: this.widget.type),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              decodeJsonAndStoreItInsideExerciseList(snapshot.data.toString());
+              ExerciseController.decodeJsonAndStoreItInsideExerciseList(snapshot.data.toString(),list,this.widget.leading);
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
                 itemCount: list.length,
@@ -86,20 +62,6 @@ class ExerciseListViewState extends State<ExerciseListViewPage>
               return CircularProgressIndicator();
           }),
       bottomNavigationBar: BottomNavigationBarFooter(null),
-    );
-  }
-
-  void decodeJsonAndStoreItInsideExerciseList(String jsonToDecode) {
-    Iterable listFromJson = json.decode(jsonToDecode);
-    List<Exercise> exercises = new List<Exercise>();
-    exercises.addAll(
-        listFromJson.map((model) => Exercise.fromJsonToList(model)).toList());
-    exercises.forEach(
-      (element) {
-        list.add(
-          exercise(leading: this.widget.leading, exercise: element),
-        );
-      },
     );
   }
 }

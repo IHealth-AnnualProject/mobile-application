@@ -1,22 +1,19 @@
 import 'package:betsbi/controller/SearchBarController.dart';
-import 'package:betsbi/model/user.dart';
+import 'package:betsbi/model/searchItem.dart';
 import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/view/AccountView.dart';
 import 'package:flutter/material.dart';
 import 'package:async/async.dart';
 
 class DataSearch extends SearchDelegate<String> {
-  List<User> users;
+  List<SearchItem> items;
   AsyncMemoizer _memoizer = AsyncMemoizer();
   final BuildContext context;
 
   DataSearch(this.context);
 
-  findUsers() {
+  getSearchList() {
     return this._memoizer.runOnce(() async {
-      users = new List<User>();
-      users = await SearchBarController.getAllProfile(this.context);
-      return users;
+      return items = await SearchBarController.getAllPropsAccordingToCategoryChosen(context: context);
     });
   }
 
@@ -55,10 +52,10 @@ class DataSearch extends SearchDelegate<String> {
   Widget buildResults(BuildContext context) {
     // show some result based on the selection
     // data loaded:
-    final suggestionList = users;
+    final suggestionList = items;
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
-        title: Text(users[index].username),
+        title: Text(items[index].title),
         //subtitle: Text(userProfiles[index].type),
       ),
       itemCount: suggestionList.length,
@@ -69,19 +66,18 @@ class DataSearch extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     // show when someone searches for something
     return FutureBuilder(
-      future: findUsers(),
+      future: getSearchList(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         } else {
           // data loaded:
-          // todo test
           _memoizer = AsyncMemoizer();
           final suggestionList = query.isEmpty
-              ? users
-              : users
+              ? items
+              : items
                   .where((p) =>
-                      p.username.contains(RegExp(query, caseSensitive: false)))
+                      p.title.contains(RegExp(query, caseSensitive: false)))
                   .toList();
           return ListView.builder(
             itemBuilder: (context, index) => Card(
@@ -90,22 +86,16 @@ class DataSearch extends SearchDelegate<String> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AccountPage(
-                          isPsy: suggestionList[index].isPsy,
-                          userId: suggestionList[index].profileId),
+                      builder: (context) => SearchBarController.redirectAfterPushing(suggestionList[index]),
                     ),
                   );
                 },
-                trailing: users[index].isPsy
-                    ? Icon(Icons.spa)
-                    : Icon(Icons.account_box),
-                subtitle: users[index].isPsy
-                    ? Text(SettingsManager.mapLanguage["PsyChoice"])
-                    : Text(SettingsManager.mapLanguage["UserChoice"]),
+                trailing: items[index].trailing,
+                subtitle: Text(items[index].subtitle),
                 title: RichText(
                   text: TextSpan(
                     text: suggestionList[index]
-                        .username
+                        .title
                         .substring(0, query.length),
                     style: TextStyle(
                         color: Color.fromRGBO(0, 157, 153, 1),
@@ -113,7 +103,7 @@ class DataSearch extends SearchDelegate<String> {
                     children: [
                       TextSpan(
                         text: suggestionList[index]
-                            .username
+                            .title
                             .substring(query.length),
                         style: TextStyle(
                           color: Color.fromRGBO(0, 157, 153, 1),
