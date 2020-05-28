@@ -1,6 +1,7 @@
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/AccountView.dart';
 import 'package:betsbi/view/ChatListContactView.dart';
+import 'package:betsbi/view/ExerciseListView.dart';
 import 'package:betsbi/view/HomeView.dart';
 import 'package:betsbi/view/LoginView.dart';
 import 'package:betsbi/view/MemosView.dart';
@@ -16,7 +17,10 @@ class BottomNavigationController {
             context,
             MaterialPageRoute(
               builder: (context) => HomePage(
-                isPsy: SettingsManager.applicationProperties.isPsy().toLowerCase() == 'true'
+                isPsy: SettingsManager.applicationProperties
+                            .isPsy()
+                            .toLowerCase() ==
+                        'true'
                     ? true
                     : false,
               ),
@@ -31,7 +35,10 @@ class BottomNavigationController {
             MaterialPageRoute(
               builder: (context) => AccountPage(
                 userId: SettingsManager.applicationProperties.getCurrentId(),
-                isPsy: SettingsManager.applicationProperties.isPsy().toLowerCase() == 'true'
+                isPsy: SettingsManager.applicationProperties
+                            .isPsy()
+                            .toLowerCase() ==
+                        'true'
                     ? true
                     : false,
               ),
@@ -77,9 +84,19 @@ class BottomNavigationController {
           );
         break;
       case 2:
-        if (currentIndex != 2)
-          //todo create third part button
-          print("will be back");
+        if (currentIndex != 2) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ExerciseListViewPage(
+                type: 'math',
+                leading: 'assets/math.png',
+                isOffLine: true,
+              ),
+            ),
+            (Route<dynamic> route) => false,
+          );
+        }
         break;
     }
     return selectedBottomIndex;

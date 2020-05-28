@@ -45,10 +45,7 @@ class QuestState extends State<QuestPage> with WidgetsBindingObserver {
       style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
     );
     return Scaffold(
-      appBar: AppSearchBar.appSearchBarNormal(
-          title: SettingsManager.mapLanguage["SearchContainer"] != null
-              ? SettingsManager.mapLanguage["SearchContainer"]
-              : ""),
+      appBar: AppSearchBar(),
       body: SingleChildScrollView(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.

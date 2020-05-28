@@ -52,9 +52,9 @@ class ChatListContactPageState extends State<ChatListContactPage>
       contacts = new List<Contact>();
       socket =
           io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
-            'transports': ['websocket'],
-            'autoConnect': false,
-          });
+        'transports': ['websocket'],
+        'autoConnect': false,
+      });
       socket.on('newMessage', (data) => _onNewMessage(data));
       contacts = await ChatController.getAllContact(context: context);
       return context;
@@ -73,10 +73,7 @@ class ChatListContactPageState extends State<ChatListContactPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppSearchBar.appSearchBarNormal(
-          title: SettingsManager.mapLanguage["SearchContainer"] != null
-              ? SettingsManager.mapLanguage["SearchContainer"]
-              : ""),
+      appBar: AppSearchBar(),
       body: FutureBuilder(
         future: findUsers(),
         builder: (context, snapshot) {

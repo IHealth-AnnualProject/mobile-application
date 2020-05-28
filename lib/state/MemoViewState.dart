@@ -15,7 +15,8 @@ import 'package:intl/intl.dart';
 
 import 'IMemoViewState.dart';
 
-class MemosViewState extends State<MemosPage> with WidgetsBindingObserver, IMemoViewState {
+class MemosViewState extends State<MemosPage>
+    with WidgetsBindingObserver, IMemoViewState {
   List<MemosWidget> list = List<MemosWidget>();
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
@@ -73,10 +74,7 @@ class MemosViewState extends State<MemosPage> with WidgetsBindingObserver, IMemo
       style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
     );
     return Scaffold(
-      appBar: AppSearchBar.appSearchBarNormal(
-          title: SettingsManager.mapLanguage["SearchContainer"] != null
-              ? SettingsManager.mapLanguage["SearchContainer"]
-              : ""),
+      appBar: AppSearchBar(),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -155,9 +153,9 @@ class MemosViewState extends State<MemosPage> with WidgetsBindingObserver, IMemo
       onPressed: () {
         if (this._formKey.currentState.validate()) {
           MemosController.addNewMemoToMemos(
-              titleController.text, dueDateController.text)
+                  titleController.text, dueDateController.text)
               .then(
-                (memoId) => this.setState(() {
+            (memoId) => this.setState(() {
               list.add(
                 new MemosWidget(
                   title: titleController.text,
@@ -224,8 +222,8 @@ class MemosViewState extends State<MemosPage> with WidgetsBindingObserver, IMemo
 
   TextFormField memosFormField(
       {String labelAndHint,
-        TextInputType textInputType,
-        TextEditingController textEditingController}) {
+      TextInputType textInputType,
+      TextEditingController textEditingController}) {
     return TextFormField(
       obscureText: false,
       textAlign: TextAlign.left,
@@ -238,7 +236,7 @@ class MemosViewState extends State<MemosPage> with WidgetsBindingObserver, IMemo
           fillColor: Colors.white,
           hintText: labelAndHint,
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
   }
 
@@ -256,7 +254,7 @@ class MemosViewState extends State<MemosPage> with WidgetsBindingObserver, IMemo
           fillColor: Colors.white,
           hintText: labelAndHint,
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
   }
 
@@ -268,6 +266,6 @@ class MemosViewState extends State<MemosPage> with WidgetsBindingObserver, IMemo
         lastDate: new DateTime(DateTime.now().year + 2));
     if (picked != null)
       setState(
-              () => dueDateController.text = DateFormat.yMMMd().format(picked));
+          () => dueDateController.text = DateFormat.yMMMd().format(picked));
   }
 }

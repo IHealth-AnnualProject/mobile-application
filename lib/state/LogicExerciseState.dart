@@ -27,65 +27,66 @@ class LogicExerciseState extends State<ExerciseView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppSearchBar.appSearchBarNormal(
-        title: SettingsManager.mapLanguage["SearchContainer"] != null
-            ? SettingsManager.mapLanguage["SearchContainer"]
-            : "",
+      appBar: AppSearchBar(
+        isOffline: this.widget.isOffline,
       ),
-      body:  Column(
-          children: <Widget>[
-            Text(
-              SettingsManager.mapLanguage["PipeGameExplanation"],
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  top: BorderSide(width: 1.0, color: Colors.black87),
-                  left: BorderSide(width: 1.0, color: Colors.black87),
-                  right: BorderSide(width: 1.0, color: Colors.black87),
-                  bottom: BorderSide(width: 1.0, color: Colors.black87),
-                ),
+      body: Column(
+        children: <Widget>[
+          Text(
+            SettingsManager.mapLanguage["PipeGameExplanation"],
+            textAlign: TextAlign.center,
+            style:
+                TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(width: 1.0, color: Colors.black87),
+                left: BorderSide(width: 1.0, color: Colors.black87),
+                right: BorderSide(width: 1.0, color: Colors.black87),
+                bottom: BorderSide(width: 1.0, color: Colors.black87),
               ),
-              height: 360,
-              width: 360,
-              child: GridView.builder(
-                shrinkWrap: true,
-                itemCount: listCaseExercise.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 6),
-                itemBuilder: (context, index) =>
-                    AnimationConfiguration.staggeredGrid(
-                  position: index,
-                  duration: Duration(milliseconds: 375),
-                  columnCount: 6,
-                  child: ScaleAnimation(
-                    child: FadeInAnimation(
-                      child: Card(
-                        child: listCaseExercise[index],
-                      ),
+            ),
+            height: 360,
+            width: 360,
+            child: GridView.builder(
+              shrinkWrap: true,
+              itemCount: listCaseExercise.length,
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
+              itemBuilder: (context, index) =>
+                  AnimationConfiguration.staggeredGrid(
+                position: index,
+                duration: Duration(milliseconds: 375),
+                columnCount: 6,
+                child: ScaleAnimation(
+                  child: FadeInAnimation(
+                    child: Card(
+                      child: listCaseExercise[index],
                     ),
                   ),
                 ),
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Visibility(
-              visible: isCongratsHidden,
-              child: Text(SettingsManager.mapLanguage["Congratulations"],
-                  style: TextStyle(
-                      color: Color.fromRGBO(0, 157, 153, 1), fontSize: 30)),
-            ),
-          ],
-        ),
-      bottomNavigationBar: BottomNavigationBarFooter(null),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Visibility(
+            visible: isCongratsHidden,
+            child: Text(SettingsManager.mapLanguage["Congratulations"],
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 157, 153, 1), fontSize: 30)),
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBarFooter(
+        null,
+        isOffLine: this.widget.isOffline,
+      ),
     );
   }
 

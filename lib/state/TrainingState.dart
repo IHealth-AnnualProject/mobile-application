@@ -57,10 +57,7 @@ class TrainingState extends State<TrainingPage> with WidgetsBindingObserver {
       style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
     );
     return Scaffold(
-      appBar: AppSearchBar.appSearchBarNormal(
-          title: SettingsManager.mapLanguage["SearchContainer"] != null
-              ? SettingsManager.mapLanguage["SearchContainer"]
-              : ""),
+      appBar: AppSearchBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(

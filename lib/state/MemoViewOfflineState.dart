@@ -5,7 +5,7 @@ import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/state/IMemoViewState.dart';
 import 'package:betsbi/view/MemosView.dart';
-import 'package:betsbi/widget/AppBarOffline.dart';
+import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/MemosWidget.dart';
 import 'package:flutter/cupertino.dart';
@@ -61,69 +61,73 @@ class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
       style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
     );
     return Scaffold(
-      appBar: AppBarOffline(),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SizedBox(
-              height: 45,
-            ),
-            Container(
-              height: 200,
-              width: 200,
-              decoration: BoxDecoration(
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black,
-                    offset: Offset(1.0, 6.0),
-                    blurRadius: 40.0,
+        appBar: AppSearchBar(
+          isOffline: true,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                height: 45,
+              ),
+              Container(
+                height: 200,
+                width: 200,
+                decoration: BoxDecoration(
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black,
+                      offset: Offset(1.0, 6.0),
+                      blurRadius: 40.0,
+                    ),
+                  ],
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: AssetImage("assets/notes.png"),
                   ),
-                ],
-                color: Colors.white,
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage("assets/notes.png"),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 45,
-            ),
-            titleMemos,
-            FutureBuilder(
-                future: getAllMemos(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  } else {
-                    return Column(
-                      children: <Widget>[
-                        ListView.builder(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.all(8),
-                          itemCount: list.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              child: list[index],
-                            );
-                          },
-                        ),
-                      ],
-                    );
-                  }
-                }),
-          ],
-        ),
-      ), // T
-      floatingActionButton: FloatingActionButton.extended(
-        label: Text(SettingsManager.mapLanguage["CreateMemos"]),
-        backgroundColor: Color.fromRGBO(0, 157, 153, 1),
-        icon: Icon(Icons.add),
-        onPressed: () => showAlertDialog(context),
-      ), // his trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: BottomNavigationBarFooter(1, isOffLine: true,)
-    );
+              SizedBox(
+                height: 45,
+              ),
+              titleMemos,
+              FutureBuilder(
+                  future: getAllMemos(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else {
+                      return Column(
+                        children: <Widget>[
+                          ListView.builder(
+                            shrinkWrap: true,
+                            padding: EdgeInsets.all(8),
+                            itemCount: list.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                child: list[index],
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    }
+                  }),
+            ],
+          ),
+        ), // T
+        floatingActionButton: FloatingActionButton.extended(
+          label: Text(SettingsManager.mapLanguage["CreateMemos"]),
+          backgroundColor: Color.fromRGBO(0, 157, 153, 1),
+          icon: Icon(Icons.add),
+          onPressed: () => showAlertDialog(context),
+        ), // his trailing comma makes auto-formatting nicer for build methods.
+        bottomNavigationBar: BottomNavigationBarFooter(
+          1,
+          isOffLine: true,
+        ));
   }
 
   showAlertDialog(BuildContext context) {

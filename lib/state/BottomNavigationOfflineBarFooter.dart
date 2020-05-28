@@ -4,9 +4,8 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'BottomNavigationBarFooter.dart';
-
-class BottomNavigationOfflineBarFooterState extends State<BottomNavigationBarFooter> {
+class BottomNavigationOfflineBarFooterState
+    extends State<BottomNavigationBarFooter> {
   @override
   void initState() {
     super.initState();
@@ -31,10 +30,10 @@ class BottomNavigationOfflineBarFooterState extends State<BottomNavigationBarFoo
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.not_listed_location,
+              Icons.opacity,
               color: Color.fromRGBO(255, 195, 0, 1),
             ),
-            title: Text("None"),
+            title: Text("Exercise"),
           ),
         ],
         onTap: (int index) {
@@ -64,10 +63,10 @@ class BottomNavigationOfflineBarFooterState extends State<BottomNavigationBarFoo
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.not_listed_location,
+              Icons.opacity,
               color: Color.fromRGBO(255, 195, 0, 1),
             ),
-            title: Text("None"),
+            title: Text("Exercise"),
           ),
         ],
         currentIndex: this.widget.selectedBottomIndex,

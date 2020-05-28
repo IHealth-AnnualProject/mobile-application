@@ -28,7 +28,7 @@ class ExerciseController {
     );
   }
 
-  static ListTile exercise({@required String leading, Exercise exercise, BuildContext context}) {
+  static ListTile exercise({@required String leading, Exercise exercise, BuildContext context, bool isOffLine}) {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: Colors.white,
@@ -39,7 +39,7 @@ class ExerciseController {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => ExerciseView(exercise),
+            builder: (context) => ExerciseView(exercise: exercise,isOffline: isOffLine,),
           ),
               (Route<dynamic> route) => false,
         );
@@ -49,7 +49,7 @@ class ExerciseController {
     );
   }
 
-  static List<Exercise> decodeJsonAndStoreItInsideExerciseList(String jsonToDecode, List<Widget> inputList, String leading, BuildContext context) {
+  static List<Exercise> decodeJsonAndStoreItInsideExerciseList(String jsonToDecode, List<Widget> inputList, String leading, BuildContext context, bool isOffLine) {
     Iterable listFromJson = json.decode(jsonToDecode);
     List<Exercise> exercises = new List<Exercise>();
     exercises.addAll(
@@ -57,7 +57,7 @@ class ExerciseController {
     exercises.forEach(
           (element) {
         inputList.add(
-          exercise(leading: leading, exercise: element, context: context),
+          exercise(leading: leading, exercise: element, context: context,isOffLine: isOffLine),
         );
       },
     );

@@ -27,7 +27,7 @@ class SearchBarController {
         context: context, type: 'math');
     List<Widget> searchList = new List<Widget>();
     return ExerciseController.decodeJsonAndStoreItInsideExerciseList(
-        jsonWithOutputList, searchList, "assets/math.png", context);
+        jsonWithOutputList, searchList, "assets/math.png", context,false);
   }
 
   static Future<List<SearchItem>> getAllPropsAccordingToCategoryChosen(
@@ -124,7 +124,7 @@ class SearchBarController {
           AccountPage(isPsy: item.user.isPsy, userId: item.user.profileId);
     }
     if (searchCategory == 'exercise') {
-      redirection = ExerciseView(item.exercise);
+      redirection = ExerciseView(exercise: item.exercise,);
     }
     return redirection;
   }

@@ -1,10 +1,11 @@
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/LoginView.dart';
+import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AppBarOffline extends StatelessWidget with PreferredSizeWidget {
+class AppBarOffline extends State<AppSearchBar>{
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,4 @@ class AppBarOffline extends StatelessWidget with PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }

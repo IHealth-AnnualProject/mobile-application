@@ -37,10 +37,7 @@ class HomeState extends State<HomePage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppSearchBar.appSearchBarNormal(
-          title: SettingsManager.mapLanguage["SearchContainer"] != null
-              ? SettingsManager.mapLanguage["SearchContainer"]
-              : ""),
+      appBar: AppSearchBar(),
       body: Center(
         child: Column(
           children: <Widget>[

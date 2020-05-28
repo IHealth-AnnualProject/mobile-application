@@ -6,8 +6,9 @@ import 'package:flutter/cupertino.dart';
 
 class ExerciseView extends StatefulWidget {
   final Exercise exercise;
+  final bool isOffline;
 
-  ExerciseView(this.exercise);
+  ExerciseView({this.exercise, this.isOffline = false});
 
   @override
   State<ExerciseView> createState() {

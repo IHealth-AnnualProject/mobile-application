@@ -62,11 +62,7 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
       style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
     );
     return Scaffold(
-      appBar: AppSearchBar.appSearchBarNormal(
-        title: SettingsManager.mapLanguage["SearchContainer"] != null
-            ? SettingsManager.mapLanguage["SearchContainer"]
-            : "",
-      ),
+      appBar: AppSearchBar(),
       body: FutureBuilder(
         future: findUserInformation(),
         builder: (context, snapshot) {

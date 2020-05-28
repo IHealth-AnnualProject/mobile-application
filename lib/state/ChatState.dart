@@ -90,9 +90,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: true,
-      appBar: AppSearchBar.appSearchBarNormal(
-        title: this.widget.userContacted.username,
-      ),
+      appBar: AppSearchBar(),
       body: FutureBuilder(
           future: _instanciateChatWithAllMessageAndInput(),
           builder: (context, snapshot) {
