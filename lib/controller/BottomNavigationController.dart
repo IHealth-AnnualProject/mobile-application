@@ -3,7 +3,7 @@ import 'package:betsbi/view/AccountView.dart';
 import 'package:betsbi/view/ChatListContactView.dart';
 import 'package:betsbi/view/ExerciseListView.dart';
 import 'package:betsbi/view/HomeView.dart';
-import 'package:betsbi/view/LoginView.dart';
+import 'package:betsbi/view/LessonListView.dart';
 import 'package:betsbi/view/MemosView.dart';
 import 'package:flutter/material.dart';
 
@@ -67,7 +67,11 @@ class BottomNavigationController {
         if (currentIndex != 0)
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => LoginPage()),
+            MaterialPageRoute(
+              builder: (context) => LessonListView(
+                isOffLine: true,
+              ),
+            ),
             (Route<dynamic> route) => false,
           );
         break;

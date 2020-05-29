@@ -1,4 +1,5 @@
 import 'package:betsbi/controller/BottomNavigationController.dart';
+import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,10 +17,10 @@ class BottomNavigationOfflineBarFooterState
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              CommunityMaterialIcons.logout,
+              CommunityMaterialIcons.google_classroom,
               color: Color.fromRGBO(255, 195, 0, 1),
             ),
-            title: Text("Login"),
+            title: Text(SettingsManager.mapLanguage["Lesson"]),
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -49,10 +50,10 @@ class BottomNavigationOfflineBarFooterState
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              CommunityMaterialIcons.logout,
+              CommunityMaterialIcons.google_classroom,
               color: Color.fromRGBO(255, 195, 0, 1),
             ),
-            title: Text("Login"),
+            title: Text(SettingsManager.mapLanguage["Lesson"]),
           ),
           BottomNavigationBarItem(
             icon: Icon(
