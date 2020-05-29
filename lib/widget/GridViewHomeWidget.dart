@@ -2,10 +2,12 @@ import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/AccountView.dart';
 import 'package:betsbi/view/AmbianceView.dart';
 import 'package:betsbi/view/ErrorView.dart';
+import 'package:betsbi/view/LessonListView.dart';
 import 'package:betsbi/view/MemosView.dart';
 import 'package:betsbi/view/QuestView.dart';
 import 'package:betsbi/view/SettingsView.dart';
 import 'package:betsbi/view/TrainingView.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -80,6 +82,12 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
             : "",
         iconBrick: Icons.error,
         destination: ErrorPage(),
+        image: "error.png"),
+    BrickContainer(
+        colorBrick: Color.fromRGBO(249, 89, 51, 1),
+        textBrick: "test",
+        iconBrick: CommunityMaterialIcons.google_classroom,
+        destination: LessonListView(),
         image: "error.png"),
   ];
 

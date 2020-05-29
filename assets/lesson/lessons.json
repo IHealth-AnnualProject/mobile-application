@@ -1,0 +1,21 @@
+[
+  {
+    "Name": "ABC Model",
+    "Pages": [
+      {
+        "Title": "ABC Model",
+        "PageColor": [128,195,241,1],
+        "Bubble": "assets/lesson/abcmodel.png",
+        "Body": "Adversité - Croyance - Consequece",
+        "MainImage": "assets/lesson/abcmodel.png"
+      },
+      {
+        "Title": "Quest",
+        "PageColor": [88, 214, 141, 1],
+        "Bubble": "assets/quest.png",
+        "Body": "Quest introduction",
+        "MainImage": "assets/introduction/introduction_quest.png"
+      }
+    ]
+  }
+]
