@@ -50,7 +50,7 @@ class _contactChatState extends State<ContactChat> {
               context,
               MaterialPageRoute(
                   builder: (context) => ChatPage(
-                        userContacted: widget.contact,
+                        userContactedId: widget.contact.userId,
                       )),
             );
           },

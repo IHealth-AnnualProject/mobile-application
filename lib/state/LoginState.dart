@@ -53,19 +53,14 @@ class LoginState extends State<LoginPage> {
       );
     }
 
-    //Locale myLocale = Localizations.localeOf(context);
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     final language = InkWell(
       onTap: () {
         _setLanguage();
       },
       child: new Text(
-        SettingsManager.applicationProperties.getLanguage() != null ? SettingsManager.applicationProperties.getLanguage() : "",
+        SettingsManager.applicationProperties.getLanguage() != null
+            ? SettingsManager.applicationProperties.getLanguage()
+            : "",
         textAlign: TextAlign.center,
         style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
       ),
@@ -84,136 +79,140 @@ class LoginState extends State<LoginPage> {
           style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
         ));
     return Scaffold(
-        body: SwipeUp(
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //crossAxisAlignment: CrossAxisAlignment.center,
-            //mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 100,
-                  ),
-                  SizedBox(
-                    height: 150,
-                    child: Image.asset(
-                      "assets/logo.png",
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 45,
-                  ),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          width: 350.0,
-                          child: TextFormFieldCustomBetsBi(
-                            obscureText: false,
-                            controller: userNameController,
-                            textAlign: TextAlign.left,
-                            validator: (value) => CheckController.checkField(value),
-                            labelText:
-                                SettingsManager.mapLanguage["UsernameText"],
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText:
-                                SettingsManager.mapLanguage["UsernameText"],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          width: 350.0,
-                          child: TextFormFieldCustomBetsBi(
-                            obscureText: true,
-                            controller: passwordController,
-                            textAlign: TextAlign.left,
-                            validator: (value) => CheckController.checkField(value),
-                            labelText:
-                                SettingsManager.mapLanguage["PasswordText"],
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText:
-                                SettingsManager.mapLanguage["PasswordText"],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 45,
-                        ),
-                        //forgotPassword,
-                        ForgotPassword(
-                            message: SettingsManager
-                                        .mapLanguage["ForgotPassword"] !=
-                                    null
-                                ? SettingsManager.mapLanguage["ForgotPassword"]
-                                : "",
-                            icons: Icons.message),
-                        SizedBox(
-                          height: 45,
-                        ),
-                        Container(
-                          width: 350.0,
-                          child: loginButton(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 45,
-              ),
-              Container(
-                width: 350,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //crossAxisAlignment: CrossAxisAlignment.end,
+      body: SwipeUp(
+        body: Center(
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //crossAxisAlignment: CrossAxisAlignment.center,
+              //mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    language,
-                    Container(
-                      alignment: Alignment.center,
-                      child: Row(
+                    SizedBox(
+                      height: 100,
+                    ),
+                    SizedBox(
+                      height: 150,
+                      child: Image.asset(
+                        "assets/logo.png",
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 45,
+                    ),
+                    Form(
+                      key: _formKey,
+                      child: Column(
                         children: <Widget>[
-                          Text(
-                              SettingsManager.mapLanguage["NoAccount"] != null
-                                  ? SettingsManager.mapLanguage["NoAccount"]
+                          Container(
+                            width: 350.0,
+                            child: TextFormFieldCustomBetsBi(
+                              obscureText: false,
+                              controller: userNameController,
+                              textAlign: TextAlign.left,
+                              validator: (value) =>
+                                  CheckController.checkField(value),
+                              labelText:
+                                  SettingsManager.mapLanguage["UsernameText"],
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText:
+                                  SettingsManager.mapLanguage["UsernameText"],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            width: 350.0,
+                            child: TextFormFieldCustomBetsBi(
+                              obscureText: true,
+                              controller: passwordController,
+                              textAlign: TextAlign.left,
+                              validator: (value) =>
+                                  CheckController.checkField(value),
+                              labelText:
+                                  SettingsManager.mapLanguage["PasswordText"],
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText:
+                                  SettingsManager.mapLanguage["PasswordText"],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 45,
+                          ),
+                          //forgotPassword,
+                          ForgotPassword(
+                              message: SettingsManager
+                                          .mapLanguage["ForgotPassword"] !=
+                                      null
+                                  ? SettingsManager
+                                      .mapLanguage["ForgotPassword"]
                                   : "",
-                              style: TextStyle(
-                                  color: Color.fromRGBO(0, 157, 153, 1),
-                                  fontSize: 17)),
-                          signUp
+                              icons: Icons.message),
+                          SizedBox(
+                            height: 45,
+                          ),
+                          Container(
+                            width: 350.0,
+                            child: loginButton(),
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
-              )
-            ],
-          ),
-        ), // This trailing comma makes auto-formatting nicer for build methods.
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: Text(
-          SettingsManager.mapLanguage["OfflineMode"],
-          style: TextStyle(
-            color: Color.fromRGBO(0, 157, 153, 1),
+                SizedBox(
+                  height: 45,
+                ),
+                Container(
+                  width: 350,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      language,
+                      Container(
+                        alignment: Alignment.center,
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                                SettingsManager.mapLanguage["NoAccount"] != null
+                                    ? SettingsManager.mapLanguage["NoAccount"]
+                                    : "",
+                                style: TextStyle(
+                                    color: Color.fromRGBO(0, 157, 153, 1),
+                                    fontSize: 17)),
+                            signUp
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ), // This trailing comma makes auto-formatting nicer for build methods.
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: Text(
+            SettingsManager.mapLanguage["OfflineMode"],
+            style: TextStyle(
+              color: Color.fromRGBO(0, 157, 153, 1),
+            ),
           ),
         ),
+        onSwipe: () => offlineChoiceFlushBar().show(context),
       ),
-      onSwipe: () => offlineChoiceFlushBar().show(context),
-    ));
+    );
   }
 
   Flushbar loginFlushBar(Icon icon, String message) {

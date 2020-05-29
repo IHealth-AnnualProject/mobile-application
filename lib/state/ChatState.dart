@@ -54,7 +54,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       });
       socket.on('newMessage', (data) => _onNewMessage(data));
       await ChatController.getAllMessageIdFromContact(
-              contactID: this.widget.userContacted.userId)
+              contactID: this.widget.userContactedId)
           .then((listMessage) {
         listMessage.forEach((message) {
           list.add(SettingsManager.applicationProperties.getCurrentId() ==
@@ -66,21 +66,22 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       list.add(lineSendMessage());
       list = list.reversed.toList();
       SQLLiteNewMessage newMessage = new SQLLiteNewMessage();
-      SettingsManager.applicationProperties.setNewMessage(
-          SettingsManager.applicationProperties.getNewMessage() -
-              await newMessage
-                  .countByIdFromAndTo(
-                      userIdFrom: this.widget.userContacted.userId,
-                      userIdTo:
-                          SettingsManager.applicationProperties.getCurrentId())
-                  .then((value) async => await newMessage
-                      .deleteById(this.widget.userContacted.userId)));
+      SettingsManager.applicationProperties.setNewMessage(SettingsManager
+              .applicationProperties
+              .getNewMessage() -
+          await newMessage
+              .countByIdFromAndTo(
+                  userIdFrom: this.widget.userContactedId,
+                  userIdTo:
+                      SettingsManager.applicationProperties.getCurrentId())
+              .then((value) async =>
+                  await newMessage.deleteById(this.widget.userContactedId)));
     });
   }
 
   _onNewMessage(dynamic data) {
     Message receivedMessage = Message.fromJson(data);
-    if (this.widget.userContacted.userId == receivedMessage.userFromID) {
+    if (this.widget.userContactedId == receivedMessage.userFromID) {
       list.insert(1, hisMessage(content: receivedMessage.content));
       setState(() {});
     }
@@ -145,7 +146,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                       SettingsManager.applicationProperties.getCurrentToken(),
                   'data': {
                     'content': mTextMessageController.text,
-                    'idReceiver': this.widget.userContacted.userId
+                    'idReceiver': this.widget.userContactedId,
                   }
                 });
                 list.insert(

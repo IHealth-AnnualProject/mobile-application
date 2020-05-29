@@ -3,6 +3,7 @@ import 'package:betsbi/controller/CheckController.dart';
 import 'package:betsbi/model/psychologist.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/view/ChatView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -216,7 +217,8 @@ class _AccountInformationState extends State<AccountInformation> {
           SizedBox(
             height: 45,
           ),
-          SettingsManager.applicationProperties.getCurrentId() == this.widget.profileID
+          SettingsManager.applicationProperties.getCurrentId() ==
+                  this.widget.profileID
               ? Container(
                   child: finalButton(
                     buttonContent: SettingsManager.mapLanguage["Submit"] != null
@@ -229,8 +231,25 @@ class _AccountInformationState extends State<AccountInformation> {
                         : "",
                   ),
                   width: 350)
-              : Container(
-                  child: Text("UPCOMING"),
+              : RaisedButton(
+                  elevation: 8,
+                  shape: StadiumBorder(),
+                  color: Color.fromRGBO(255, 195, 0, 1),
+                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChatPage(
+                              userContactedId: this.widget.profileID,
+                            )),
+                  ),
+                  child: Text(
+                    "Contact",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Color.fromRGBO(255, 255, 255, 100),
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
           SizedBox(
             height: 20,
@@ -241,7 +260,8 @@ class _AccountInformationState extends State<AccountInformation> {
   }
 
   Future _selectDate() async {
-    if (SettingsManager.applicationProperties.getCurrentId() == this.widget.profileID) {
+    if (SettingsManager.applicationProperties.getCurrentId() ==
+        this.widget.profileID) {
       DateTime picked = await showDatePicker(
           context: context,
           initialDate: new DateTime(1920),
