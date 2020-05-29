@@ -68,6 +68,12 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
         destination: QuestPage(),
         image: "quest.png"),
     BrickContainer(
+        colorBrick: Color.fromRGBO(249, 89, 51, 1),
+        textBrick: SettingsManager.mapLanguage['Lesson'],
+        iconBrick: CommunityMaterialIcons.google_classroom,
+        destination: LessonListView(),
+        image: "knowmore.png"),
+    BrickContainer(
         colorBrick: Color.fromRGBO(51, 171, 249, 1),
         textBrick: SettingsManager.mapLanguage["SettingsContainer"] != null
             ? SettingsManager.mapLanguage["SettingsContainer"]
@@ -82,12 +88,6 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
             : "",
         iconBrick: Icons.error,
         destination: ErrorPage(),
-        image: "error.png"),
-    BrickContainer(
-        colorBrick: Color.fromRGBO(249, 89, 51, 1),
-        textBrick: "test",
-        iconBrick: CommunityMaterialIcons.google_classroom,
-        destination: LessonListView(),
         image: "error.png"),
   ];
 
@@ -118,6 +118,12 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
         iconBrick: Icons.wrap_text,
         destination: MemosPage(),
         image: "notes.png"),
+    BrickContainer(
+        colorBrick: Color.fromRGBO(249, 89, 51, 1),
+        textBrick: SettingsManager.mapLanguage['Lesson'],
+        iconBrick: CommunityMaterialIcons.google_classroom,
+        destination: LessonListView(),
+        image: "knowmore.png"),
     BrickContainer(
         colorBrick: Color.fromRGBO(51, 171, 249, 1),
         textBrick: SettingsManager.mapLanguage["SettingsContainer"] != null
