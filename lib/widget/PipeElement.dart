@@ -39,12 +39,12 @@ class PipeElementState extends State<PipeElement> {
         this.widget.logicExerciseState.widget.exercise.inputPipe[this.widget.idMap] = "pipe-to-top";
         break;
       case "pipe-to-top":
+        this.widget.logicExerciseState.widget.exercise.inputPipe[this.widget.idMap] = "pipe-to-bottom";
+        break;
+      case "pipe-to-bottom":
         this.widget.logicExerciseState.widget.exercise.inputPipe[this.widget.idMap] = "pipe-to-right";
         break;
       case "pipe-to-right":
-        this.widget.logicExerciseState.widget.exercise.inputPipe[this.widget.idMap] = "pipe-to-bot";
-        break;
-      case "pipe-to-bot":
         this.widget.logicExerciseState.widget.exercise.inputPipe[this.widget.idMap] = "pipe-to-left";
         break;
       case "straight-horiz":

@@ -20,12 +20,22 @@ class ExerciseController {
       @required List<Widget> listCasePipeGame,
       @required LogicExerciseState logicExerciseState}) {
     exercise.inputPipe.forEach(
-      (key, value) => listCasePipeGame[int.parse(key)] = PipeElement(
-        idMap: key,
-        name: value,
-        logicExerciseState: logicExerciseState,
-      ),
+      (key, value) {
+        if(value == 'end' || value == 'start') {
+          listCasePipeGame[int.parse(key)] = defaultImage(image: value);
+        }
+        else
+        listCasePipeGame[int.parse(key)] = PipeElement(
+          idMap: key,
+          name: value,
+          logicExerciseState: logicExerciseState,
+        );
+      }
     );
+  }
+
+  static Image defaultImage({String image}) {
+    return Image.asset('assets/exercise/pipe/$image.png');
   }
 
   static ListTile exercise({@required String leading, Exercise exercise, BuildContext context, bool isOffLine}) {
