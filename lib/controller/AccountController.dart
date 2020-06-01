@@ -2,11 +2,16 @@ import 'dart:convert';
 
 import 'package:betsbi/model/Response.dart';
 import 'package:betsbi/model/psychologist.dart';
+import 'package:betsbi/model/tabContent.dart';
+import 'package:betsbi/model/user.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/AccountView.dart';
+import 'package:betsbi/widget/AccountInformation.dart';
+import 'package:betsbi/widget/AccountTrace.dart';
 import 'package:betsbi/widget/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class AccountController {
@@ -19,7 +24,8 @@ class AccountController {
           '/user',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
+        'Authorization':
+            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
       },
     );
     return _checkResponseAndGetUserInformationIfOk(response, context);
@@ -46,7 +52,8 @@ class AccountController {
           '/user',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
+        'Authorization':
+            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
       },
     );
     return _checkResponseAndGetPsyInformationIfOk(response, context);
@@ -75,7 +82,8 @@ class AccountController {
       SettingsManager.cfg.getString("apiUrl") + 'userProfile',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
+        'Authorization':
+            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
       },
       body: jsonEncode(<String, dynamic>{
         "birthdate": birthdate,
@@ -104,7 +112,8 @@ class AccountController {
       SettingsManager.cfg.getString("apiUrl") + 'psychologist',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
+        'Authorization':
+            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
       },
       body: jsonEncode(<String, dynamic>{
         "first_name": firstname,
@@ -138,5 +147,83 @@ class AccountController {
           .showFlushBar(context);
       return false;
     }
+  }
+
+  static TabContent getTabBarAndViewAccordingToUserTypeAndId({@required User user}) {
+    if (SettingsManager.applicationProperties.isPsy() == "false" &&
+        user.profileId !=
+            SettingsManager.applicationProperties.getCurrentId()) {
+      return new TabContent(tabText: [
+        Tab(
+          text: "Information",
+        )
+      ], tabWidget: [
+        AccountInformation(
+          profile: user,
+          isReadOnly: true,
+          isPsy: user.isPsy,
+        ),
+      ]);
+    }
+    if (SettingsManager.applicationProperties.isPsy() == "true" &&
+        user.profileId !=
+            SettingsManager.applicationProperties.getCurrentId()) {
+      return new TabContent(tabText: [
+        Tab(
+          text: "Information",
+        ),
+        Tab(
+          text: SettingsManager.mapLanguage["Trace"],
+        )
+      ], tabWidget: [
+        AccountInformation(
+          profile: user,
+          isReadOnly: true,
+          isPsy: user.isPsy,
+        ),
+        AccountTrace(
+          profile: user,
+        ),
+      ]);
+    }
+    if (SettingsManager.applicationProperties.isPsy() == "false" &&
+        user.profileId ==
+            SettingsManager.applicationProperties.getCurrentId()) {
+      return new TabContent(tabText: [
+        Tab(
+          text: "Information",
+        ),
+        Tab(
+          text: SettingsManager.mapLanguage["Trace"],
+        )
+      ], tabWidget: [
+        AccountInformation(
+          profile: user,
+          isReadOnly: false,
+          isPsy: user.isPsy,
+        ),
+        AccountTrace(
+          profile: user,
+        ),
+      ]);
+    }
+    if (SettingsManager.applicationProperties.isPsy() == "true" &&
+        user.isPsy == true)
+      return new TabContent(tabText: [
+        Tab(
+          text: "Information",
+        )
+      ], tabWidget: [
+        AccountInformation(
+          profile: user,
+          isReadOnly: SettingsManager.applicationProperties.getCurrentId() ==
+                  user.profileId
+              ? false
+              : true,
+          isPsy: user.isPsy,
+        ),
+      ]);
+
+    return null;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:betsbi/animation/CurvedAnimation.dart';
 import 'package:betsbi/controller/AmbianceController.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
@@ -7,6 +8,8 @@ import 'package:betsbi/view/AmbianceView.dart';
 import 'package:betsbi/view/RelaxingView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/DefaultCircleAvatar.dart';
+import 'package:betsbi/widget/DefaultTextTitle.dart';
 import 'package:betsbi/widget/MusicPlayerCardItem.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,9 +17,8 @@ import 'package:flutter/material.dart';
 
 class AmbianceState extends State<AmbiancePage>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
-  List<Widget> list;
-  Animation<double> _animation;
-  AnimationController _animationController;
+  List<Widget> list = new List<Widget>();
+  CustomCurvedAnimation curvedAnimation;
 
   @override
   void dispose() {
@@ -29,19 +31,16 @@ class AmbianceState extends State<AmbiancePage>
 
   @override
   void initState() {
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 260),
-    );
-
-    final curvedAnimation =
-        CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
-    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
+    curvedAnimation = CustomCurvedAnimation(
+        vsync: this,
+        duration: Duration(milliseconds: 260),
+        begin: 0,
+        end: 1,
+        curves: Curves.easeInOut);
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     if (HistoricalManager.historical.last.toString() != this.widget.toString())
       HistoricalManager.historical.add(this.widget);
-    list = new List<Widget>();
     list.add(
       MusicPlayerCardItem(
         artistName: "Monsieur TOEIC",
@@ -67,14 +66,6 @@ class AmbianceState extends State<AmbiancePage>
 
   @override
   Widget build(BuildContext context) {
-    print(HistoricalManager.historical);
-    final titleAmbiance = Text(
-      SettingsManager.mapLanguage["RelaxingMusic"] != null
-          ? SettingsManager.mapLanguage["RelaxingMusic"]
-          : "",
-      textAlign: TextAlign.center,
-      style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
-    );
     return Scaffold(
       appBar: AppSearchBar(),
       body: SingleChildScrollView(
@@ -84,28 +75,15 @@ class AmbianceState extends State<AmbiancePage>
             SizedBox(
               height: 45,
             ),
-            Container(
-              height: 200,
-              width: 200,
-              decoration: BoxDecoration(
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black,
-                    offset: Offset(1.0, 6.0),
-                    blurRadius: 40.0,
-                  ),
-                ],
-                color: Colors.white,
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage("assets/exercise.png"),
-                ),
-              ),
+            DefaultCircleAvatar(
+              imagePath: "assets/exercise.png",
             ),
             SizedBox(
               height: 45,
             ),
-            titleAmbiance,
+            DefaultTextTitle(
+              title: SettingsManager.mapLanguage["RelaxingMusic"],
+            ),
             ListView.builder(
               shrinkWrap: true,
               padding: const EdgeInsets.all(8),
@@ -119,14 +97,10 @@ class AmbianceState extends State<AmbiancePage>
       ),
       bottomNavigationBar: BottomNavigationBarFooter(null),
       floatingActionButton: FloatingActionBubble(
-        animation: _animation,
+        animation: curvedAnimation.animation,
         iconColor: Colors.blue,
         icon: AnimatedIcons.ellipsis_search,
-        onPress: () {
-          _animationController.isCompleted
-              ? _animationController.reverse()
-              : _animationController.forward();
-        },
+        onPress: () => curvedAnimation.startAnimation(),
         // Menu items
         items: <Bubble>[
           // Floating action menu item
@@ -136,27 +110,22 @@ class AmbianceState extends State<AmbiancePage>
             bubbleColor: Colors.blue,
             icon: Icons.list,
             titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-            onPress: () {
-              _animationController.reverse();
-            },
+            onPress: () => curvedAnimation.animationController.reverse(),
           ),
           // Floating action menu item
           Bubble(
-            title: SettingsManager.mapLanguage["RelaxingColor"],
-            iconColor: Colors.white,
-            bubbleColor: Colors.blue,
-            icon: Icons.spa,
-            titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-            onPress: () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RelaxingView(),
-                ),
-                (Route<dynamic> route) => false,
-              );
-            },
-          ),
+              title: SettingsManager.mapLanguage["RelaxingColor"],
+              iconColor: Colors.white,
+              bubbleColor: Colors.blue,
+              icon: Icons.spa,
+              titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+              onPress: () => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RelaxingView(),
+                    ),
+                    (Route<dynamic> route) => false,
+                  )),
         ],
       ),
     );
