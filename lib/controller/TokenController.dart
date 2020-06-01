@@ -1,25 +1,37 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:betsbi/model/Response.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/view/LoginView.dart';
 import 'package:betsbi/widget/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class TokenController {
   static Future<bool> checkTokenValidity(BuildContext context) async {
     await setTokenUserIdAndUserProfileIDFromStorageToSettingsManagerVariables();
     if (SettingsManager.applicationProperties.getCurrentToken() != null) {
-      final http.Response response = await http.get(
-        SettingsManager.cfg.getString("apiUrl") + 'auth/is-token-valid',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer ' +
-              SettingsManager.applicationProperties.getCurrentToken(),
-        },
-      );
-      return _checkResponseUserAndUpdateListIFOK(response, context);
+        final http.Response response = await http.get(
+          SettingsManager.cfg.getString("apiUrl") + 'auth/is-token-valid',
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' +
+                SettingsManager.applicationProperties.getCurrentToken(),
+          },
+        ).timeout(
+            Duration(seconds: 5),onTimeout: redirectToLoginPage(context));
+        return _checkResponseUserAndUpdateListIFOK(response, context);
     }
     return false;
+  }
+
+  static redirectToLoginPage(BuildContext context) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+      (Route<dynamic> route) => false,
+    );
   }
 
   static bool _checkResponseUserAndUpdateListIFOK(
