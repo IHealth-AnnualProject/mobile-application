@@ -14,13 +14,19 @@ class MainState extends State<MainPage> {
 
   _findRedirection() {
     return this._memoizer.runOnce(() async {
-      await SettingsManager.instanciateConfigurationAndLoadLanguage().then((r) async {
-        await TokenController.checkTokenValidity(context).then((tokenValid) =>
-        tokenValid
-            ? destination = LoginController.redirectionLogin()
-            : SettingsManager.applicationProperties.getFirstEntry() == 'true'
-            ? destination = IntroductionPage(destination: LoginPage(),)
-            : destination = LoginPage());
+      await SettingsManager.instanciateConfigurationAndLoadLanguage()
+          .then((r) async {
+        await TokenController.checkTokenValidity(context)
+            .then(
+              (tokenValid) => tokenValid
+                  ? destination = LoginController.redirectionLogin()
+                  : SettingsManager.applicationProperties.getFirstEntry() ==
+                          'true'
+                      ? destination = IntroductionPage(
+                          destination: LoginPage(),
+                        )
+                      : destination = LoginPage(),
+            onError: (e) => TokenController.redirectToLoginPage(context));
       });
       return destination;
     });
@@ -36,47 +42,47 @@ class MainState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: FutureBuilder(
-          future: _findRedirection(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 45,
-                  ),
-                  Text(
-                    "Welcome to BetsBi",
-                    style: TextStyle(
-                        color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
-                  ),
-                  SizedBox(
-                    height: 150,
-                    child: Image.asset(
-                      "assets/logo.png",
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 45,
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: CircularProgressIndicator(
-                          backgroundColor: Color.fromRGBO(104, 79, 37, 0.8)),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                ],
-              );
-            } else {
-              // data loaded:
-              return destination;
-            }
-          },
-        ));
+      future: _findRedirection(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: 45,
+              ),
+              Text(
+                "Welcome to BetsBi",
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
+              ),
+              SizedBox(
+                height: 150,
+                child: Image.asset(
+                  "assets/logo.png",
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                height: 45,
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: CircularProgressIndicator(
+                      backgroundColor: Color.fromRGBO(104, 79, 37, 0.8)),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          );
+        } else {
+          // data loaded:
+          return destination;
+        }
+      },
+    ));
   }
 }

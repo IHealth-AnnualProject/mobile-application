@@ -2,14 +2,16 @@ import 'package:async/async.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/model/psychologist.dart';
+import 'package:betsbi/model/tabContent.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/view/AccountView.dart';
 import 'package:betsbi/widget/AccountInformation.dart';
 import 'package:betsbi/widget/AccountTrace.dart';
-import 'package:betsbi/widget/AppSearchBar.dart';
+import 'package:betsbi/widget/AppBarWithTabs.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
   bool isReadOnly = false;
   User profile;
   final AsyncMemoizer _memoizer = AsyncMemoizer();
+  TabContent actualContentPage;
 
   @override
   void dispose() {
@@ -56,177 +59,112 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final titleAccount = Text(
-      profile.username + " lv.1",
-      textAlign: TextAlign.center,
-      style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
-    );
-    return Scaffold(
-      appBar: AppSearchBar(),
-      body: FutureBuilder(
+    return FutureBuilder(
         future: findUserInformation(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Scaffold(
+              appBar: AppSearchBar(),
+              body: Center(child: CircularProgressIndicator()),
+              bottomNavigationBar: BottomNavigationBarFooter(1),
+            );
           } else {
-            return SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  accountButton(),
-                  SizedBox(
-                    height: 45,
-                  ),
-                  Container(
-                    height: 200,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.black,
-                          offset: Offset(1.0, 6.0),
-                          blurRadius: 40.0,
-                        ),
-                      ],
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage("assets/user.png"),
-                      ),
+            actualContentPage = getTab();
+            return DefaultTabController(
+              length: actualContentPage.tabText.length,
+              child: Scaffold(
+                appBar: AppBarWithTabs(
+                  tabText: actualContentPage.tabText,
+                ),
+                body: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: TabBarView(children: actualContentPage.tabWidget),
                     ),
-                  ),
-                  SizedBox(
-                    height: 45,
-                  ),
-                  titleAccount,
-                  SizedBox(
-                    height: 45,
-                  ),
-                  differentView
-                      ? AccountInformation(
-                          profileID: profile.profileId,
-                          isReadOnly: isReadOnly,
-                          isPsy: this.widget.isPsy,
-                        )
-                      : AccountTrace(
-                          profileID: profile.profileId,
-                        ),
-                ],
+                  ],
+                ),
+                bottomNavigationBar: BottomNavigationBarFooter(1),
               ),
             );
           }
-        },
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: BottomNavigationBarFooter(1),
-    );
+        });
   }
 
-  RaisedButton changeStateButton({int id, String buttonContent, bool colorOn}) {
-    return RaisedButton(
-      elevation: 8,
-      color: colorOn ? Colors.teal[700] : Colors.teal,
-      shape: RoundedRectangleBorder(
-          side: BorderSide(
-        color: Color.fromRGBO(228, 228, 228, 1),
-      )),
-      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-      onPressed: () {
-        switch (id) {
-          case 1:
-            setState(() {
-              differentView = true;
-            });
-            break;
-          case 2:
-            setState(() {
-              differentView = false;
-            });
-            break;
-        }
-      },
-      child: Text(
-        buttonContent,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            color: Color.fromRGBO(255, 255, 255, 100),
-            fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-
-  Row accountButton() {
-    Row row;
+  TabContent getTab() {
     if (SettingsManager.applicationProperties.isPsy() == "false" &&
         this.widget.userId !=
             SettingsManager.applicationProperties.getCurrentId()) {
-      isReadOnly = true;
-      row = Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            width: MediaQuery.of(context).size.width,
-            child: changeStateButton(
-                id: 1, buttonContent: "Information", colorOn: differentView),
-          ),
-        ],
-      );
+      return new TabContent(tabText: [
+        Tab(
+          text: "Information",
+        )
+      ], tabWidget: [
+        AccountInformation(
+          profile: profile,
+          isReadOnly: true,
+          isPsy: this.widget.isPsy,
+        ),
+      ]);
     }
     if (SettingsManager.applicationProperties.isPsy() == "true" &&
         this.widget.userId !=
             SettingsManager.applicationProperties.getCurrentId()) {
-      isReadOnly = true;
-      row = Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-              width: MediaQuery.of(context).size.width / 2,
-              child: changeStateButton(
-                  id: 1, buttonContent: "Information", colorOn: differentView)),
-          Container(
-              width: MediaQuery.of(context).size.width / 2,
-              child: changeStateButton(
-                  id: 2,
-                  buttonContent: SettingsManager.mapLanguage["Trace"],
-                  colorOn: !differentView)),
-        ],
-      );
+      return new TabContent(tabText: [
+        Tab(
+          text: "Information",
+        ),
+        Tab(
+          text: SettingsManager.mapLanguage["Trace"],
+        )
+      ], tabWidget: [
+        AccountInformation(
+          profile: profile,
+          isReadOnly: true,
+          isPsy: this.widget.isPsy,
+        ),
+        AccountTrace(
+          profile: profile,
+        ),
+      ]);
     }
     if (SettingsManager.applicationProperties.isPsy() == "false" &&
         this.widget.userId ==
             SettingsManager.applicationProperties.getCurrentId()) {
-      isReadOnly = false;
-      row = Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            width: MediaQuery.of(context).size.width / 2,
-            child: changeStateButton(
-                id: 1, buttonContent: "Information", colorOn: differentView),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width / 2,
-            child: changeStateButton(
-                id: 2,
-                buttonContent: SettingsManager.mapLanguage["Trace"],
-                colorOn: !differentView),
-          ),
-        ],
-      );
+      return new TabContent(tabText: [
+        Tab(
+          text: "Information",
+        ),
+        Tab(
+          text: SettingsManager.mapLanguage["Trace"],
+        )
+      ], tabWidget: [
+        AccountInformation(
+          profile: profile,
+          isReadOnly: false,
+          isPsy: this.widget.isPsy,
+        ),
+        AccountTrace(
+          profile: profile,
+        ),
+      ]);
     }
     if (SettingsManager.applicationProperties.isPsy() == "true" &&
-        this.widget.isPsy == true) {
-      SettingsManager.applicationProperties.getCurrentId() == this.widget.userId
-          ? isReadOnly = false
-          : isReadOnly = true;
-      row = Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-              width: MediaQuery.of(context).size.width / 1,
-              child: changeStateButton(
-                  id: 1, buttonContent: "Information", colorOn: differentView)),
-        ],
-      );
-    }
-    return row;
+        this.widget.isPsy == true)
+      return new TabContent(tabText: [
+        Tab(
+          text: "Information",
+        )
+      ], tabWidget: [
+        AccountInformation(
+          profile: profile,
+          isReadOnly: SettingsManager.applicationProperties.getCurrentId() ==
+                  this.widget.userId
+              ? false
+              : true,
+          isPsy: this.widget.isPsy,
+        ),
+      ]);
+
+    return null;
   }
 }

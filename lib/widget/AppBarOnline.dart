@@ -11,6 +11,7 @@ class AppBarOnline extends State<AppSearchBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: true,
       backgroundColor: Color.fromRGBO(0, 116, 113, 1),
       title: Text(SettingsManager.mapLanguage["SearchContainer"]),
       leading: HistoricalManager.historical.length >= 2

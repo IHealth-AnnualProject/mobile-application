@@ -6,26 +6,15 @@ import 'package:flutter/material.dart';
 
 import 'SearchApp.dart';
 
-class AppBarWithTabs extends StatefulWidget with PreferredSizeWidget {
-  final int length;
-  final List<String> tabText;
-  final
+class AppBarWithTabs extends StatelessWidget with PreferredSizeWidget {
+  final List<Tab> tabText;
 
-  @override
-  State<StatefulWidget> createState() {
-    return AppBarOnlineWithTabs();
-  }
+  AppBarWithTabs({this.tabText});
 
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
-
-}
-
-
-class AppBarOnlineWithTabs extends State<AppBarWithTabs> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: true,
       backgroundColor: Color.fromRGBO(0, 116, 113, 1),
       title: Text(SettingsManager.mapLanguage["SearchContainer"]),
       leading: HistoricalManager.historical.length >= 2
@@ -50,10 +39,7 @@ class AppBarOnlineWithTabs extends State<AppBarWithTabs> {
               visible: false,
             ),
       bottom: TabBar(
-        tabs: [
-          Tab(text: "Information"),
-          Tab(icon: SettingsManager.mapLanguage["Trace"]),
-        ],
+        tabs: this.tabText,
       ),
       actions: <Widget>[
         IconButton(
@@ -80,4 +66,8 @@ class AppBarOnlineWithTabs extends State<AppBarWithTabs> {
       ],
     );
   }
+
+  @override
+  Size get preferredSize =>
+      Size.fromHeight(kToolbarHeight + kBottomNavigationBarHeight);
 }

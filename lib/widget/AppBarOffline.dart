@@ -10,6 +10,7 @@ class AppBarOffline extends State<AppSearchBar>{
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: true,
       title: Text(SettingsManager.mapLanguage["OfflineMode"]),
       backgroundColor: Color.fromRGBO(0, 116, 113, 1),
       leading: IconButton(

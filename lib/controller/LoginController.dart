@@ -15,6 +15,7 @@ class LoginController {
 
   static Widget redirectionLogin({bool isPsy = false}) {
     SocketManager.connectSocket();
+
     if (SettingsManager.applicationProperties.isPsy().toLowerCase() ==
         'false') {
       if (SettingsManager.applicationProperties.getFeelingsDate().isNotEmpty) {

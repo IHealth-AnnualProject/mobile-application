@@ -10,18 +10,19 @@ import 'package:http/http.dart' as http;
 
 class TokenController {
   static Future<bool> checkTokenValidity(BuildContext context) async {
+    bool truc = false;
     await setTokenUserIdAndUserProfileIDFromStorageToSettingsManagerVariables();
+    http.Response response;
     if (SettingsManager.applicationProperties.getCurrentToken() != null) {
-        final http.Response response = await http.get(
+        response = await http.get(
           SettingsManager.cfg.getString("apiUrl") + 'auth/is-token-valid',
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ' +
                 SettingsManager.applicationProperties.getCurrentToken(),
           },
-        ).timeout(
-            Duration(seconds: 5),onTimeout: redirectToLoginPage(context));
-        return _checkResponseUserAndUpdateListIFOK(response, context);
+        );
+      return _checkResponseUserAndUpdateListIFOK(response, context);
     }
     return false;
   }
@@ -36,7 +37,7 @@ class TokenController {
 
   static bool _checkResponseUserAndUpdateListIFOK(
       http.Response response, BuildContext context) {
-    if (response.statusCode >= 100 && response.statusCode < 400) {
+    if (response != null && response.statusCode >= 100 && response.statusCode < 400) {
       return true;
     } else {
       FlushBarMessage.errorMessage(
