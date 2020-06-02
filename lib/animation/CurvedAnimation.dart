@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomCurvedAnimation {
@@ -6,7 +5,7 @@ class CustomCurvedAnimation {
   AnimationController animationController;
   CurvedAnimation curvedAnimation;
 
-  CustomCurvedAnimation({
+  CustomCurvedAnimation.withCurve({
     TickerProvider vsync,
     Duration duration,
     Curve curves,
@@ -18,9 +17,23 @@ class CustomCurvedAnimation {
       duration: duration,
     );
     this.curvedAnimation = CurvedAnimation(
-        curve: Curves.easeInOut, parent: this.animationController);
+        curve: curves, parent: this.animationController);
     this.animation =
         Tween<double>(begin: begin, end: end).animate(this.curvedAnimation);
+  }
+
+  CustomCurvedAnimation.withoutCurve({
+    TickerProvider vsync,
+    Duration duration,
+    double begin,
+    double end,
+  }) {
+    this.animationController = AnimationController(
+      vsync: vsync,
+      duration: duration,
+    );
+    this.animation =
+        Tween<double>(begin: begin, end: end).animate(this.animationController);
   }
 
   void startAnimation()
@@ -28,5 +41,9 @@ class CustomCurvedAnimation {
     this.animationController.isCompleted
         ? this.animationController.reverse()
         : this.animationController.forward();
+  }
+
+  void addListenerOnAnimation(void Function(AnimationStatus) function){
+    this.animation.addStatusListener(function);
   }
 }

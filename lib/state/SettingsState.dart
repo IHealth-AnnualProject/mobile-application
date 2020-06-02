@@ -5,6 +5,8 @@ import 'package:betsbi/view/SettingsView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/DefaultCircleAvatar.dart';
+import 'package:betsbi/widget/SubmitButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -26,8 +28,7 @@ class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    HistoricalManager.historical.add(this.widget);
-
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
   @override
@@ -46,48 +47,6 @@ class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
       isSelected = [true, false];
     else
       isSelected = [false, true];
-    RaisedButton disconnectButton() {
-      return RaisedButton(
-        elevation: 8,
-        shape: StadiumBorder(),
-        color: Color.fromRGBO(255, 195, 0, 1),
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          SettingsController.disconnect(context);
-        },
-        child: Text(
-          SettingsManager.mapLanguage["Logout"] != null
-              ? SettingsManager.mapLanguage["Logout"]
-              : "",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: Color.fromRGBO(255, 255, 255, 100),
-              fontWeight: FontWeight.bold),
-        ),
-      );
-    }
-
-    RaisedButton reloadIntroductionPage() {
-      return RaisedButton(
-        elevation: 8,
-        shape: StadiumBorder(),
-        color: Color.fromRGBO(255, 195, 0, 1),
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          SettingsController.reloadIntroductionPage(context);
-        },
-        child: Text(
-          SettingsManager.mapLanguage["ReloadIntroduction"] != null
-              ? SettingsManager.mapLanguage["ReloadIntroduction"]
-              : "",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: Color.fromRGBO(255, 255, 255, 100),
-              fontWeight: FontWeight.bold),
-        ),
-      );
-    }
-
     final statusPushNotification = ToggleButtons(
       color: Colors.white,
       fillColor: Colors.blue,
@@ -105,8 +64,8 @@ class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
       onPressed: (int index) {
         setState(() {
           for (int buttonIndex = 0;
-          buttonIndex < isSelected.length;
-          buttonIndex++) {
+              buttonIndex < isSelected.length;
+              buttonIndex++) {
             if (buttonIndex == index) {
               isSelected[buttonIndex] = true;
             } else {
@@ -122,11 +81,11 @@ class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
       isSelected: isSelected,
     );
     final language = InkWell(
-      onTap: () {
-        _setLanguage();
-      },
+      onTap: () => _setLanguage(),
       child: new Text(
-        SettingsManager.applicationProperties.getLanguage() != null ? SettingsManager.applicationProperties.getLanguage() : "",
+        SettingsManager.applicationProperties.getLanguage() != null
+            ? SettingsManager.applicationProperties.getLanguage()
+            : "",
         textAlign: TextAlign.center,
         style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
       ),
@@ -139,23 +98,8 @@ class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
           SizedBox(
             height: 45,
           ),
-          Container(
-            height: 200,
-            width: 200,
-            decoration: BoxDecoration(
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: Colors.black,
-                  offset: Offset(1.0, 6.0),
-                  blurRadius: 40.0,
-                ),
-              ],
-              color: Colors.white,
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: AssetImage("assets/settings.png"),
-              ),
-            ),
+          DefaultCircleAvatar(
+            imagePath: "assets/settings.png",
           ),
           SizedBox(
             height: 45,
@@ -195,12 +139,20 @@ class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
           SizedBox(
             height: 45,
           ),
-          reloadIntroductionPage(),
+          SubmitButton(
+            onPressedFunction: () =>
+                SettingsController.reloadIntroductionPage(context),
+            content: SettingsManager.mapLanguage["ReloadIntroduction"],
+          ),
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                child: disconnectButton(),
+                child: SubmitButton(
+                  onPressedFunction: () =>
+                      SettingsController.disconnect(context),
+                  content: SettingsManager.mapLanguage["Logout"],
+                ),
                 width: 350,
               ),
             ),
@@ -210,9 +162,6 @@ class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
           ),
         ],
       ),
-      // Center is a layout widget. It takes a single child and positions it
-      // in the middle of the parent.
-      // This trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: BottomNavigationBarFooter(null),
     );
   }

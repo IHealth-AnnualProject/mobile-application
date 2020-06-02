@@ -8,6 +8,8 @@ import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/MemosView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/DefaultCircleAvatar.dart';
+import 'package:betsbi/widget/DefaultTextTitle.dart';
 import 'package:betsbi/widget/MemosWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,26 +24,25 @@ class MemosViewState extends State<MemosPage>
   final titleController = TextEditingController();
   TextEditingController dueDateController = TextEditingController();
   bool canCreate = false;
-  AsyncMemoizer _memoizer = AsyncMemoizer();
+  AsyncMemoizer _memorizer = AsyncMemoizer();
   MemosWidget memosWidget;
-  Widget currentPage;
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-    _memoizer = AsyncMemoizer();
+    _memorizer = AsyncMemoizer();
   }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
   getAllMemos() {
-    return this._memoizer.runOnce(() async {
+    return this._memorizer.runOnce(() async {
       list = await MemosController.getALlMemos(this);
       return list;
     });
@@ -66,13 +67,6 @@ class MemosViewState extends State<MemosPage>
 
   @override
   Widget build(BuildContext context) {
-    final titleMemos = Text(
-      SettingsManager.mapLanguage["MemosList"] != null
-          ? SettingsManager.mapLanguage["MemosList"]
-          : "",
-      textAlign: TextAlign.center,
-      style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
-    );
     return Scaffold(
       appBar: AppSearchBar(),
       body: SingleChildScrollView(
@@ -82,32 +76,15 @@ class MemosViewState extends State<MemosPage>
             SizedBox(
               height: 45,
             ),
-            Container(
-              height: 200,
-              width: 200,
-              decoration: BoxDecoration(
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black,
-                    offset: Offset(1.0, 6.0),
-                    blurRadius: 40.0,
-                  ),
-                ],
-                color: Colors.white,
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage("assets/notes.png"),
-                ),
-              ),
-            ),
+            DefaultCircleAvatar(imagePath: "assets/notes.png",),
             SizedBox(
               height: 45,
             ),
-            titleMemos,
+            DefaultTextTitle(title: SettingsManager.mapLanguage["MemosList"] ,),
             FutureBuilder(
                 future: getAllMemos(),
                 builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
+                  if (!snapshot.hasData) {
                     return CircularProgressIndicator();
                   } else {
                     return Column(

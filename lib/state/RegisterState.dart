@@ -1,10 +1,9 @@
 import 'package:betsbi/controller/CheckController.dart';
 import 'package:betsbi/controller/RegisterController.dart';
 import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/view/FeelingsView.dart';
 import 'package:betsbi/view/RegisterView.dart';
+import 'package:betsbi/widget/SubmitButton.dart';
 import 'package:betsbi/widget/TextFormFieldCustomBetsBi.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -52,12 +51,8 @@ class RegisterState extends State<RegisterPage> {
       isSelected: _isSelected,
     );
     return Scaffold(
-        body: Center(
-      // Center is a layout widget. It takes a single child and positions it
-      // in the middle of the parent.
-      child: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -85,7 +80,8 @@ class RegisterState extends State<RegisterPage> {
                             obscureText: false,
                             textAlign: TextAlign.left,
                             controller: userNameController,
-                            validator: (value) => CheckController.checkField(value),
+                            validator: (value) =>
+                                CheckController.checkField(value),
                             labelText:
                                 SettingsManager.mapLanguage["UsernameText"],
                             filled: true,
@@ -120,7 +116,8 @@ class RegisterState extends State<RegisterPage> {
                             obscureText: true,
                             textAlign: TextAlign.left,
                             controller: passwordController,
-                            validator: (value) => CheckController.checkField(value),
+                            validator: (value) =>
+                                CheckController.checkField(value),
                             labelText:
                                 SettingsManager.mapLanguage["PasswordText"],
                             filled: true,
@@ -168,15 +165,19 @@ class RegisterState extends State<RegisterPage> {
                         height: 20,
                       ),
                       Container(
-                        child: finalButton(
-                            SettingsManager.mapLanguage["DoneButton"] != null
-                                ? SettingsManager.mapLanguage["DoneButton"]
-                                : "",
-                            SettingsManager.mapLanguage["RegisterSent"] != null
-                                ? SettingsManager.mapLanguage["RegisterSent"]
-                                : "",
-                            FeelingsPage()),
                         width: 350,
+                        child: SubmitButton(
+                          content: SettingsManager.mapLanguage["DoneButton"],
+                          onPressedFunction: () async {
+                            if (this._formKey.currentState.validate()) {
+                              await RegisterController.register(
+                                  userNameController.text,
+                                  passwordController.text,
+                                  _isSelected[1],
+                                  context);
+                            }
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 20,
@@ -188,40 +189,7 @@ class RegisterState extends State<RegisterPage> {
             ),
           ],
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    ));
-  }
-
-  RaisedButton finalButton(
-      String title, String content, StatefulWidget destination) {
-    return RaisedButton(
-      elevation: 8,
-      shape: StadiumBorder(),
-      color: Color.fromRGBO(255, 195, 0, 1),
-      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-      onPressed: () async {
-        if (this._formKey.currentState.validate()) {
-          await RegisterController.register(userNameController.text,
-              passwordController.text, _isSelected[1], context);
-        }
-      },
-      child: Text(
-        title,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            color: Color.fromRGBO(255, 255, 255, 100),
-            fontWeight: FontWeight.bold),
       ),
-    );
-  }
-
-  Flushbar finalFlushBar(Icon icon, String message) {
-    return Flushbar(
-      icon: icon,
-      flushbarPosition: FlushbarPosition.TOP,
-      flushbarStyle: FlushbarStyle.GROUNDED,
-      message: message,
-      duration: Duration(seconds: 1),
     );
   }
 }

@@ -6,7 +6,10 @@ import 'package:betsbi/view/QuestCreateView.dart';
 import 'package:betsbi/view/QuestView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/DefaultCircleAvatar.dart';
+import 'package:betsbi/widget/DefaultTextTitle.dart';
 import 'package:betsbi/widget/QuestWidget.dart';
+import 'package:betsbi/widget/SubmitButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +26,7 @@ class QuestState extends State<QuestPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
   @override
@@ -37,13 +40,6 @@ class QuestState extends State<QuestPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final titleQuest = Text(
-      SettingsManager.mapLanguage["QuestToday"] != null
-          ? SettingsManager.mapLanguage["QuestToday"]
-          : "",
-      textAlign: TextAlign.center,
-      style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
-    );
     return Scaffold(
       appBar: AppSearchBar(),
       body: SingleChildScrollView(
@@ -57,28 +53,15 @@ class QuestState extends State<QuestPage> with WidgetsBindingObserver {
             SizedBox(
               height: 45,
             ),
-            Container(
-              height: 200,
-              width: 200,
-              decoration: BoxDecoration(
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black,
-                    offset: Offset(1.0, 6.0),
-                    blurRadius: 40.0,
-                  ),
-                ],
-                color: Colors.white,
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage("assets/quest.png"),
-                ),
-              ),
+            DefaultCircleAvatar(
+              imagePath: "assets/quest.png",
             ),
             SizedBox(
               height: 45,
             ),
-            titleQuest,
+            DefaultTextTitle(
+              title: SettingsManager.mapLanguage["QuestToday"],
+            ),
             SizedBox(
               height: 45,
             ),
@@ -90,29 +73,12 @@ class QuestState extends State<QuestPage> with WidgetsBindingObserver {
             SizedBox(
               height: 45,
             ),
-            RaisedButton(
-              elevation: 8,
-              color: Color.fromRGBO(255, 195, 0, 1),
-              shape: StadiumBorder(
-                  side: BorderSide(
-                    color: Color.fromRGBO(228, 228, 228, 1),
-                  )),
-              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-              onPressed: () {
-                setState(() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => QuestCreatePage()),
-                  );
-                });
-              },
-              child: Text(
-                SettingsManager.mapLanguage["CreateQuest"],
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Color.fromRGBO(255, 255, 255, 100),
-                    fontWeight: FontWeight.bold),
+            SubmitButton(
+              onPressedFunction: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => QuestCreatePage()),
               ),
+              content: SettingsManager.mapLanguage["CreateQuest"],
             ),
             SizedBox(
               height: 45,
@@ -126,7 +92,7 @@ class QuestState extends State<QuestPage> with WidgetsBindingObserver {
               ),
             ),
             Divider(
-              color: Colors.cyan,
+              color: Color.fromRGBO(0, 157, 153, 1),
               thickness: 2,
               height: 10,
             ),

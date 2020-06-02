@@ -6,7 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoExerciseState extends State<ExerciseView> with WidgetsBindingObserver {
+class VideoExerciseState extends State<ExerciseView>
+    with WidgetsBindingObserver {
   VideoPlayerController _controller;
 
   @override
@@ -21,7 +22,7 @@ class VideoExerciseState extends State<ExerciseView> with WidgetsBindingObserver
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
     super.initState();
     _controller = VideoPlayerController.network(
         'http://techslides.com/demos/sample-videos/small.mp4')
@@ -38,7 +39,6 @@ class VideoExerciseState extends State<ExerciseView> with WidgetsBindingObserver
     _controller.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +48,4 @@ class VideoExerciseState extends State<ExerciseView> with WidgetsBindingObserver
       ),
     );
   }
-
-
 }

@@ -6,6 +6,7 @@ import 'package:betsbi/view/HomeView.dart';
 import 'package:betsbi/view/QuestCreateView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/DefaultTextTitle.dart';
 import 'package:betsbi/widget/FinalButton.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/widget/TextFormFieldCustomBetsBi.dart';
@@ -28,7 +29,7 @@ class QuestCreateState extends State<QuestCreatePage>
     _currentDifficulty = _dropDownMenuItems[0].value;
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
   @override
@@ -48,24 +49,6 @@ class QuestCreateState extends State<QuestCreatePage>
 
   @override
   Widget build(BuildContext context) {
-    //Locale myLocale = Localizations.localeOf(context);
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-
-    final questTitle = Text(
-      SettingsManager.mapLanguage["QuestCreateTitle"] != null
-          ? SettingsManager.mapLanguage["QuestCreateTitle"]
-          : "",
-      textAlign: TextAlign.center,
-      style: TextStyle(
-          color: Color.fromRGBO(0, 157, 153, 1),
-          fontWeight: FontWeight.bold,
-          fontSize: 40),
-    );
     return Scaffold(
       appBar: AppSearchBar(),
       body: Center(
@@ -73,117 +56,108 @@ class QuestCreateState extends State<QuestCreatePage>
         // in the middle of the parent.
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //crossAxisAlignment: CrossAxisAlignment.center,
-            //mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 30,
-                  ),
-                  questTitle,
-                  SizedBox(
-                    height: 45,
-                  ),
-                  Form(
-                    key: _formKey,
-                    child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: 30,
+              ),
+              DefaultTextTitle(
+                title: SettingsManager.mapLanguage["QuestCreateTitle"],
+              ),
+              SizedBox(
+                height: 45,
+              ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      width: 350.0,
+                      child: TextFormFieldCustomBetsBi(
+                        obscureText: false,
+                        textAlign: TextAlign.left,
+                        controller: titleController,
+                        validator: (value) => CheckController.checkField(value),
+                        labelText: SettingsManager.mapLanguage["Title"],
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: SettingsManager.mapLanguage["Title"],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      width: 350.0,
+                      child: TextFormFieldCustomBetsBi(
+                        obscureText: false,
+                        textAlign: TextAlign.left,
+                        maxLines: 15,
+                        controller: descriptionController,
+                        validator: (value) => CheckController.checkField(value),
+                        labelText: "Description",
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: "Description",
+                      ),
+                    ),
+                    SizedBox(
+                      height: 45,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        Text(
+                          SettingsManager.mapLanguage["ChooseDifficulty"],
+                          style: TextStyle(
+                              color: Color.fromRGBO(0, 157, 153, 1),
+                              fontSize: 17),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
                         Container(
-                          width: 350.0,
-                          child: TextFormFieldCustomBetsBi(
-                            obscureText: false,
-                            textAlign: TextAlign.left,
-                            controller: titleController,
-                            validator: (value) =>
-                                CheckController.checkField(value),
-                            labelText: SettingsManager.mapLanguage["Title"],
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: SettingsManager.mapLanguage["Title"],
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15.0),
+                            border: Border.all(
+                                color: Colors.red,
+                                style: BorderStyle.solid,
+                                width: 0.80),
                           ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          width: 350.0,
-                          child: TextFormFieldCustomBetsBi(
-                            obscureText: false,
-                            textAlign: TextAlign.left,
-                            maxLines: 15,
-                            controller: descriptionController,
-                            validator: (value) =>
-                                CheckController.checkField(value),
-                            labelText: "Description",
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: "Description",
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              value: _currentDifficulty,
+                              items: _dropDownMenuItems,
+                              onChanged: changedDropDownItem,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 45,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              SettingsManager.mapLanguage["ChooseDifficulty"],
-                              style: TextStyle(
-                                  color: Color.fromRGBO(0, 157, 153, 1),
-                                  fontSize: 17),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15.0),
-                                border: Border.all(
-                                    color: Colors.red,
-                                    style: BorderStyle.solid,
-                                    width: 0.80),
-                              ),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                  value: _currentDifficulty,
-                                  items: _dropDownMenuItems,
-                                  onChanged: changedDropDownItem,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 45,
-                        ),
-                        Container(
-                          width: 350.0,
-                          child: FinalButton(
-                              content:
-                                  SettingsManager.mapLanguage["Submit"] != null
-                                      ? SettingsManager.mapLanguage["Submit"]
-                                      : "",
-                              destination: HomePage(),
-                              formKey: _formKey,
-                              barContent:
-                                  SettingsManager.mapLanguage["ErrorSent"] !=
-                                          null
-                                      ? SettingsManager.mapLanguage["ErrorSent"]
-                                      : ""),
-                        ),
-                        SizedBox(
-                          height: 20,
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ), // This trailing comma makes auto-formatting nicer for build methods.
+                    SizedBox(
+                      height: 45,
+                    ),
+                    Container(
+                      width: 350.0,
+                      child: FinalButton(
+                          content: SettingsManager.mapLanguage["Submit"] != null
+                              ? SettingsManager.mapLanguage["Submit"]
+                              : "",
+                          destination: HomePage(),
+                          formKey: _formKey,
+                          barContent:
+                              SettingsManager.mapLanguage["ErrorSent"] != null
+                                  ? SettingsManager.mapLanguage["ErrorSent"]
+                                  : ""),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

@@ -31,7 +31,7 @@ class AmbianceState extends State<AmbiancePage>
 
   @override
   void initState() {
-    curvedAnimation = CustomCurvedAnimation(
+    curvedAnimation = CustomCurvedAnimation.withCurve(
         vsync: this,
         duration: Duration(milliseconds: 260),
         begin: 0,

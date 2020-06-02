@@ -13,7 +13,7 @@ class MathExerciseState extends State<ExerciseView> {
   @override
   void initState() {
     convertAnswersToListWidget();
-    HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
     super.initState();
   }
 

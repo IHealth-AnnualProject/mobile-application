@@ -7,6 +7,8 @@ import 'package:betsbi/state/IMemoViewState.dart';
 import 'package:betsbi/view/MemosView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/DefaultCircleAvatar.dart';
+import 'package:betsbi/widget/DefaultTextTitle.dart';
 import 'package:betsbi/widget/MemosWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,25 +20,24 @@ class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController dueDateController = TextEditingController();
   bool canCreate = false;
-  AsyncMemoizer _memoizer = AsyncMemoizer();
+  AsyncMemoizer _memorizer = AsyncMemoizer();
   MemosWidget memosWidget;
-  Widget currentPage;
 
   @override
   void dispose() {
     super.dispose();
-    _memoizer = AsyncMemoizer();
+    _memorizer = AsyncMemoizer();
   }
 
   @override
   void initState() {
     super.initState();
-    HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
   @override
   getAllMemos() {
-    return this._memoizer.runOnce(() async {
+    return this._memorizer.runOnce(() async {
       list = await MemosController.getALlMemos(this);
       return list;
     });
@@ -53,85 +54,66 @@ class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
 
   @override
   Widget build(BuildContext context) {
-    final titleMemos = Text(
-      SettingsManager.mapLanguage["MemosList"] != null
-          ? SettingsManager.mapLanguage["MemosList"]
-          : "",
-      textAlign: TextAlign.center,
-      style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
-    );
     return Scaffold(
-        appBar: AppSearchBar(
-          isOffline: true,
+      appBar: AppSearchBar(
+        isOffline: true,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              height: 45,
+            ),
+            DefaultCircleAvatar(
+              imagePath: "assets/notes.png",
+            ),
+            SizedBox(
+              height: 45,
+            ),
+            DefaultTextTitle(
+              title: SettingsManager.mapLanguage["MemosList"],
+            ),
+            FutureBuilder(
+              future: getAllMemos(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return CircularProgressIndicator();
+                } else {
+                  return Column(
+                    children: <Widget>[
+                      ListView.builder(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.all(8),
+                        itemCount: list.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            child: list[index],
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                }
+              },
+            ),
+          ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
-                height: 45,
-              ),
-              Container(
-                height: 200,
-                width: 200,
-                decoration: BoxDecoration(
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(1.0, 6.0),
-                      blurRadius: 40.0,
-                    ),
-                  ],
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: AssetImage("assets/notes.png"),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 45,
-              ),
-              titleMemos,
-              FutureBuilder(
-                  future: getAllMemos(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    } else {
-                      return Column(
-                        children: <Widget>[
-                          ListView.builder(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.all(8),
-                            itemCount: list.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                child: list[index],
-                              );
-                            },
-                          ),
-                        ],
-                      );
-                    }
-                  }),
-            ],
-          ),
-        ), // T
-        floatingActionButton: FloatingActionButton.extended(
-          label: Text(SettingsManager.mapLanguage["CreateMemos"]),
-          backgroundColor: Color.fromRGBO(0, 157, 153, 1),
-          icon: Icon(Icons.add),
-          onPressed: () => showAlertDialog(context),
-        ), // his trailing comma makes auto-formatting nicer for build methods.
-        bottomNavigationBar: BottomNavigationBarFooter(
-          1,
-          isOffLine: true,
-        ));
+      ), // T
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text(SettingsManager.mapLanguage["CreateMemos"]),
+        backgroundColor: Color.fromRGBO(0, 157, 153, 1),
+        icon: Icon(Icons.add),
+        onPressed: () => showAlertDialog(context),
+      ),
+      bottomNavigationBar: BottomNavigationBarFooter(
+        1,
+        isOffLine: true,
+      ),
+    );
   }
 
   showAlertDialog(BuildContext context) {
-    // set up the button
     Widget okButton = FlatButton(
       child: Text(SettingsManager.mapLanguage["Cancel"]),
       onPressed: () {
