@@ -16,10 +16,9 @@ import 'package:socket_io_client/socket_io_client.dart';
 
 class ChatListContactPageState extends State<ChatListContactPage>
     with WidgetsBindingObserver {
-  List<Widget> list;
   List<Contact> contacts;
   Socket socket;
-  AsyncMemoizer _memoizer = AsyncMemoizer();
+  AsyncMemoizer _memorizer = AsyncMemoizer();
 
   _onNewMessage(dynamic data) async {
     Message receivedMessage = Message.fromJson(data);
@@ -37,18 +36,18 @@ class ChatListContactPageState extends State<ChatListContactPage>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-    this._memoizer = AsyncMemoizer();
+    this._memorizer = AsyncMemoizer();
   }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
-  findUsers() {
-    return this._memoizer.runOnce(() async {
+  findContacts() {
+    return this._memorizer.runOnce(() async {
       contacts = new List<Contact>();
       socket =
           io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
@@ -75,12 +74,11 @@ class ChatListContactPageState extends State<ChatListContactPage>
     return Scaffold(
       appBar: AppSearchBar(),
       body: FutureBuilder(
-        future: findUsers(),
+        future: findContacts(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (!snapshot.hasData) {
             return CircularProgressIndicator();
           } else {
-            // data loaded:
             return ListView.builder(
               itemBuilder: (context, index) => Card(
                 child: ContactChat(

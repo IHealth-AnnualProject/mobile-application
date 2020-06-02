@@ -39,8 +39,7 @@ class AmbianceState extends State<AmbiancePage>
         curves: Curves.easeInOut);
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    if (HistoricalManager.historical.last.toString() != this.widget.toString())
-      HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
     list.add(
       MusicPlayerCardItem(
         artistName: "Monsieur TOEIC",

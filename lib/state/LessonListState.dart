@@ -13,7 +13,7 @@ class LessonListState extends State<LessonListView> {
   void initState() {
     super.initState();
     list = new List<Widget>();
-    HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
   @override

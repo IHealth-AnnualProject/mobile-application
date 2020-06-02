@@ -3,20 +3,17 @@ import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/view/HomeView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
-import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/GridViewHomeWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeState extends State<HomePage> with WidgetsBindingObserver {
-  int _selectedBottomIndex = 0;
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
   @override
@@ -47,7 +44,7 @@ class HomeState extends State<HomePage> with WidgetsBindingObserver {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarFooter(_selectedBottomIndex),
+      bottomNavigationBar: BottomNavigationBarFooter(0),
     );
   }
 }

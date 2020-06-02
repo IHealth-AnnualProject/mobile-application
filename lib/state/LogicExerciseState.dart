@@ -4,6 +4,7 @@ import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/ExerciseView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/DefaultTextTitle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,8 @@ class LogicExerciseState extends State<ExerciseView> {
 
   @override
   void initState() {
-    HistoricalManager.historical.add(this.widget);
     super.initState();
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
     ExerciseController.createListWidgetOverMapString(
         exercise: this.widget.exercise,
         logicExerciseState: this,
@@ -32,12 +33,7 @@ class LogicExerciseState extends State<ExerciseView> {
       ),
       body: Column(
         children: <Widget>[
-          Text(
-            SettingsManager.mapLanguage["PipeGameExplanation"],
-            textAlign: TextAlign.center,
-            style:
-                TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
-          ),
+          DefaultTextTitle(title: SettingsManager.mapLanguage["PipeGameExplanation"],),
           SizedBox(
             height: 20,
           ),
@@ -91,6 +87,7 @@ class LogicExerciseState extends State<ExerciseView> {
   }
 
   void checkMapEquality() {
+    //todo externalize here
     setState(() {
       if (mapEquals(
           this.widget.exercise.inputPipe, this.widget.exercise.outputPipe)) {

@@ -6,6 +6,7 @@ import 'package:betsbi/view/MemosView.dart';
 import 'package:betsbi/view/RegisterView.dart';
 import 'package:betsbi/widget/ForgotPassword.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/widget/SubmitButton.dart';
 import 'package:betsbi/widget/TextFormFieldCustomBetsBi.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,67 +18,14 @@ class LoginState extends State<LoginPage> {
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void _setLanguage() {
-    SettingsManager.setLanguage().then((r) => setState(() {}));
-  }
-
   @override
   void initState() {
     super.initState();
-    HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
   @override
   Widget build(BuildContext context) {
-    RaisedButton loginButton() {
-      return RaisedButton(
-        elevation: 8,
-        shape: StadiumBorder(),
-        color: Color.fromRGBO(255, 195, 0, 1),
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () async {
-          if (this._formKey.currentState.validate()) {
-            await LoginController.login(
-                userNameController.text, passwordController.text, context);
-          }
-        },
-        child: Text(
-          SettingsManager.mapLanguage["LoginText"] != null
-              ? SettingsManager.mapLanguage["LoginText"]
-              : "",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: Color.fromRGBO(255, 255, 255, 100),
-              fontWeight: FontWeight.bold),
-        ),
-      );
-    }
-
-    final language = InkWell(
-      onTap: () {
-        _setLanguage();
-      },
-      child: new Text(
-        SettingsManager.applicationProperties.getLanguage() != null
-            ? SettingsManager.applicationProperties.getLanguage()
-            : "",
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
-      ),
-    );
-    final signUp = InkWell(
-        onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => RegisterPage()));
-          //_setLanguage(cfg.getString("language"));
-        },
-        child: new Text(
-          SettingsManager.mapLanguage["SignUp"] != null
-              ? SettingsManager.mapLanguage["SignUp"]
-              : "",
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
-        ));
     return Scaffold(
       body: SwipeUp(
         body: Center(
@@ -162,7 +110,17 @@ class LoginState extends State<LoginPage> {
                           ),
                           Container(
                             width: 350.0,
-                            child: loginButton(),
+                            child: SubmitButton(
+                              content: SettingsManager.mapLanguage["LoginText"],
+                              onPressedFunction: () async {
+                                if (this._formKey.currentState.validate()) {
+                                  await LoginController.login(
+                                      userNameController.text,
+                                      passwordController.text,
+                                      context);
+                                }
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -178,7 +136,21 @@ class LoginState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     //crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      language,
+                      InkWell(
+                        onTap: () => SettingsManager.setLanguage()
+                            .then((r) => setState(() {})),
+                        child: new Text(
+                          SettingsManager.applicationProperties.getLanguage() !=
+                                  null
+                              ? SettingsManager.applicationProperties
+                                  .getLanguage()
+                              : "",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Color.fromRGBO(0, 157, 153, 1),
+                              fontSize: 17),
+                        ),
+                      ),
                       Container(
                         alignment: Alignment.center,
                         child: Row(
@@ -190,7 +162,21 @@ class LoginState extends State<LoginPage> {
                                 style: TextStyle(
                                     color: Color.fromRGBO(0, 157, 153, 1),
                                     fontSize: 17)),
-                            signUp
+                            InkWell(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RegisterPage())),
+                              child: new Text(
+                                SettingsManager.mapLanguage["SignUp"] != null
+                                    ? SettingsManager.mapLanguage["SignUp"]
+                                    : "",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Color.fromRGBO(0, 157, 153, 1),
+                                    fontSize: 17),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -212,16 +198,6 @@ class LoginState extends State<LoginPage> {
         ),
         onSwipe: () => offlineChoiceFlushBar().show(context),
       ),
-    );
-  }
-
-  Flushbar loginFlushBar(Icon icon, String message) {
-    return Flushbar(
-      icon: icon,
-      flushbarPosition: FlushbarPosition.TOP,
-      flushbarStyle: FlushbarStyle.GROUNDED,
-      message: message,
-      duration: Duration(seconds: 1),
     );
   }
 

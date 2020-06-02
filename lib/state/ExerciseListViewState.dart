@@ -22,7 +22,7 @@ class ExerciseListViewState extends State<ExerciseListViewPage>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
     list = new List<Widget>();
   }
 

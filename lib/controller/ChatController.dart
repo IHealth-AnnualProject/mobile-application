@@ -5,6 +5,7 @@ import 'package:betsbi/model/message.dart';
 import 'package:betsbi/model/response.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/sqlite/SQLLiteNewMessage.dart';
+import 'package:betsbi/state/ChatListContactPageState.dart';
 import 'package:betsbi/widget/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -73,4 +74,5 @@ class ChatController {
       return new List<Contact>();
     }
   }
+
 }

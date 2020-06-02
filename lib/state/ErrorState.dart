@@ -6,6 +6,7 @@ import 'package:betsbi/view/ErrorView.dart';
 import 'package:betsbi/view/HomeView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/DefaultTextTitle.dart';
 import 'package:betsbi/widget/FinalButton.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/widget/TextFormFieldCustomBetsBi.dart';
@@ -29,7 +30,7 @@ class ErrorState extends State<ErrorPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
   @override
@@ -43,24 +44,6 @@ class ErrorState extends State<ErrorPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    //Locale myLocale = Localizations.localeOf(context);
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-
-    final errorTitle = Text(
-      SettingsManager.mapLanguage["ErrorTitle"] != null
-          ? SettingsManager.mapLanguage["ErrorTitle"]
-          : "",
-      textAlign: TextAlign.center,
-      style: TextStyle(
-          color: Color.fromRGBO(0, 157, 153, 1),
-          fontWeight: FontWeight.bold,
-          fontSize: 40),
-    );
     return Scaffold(
       appBar: AppSearchBar(),
       body: SingleChildScrollView(
@@ -74,7 +57,7 @@ class ErrorState extends State<ErrorPage> with WidgetsBindingObserver {
                 SizedBox(
                   height: 30,
                 ),
-                errorTitle,
+                DefaultTextTitle(title: SettingsManager.mapLanguage["ErrorTitle"],),
                 SizedBox(
                   height: 45,
                 ),

@@ -3,14 +3,14 @@ import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/presentation/FeelingsFontIcons.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/view/FeelingsView.dart';
+import 'package:betsbi/widget/DefaultTextTitle.dart';
 import 'package:betsbi/widget/FeelingButton.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class FeelingsState extends State<FeelingsPage> with WidgetsBindingObserver {
-
+  //todo clean custom scroll view
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -21,8 +21,9 @@ class FeelingsState extends State<FeelingsPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
@@ -34,14 +35,6 @@ class FeelingsState extends State<FeelingsPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    //Locale myLocale = Localizations.localeOf(context);
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-
     final gridView = CustomScrollView(
       shrinkWrap: true,
       primary: false,
@@ -73,7 +66,8 @@ class FeelingsState extends State<FeelingsPage> with WidgetsBindingObserver {
                 errorMessage: SettingsManager.mapLanguage["WentWrong"] != null
                     ? SettingsManager.mapLanguage["WentWrong"]
                     : "",
-                colorButton: Colors.lime[600],),
+                colorButton: Colors.lime[600],
+              ),
               FeelingButton(
                 idButton: 2,
                 text: SettingsManager.mapLanguage["FeelingSad"] != null
@@ -83,7 +77,8 @@ class FeelingsState extends State<FeelingsPage> with WidgetsBindingObserver {
                 errorMessage: SettingsManager.mapLanguage["WentWrong"] != null
                     ? SettingsManager.mapLanguage["WentWrong"]
                     : "",
-                colorButton: Colors.lime[700],),
+                colorButton: Colors.lime[700],
+              ),
               FeelingButton(
                 idButton: 3,
                 text: SettingsManager.mapLanguage["FeelingVerySad"] != null
@@ -93,51 +88,43 @@ class FeelingsState extends State<FeelingsPage> with WidgetsBindingObserver {
                 errorMessage: SettingsManager.mapLanguage["WentWrong"] != null
                     ? SettingsManager.mapLanguage["WentWrong"]
                     : "",
-                colorButton: Colors.lime[800],),
+                colorButton: Colors.lime[800],
+              ),
             ],
           ),
         ),
       ],
     );
-    final titleFeelings = Text(
-      SettingsManager.mapLanguage["FeelingQuestion"] != null
-          ? SettingsManager.mapLanguage["FeelingQuestion"]
-          : "",
-      textAlign: TextAlign.center,
-      style: TextStyle(
-          color: Colors.cyan[300],
-          fontSize: 40),
-    );
     return Scaffold(
-        body: Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              //crossAxisAlignment: CrossAxisAlignment.center,
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                titleFeelings,
-                SizedBox(
-                  height: 50,
-                ),
-                gridView,
-                FeelingButton(
-                  idButton: 4,
-                  text: SettingsManager.mapLanguage["FeelingStress"] != null
-                      ? SettingsManager.mapLanguage["FeelingStress"]
-                      : "",
-                  iconData: MyFlutterApp.emo_cry,
-                  errorMessage:
-                  SettingsManager.mapLanguage["WentWrong"] != null
-                      ? SettingsManager.mapLanguage["WentWrong"]
-                      : "",
-                  colorButton: Colors.lime[900],),
-              ],
-            ),
-          ), // This trailing comma makes auto-formatting nicer for build methods.
-        ));
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            //crossAxisAlignment: CrossAxisAlignment.center,
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              DefaultTextTitle(
+                  title: SettingsManager.mapLanguage["FeelingQuestion"]),
+              SizedBox(
+                height: 50,
+              ),
+              gridView,
+              FeelingButton(
+                idButton: 4,
+                text: SettingsManager.mapLanguage["FeelingStress"] != null
+                    ? SettingsManager.mapLanguage["FeelingStress"]
+                    : "",
+                iconData: MyFlutterApp.emo_cry,
+                errorMessage: SettingsManager.mapLanguage["WentWrong"] != null
+                    ? SettingsManager.mapLanguage["WentWrong"]
+                    : "",
+                colorButton: Colors.lime[900],
+              ),
+            ],
+          ),
+        ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+    );
   }
 }

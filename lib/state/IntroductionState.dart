@@ -6,9 +6,9 @@ import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 
 class IntroductionState extends State<IntroductionPage> {
-
+  //todo with json file maybe ?
   @override
-  void initState(){
+  void initState() {
     super.initState();
   }
 
@@ -87,22 +87,24 @@ class IntroductionState extends State<IntroductionPage> {
         ),
         onTapSkipButton: () =>
             SettingsManager.updateValueOfConfigurationSecureStorage(
-                "firstEntry", "false")
+                    "firstEntry", "false")
                 .then((_) => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => this.widget.destination,
-              ), //MaterialPageRoute
-            )),
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => this.widget.destination,
+                      ), //MaterialPageRoute
+                    )),
         onTapDoneButton: () =>
             SettingsManager.updateValueOfConfigurationSecureStorage(
-                "firstEntry", "false")
-                .then((_) => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => this.widget.destination,
-              ), //MaterialPageRoute
-            )),
+                    "firstEntry", "false")
+                .then(
+          (_) => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => this.widget.destination,
+            ), //MaterialPageRoute
+          ),
+        ),
       ),
     );
   }

@@ -17,15 +17,17 @@ import 'package:socket_io_client/socket_io_client.dart';
 
 class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   TextEditingController mTextMessageController = new TextEditingController();
-  List<Widget> list;
+  List<Widget> list = new List<Widget>();
   Socket socket;
-  AsyncMemoizer _memoizer = AsyncMemoizer();
+  AsyncMemoizer _memorizer = AsyncMemoizer();
+  //todo to clean
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    HistoricalManager.historical.add(this.widget);
+    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
+
   }
 
   @override
@@ -40,13 +42,12 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    this._memoizer = AsyncMemoizer();
+    this._memorizer = AsyncMemoizer();
     super.dispose();
   }
 
   _instanciateChatWithAllMessageAndInput() {
-    return this._memoizer.runOnce(() async {
-      list = new List<Widget>();
+    return this._memorizer.runOnce(() async {
       socket =
           io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
         'transports': ['websocket'],

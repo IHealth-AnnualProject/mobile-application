@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:betsbi/model/lesson.dart';
+import 'package:betsbi/model/pageModel.dart';
 import 'package:betsbi/view/LessonView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intro_views_flutter/Models/page_view_model.dart';
 
 class LessonController {
   static Future<String> getJsonLesson({@required BuildContext context}) {
@@ -41,5 +43,25 @@ class LessonController {
         );
       },
     );
+  }
+
+  static List<PageViewModel> convertListPageToListPageViewModel({@required List<PageModel> pages}) {
+    List<PageViewModel> pageModels;
+    pages.forEach(
+          (page) => pageModels.add(
+        new PageViewModel(
+          pageColor: Color.fromRGBO(page.pageColor[0], page.pageColor[1],
+              page.pageColor[2], page.pageColor[3].toDouble()),
+          bubble: Image.asset(page.bubble),
+          body: Text(page.body),
+          title: Text(page.title),
+          titleTextStyle: TextStyle(color: Colors.white),
+          bodyTextStyle: TextStyle(color: Colors.white),
+          mainImage:
+          Image.asset(page.mainImage),
+        ),
+      ),
+    );
+    return pageModels;
   }
 }
