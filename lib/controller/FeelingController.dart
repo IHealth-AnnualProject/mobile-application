@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 import 'package:betsbi/model/response.dart';
 import 'package:betsbi/model/feelings.dart';
@@ -56,6 +55,11 @@ class FeelingController {
       if (weekNumber(feeling.dayOfFeeling) == weekNumber(currentDate))
         feelings.add(feeling);
     });
+    Map<String, Feelings> mapFeelings = new Map<String, Feelings>();
+    feelings.forEach((element) => mapFeelings.putIfAbsent(element.dayOfFeeling.day.toString()+"-"+element.dayOfFeeling.month.toString(), () => element));
+    feelings = new List<Feelings>();
+    mapFeelings.forEach((key, value) => feelings.add(value));
+
     return feelings;
   }
 
@@ -81,6 +85,7 @@ class FeelingController {
       Iterable list = json.decode(response.body);
       feelings = list.map((model) => Feelings.fromJson(model)).toList();
       List<Feelings> allFeelings = toListFeelings(feelings);
+
       allFeelings.sort((a, b) => a.dayOfFeeling.compareTo(b.dayOfFeeling));
       return allFeelings;
     } else {
@@ -93,11 +98,4 @@ class FeelingController {
     }
   }
 
-  static LinkedHashMap<String, int> renderMapFeeling(List<Feelings> feelings) {
-    LinkedHashMap<String, int> mapFeeling = new LinkedHashMap<String, int>();
-    feelings.forEach((feeling) => mapFeeling.putIfAbsent(
-        DateFormat('EEEE').format(feeling.dayOfFeeling),
-        () => feeling.feelingsPoint));
-    return mapFeeling;
-  }
 }

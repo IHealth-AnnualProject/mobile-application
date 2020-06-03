@@ -78,6 +78,7 @@ class AccountController {
       String profileId,
       bool isPsy,
       BuildContext context}) async {
+    
     final http.Response response = await http.patch(
       SettingsManager.cfg.getString("apiUrl") + 'userProfile',
       headers: <String, String>{

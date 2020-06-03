@@ -2,9 +2,11 @@ import 'package:async/async.dart';
 import 'package:betsbi/model/feelings.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/widget/DefaultCircleAvatar.dart';
+import 'package:betsbi/widget/DefaultTextTitle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_echarts/flutter_echarts.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class AccountTrace extends StatefulWidget {
   final User profile;
@@ -15,8 +17,20 @@ class AccountTrace extends StatefulWidget {
 }
 
 class _AccountTraceState extends State<AccountTrace> {
-  Feelings feelings;
+  List<Feelings> feelings;
   AsyncMemoizer _memorizer = AsyncMemoizer();
+
+   List<charts.Series<Feelings, DateTime>> _createSampleData() {
+    return [
+      new charts.Series<Feelings, DateTime>(
+        id: 'Feelings',
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        domainFn: (Feelings feelings, _) => feelings.dayOfFeeling,
+        measureFn: (Feelings feelings, _) => feelings.feelingsPoint,
+        data: feelings,
+      )
+    ];
+  }
 
   @override
   void initState() {
@@ -25,8 +39,8 @@ class _AccountTraceState extends State<AccountTrace> {
 
   _fetchData() {
     return this._memorizer.runOnce(() async {
-      feelings = new Feelings.normalConstructor();
-      await feelings.getUserFeelings(this.widget.profile.profileId, context);
+      Feelings feeling = new Feelings.normalConstructor();
+      feelings = await feeling.getUserFeelings(this.widget.profile.profileId, context);
       return feelings;
     });
   }
@@ -39,39 +53,21 @@ class _AccountTraceState extends State<AccountTrace> {
 
   @override
   Widget build(BuildContext context) {
-    final titleAccount = Text(
-      this.widget.profile.username + " lv.1",
-      textAlign: TextAlign.center,
-      style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
-    );
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
         SizedBox(
           height: 45,
         ),
-        Container(
-          height: 200,
-          width: 200,
-          decoration: BoxDecoration(
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: Colors.black,
-                offset: Offset(1.0, 6.0),
-                blurRadius: 40.0,
-              ),
-            ],
-            color: Colors.white,
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              image: AssetImage("assets/user.png"),
-            ),
-          ),
+        DefaultCircleAvatar(
+          imagePath: "assets/user.png",
         ),
         SizedBox(
           height: 45,
         ),
-        titleAccount,
+        DefaultTextTitle(
+          title: this.widget.profile.username + " lv.1",
+        ),
         SizedBox(
           height: 45,
         ),
@@ -92,37 +88,25 @@ class _AccountTraceState extends State<AccountTrace> {
         FutureBuilder(
           future: _fetchData(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+            if (!snapshot.hasData) {
               return CircularProgressIndicator();
             } else {
               // data loaded:
-              //print(feelings.moralDays);
               return Card(
                 elevation: 10,
                 child: Container(
-                  child: Echarts(
-                    captureAllGestures: true,
-                    option: '''
-                    {
-                      title: {
-                        subtextStyle: {
-                          align: 'center',
-                        },
-                        text: 'Feelings of the week',
-                      },
-                      xAxis: {
-                        type: 'category',
-                        data: ${feelings.moralDays}
-                      },
-                      yAxis: {
-                        type: 'value'
-                      },
-                      series: [{
-                        data: ${feelings.moralStats},
-                        type: 'line'
-                      }]
-                    }
-                  ''',
+                  child: new charts.TimeSeriesChart(
+                    _createSampleData(),
+                    animate: false,
+                    dateTimeFactory: const charts.LocalDateTimeFactory(),
+                    domainAxis: charts.DateTimeAxisSpec(
+                      tickFormatterSpec: charts.AutoDateTimeTickFormatterSpec(
+                        day: charts.TimeFormatterSpec(
+                          format: 'dd',
+                          transitionFormat: 'dd MMM',
+                        ),
+                      ),
+                    ),
                   ),
                   width: 300,
                   height: 250,
