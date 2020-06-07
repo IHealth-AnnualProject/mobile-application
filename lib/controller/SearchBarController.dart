@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:betsbi/controller/AmbianceController.dart';
 import 'package:betsbi/model/Response.dart';
 import 'package:betsbi/model/exercise.dart';
 import 'package:betsbi/model/psychologist.dart';
@@ -16,7 +17,6 @@ import 'package:http/http.dart' as http;
 
 import 'ExerciseController.dart';
 
-
 class SearchBarController {
   static String searchCategory = "user";
   static List<String> searchChoicesCategory = ["user", "exercise"];
@@ -27,7 +27,7 @@ class SearchBarController {
         context: context, type: 'math');
     List<Widget> searchList = new List<Widget>();
     return ExerciseController.decodeJsonAndStoreItInsideExerciseList(
-        jsonWithOutputList, searchList, "assets/math.png", context,false);
+        jsonWithOutputList, searchList, "assets/math.png", context, false);
   }
 
   static Future<List<SearchItem>> getAllPropsAccordingToCategoryChosen(
@@ -63,6 +63,25 @@ class SearchBarController {
         ),
       );
     }
+    return items;
+  }
+
+  static Future<List<SearchItem>> getAllMusic({BuildContext context}) async {
+    List<SearchItem> items = new List<SearchItem>();
+    await AmbianceController.getAllSongs(context: context).then(
+      (songs) => songs.forEach(
+        (song) {
+          items.add(
+            SearchItem.songItem(
+              subtitle: song.duration,
+              title: song.songName,
+              trailing: Icon(Icons.play_arrow),
+              song: song,
+            ),
+          );
+        },
+      ),
+    );
     return items;
   }
 
@@ -124,7 +143,9 @@ class SearchBarController {
           AccountPage(isPsy: item.user.isPsy, userId: item.user.profileId);
     }
     if (searchCategory == 'exercise') {
-      redirection = ExerciseView(exercise: item.exercise,);
+      redirection = ExerciseView(
+        exercise: item.exercise,
+      );
     }
     return redirection;
   }

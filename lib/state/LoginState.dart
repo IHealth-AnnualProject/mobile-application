@@ -201,6 +201,8 @@ class LoginState extends State<LoginPage> {
     );
   }
 
+
+
   Flushbar offlineChoiceFlushBar() {
     return Flushbar(
       flushbarPosition: FlushbarPosition.BOTTOM,

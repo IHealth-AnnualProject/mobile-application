@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:betsbi/model/Response.dart';
 import 'package:betsbi/model/psychologist.dart';
 import 'package:betsbi/model/tabContent.dart';
@@ -78,7 +77,6 @@ class AccountController {
       String profileId,
       bool isPsy,
       BuildContext context}) async {
-    
     final http.Response response = await http.patch(
       SettingsManager.cfg.getString("apiUrl") + 'userProfile',
       headers: <String, String>{
@@ -150,7 +148,8 @@ class AccountController {
     }
   }
 
-  static TabContent getTabBarAndViewAccordingToUserTypeAndId({@required User user}) {
+  static TabContent getTabBarAndViewAccordingToUserTypeAndId(
+      {@required User user}) {
     if (SettingsManager.applicationProperties.isPsy() == "false" &&
         user.profileId !=
             SettingsManager.applicationProperties.getCurrentId()) {
