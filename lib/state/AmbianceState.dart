@@ -21,6 +21,7 @@ class AmbianceState extends State<AmbiancePage>
   List<Widget> listMusic = new List<Widget>();
   CustomCurvedAnimation curvedAnimation;
   final AsyncMemoizer _memorizer = AsyncMemoizer();
+  String path;
 
   @override
   void dispose() {
@@ -42,8 +43,8 @@ class AmbianceState extends State<AmbiancePage>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
-    if (AmbianceController.song.isOpen()) {
-      AmbianceController.musicFlush
+    if (AmbianceController.assetsAudioPlayer.isPlaying.value) {
+       AmbianceController.musicFlush
           .dismiss()
           .then((value) => AmbianceController.musicFlush..show(context));
     }
@@ -55,15 +56,16 @@ class AmbianceState extends State<AmbiancePage>
       songs.forEach(
         (song) => listMusic.add(
           MusicPlayerCardItem(
-            songName: song.songName,
-            path: "",
             duration: song.duration,
+            name: song.songName,
+            id: song.id,
           ),
         ),
       );
       return listMusic;
     });
   }
+
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {

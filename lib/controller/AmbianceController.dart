@@ -11,7 +11,6 @@ import 'package:http/http.dart' as http;
 
 class AmbianceController {
   static AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
-  static Song song = new Song.defaultConstructor();
   static Flushbar musicFlush;
 
   static Flushbar musicPlayerFlushBar({String songName, String path}) {
@@ -34,16 +33,14 @@ class AmbianceController {
     );
   }
 
-  static void listenMusic(
-      {String songName, String path, BuildContext context}) {
+  static Future<void> listenMusic(
+      {String songName, String path, BuildContext context}) async {
     if (musicFlush != null && musicFlush.isShowing()) {
       musicFlush.dismiss();
-      song.setOpen(false);
       assetsAudioPlayer.stop();
     }
-    assetsAudioPlayer.open(Audio(path));
+    await assetsAudioPlayer.open(Audio.file(path,),);
     musicFlush = musicPlayerFlushBar(songName: songName, path: path);
-    song = new Song(songName: songName, path: path, open: true);
     musicFlush.show(context);
   }
 
@@ -64,5 +61,17 @@ class AmbianceController {
     } else {
       return null;
     }
+  }
+
+  static Future<http.Response> downloadFile({String musicId}) async{
+    http.Response response = await http.get(
+      SettingsManager.cfg.getString("apiUrl") + 'music/$musicId/download',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization':
+        'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
+      },
+    );
+    return response;
   }
 }

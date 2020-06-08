@@ -1,6 +1,8 @@
 import 'package:betsbi/controller/SearchBarController.dart';
 import 'package:betsbi/model/searchItem.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/view/AmbianceView.dart';
+import 'package:betsbi/widget/MusicPlayerCardItem.dart';
 import 'package:flutter/material.dart';
 import 'package:async/async.dart';
 
@@ -45,7 +47,13 @@ class SearchMusic extends SearchDelegate<String> {
           progress: transitionAnimation,
         ),
         onPressed: () {
-          close(context, null);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AmbiancePage(),
+            ),
+            (Route<dynamic> route) => false,
+          );
         });
   }
 
@@ -55,9 +63,10 @@ class SearchMusic extends SearchDelegate<String> {
     // data loaded:
     final suggestionList = items;
     return ListView.builder(
-      itemBuilder: (context, index) => ListTile(
-        title: Text(items[index].title),
-      ),
+      itemBuilder: (context, index) => MusicPlayerCardItem(
+          name: items[index].song.songName,
+          duration: items[index].song.duration,
+          id: items[index].song.id),
       itemCount: suggestionList.length,
     );
   }
@@ -68,7 +77,7 @@ class SearchMusic extends SearchDelegate<String> {
     return FutureBuilder(
       future: getSearchList(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (!snapshot.hasData) {
           return CircularProgressIndicator();
         } else {
           // data loaded:
@@ -80,30 +89,10 @@ class SearchMusic extends SearchDelegate<String> {
                       p.title.contains(RegExp(query, caseSensitive: false)))
                   .toList();
           return ListView.builder(
-            itemBuilder: (context, index) => Card(
-              child: ListTile(
-                onTap: () {},
-                trailing: items[index].trailing,
-                subtitle: Text(items[index].subtitle),
-                title: RichText(
-                  text: TextSpan(
-                    text:
-                        suggestionList[index].title.substring(0, query.length),
-                    style: TextStyle(
-                        color: Color.fromRGBO(0, 157, 153, 1),
-                        fontWeight: FontWeight.bold),
-                    children: [
-                      TextSpan(
-                        text:
-                            suggestionList[index].title.substring(query.length),
-                        style: TextStyle(
-                          color: Color.fromRGBO(0, 157, 153, 1),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            itemBuilder: (context, index) => MusicPlayerCardItem(
+              name: suggestionList[index].song.songName,
+              id: suggestionList[index].song.id,
+              duration: suggestionList[index].song.duration,
             ),
             itemCount: suggestionList.length,
           );
