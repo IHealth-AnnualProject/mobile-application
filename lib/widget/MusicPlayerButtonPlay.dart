@@ -15,9 +15,12 @@ class MusicPlayerFlushState extends State<MusicPlayerButtonPlay> {
   @override
   void initState() {
     super.initState();
-    AmbianceController.assetsAudioPlayer.onReadyToPlay.listen((event) { setState(() {
-      isPlaying = false;
-    });});
+    AmbianceController.assetsAudioPlayer.onReadyToPlay.listen((event) {
+      if (mounted)
+        setState(() {
+          isPlaying = false;
+        });
+    });
   }
 
   @override
