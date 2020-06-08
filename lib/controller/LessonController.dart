@@ -46,7 +46,7 @@ class LessonController {
   }
 
   static List<PageViewModel> convertListPageToListPageViewModel({@required List<PageModel> pages}) {
-    List<PageViewModel> pageModels;
+    List<PageViewModel> pageModels = new List<PageViewModel>();
     pages.forEach(
           (page) => pageModels.add(
         new PageViewModel(
