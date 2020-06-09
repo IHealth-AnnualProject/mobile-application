@@ -94,7 +94,7 @@ class AmbianceController {
   static Future<bool> checkIfSongAvailable(
       {@required String songName, @required String duration}) async {
     AssetsAudioPlayer _songToTestifWorking = new AssetsAudioPlayer();
-    isMusicAvailable =
+    bool isMusicAvailable =
         await FileManager.checkIfFileExist(fileName: songName + ".mp3");
     String applicationPath = (await getApplicationDocumentsDirectory()).path;
     if (isMusicAvailable) {

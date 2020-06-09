@@ -20,7 +20,6 @@ class MusicPlayerCardItem extends StatefulWidget {
 }
 
 class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
-  bool isMusicAvailable;
   Duration musicDuration;
   AssetsAudioPlayer assetsAudioPlayer;
   String applicationPath;
@@ -28,7 +27,7 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
 
 
 
-  checkIfSongIsAvailable() {
+   checkIfSongIsAvailable() {
     return this._memorizer.runOnce(() async {
       applicationPath = (await getApplicationDocumentsDirectory()).path;
       return await AmbianceController.checkIfSongAvailable(songName: this.widget.name, duration: this.widget.duration);
@@ -73,7 +72,7 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
                 return ListTile(
                   leading: Icon(Icons.music_note),
                   title: Text(this.widget.name),
-                  onTap: () async => isMusicAvailable
+                  onTap: () async => snapshot.data
                       ? AmbianceController.listenMusic(
                           songName: this.widget.name,
                           path: applicationPath +
@@ -89,7 +88,7 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
                             _memorizer = AsyncMemoizer();
                           });
                         }),
-                  trailing: isMusicAvailable
+                  trailing: snapshot.data
                       ? Icon(Icons.play_arrow)
                       : Icon(Icons.arrow_downward),
                   subtitle: this.widget.duration != null
