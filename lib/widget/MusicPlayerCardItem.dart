@@ -13,7 +13,8 @@ class MusicPlayerCardItem extends StatefulWidget {
   final String duration;
   final String id;
 
-  MusicPlayerCardItem({@required this.name, @required this.duration, @required this.id});
+  MusicPlayerCardItem(
+      {@required this.name, @required this.duration, @required this.id});
 
   @override
   State<MusicPlayerCardItem> createState() => _MusicPlayerCardItemState();
@@ -25,12 +26,11 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
   String applicationPath;
   AsyncMemoizer _memorizer = AsyncMemoizer();
 
-
-
-   checkIfSongIsAvailable() {
+  checkIfSongIsAvailable() {
     return this._memorizer.runOnce(() async {
       applicationPath = (await getApplicationDocumentsDirectory()).path;
-      return await AmbianceController.checkIfSongAvailable(songName: this.widget.name, duration: this.widget.duration);
+      return await AmbianceController.checkIfSongAvailable(
+          songName: this.widget.name, duration: this.widget.duration);
     });
   }
 
@@ -45,14 +45,12 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
     super.initState();
     AmbianceController.assetsAudioPlayer.currentPosition.listen((audio) {
       if (AmbianceController.assetsAudioPlayer.isPlaying.value) if (audio
-          .inSeconds ==
+              .inSeconds ==
           AmbianceController
               .assetsAudioPlayer.current.value.audio.duration.inSeconds) {
         AmbianceController.assetsAudioPlayer
-            .open(Audio.file(applicationPath +
-            "/" +
-            this.widget.name +
-            ".mp3"),autoStart: false)
+            .open(Audio.file(applicationPath + "/" + this.widget.name + ".mp3"),
+                autoStart: false)
             .whenComplete(() => setState(() {}));
       }
     });
@@ -75,10 +73,8 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
                   onTap: () async => snapshot.data
                       ? AmbianceController.listenMusic(
                           songName: this.widget.name,
-                          path: applicationPath +
-                              "/" +
-                              this.widget.name +
-                              ".mp3",
+                          path:
+                              applicationPath + "/" + this.widget.name + ".mp3",
                           context: context)
                       : await FileManager.downloadFile(
                               fileName: this.widget.name + ".mp3",
@@ -96,7 +92,12 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
                       : Text(""),
                 );
               } else {
-                return CircularProgressIndicator();
+                return Container(
+                  color: Colors.grey,
+                  child: Center(
+                    child: CircularProgressIndicator(backgroundColor: Colors.white,),
+                  ),
+                );
               }
             }),
       ),
