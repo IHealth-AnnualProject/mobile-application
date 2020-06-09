@@ -4,6 +4,7 @@ import 'package:betsbi/model/user.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/widget/DefaultCircleAvatar.dart';
 import 'package:betsbi/widget/DefaultTextTitle.dart';
+import 'package:betsbi/widget/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -89,7 +90,7 @@ class _AccountTraceState extends State<AccountTrace> {
           future: _fetchData(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return CircularProgressIndicator();
+              return WaitingWidget();
             } else {
               // data loaded:
               return Card(

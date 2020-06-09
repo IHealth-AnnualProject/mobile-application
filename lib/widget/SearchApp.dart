@@ -1,6 +1,7 @@
 import 'package:betsbi/controller/SearchBarController.dart';
 import 'package:betsbi/model/searchItem.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/widget/WaitingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:async/async.dart';
 
@@ -68,8 +69,8 @@ class DataSearch extends SearchDelegate<String> {
     return FutureBuilder(
       future: getSearchList(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+        if (!snapshot.hasData) {
+          return WaitingWidget();
         } else {
           // data loaded:
           _memoizer = AsyncMemoizer();

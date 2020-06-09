@@ -11,6 +11,7 @@ import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/DefaultCircleAvatar.dart';
 import 'package:betsbi/widget/DefaultTextTitle.dart';
 import 'package:betsbi/widget/MemosWidget.dart';
+import 'package:betsbi/widget/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -85,7 +86,7 @@ class MemosViewState extends State<MemosPage>
                 future: getAllMemos(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return CircularProgressIndicator();
+                    return WaitingWidget();
                   } else {
                     return Column(
                       children: <Widget>[

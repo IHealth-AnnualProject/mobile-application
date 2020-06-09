@@ -10,6 +10,7 @@ import 'package:betsbi/sqlite/SQLLiteNewMessage.dart';
 import 'package:betsbi/view/ChatView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/WaitingWidget.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -98,7 +99,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: CircularProgressIndicator(),
+                child: WaitingWidget(),
               );
             } else {
               return ListView.builder(

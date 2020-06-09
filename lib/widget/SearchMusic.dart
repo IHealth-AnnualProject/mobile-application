@@ -6,6 +6,8 @@ import 'package:betsbi/widget/MusicPlayerCardItem.dart';
 import 'package:flutter/material.dart';
 import 'package:async/async.dart';
 
+import 'WaitingWidget.dart';
+
 class SearchMusic extends SearchDelegate<String> {
   List<SearchItem> items;
   AsyncMemoizer _memorizer = AsyncMemoizer();
@@ -78,7 +80,7 @@ class SearchMusic extends SearchDelegate<String> {
       future: getSearchList(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return CircularProgressIndicator();
+          return WaitingWidget();
         } else {
           // data loaded:
           _memorizer = AsyncMemoizer();

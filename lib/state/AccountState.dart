@@ -11,6 +11,7 @@ import 'package:betsbi/view/AccountView.dart';
 import 'package:betsbi/widget/AppBarWithTabs.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -61,7 +62,7 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             appBar: AppSearchBar(),
-            body: Center(child: CircularProgressIndicator()),
+            body:WaitingWidget(),
             bottomNavigationBar: BottomNavigationBarFooter(1),
           );
         } else {

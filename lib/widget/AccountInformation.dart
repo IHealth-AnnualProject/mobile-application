@@ -5,6 +5,8 @@ import 'package:betsbi/model/user.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/ChatView.dart';
+import 'package:betsbi/widget/DefaultCircleAvatar.dart';
+import 'package:betsbi/widget/DefaultTextTitle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -135,11 +137,6 @@ class _AccountInformationState extends State<AccountInformation> {
 
   @override
   Widget build(BuildContext context) {
-    final titleAccount = Text(
-      this.widget.profile.username + " lv.1",
-      textAlign: TextAlign.center,
-      style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
-    );
     if (!isEntered) userInformation();
     return SingleChildScrollView(
       child: Form(
@@ -149,28 +146,13 @@ class _AccountInformationState extends State<AccountInformation> {
             SizedBox(
               height: 45,
             ),
-            Container(
-              height: 200,
-              width: 200,
-              decoration: BoxDecoration(
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black,
-                    offset: Offset(1.0, 6.0),
-                    blurRadius: 40.0,
-                  ),
-                ],
-                color: Colors.white,
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage("assets/user.png"),
-                ),
-              ),
-            ),
+            DefaultCircleAvatar(imagePath: "assets/user.png"),
             SizedBox(
               height: 45,
             ),
-            titleAccount,
+            DefaultTextTitle(
+              title: this.widget.profile.username + " lv.1",
+            ),
             SizedBox(
               height: 45,
             ),

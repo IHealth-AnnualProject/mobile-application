@@ -12,6 +12,7 @@ import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/MusicPlayerCardItem.dart';
 import 'package:betsbi/widget/SearchMusic.dart';
+import 'package:betsbi/widget/WaitingWidget.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -123,7 +124,7 @@ class AmbianceState extends State<AmbiancePage>
               ),
             );
           } else
-            return CircularProgressIndicator();
+            return WaitingWidget();
         },
       ),
       bottomNavigationBar: BottomNavigationBarFooter(null),

@@ -10,6 +10,7 @@ import 'package:betsbi/view/ChatListContactView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/ContactChat.dart';
+import 'package:betsbi/widget/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -77,7 +78,7 @@ class ChatListContactPageState extends State<ChatListContactPage>
         future: findContacts(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return CircularProgressIndicator();
+            return WaitingWidget();
           } else {
             return ListView.builder(
               itemBuilder: (context, index) => Card(

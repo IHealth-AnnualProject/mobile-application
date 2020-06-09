@@ -3,6 +3,7 @@ import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/view/LessonListView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,7 @@ class LessonListState extends State<LessonListView> {
               },
             );
           } else
-            return CircularProgressIndicator();
+            return WaitingWidget();
         },
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
