@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:async/async.dart';
 import 'package:betsbi/controller/AmbianceController.dart';
@@ -7,7 +5,6 @@ import 'package:betsbi/service/FileManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -31,39 +28,10 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
 
 
 
-  getAllMusic() {
+  checkIfSongIsAvailable() {
     return this._memorizer.runOnce(() async {
-      isMusicAvailable = await FileManager.checkIfFileExist(
-          fileName: this.widget.name + ".mp3");
       applicationPath = (await getApplicationDocumentsDirectory()).path;
-      if (isMusicAvailable) {
-        assetsAudioPlayer = new AssetsAudioPlayer();
-        try {
-          await assetsAudioPlayer.open(
-              Audio.file(
-                  applicationPath + "/" + this.widget.name + ".mp3"),
-              autoStart: false);
-          if (isMusicAvailable) {
-            musicDuration = assetsAudioPlayer.current.value.audio.duration;
-            String musicDurationToCompare =
-                Duration(seconds: musicDuration.inSeconds)
-                        .inMinutes
-                        .toString() +
-                    ":" +
-                    Duration(seconds: musicDuration.inSeconds % 60)
-                        .inSeconds
-                        .toString();
-            if (musicDurationToCompare != this.widget.duration) {
-              isMusicAvailable = false;
-            }
-          }
-        } on PlatformException catch (e) {
-          isMusicAvailable = false;
-        } on IOException catch (e) {
-          isMusicAvailable = false;
-        }
-      }
-      return isMusicAvailable;
+      return await AmbianceController.checkIfSongAvailable(songName: this.widget.name, duration: this.widget.duration);
     });
   }
 
@@ -99,7 +67,7 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
       child: Card(
         elevation: 10,
         child: FutureBuilder(
-            future: getAllMusic(),
+            future: checkIfSongIsAvailable(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListTile(

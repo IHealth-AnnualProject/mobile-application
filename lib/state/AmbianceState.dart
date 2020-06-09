@@ -21,7 +21,6 @@ class AmbianceState extends State<AmbiancePage>
   List<Widget> listMusic = new List<Widget>();
   CustomCurvedAnimation curvedAnimation;
   final AsyncMemoizer _memorizer = AsyncMemoizer();
-  String path;
 
   @override
   void dispose() {
@@ -52,7 +51,7 @@ class AmbianceState extends State<AmbiancePage>
 
   getAllMusic() {
     return this._memorizer.runOnce(() async {
-      List<Song> songs = await AmbianceController.getAllSongs(context: context);
+      List<Song> songs = await AmbianceController.getAllSongs();
       songs.forEach(
         (song) => listMusic.add(
           MusicPlayerCardItem(

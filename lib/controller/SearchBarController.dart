@@ -68,7 +68,7 @@ class SearchBarController {
 
   static Future<List<SearchItem>> getAllMusic({BuildContext context}) async {
     List<SearchItem> items = new List<SearchItem>();
-    await AmbianceController.getAllSongs(context: context).then(
+    await AmbianceController.getAllSongs().then(
       (songs) => songs.forEach(
         (song) {
           items.add(
