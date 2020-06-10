@@ -86,16 +86,20 @@ class SearchBarController {
     return items;
   }
 
-  // todo test when api ready
   static Future<List<User>> getAllProfile(BuildContext context) async {
     var users = new List<User>();
     HttpManager httpManager = new HttpManager(path: "userProfile");
     await httpManager.get();
+
     _checkResponseUserAndUpdateListIFOK(httpManager.response, users, context);
     // remove psy from list if you're already a psy
     httpManager.setPath(newPath: 'psychologist');
     await httpManager.get();
+
     _checkResponsePSYAndUpdateListIFOK(httpManager.response, users, context);
+    users.removeWhere((user) =>
+        user.profileId ==
+        SettingsManager.applicationProperties.getCurrentId());
     return users;
   }
 
@@ -117,9 +121,6 @@ class SearchBarController {
       list = json.decode(response.body);
       users.addAll(
           list.map((model) => Psychologist.fromJsonForSearch(model)).toList());
-      users.removeWhere((user) =>
-          user.profileId ==
-          SettingsManager.applicationProperties.getCurrentToken());
     } else
       FlushBarMessage.errorMessage(
               content: Response.fromJson(json.decode(response.body)).content)
