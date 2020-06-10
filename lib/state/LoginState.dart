@@ -1,6 +1,5 @@
 import 'package:betsbi/controller/CheckController.dart';
 import 'package:betsbi/controller/LoginController.dart';
-import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/view/LoginView.dart';
 import 'package:betsbi/view/MemosView.dart';
 import 'package:betsbi/view/RegisterView.dart';
@@ -21,7 +20,6 @@ class LoginState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
   @override

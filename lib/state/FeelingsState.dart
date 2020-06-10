@@ -1,7 +1,6 @@
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/presentation/FeelingsFontIcons.dart';
-import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/view/FeelingsView.dart';
 import 'package:betsbi/widget/DefaultTextTitle.dart';
 import 'package:betsbi/widget/FeelingButton.dart';
@@ -21,7 +20,6 @@ class FeelingsState extends State<FeelingsPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
   @override
