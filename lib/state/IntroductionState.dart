@@ -6,7 +6,6 @@ import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 
 class IntroductionState extends State<IntroductionPage> {
-  //todo with json file maybe ?
   @override
   void initState() {
     super.initState();

@@ -7,6 +7,7 @@ import 'package:betsbi/model/psychologist.dart';
 import 'package:betsbi/model/searchItem.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/model/userProfile.dart';
+import 'package:betsbi/service/HttpManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/AccountView.dart';
 import 'package:betsbi/view/ExerciseView.dart';
@@ -85,27 +86,16 @@ class SearchBarController {
     return items;
   }
 
+  // todo test when api ready
   static Future<List<User>> getAllProfile(BuildContext context) async {
     var users = new List<User>();
-    final http.Response responseProfileUSer = await http.get(
-      SettingsManager.cfg.getString("apiUrl") + 'userProfile',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':
-            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-    );
-    _checkResponseUserAndUpdateListIFOK(responseProfileUSer, users, context);
+    HttpManager httpManager = new HttpManager(path: "userProfile");
+    await httpManager.get();
+    _checkResponseUserAndUpdateListIFOK(httpManager.response, users, context);
     // remove psy from list if you're already a psy
-    final http.Response responseProfilePsy = await http.get(
-      SettingsManager.cfg.getString("apiUrl") + 'psychologist',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':
-            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-    );
-    _checkResponsePSYAndUpdateListIFOK(responseProfilePsy, users, context);
+    httpManager.setPath(newPath: 'psychologist');
+    await httpManager.get();
+    _checkResponsePSYAndUpdateListIFOK(httpManager.response, users, context);
     return users;
   }
 

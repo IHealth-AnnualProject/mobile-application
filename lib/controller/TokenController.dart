@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:betsbi/model/Response.dart';
+import 'package:betsbi/service/HttpManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/LoginView.dart';
 import 'package:betsbi/widget/FlushBarMessage.dart';
@@ -10,19 +11,13 @@ import 'package:http/http.dart' as http;
 
 class TokenController {
   static Future<bool> checkTokenValidity(BuildContext context) async {
-    bool truc = false;
     await setTokenUserIdAndUserProfileIDFromStorageToSettingsManagerVariables();
-    http.Response response;
     if (SettingsManager.applicationProperties.getCurrentToken() != null) {
-        response = await http.get(
-          SettingsManager.cfg.getString("apiUrl") + 'auth/is-token-valid',
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer ' +
-                SettingsManager.applicationProperties.getCurrentToken(),
-          },
-        );
-      return _checkResponseUserAndUpdateListIFOK(response, context);
+      HttpManager httpManager =
+      new HttpManager(path: 'auth/is-token-valid');
+      await httpManager.get();
+
+      return _checkResponseUserAndUpdateListIFOK(httpManager.response, context);
     }
     return false;
   }

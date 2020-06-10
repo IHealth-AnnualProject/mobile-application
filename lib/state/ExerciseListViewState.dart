@@ -5,6 +5,7 @@ import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/view/ExerciseListView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/EmptyListWidget.dart';
 import 'package:betsbi/widget/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class ExerciseListViewState extends State<ExerciseListViewPage>
                 this.widget.leading,
                 context,
                 this.widget.isOffLine);
-            return ListView.builder(
+            return list.isNotEmpty ? ListView.builder(
               padding: const EdgeInsets.all(8),
               itemCount: list.length,
               itemBuilder: (BuildContext context, int index) {
@@ -61,7 +62,7 @@ class ExerciseListViewState extends State<ExerciseListViewPage>
                   child: list[index],
                 );
               },
-            );
+            ) : EmptyListWidget();
           } else
             return WaitingWidget();
         },

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:betsbi/model/song.dart';
 import 'package:betsbi/service/FileManager.dart';
-import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/service/HttpManager.dart';
 import 'package:betsbi/widget/MusicPlayerButtonPlay.dart';
 import 'package:betsbi/widget/MusicPlayerProgressIndicator.dart';
 import 'package:flushbar/flushbar.dart';
@@ -63,32 +63,22 @@ class AmbianceController {
   get all songs according to API
    */
   static Future<List<Song>> getAllSongs() async {
-    final http.Response response = await http.get(
-      SettingsManager.cfg.getString("apiUrl") + 'music/',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':
-            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-    );
+    HttpManager httpManager =
+    new HttpManager(path: 'music/');
+    await httpManager.get();
     List<Song> songs = new List<Song>();
-    if (response.statusCode >= 100 && response.statusCode < 400) {
-      Iterable listSongs = json.decode(response.body);
+    if (httpManager.response.statusCode >= 100 && httpManager.response.statusCode < 400) {
+      Iterable listSongs = json.decode(httpManager.response.body);
       songs.addAll(listSongs.map((model) => Song.fromJson(model)).toList());
     }
     return songs;
   }
 
   static Future<http.Response> downloadFile({@required String musicId}) async {
-    http.Response response = await http.get(
-      SettingsManager.cfg.getString("apiUrl") + 'music/$musicId/download',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':
-            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-    );
-    return response;
+    HttpManager httpManager =
+    new HttpManager(path: 'music/$musicId/download');
+    await httpManager.get();
+    return httpManager.response;
   }
 
   static Future<bool> checkIfSongAvailable(

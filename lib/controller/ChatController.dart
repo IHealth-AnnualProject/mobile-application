@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:betsbi/model/contact.dart';
 import 'package:betsbi/model/message.dart';
 import 'package:betsbi/model/response.dart';
+import 'package:betsbi/service/HttpManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/sqlite/SQLLiteNewMessage.dart';
-import 'package:betsbi/state/ChatListContactPageState.dart';
 import 'package:betsbi/widget/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -13,17 +13,10 @@ import 'package:http/http.dart' as http;
 class ChatController {
   static Future<List<Message>> getAllMessageIdFromContact(
       {String contactID, BuildContext context}) async {
-    final http.Response response = await http.get(
-      SettingsManager.cfg.getString("apiUrl") +
-          'conversation/' +
-          contactID +
-          '/user',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-    );
-    return _checkResponseAndGetAllMessageIfOk(response, context);
+    HttpManager httpManager =
+    new HttpManager(path: 'conversation/$contactID/user');
+    await httpManager.get();
+    return _checkResponseAndGetAllMessageIfOk(httpManager.response, context);
   }
 
   static List<Message> _checkResponseAndGetAllMessageIfOk(
@@ -43,14 +36,10 @@ class ChatController {
   }
 
   static Future<List<Contact>> getAllContact({BuildContext context}) async {
-    final http.Response response = await http.get(
-      SettingsManager.cfg.getString("apiUrl") + 'conversation/',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-    );
-    return _checkResponseAndGetAllContactIfOk(response, context);
+    HttpManager httpManager =
+    new HttpManager(path: 'conversation/');
+    await httpManager.get();
+    return _checkResponseAndGetAllContactIfOk(httpManager.response, context);
   }
 
   static List<Contact> _checkResponseAndGetAllContactIfOk(

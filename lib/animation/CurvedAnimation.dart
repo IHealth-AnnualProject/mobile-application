@@ -16,8 +16,8 @@ class CustomCurvedAnimation {
       vsync: vsync,
       duration: duration,
     );
-    this.curvedAnimation = CurvedAnimation(
-        curve: curves, parent: this.animationController);
+    this.curvedAnimation =
+        CurvedAnimation(curve: curves, parent: this.animationController);
     this.animation =
         Tween<double>(begin: begin, end: end).animate(this.curvedAnimation);
   }
@@ -36,14 +36,13 @@ class CustomCurvedAnimation {
         Tween<double>(begin: begin, end: end).animate(this.animationController);
   }
 
-  void startAnimation()
-  {
+  void startAnimation() {
     this.animationController.isCompleted
         ? this.animationController.reverse()
         : this.animationController.forward();
   }
 
-  void addListenerOnAnimation(void Function(AnimationStatus) function){
+  void addListenerOnAnimation(void Function(AnimationStatus) function) {
     this.animation.addStatusListener(function);
   }
 }

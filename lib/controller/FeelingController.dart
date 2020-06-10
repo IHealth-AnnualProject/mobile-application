@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:betsbi/model/response.dart';
 import 'package:betsbi/model/feelings.dart';
+import 'package:betsbi/service/HttpManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/HomeView.dart';
 import 'package:betsbi/widget/FlushBarMessage.dart';
@@ -19,18 +20,12 @@ class FeelingController {
             (Route<dynamic> route) => false));
   }
 
+  // todo test when api ready
   static Future<void> sendFeelings(int value, BuildContext context) async {
-    final http.Response response = await http.post(
-      SettingsManager.cfg.getString("apiUrl") + 'userProfile/moral-stats',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-      body: jsonEncode(<String, int>{
-        'value': value,
-      }),
-    );
-    checkResponseAndRedirectifOk(response, context);
+    HttpManager httpManager = new HttpManager(
+        path: "userProfile/moral-stats", map: <String, int>{'value': value});
+    await httpManager.post();
+    checkResponseAndRedirectifOk(httpManager.response, context);
   }
 
   static void checkResponseAndRedirectifOk(
@@ -56,7 +51,11 @@ class FeelingController {
         feelings.add(feeling);
     });
     Map<String, Feelings> mapFeelings = new Map<String, Feelings>();
-    feelings.forEach((element) => mapFeelings.putIfAbsent(element.dayOfFeeling.day.toString()+"-"+element.dayOfFeeling.month.toString(), () => element));
+    feelings.forEach((element) => mapFeelings.putIfAbsent(
+        element.dayOfFeeling.day.toString() +
+            "-" +
+            element.dayOfFeeling.month.toString(),
+        () => element));
     feelings = new List<Feelings>();
     mapFeelings.forEach((key, value) => feelings.add(value));
 
@@ -65,17 +64,11 @@ class FeelingController {
 
   static Future<List<Feelings>> getAllFeelings(
       String userId, BuildContext context) async {
-    final http.Response response = await http.get(
-      SettingsManager.cfg.getString("apiUrl") +
-          'userProfile/' +
-          userId +
-          '/moral-stats',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-    );
-    return checkResponseAndReturnListFeelingsIfOk(response, context);
+    HttpManager httpManager =
+        new HttpManager(path: 'userProfile/$userId/moral-stats');
+    await httpManager.get();
+    return checkResponseAndReturnListFeelingsIfOk(
+        httpManager.response, context);
   }
 
   static List<Feelings> checkResponseAndReturnListFeelingsIfOk(
@@ -90,12 +83,9 @@ class FeelingController {
       return allFeelings;
     } else {
       FlushBarMessage.errorMessage(
-          content: Response
-              .fromJson(json.decode(response.body))
-              .content)
+              content: Response.fromJson(json.decode(response.body)).content)
           .showFlushBar(context);
       return null;
     }
   }
-
 }

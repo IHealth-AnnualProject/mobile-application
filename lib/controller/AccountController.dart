@@ -4,6 +4,7 @@ import 'package:betsbi/model/psychologist.dart';
 import 'package:betsbi/model/tabContent.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/model/userProfile.dart';
+import 'package:betsbi/service/HttpManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/AccountView.dart';
 import 'package:betsbi/widget/AccountInformation.dart';
@@ -16,18 +17,10 @@ import 'package:http/http.dart' as http;
 class AccountController {
   static Future<UserProfile> getCurrentUserInformation(
       String userID, BuildContext context) async {
-    final http.Response response = await http.get(
-      SettingsManager.cfg.getString("apiUrl") +
-          'userProfile/' +
-          userID +
-          '/user',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':
-            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-    );
-    return _checkResponseAndGetUserInformationIfOk(response, context);
+    HttpManager httpManager = new HttpManager(path: 'userProfile/$userID/user');
+    await httpManager.get();
+    return _checkResponseAndGetUserInformationIfOk(
+        httpManager.response, context);
   }
 
   static UserProfile _checkResponseAndGetUserInformationIfOk(
@@ -44,18 +37,10 @@ class AccountController {
 
   static Future<Psychologist> getCurrentPsyInformation(
       String psyId, BuildContext context) async {
-    final http.Response response = await http.get(
-      SettingsManager.cfg.getString("apiUrl") +
-          'psychologist/' +
-          psyId +
-          '/user',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':
-            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-    );
-    return _checkResponseAndGetPsyInformationIfOk(response, context);
+    HttpManager httpManager = new HttpManager(path: 'psychologist/$psyId/user');
+    await httpManager.get();
+    return _checkResponseAndGetPsyInformationIfOk(
+        httpManager.response, context);
   }
 
   static Psychologist _checkResponseAndGetPsyInformationIfOk(
@@ -77,20 +62,15 @@ class AccountController {
       String profileId,
       bool isPsy,
       BuildContext context}) async {
-    final http.Response response = await http.patch(
-      SettingsManager.cfg.getString("apiUrl") + 'userProfile',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':
-            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-      body: jsonEncode(<String, dynamic>{
-        "birthdate": birthdate,
-        "description": description
-      }),
-    );
+    HttpManager httpManager = new HttpManager(
+        path: 'userProfile',
+        map: <String, dynamic>{
+          "birthdate": birthdate,
+          "description": description
+        });
+    await httpManager.patch();
     return _checkResponseUpdateAndNavigateIfOk(
-        response,
+        httpManager.response,
         context,
         AccountPage(
           userId: profileId,
@@ -107,22 +87,16 @@ class AccountController {
       String profileId,
       bool isPsy,
       BuildContext context}) async {
-    final http.Response response = await http.patch(
-      SettingsManager.cfg.getString("apiUrl") + 'psychologist',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':
-            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-      body: jsonEncode(<String, dynamic>{
-        "first_name": firstname,
-        "last_name": lastname,
-        "birthdate": birthdate,
-        "description": description
-      }),
-    );
+    HttpManager httpManager =
+        new HttpManager(path: 'psychologist', map: <String, dynamic>{
+      "first_name": firstname,
+      "last_name": lastname,
+      "birthdate": birthdate,
+      "description": description
+    });
+    await httpManager.patch();
     return _checkResponseUpdateAndNavigateIfOk(
-        response,
+        httpManager.response,
         context,
         AccountPage(
           userId: profileId,

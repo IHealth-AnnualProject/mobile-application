@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:betsbi/model/response.dart';
+import 'package:betsbi/service/HttpManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/service/SocketManager.dart';
 import 'package:betsbi/view/FeelingsView.dart';
@@ -42,17 +43,13 @@ class LoginController {
 
   static Future<void> login(
       String username, String password, BuildContext context) async {
-    final http.Response response = await http.post(
-      SettingsManager.cfg.getString("apiUrl") + 'auth/login',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'username': username,
-        'password': password,
-      }),
-    );
-    await checkResponseAndRedirectifOK(response, context);
+    HttpManager httpManager =
+    new HttpManager(path: 'auth/login', map: <String, String>{
+      'username': username,
+      'password': password,
+    });
+    await httpManager.postWithoutAccessToken();
+    await checkResponseAndRedirectifOK(httpManager.response, context);
   }
 
   static Future writePropertiesAfterLogin(http.Response response) async {

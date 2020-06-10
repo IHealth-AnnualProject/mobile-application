@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:betsbi/model/response.dart';
+import 'package:betsbi/service/HttpManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/LoginView.dart';
 import 'package:betsbi/widget/FlushBarMessage.dart';
@@ -10,18 +11,14 @@ import 'package:http/http.dart' as http;
 class RegisterController {
   static Future<void> register(
       String username, String password, bool isPsy, BuildContext context) async {
-    final http.Response response = await http.post(
-      SettingsManager.cfg.getString("apiUrl") + 'auth/register',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'username': username,
-        'password': password,
-        'isPsy': isPsy
-      }),
-    );
-    checkResponseAndDO(response, context);
+    HttpManager httpManager =
+    new HttpManager(path: 'auth/register', map: <String, dynamic>{
+      'username': username,
+      'password': password,
+      'isPsy': isPsy
+    });
+    await httpManager.postWithoutAccessToken();
+    checkResponseAndDO(httpManager.response, context);
   }
 
   static void checkResponseAndDO(http.Response response, BuildContext context) {
