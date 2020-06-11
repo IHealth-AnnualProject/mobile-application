@@ -93,7 +93,7 @@ class BottomNavigationController {
             context,
             MaterialPageRoute(
               builder: (context) => ExerciseListViewPage(
-                type: 'math',
+                type: 'Math',
                 leading: 'assets/math.png',
                 isOffLine: true,
               ),

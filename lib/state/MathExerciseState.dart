@@ -20,7 +20,7 @@ class MathExerciseState extends State<ExerciseView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppSearchBar(),
+      appBar: AppSearchBar(isOffline: this.widget.isOffline,),
       body: Column(
         children: <Widget>[
           Text(

@@ -2,7 +2,6 @@ import 'package:async/async.dart';
 import 'package:betsbi/controller/ExerciseController.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
-import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/view/ExerciseListView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
@@ -11,11 +10,10 @@ import 'package:betsbi/widget/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ExerciseListViewState extends State<ExerciseListViewPage>
+class ExerciseListViewStateOffline extends State<ExerciseListViewPage>
     with WidgetsBindingObserver {
   List<Widget> listExercise;
   final AsyncMemoizer _memorizer = AsyncMemoizer();
-
 
   @override
   void dispose() {
@@ -27,7 +25,6 @@ class ExerciseListViewState extends State<ExerciseListViewPage>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    HistoricalManager.addCurrentWidgetToHistorical(this.widget);
     listExercise = new List<Widget>();
   }
 
@@ -40,19 +37,13 @@ class ExerciseListViewState extends State<ExerciseListViewPage>
     }
   }
 
+
   getAllExercise() {
     return this._memorizer.runOnce(() async {
-      String jsonExercise = await ExerciseController.getJsonAccodingToExerciseType(
-          context: context, type: this.widget.type);
-      listExercise = ExerciseController.decodeJsonAndStoreItInsideExerciseList(
-          jsonToDecode : jsonExercise,
-          leading : this.widget.leading,
-          context : context,
-          isOffLine : this.widget.isOffLine,
-          type : this.widget.type);
-      return listExercise;
+      return listExercise = await ExerciseController.getAllJsonAndRecoverListOfExercise(context: context);
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +72,7 @@ class ExerciseListViewState extends State<ExerciseListViewPage>
         },
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
-        null,
+        2,
         isOffLine: this.widget.isOffLine,
       ),
     );

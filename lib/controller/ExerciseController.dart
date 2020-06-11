@@ -27,6 +27,17 @@ class ExerciseController {
     }
   }
 
+  static Future<List<Widget>> getAllJsonAndRecoverListOfExercise(
+      {@required BuildContext context}) async {
+    String mathExercise = await getJsonAccodingToExerciseType(type: "Math", context: context);
+    String emergencyExercise = await getJsonAccodingToExerciseType(
+        type: "Emergency", context: context);
+    List<Widget> listExercises = new List<Widget>();
+    listExercises = decodeJsonAndStoreItInsideExerciseList(jsonToDecode: mathExercise, leading: "assets/math.png", context: context, isOffLine: true, type: 'Math');
+    listExercises.addAll(decodeJsonAndStoreItInsideExerciseList(jsonToDecode: emergencyExercise, leading: "assets/emergency.png", context: context, isOffLine: true, type: 'Emergency'));
+    return listExercises;
+  }
+
   static void createListWidgetOverMapString(
       {@required Exercise exercise,
       @required List<Widget> listCasePipeGame,
@@ -47,7 +58,7 @@ class ExerciseController {
     return Image.asset('assets/exercise/pipe/$image.png');
   }
 
-  static ListTile exercise(
+  static ListTile exerciseWidget(
       {@required String leading,
       Exercise exercise,
       BuildContext context,
@@ -69,79 +80,49 @@ class ExerciseController {
           ),
           (Route<dynamic> route) => false,
         );
-        //_controller.play();
-      },
-      subtitle: Text(exercise.type),
-    );
-  }
-
-  static ListTile exerciseEmergency(
-      {@required String leading,
-      Exercise exercise,
-      BuildContext context,
-      bool isOffLine}) {
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: Colors.white,
-        backgroundImage: AssetImage(leading),
-      ),
-      title: Text(exercise.name),
-      onTap: () {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ExerciseView(
-              exercise: exercise,
-              isOffline: isOffLine,
-            ),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        //_controller.play();
       },
     );
   }
 
-  static List<Exercise> decodeJsonAndStoreItInsideExerciseList(
-      String jsonToDecode,
-      List<Widget> inputList,
-      String leading,
-      BuildContext context,
-      bool isOffLine,
-      String type) {
+  static List<Widget> decodeJsonAndStoreItInsideExerciseList(
+      {@required String jsonToDecode,
+      @required String leading,
+      @required BuildContext context,
+      @required bool isOffLine,
+      @required String type}) {
+    List<Exercise> exercises = convertJsonToExerciseList(jsonToDecode: jsonToDecode, type: type);
+    if (exercises.isEmpty) return new List<Widget>();
+    return fromExerciseToWidget(
+        listInputExercise: exercises,
+        leading: leading,
+        context: context,
+        isOffLine: isOffLine);
+  }
+
+  static List<Exercise> convertJsonToExerciseList({@required String jsonToDecode, @required String type}){
     Iterable listFromJson = json.decode(jsonToDecode);
     List<Exercise> exercises = new List<Exercise>();
-    listFromJson.forEach((element) {
-      print(element.toString());
-    });
     if (listFromJson.isEmpty) return exercises;
     exercises.addAll(
         listFromJson.map((model) => Exercise.fromJson(model, type)).toList());
-    exercises.forEach(
-      (element) {
-        switch(type){
-          case "Math":
-            inputList.add(
-              exercise(
-                  leading: leading,
-                  exercise: element,
-                  context: context,
-                  isOffLine: isOffLine),
-            );
-            break;
-          case "Emergency":
-            inputList.add(
-              exerciseEmergency(
-                  leading: leading,
-                  exercise: element,
-                  context: context,
-                  isOffLine: isOffLine),
-            );
-            break;
-        }
-
-      },
-    );
     return exercises;
+  }
+
+  static List<Widget> fromExerciseToWidget(
+      {@required List<Exercise> listInputExercise,
+      @required String leading,
+      @required BuildContext context,
+      @required bool isOffLine}) {
+    List<Widget> listExerciseWidget = new List<Widget>();
+    listInputExercise.forEach(
+      (exercise) => listExerciseWidget.add(
+        exerciseWidget(
+            leading: leading,
+            exercise: exercise,
+            context: context,
+            isOffLine: isOffLine),
+      ),
+    );
+    return listExerciseWidget;
   }
 }

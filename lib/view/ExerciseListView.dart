@@ -1,4 +1,5 @@
 import 'package:betsbi/state/ExerciseListViewState.dart';
+import 'package:betsbi/state/ExerciseListViewStateOffline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,5 +11,5 @@ class ExerciseListViewPage extends StatefulWidget {
       {this.leading, this.type, this.isOffLine = false, Key key})
       : super(key: key);
   @override
-  ExerciseListViewState createState() => ExerciseListViewState();
+  State<ExerciseListViewPage> createState() => isOffLine ? ExerciseListViewStateOffline() : ExerciseListViewState();
 }

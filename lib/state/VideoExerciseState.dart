@@ -53,8 +53,8 @@ class VideoExerciseState extends State<ExerciseView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppSearchBar(),
-      bottomNavigationBar: BottomNavigationBarFooter(null),
+      appBar: AppSearchBar(isOffline: this.widget.isOffline,),
+      bottomNavigationBar: BottomNavigationBarFooter(null,isOffLine: this.widget.isOffline,),
       body: FutureBuilder(
         future: loadVideo(),
         builder: (context, snapshot) {
