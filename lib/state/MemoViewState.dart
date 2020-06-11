@@ -24,7 +24,6 @@ class MemosViewState extends State<MemosPage>
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   TextEditingController dueDateController = TextEditingController();
-  bool canCreate = false;
   AsyncMemoizer _memorizer = AsyncMemoizer();
   MemosWidget memosWidget;
 
@@ -142,7 +141,6 @@ class MemosViewState extends State<MemosPage>
                   parent: this,
                 ),
               );
-              canCreate = false;
             }),
           );
         }
@@ -239,9 +237,9 @@ class MemosViewState extends State<MemosPage>
   Future _selectDate() async {
     DateTime picked = await showDatePicker(
         context: context,
-        initialDate: new DateTime.now(),
-        firstDate: new DateTime(1996),
-        lastDate: new DateTime(DateTime.now().year + 2));
+        initialDate:  DateTime.now(),
+        firstDate:  DateTime.now(),
+        lastDate:  DateTime(DateTime.now().year + 2));
     if (picked != null)
       setState(
           () => dueDateController.text = DateFormat.yMMMd().format(picked));
