@@ -74,6 +74,7 @@
   "UpdateUserInformation": "Your information have been updated",
   "UserChoice": "User",
   "UsernameText": "Username",
+  "PlayListText": "PlayList's name",
   "WentWrong": "Something's went wrong",
   "UserIntroduction": "Vous pouvez créer un compte utilisateur ou psychologue qui sera vérifiée",
   "QuestIntroduction": "Vous pouvez créér des quetes à réaliser pour le lendemain offrant de l'experience. Vous pouvez aussi créer des mémos, rappels utiles pour tout les jours",
@@ -100,6 +101,7 @@
   "Lesson": "Know more",
   "AllMusicAvailable": "All Available music",
   "PleaseWait": "Veuillez patienter",
-  "NothingToShow": "Rien à montrer pour le moment"
-
+  "NothingToShow": "Rien à montrer pour le moment",
+  "NothingToShowAndClick": "Rien à montrer pour le moment, cliquez pour créer",
+  "AddThisSongToYourPlayList": "Ajouter cette musique à votre PlayList"
 }

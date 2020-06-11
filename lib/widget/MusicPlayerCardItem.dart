@@ -3,6 +3,7 @@ import 'package:async/async.dart';
 import 'package:betsbi/controller/AmbianceController.dart';
 import 'package:betsbi/service/FileManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/widget/PlayListAddWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -106,9 +107,20 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
           caption: SettingsManager.mapLanguage["AddToPlaylist"],
           color: Colors.blue,
           icon: Icons.add,
-          onTap: () => print("archive"),
+          onTap: () => _addToPlayList(),
         ),
       ],
+    );
+  }
+
+  void _addToPlayList() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return PlayListAddWidget(songName: this.widget.name, songId: this.widget.id,);
+      },
     );
   }
 }

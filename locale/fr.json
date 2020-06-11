@@ -84,6 +84,7 @@
   "UserChoice": "Utilisateur",
   "UserIntroduction": "Vous pouvez créer un compte utilisateur ou psychologue qui sera vérifiée",
   "UsernameText": "Pseudo",
+  "PlayListText": "nom de la PlayList",
   "WentWrong": "Une erreur est survenue !",
   "ReloadIntroduction": "Re-visionner les pages d'introductions",
   "Delete": "Supprimer",
@@ -99,5 +100,7 @@
   "Lesson": "En savoir plus",
   "AllMusicAvailable": "Toutes les musiques disponibles",
   "PleaseWait": "Please Wait",
-  "NothingToShow": "Nothing to show"
+  "NothingToShow": "Nothing to show",
+  "NothingToShowAndClick": "Nothing to show, click to create",
+  "AddThisSongToYourPlayList": "Add this Song to your PlayList"
 }
