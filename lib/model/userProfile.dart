@@ -37,22 +37,19 @@ class UserProfile extends User {
     });
   }
 
-  Future<bool> updateProfile(
+  Future<void> updateProfile(
       {String birthdate,
       String geolocation,
       String description,
       String profileId,
       bool isPsy,
       BuildContext context}) async {
-    bool isUpdated = false;
     await AccountController.updateCurrentUserInformation(
             birthdate: birthdate,
             geolocation: "",
             description: description,
             profileId: profileId,
             isPsy: isPsy,
-            context: context)
-        .then((worked) => isUpdated = worked);
-    return isUpdated;
+            context: context);
   }
 }

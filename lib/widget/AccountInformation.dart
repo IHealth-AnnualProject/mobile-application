@@ -95,9 +95,9 @@ class _AccountInformationState extends State<AccountInformation> {
     return result;
   }
 
-  Future<bool> updateInformation() {
+  Future<void> updateInformation() async {
     if (this.widget.isPsy)
-      return userProfile.updateProfile(
+       await userProfile.updateProfile(
           firstname: firstNameController.text,
           lastname: lastNameController.text,
           birthdate: ageController.text,
@@ -106,7 +106,7 @@ class _AccountInformationState extends State<AccountInformation> {
           isPsy: this.widget.isPsy,
           context: context);
     else
-      return userProfile.updateProfile(
+      await  userProfile.updateProfile(
           birthdate: ageController.text,
           description: descriptionController.text,
           profileId: this.widget.profile.profileId,

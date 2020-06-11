@@ -35,15 +35,15 @@ class HttpManager {
   }
 
   post() async {
-    response = await http.post(
-      SettingsManager.cfg.getString("apiUrl") + this.path,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':
-            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-      body: jsonEncode(this.map),
-    );
+      response = await http.post(
+        SettingsManager.cfg.getString("apiUrl") + this.path,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization':
+          'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
+        },
+        body: jsonEncode(this.map),
+      );
   }
 
   postWithoutAccessToken() async {

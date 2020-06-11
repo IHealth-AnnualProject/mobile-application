@@ -56,7 +56,7 @@ class Psychologist extends User {
     });
   }
 
-  Future<bool> updateProfile(
+  Future<void> updateProfile(
       {String firstname,
       String lastname,
       String birthdate,
@@ -65,7 +65,6 @@ class Psychologist extends User {
         String profileId,
         bool isPsy,
       BuildContext context}) async {
-    bool isUpdated = false;
     await AccountController.updateCurrentPsyInformation(
             firstname: firstname,
             lastname: lastname,
@@ -73,8 +72,6 @@ class Psychologist extends User {
             geolocation: "",
             description: description,
             profileId : profileId,
-            isPsy : isPsy, context: context)
-        .then((worked) => isUpdated = worked);
-    return isUpdated;
+            isPsy : isPsy, context: context);
   }
 }

@@ -5,6 +5,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:betsbi/model/song.dart';
 import 'package:betsbi/service/FileManager.dart';
 import 'package:betsbi/service/HttpManager.dart';
+import 'package:betsbi/service/ResponseManager.dart';
 import 'package:betsbi/widget/MusicPlayerButtonPlay.dart';
 import 'package:betsbi/widget/MusicPlayerProgressIndicator.dart';
 import 'package:flushbar/flushbar.dart';
@@ -21,7 +22,7 @@ class AmbianceController {
   static Flushbar musicPlayerFlushBar({@required String songName}) {
     return musicFlush = Flushbar<String>(
       backgroundColor: Colors.white,
-      isDismissible: false,
+      isDismissible: true,
       titleText: Text(
         songName,
         textAlign: TextAlign.center,
@@ -63,20 +64,25 @@ class AmbianceController {
   get all songs according to API
    */
   static Future<List<Song>> getAllSongs() async {
-    HttpManager httpManager =
-    new HttpManager(path: 'music/');
+    HttpManager httpManager = new HttpManager(path: 'music/');
     await httpManager.get();
     List<Song> songs = new List<Song>();
-    if (httpManager.response.statusCode >= 100 && httpManager.response.statusCode < 400) {
-      Iterable listSongs = json.decode(httpManager.response.body);
-      songs.addAll(listSongs.map((model) => Song.fromJson(model)).toList());
-    }
+    ResponseManager responseManager = new ResponseManager(
+      response: httpManager.response,
+      elementToReturn: songs,
+      functionListToReturn: () => _getSongsWithResponseBody(httpManager, songs),
+    );
+    return responseManager.checkResponseAndRetrieveListOfInformation();
+  }
+
+  static List<Song> _getSongsWithResponseBody(HttpManager httpManager, List<Song> songs) {
+    Iterable listSongs = json.decode(httpManager.response.body);
+    songs.addAll(listSongs.map((model) => Song.fromJson(model)).toList());
     return songs;
   }
 
   static Future<http.Response> downloadFile({@required String musicId}) async {
-    HttpManager httpManager =
-    new HttpManager(path: 'music/$musicId/download');
+    HttpManager httpManager = new HttpManager(path: 'music/$musicId/download');
     await httpManager.get();
     return httpManager.response;
   }

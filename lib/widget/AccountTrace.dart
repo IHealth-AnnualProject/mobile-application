@@ -38,7 +38,7 @@ class _AccountTraceState extends State<AccountTrace> {
     super.initState();
   }
 
-  _fetchData() {
+  getAllFeelings() {
     return this._memorizer.runOnce(() async {
       Feelings feeling = new Feelings.normalConstructor();
       feelings = await feeling.getUserFeelings(this.widget.profile.profileId, context);
@@ -87,7 +87,7 @@ class _AccountTraceState extends State<AccountTrace> {
           height: 20,
         ),
         FutureBuilder(
-          future: _fetchData(),
+          future: getAllFeelings(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return WaitingWidget();

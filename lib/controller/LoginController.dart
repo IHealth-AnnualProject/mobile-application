@@ -80,7 +80,7 @@ class LoginController {
                   ? SettingsManager.mapLanguage["ConnectSent"]
                   : "")
           .showFlushBarAndNavigateAndRemove(
-              context, LoginController.redirectionLogin());
+              context, redirectionLogin());
     } else
       FlushBarMessage.errorMessage(
               content: Response.fromJson(json.decode(response.body)).content)

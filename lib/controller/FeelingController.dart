@@ -1,14 +1,12 @@
 import 'dart:convert';
-import 'package:betsbi/model/response.dart';
 import 'package:betsbi/model/feelings.dart';
 import 'package:betsbi/service/HttpManager.dart';
+import 'package:betsbi/service/ResponseManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/HomeView.dart';
-import 'package:betsbi/widget/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
 
 class FeelingController {
   static void redirectionFeelingToHomePage(BuildContext context) {
@@ -20,22 +18,12 @@ class FeelingController {
             (Route<dynamic> route) => false));
   }
 
-  // todo test when api ready
   static Future<void> sendFeelings(int value, BuildContext context) async {
     HttpManager httpManager = new HttpManager(
         path: "userProfile/moral-stats", map: <String, int>{'value': value});
     await httpManager.post();
-    checkResponseAndRedirectifOk(httpManager.response, context);
-  }
-
-  static void checkResponseAndRedirectifOk(
-      http.Response response, BuildContext context) {
-    if (response.statusCode >= 100 && response.statusCode < 400) {
-      redirectionFeelingToHomePage(context);
-    } else
-      FlushBarMessage.errorMessage(
-              content: Response.fromJson(json.decode(response.body)).content)
-          .showFlushBar(context);
+    ResponseManager responseManager = new ResponseManager(context: context,response: httpManager.response, onSuccess: () =>  redirectionFeelingToHomePage(context));
+    responseManager.checkResponseAndExecuteFunctionIfOk();
   }
 
   static int weekNumber(DateTime date) {
@@ -58,7 +46,6 @@ class FeelingController {
         () => element));
     feelings = new List<Feelings>();
     mapFeelings.forEach((key, value) => feelings.add(value));
-
     return feelings;
   }
 
@@ -67,25 +54,17 @@ class FeelingController {
     HttpManager httpManager =
         new HttpManager(path: 'userProfile/$userId/moral-stats');
     await httpManager.get();
-    return checkResponseAndReturnListFeelingsIfOk(
-        httpManager.response, context);
+    ResponseManager responseManager = new ResponseManager(response: httpManager.response, context: context, elementToReturn:  getAllFeelingsFromJson(jsonToDecode: httpManager.response.body));
+    return responseManager.checkResponseAndRetrieveInformation();
   }
 
-  static List<Feelings> checkResponseAndReturnListFeelingsIfOk(
-      http.Response response, BuildContext context) {
-    if (response.statusCode >= 100 && response.statusCode < 400) {
-      var feelings = new List<Feelings>();
-      Iterable list = json.decode(response.body);
-      feelings = list.map((model) => Feelings.fromJson(model)).toList();
-      List<Feelings> allFeelings = toListFeelings(feelings);
-
-      allFeelings.sort((a, b) => a.dayOfFeeling.compareTo(b.dayOfFeeling));
-      return allFeelings;
-    } else {
-      FlushBarMessage.errorMessage(
-              content: Response.fromJson(json.decode(response.body)).content)
-          .showFlushBar(context);
-      return null;
-    }
+  static List<Feelings> getAllFeelingsFromJson({@required String jsonToDecode}){
+    var feelings = new List<Feelings>();
+    Iterable list = json.decode(jsonToDecode);
+    feelings = list.map((model) => Feelings.fromJson(model)).toList();
+    feelings.forEach((element) => print(element.toString()));
+    List<Feelings> allFeelings = toListFeelings(feelings);
+    allFeelings.sort((a, b) => a.dayOfFeeling.compareTo(b.dayOfFeeling));
+    return allFeelings;
   }
 }
