@@ -53,16 +53,21 @@ class ExerciseListViewState extends State<ExerciseListViewPage>
                 list,
                 this.widget.leading,
                 context,
-                this.widget.isOffLine);
-            return list.isNotEmpty ? ListView.builder(
-              padding: const EdgeInsets.all(8),
-              itemCount: list.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: list[index],
-                );
-              },
-            ) : EmptyListWidget();
+                this.widget.isOffLine,
+                this.widget.type);
+            if (list.isNotEmpty) {
+
+              return ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: list.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    child: list[index],
+                  );
+                },
+              );
+            } else
+              return EmptyListWidget();
           } else
             return WaitingWidget();
         },

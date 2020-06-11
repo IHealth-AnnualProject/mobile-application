@@ -7,6 +7,7 @@ import 'package:betsbi/model/song.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/AmbianceView.dart';
+import 'package:betsbi/view/PlayListListView.dart';
 import 'package:betsbi/view/RelaxingView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
@@ -44,7 +45,7 @@ class AmbianceState extends State<AmbiancePage>
     WidgetsBinding.instance.addObserver(this);
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
     if (AmbianceController.assetsAudioPlayer.isPlaying.value) {
-       AmbianceController.musicFlush
+      AmbianceController.musicFlush
           .dismiss()
           .then((value) => AmbianceController.musicFlush..show(context));
     }
@@ -65,7 +66,6 @@ class AmbianceState extends State<AmbiancePage>
       return listMusic;
     });
   }
-
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -142,22 +142,29 @@ class AmbianceState extends State<AmbiancePage>
             bubbleColor: Colors.blue,
             icon: Icons.list,
             titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-            onPress: () => curvedAnimation.animationController.reverse(),
+            onPress: () => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PlayListListPage(),
+              ),
+              (Route<dynamic> route) => false,
+            ),
           ),
           // Floating action menu item
           Bubble(
-              title: SettingsManager.mapLanguage["RelaxingColor"],
-              iconColor: Colors.white,
-              bubbleColor: Colors.blue,
-              icon: Icons.spa,
-              titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-              onPress: () => Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RelaxingView(),
-                    ),
-                    (Route<dynamic> route) => false,
-                  )),
+            title: SettingsManager.mapLanguage["RelaxingColor"],
+            iconColor: Colors.white,
+            bubbleColor: Colors.blue,
+            icon: Icons.spa,
+            titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RelaxingView(),
+              ),
+              (Route<dynamic> route) => false,
+            ),
+          ),
         ],
       ),
     );
