@@ -21,7 +21,7 @@ import 'package:flutter/material.dart';
 
 class PlayListListState extends State<PlayListListPage>
     with WidgetsBindingObserver {
-  final AsyncMemoizer _memorizer = AsyncMemoizer();
+  AsyncMemoizer _memorizer = AsyncMemoizer();
   List<PlayList> playLists;
   final _formKey = GlobalKey<FormState>();
   final playListNameController = TextEditingController();
@@ -96,9 +96,12 @@ class PlayListListState extends State<PlayListListPage>
                       onPressedFunction: () async {
                         if (this._formKey.currentState.validate()) {
                           await PlayListController.createNewPlayList(
-                              context: context,
-                              playListName: playListNameController.value.text);
-                          setState(() {});
+                                  context: context,
+                                  playListName:
+                                      playListNameController.value.text)
+                              .whenComplete(() => setState(() {
+                                    _memorizer = AsyncMemoizer();
+                                  }));
                         }
                       },
                     ),
@@ -106,7 +109,9 @@ class PlayListListState extends State<PlayListListPage>
                 ],
               ),
             ),
-            DefaultTextTitle(title: "PlayList",),
+            DefaultTextTitle(
+              title: "PlayList",
+            ),
             FutureBuilder(
               future: getAllPlayList(),
               builder: (context, snapshot) {

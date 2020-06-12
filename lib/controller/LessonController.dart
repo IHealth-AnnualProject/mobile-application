@@ -31,24 +31,23 @@ class LessonController {
 
   static ListTile lesson({Lesson lesson, BuildContext context}) {
     return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: Colors.white,
-        backgroundImage: AssetImage("assets/notes.png"),
-      ),
-      title: Text(lesson.name),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => LessonView(lesson: lesson)),
-        );
-      },
-    );
+        leading: CircleAvatar(
+          backgroundColor: Colors.white,
+          backgroundImage: AssetImage("assets/notes.png"),
+        ),
+        title: Text(lesson.name),
+        onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => LessonView(lesson: lesson)),
+            ));
   }
 
-  static List<PageViewModel> convertListPageToListPageViewModel({@required List<PageModel> pages}) {
+  static List<PageViewModel> convertListPageToListPageViewModel(
+      {@required List<PageModel> pages}) {
     List<PageViewModel> pageModels = new List<PageViewModel>();
     pages.forEach(
-          (page) => pageModels.add(
+      (page) => pageModels.add(
         new PageViewModel(
           pageColor: Color.fromRGBO(page.pageColor[0], page.pageColor[1],
               page.pageColor[2], page.pageColor[3].toDouble()),
@@ -57,8 +56,7 @@ class LessonController {
           title: Text(page.title),
           titleTextStyle: TextStyle(color: Colors.white),
           bodyTextStyle: TextStyle(color: Colors.white),
-          mainImage:
-          Image.asset(page.mainImage),
+          mainImage: Image.asset(page.mainImage),
         ),
       ),
     );
