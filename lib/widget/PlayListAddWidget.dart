@@ -1,5 +1,7 @@
 import 'package:async/async.dart';
+import 'package:betsbi/controller/AmbianceController.dart';
 import 'package:betsbi/model/playlist.dart';
+import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/PlayListListView.dart';
 import 'package:betsbi/widget/DefaultTextTitle.dart';
@@ -11,8 +13,12 @@ import 'package:flutter/material.dart';
 class PlayListAddWidget extends StatefulWidget {
   final String songName;
   final String songId;
+  final String songDuration;
 
-  PlayListAddWidget({@required this.songName, @required this.songId});
+  PlayListAddWidget(
+      {@required this.songName,
+      @required this.songId,
+      @required this.songDuration});
 
   @override
   State<PlayListAddWidget> createState() => _PlayListAddState();
@@ -75,13 +81,27 @@ class _PlayListAddState extends State<PlayListAddWidget> {
       actions: <Widget>[
         // usually buttons at the bottom of the dialog
         FlatButton(
-          child: Text(SettingsManager.mapLanguage["Submit"]),
-          onPressed: () => PlayListController.addSongToPlayList(
-            context: context,
-            playlistId: firstValueOfPlayLists.id,
-            musicId: this.widget.songId,
-          ),
-        ),
+            child: Text(SettingsManager.mapLanguage["Submit"]),
+            onPressed: () async {
+              await PlayListController.addSongToPlayList(
+                context: context,
+                playlistId: firstValueOfPlayLists.id,
+                musicId: this.widget.songId,
+              );
+              await AmbianceController.checkSongAndDownload(
+                songName: this.widget.songName,
+                duration: this.widget.songDuration,
+                id: this.widget.songId,
+              ).whenComplete(
+                () async => await Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HistoricalManager.historical.last,
+                  ),
+                  (Route<dynamic> route) => false,
+                ),
+              );
+            }),
         FlatButton(
           child: Text(SettingsManager.mapLanguage["Cancel"]),
           onPressed: () {

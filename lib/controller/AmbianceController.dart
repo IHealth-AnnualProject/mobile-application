@@ -18,6 +18,7 @@ class AmbianceController {
   static AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
   static Flushbar musicFlush;
   static bool isMusicAvailable;
+  static String currentSongName = "";
 
   static Flushbar musicPlayerFlushBar({@required String songName}) {
     return musicFlush = Flushbar<String>(
@@ -56,7 +57,8 @@ class AmbianceController {
         path,
       ),
     );
-    musicFlush = musicPlayerFlushBar(songName: songName);
+    currentSongName = songName;
+    musicFlush = musicPlayerFlushBar(songName: currentSongName);
     musicFlush.show(context);
   }
 
@@ -75,7 +77,8 @@ class AmbianceController {
     return responseManager.checkResponseAndRetrieveListOfInformation();
   }
 
-  static List<Song> _getSongsWithResponseBody(HttpManager httpManager, List<Song> songs) {
+  static List<Song> _getSongsWithResponseBody(
+      HttpManager httpManager, List<Song> songs) {
     Iterable listSongs = json.decode(httpManager.response.body);
     songs.addAll(listSongs.map((model) => Song.fromJson(model)).toList());
     return songs;
@@ -98,11 +101,6 @@ class AmbianceController {
         await _songToTestifWorking.open(
             Audio.file(applicationPath + "/" + songName + ".mp3"),
             autoStart: false);
-        if (isMusicAvailable) {
-          isMusicAvailable = _checkDurationAreEquals(
-              firstDuration: _songToTestifWorking.current.value.audio.duration,
-              secondDuration: duration);
-        }
       } on PlatformException {
         isMusicAvailable = false;
       } on IOException {
@@ -112,7 +110,17 @@ class AmbianceController {
     return isMusicAvailable;
   }
 
-  static bool _checkDurationAreEquals(
+  static Future checkSongAndDownload(
+      {@required String songName,
+      @required String duration,
+      @required String id}) async {
+    bool exist =
+        await checkIfSongAvailable(songName: songName, duration: duration);
+    if (!exist)
+      await FileManager.downloadFile(musicId: id, fileName: songName + ".mp3");
+  }
+
+  /* static bool _checkDurationAreEquals(
       {@required Duration firstDuration, @required String secondDuration}) {
     bool areDurationTheSame = true;
     String musicDurationToCompare = Duration(seconds: firstDuration.inSeconds)
@@ -120,9 +128,11 @@ class AmbianceController {
             .toString() +
         ":" +
         Duration(seconds: firstDuration.inSeconds % 60).inSeconds.toString();
+    print("firstDuration" + musicDurationToCompare);
+    print("secondDuration" + secondDuration);
     if (musicDurationToCompare != secondDuration) {
       areDurationTheSame = false;
     }
     return areDurationTheSame;
-  }
+  }*/
 }

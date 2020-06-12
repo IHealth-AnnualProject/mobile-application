@@ -26,7 +26,6 @@ class MusicPlayerFlushState extends State<MusicPlayerButtonPlay> {
   @override
   Widget build(BuildContext context) {
     isPlaying = AmbianceController.assetsAudioPlayer.isPlaying.value;
-    print(isPlaying);
     return FlatButton(
       shape: StadiumBorder(),
       color: Color.fromRGBO(0, 157, 153, 1),
