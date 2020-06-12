@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:betsbi/model/lesson.dart';
 import 'package:betsbi/model/pageModel.dart';
+import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/LessonView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,11 @@ import 'package:intro_views_flutter/Models/page_view_model.dart';
 
 class LessonController {
   static Future<String> getJsonLesson({@required BuildContext context}) {
-    return DefaultAssetBundle.of(context)
-        .loadString('assets/lesson/lessons.json');
+    return DefaultAssetBundle.of(context).loadString('assets/lesson/' +
+        SettingsManager.applicationProperties
+            .getCurrentLanguage()
+            .toLowerCase() +
+        '/lessons.json');
   }
 
   static List<Lesson> decodeJsonAndStoreItInsideLessonList(
