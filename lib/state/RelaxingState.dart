@@ -29,9 +29,16 @@ class RelaxingState extends State<RelaxingView> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    curvedAnimation.animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onDoubleTap: () => Navigator.pushAndRemoveUntil(
+      onDoubleTap: () =>
+        Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
           builder: (context) => AmbiancePage(),
