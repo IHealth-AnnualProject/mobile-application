@@ -104,5 +104,6 @@
   "NothingToShowAndClick": "Nothing to show, click to create",
   "AddThisSongToYourPlayList": "Add this Song to your PlayList",
   "PlayListCreated": "The Play List have correctly been created",
-  "AddSongToPlayList": "This song have correctly been added to the playlist"
+  "AddSongToPlayList": "This song have correctly been added to the playlist",
+  "TimeOut": "Time Out Check out your internet connection"
 }

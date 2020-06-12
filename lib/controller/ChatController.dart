@@ -12,7 +12,7 @@ class ChatController {
   static Future<List<Message>> getAllMessageIdFromContact(
       {String contactID, BuildContext context}) async {
     HttpManager httpManager =
-        new HttpManager(path: 'conversation/$contactID/user');
+        new HttpManager(path: 'conversation/$contactID/user', context: context);
     await httpManager.get();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,
@@ -37,7 +37,7 @@ class ChatController {
   }
 
   static Future<List<Contact>> getAllContact({BuildContext context}) async {
-    HttpManager httpManager = new HttpManager(path: 'conversation/');
+    HttpManager httpManager = new HttpManager(path: 'conversation/', context: context);
     await httpManager.get();
     ResponseManager responseManager = new ResponseManager(
         response: httpManager.response,

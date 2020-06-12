@@ -65,8 +65,8 @@ class AmbianceController {
   /*
   get all songs according to API
    */
-  static Future<List<Song>> getAllSongs() async {
-    HttpManager httpManager = new HttpManager(path: 'music/');
+  static Future<List<Song>> getAllSongs({@required BuildContext context}) async {
+    HttpManager httpManager = new HttpManager(path: 'music/', context: context);
     await httpManager.get();
     List<Song> songs = new List<Song>();
     ResponseManager responseManager = new ResponseManager(
@@ -84,8 +84,8 @@ class AmbianceController {
     return songs;
   }
 
-  static Future<http.Response> downloadFile({@required String musicId}) async {
-    HttpManager httpManager = new HttpManager(path: 'music/$musicId/download');
+  static Future<http.Response> downloadFile({@required String musicId, @required BuildContext context}) async {
+    HttpManager httpManager = new HttpManager(path: 'music/$musicId/download', context: context);
     await httpManager.get();
     return httpManager.response;
   }
@@ -113,11 +113,11 @@ class AmbianceController {
   static Future checkSongAndDownload(
       {@required String songName,
       @required String duration,
-      @required String id}) async {
+      @required String id, @required BuildContext context}) async {
     bool exist =
         await checkIfSongAvailable(songName: songName, duration: duration);
     if (!exist)
-      await FileManager.downloadFile(musicId: id, fileName: songName + ".mp3");
+      await FileManager.downloadFile(musicId: id, fileName: songName + ".mp3", context: context);
   }
 
   /* static bool _checkDurationAreEquals(

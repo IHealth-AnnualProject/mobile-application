@@ -14,7 +14,7 @@ class RegisterController {
           'username': username,
           'password': password,
           'isPsy': isPsy
-        });
+        }, context: context);
     await httpManager.postWithoutAccessToken();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,

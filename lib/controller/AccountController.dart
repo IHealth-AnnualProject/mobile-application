@@ -16,7 +16,8 @@ import 'package:flutter/material.dart';
 class AccountController {
   static Future<UserProfile> getCurrentUserInformation(
       String userID, BuildContext context) async {
-    HttpManager httpManager = new HttpManager(path: 'userProfile/$userID/user');
+    HttpManager httpManager =
+        new HttpManager(path: 'userProfile/$userID/user', context: context);
     await httpManager.get();
     UserProfile userProfile = UserProfile.defaultConstructor();
     ResponseManager responseManager = new ResponseManager(
@@ -30,7 +31,8 @@ class AccountController {
 
   static Future<Psychologist> getCurrentPsyInformation(
       String psyId, BuildContext context) async {
-    HttpManager httpManager = new HttpManager(path: 'psychologist/$psyId/user');
+    HttpManager httpManager =
+        new HttpManager(path: 'psychologist/$psyId/user', context: context);
     await httpManager.get();
     Psychologist psychologist = new Psychologist.defaultConstructor();
     ResponseManager responseManager = new ResponseManager(
@@ -51,6 +53,7 @@ class AccountController {
       BuildContext context}) async {
     HttpManager httpManager = new HttpManager(
         path: 'userProfile',
+        context: context,
         map: <String, dynamic>{
           "birthdate": birthdate,
           "description": description
@@ -77,13 +80,15 @@ class AccountController {
       String profileId,
       bool isPsy,
       BuildContext context}) async {
-    HttpManager httpManager =
-        new HttpManager(path: 'psychologist', map: <String, dynamic>{
-      "first_name": firstname,
-      "last_name": lastname,
-      "birthdate": birthdate,
-      "description": description
-    });
+    HttpManager httpManager = new HttpManager(
+        path: 'psychologist',
+        context: context,
+        map: <String, dynamic>{
+          "first_name": firstname,
+          "last_name": lastname,
+          "birthdate": birthdate,
+          "description": description
+        });
     await httpManager.patch();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,

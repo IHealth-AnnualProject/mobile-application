@@ -66,7 +66,7 @@ class SearchBarController {
 
   static Future<List<SearchItem>> getAllMusic({BuildContext context}) async {
     List<SearchItem> items = new List<SearchItem>();
-    await AmbianceController.getAllSongs().then(
+    await AmbianceController.getAllSongs(context: context).then(
       (songs) => songs.forEach(
         (song) {
           items.add(
@@ -85,7 +85,7 @@ class SearchBarController {
 
   static Future<List<User>> getAllProfile(BuildContext context) async {
     var users = new List<User>();
-    HttpManager httpManager = new HttpManager(path: "userProfile");
+    HttpManager httpManager = new HttpManager(path: "userProfile", context: context);
     await httpManager.get();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,

@@ -14,14 +14,14 @@ class TextFormFieldCustomBetsBi extends StatelessWidget {
   final String hintText;
 
   TextFormFieldCustomBetsBi(
-      {this.obscureText,
-      this.textAlign,
-      this.controller,
-      this.validator,
-      this.labelText,
-      this.filled,
-      this.fillColor,
-      this.hintText,
+      {@required this.obscureText,
+      @required this.textAlign,
+      @required this.controller,
+      @required this.validator,
+      @required this.labelText,
+      @required this.filled,
+      @required this.fillColor,
+      @required this.hintText,
       this.maxLines = 1,
       this.keyBoardType = TextInputType.text,
       Key key})

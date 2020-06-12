@@ -12,7 +12,7 @@ class TokenController {
     await setTokenUserIdAndUserProfileIDFromStorageToSettingsManagerVariables();
     if (SettingsManager.applicationProperties.getCurrentToken() != null) {
       HttpManager httpManager =
-      new HttpManager(path: 'auth/is-token-valid');
+      new HttpManager(path: 'auth/is-token-valid', context: context);
       await httpManager.get();
       ResponseManager responseManager = new ResponseManager(response: httpManager.response,context: context,);
       return responseManager.checkResponseAndConfirmSuccess();

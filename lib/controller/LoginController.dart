@@ -45,7 +45,7 @@ class LoginController {
         new HttpManager(path: 'auth/login', map: <String, String>{
       'username': username,
       'password': password,
-    });
+    }, context: context);
     await httpManager.postWithoutAccessToken();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,

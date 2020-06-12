@@ -105,7 +105,6 @@
   "NothingToShowAndClick": "Rien à montrer pour le moment, cliquez pour créer",
   "AddThisSongToYourPlayList": "Ajouter cette musique à votre PlayList",
   "PlayListCreated": "La PlayList a bien été créé",
-  "AddSongToPlayList": "Cette musique a été ajouté à la playlist"
-
-
+  "AddSongToPlayList": "Cette musique a été ajouté à la playlist",
+  "TimeOut": "Délai expiré, veuillez vérifier votre connexion internet"
 }

@@ -53,7 +53,7 @@ class AmbianceState extends State<AmbiancePage>
 
   getAllMusic() {
     return this._memorizer.runOnce(() async {
-      List<Song> songs = await AmbianceController.getAllSongs();
+      List<Song> songs = await AmbianceController.getAllSongs(context: context);
       songs.forEach(
         (song) => listMusic.add(
           MusicPlayerCardItem(

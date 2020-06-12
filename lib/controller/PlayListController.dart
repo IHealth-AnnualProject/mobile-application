@@ -10,7 +10,8 @@ class PlayListController {
   static Future<List<PlayList>> getAllPlayList({
     @required BuildContext context,
   }) async {
-    HttpManager httpManager = new HttpManager(path: "playlist");
+    HttpManager httpManager =
+        new HttpManager(path: "playlist", context: context);
     await httpManager.get();
     print("GetAllPlayList :" + httpManager.response.statusCode.toString());
     ResponseManager responseManager = new ResponseManager(
@@ -35,7 +36,8 @@ class PlayListController {
     @required BuildContext context,
     @required String playListId,
   }) async {
-    HttpManager httpManager = new HttpManager(path: "playlist/$playListId");
+    HttpManager httpManager =
+        new HttpManager(path: "playlist/$playListId", context: context);
     await httpManager.get();
     print("GetPlayList :" + httpManager.response.request.toString());
     ResponseManager responseManager = new ResponseManager(
@@ -53,15 +55,15 @@ class PlayListController {
   }) async {
     HttpManager httpManager = new HttpManager(
         path: "playlist",
-        map: <String, dynamic>{"name": playListName, "musics": []});
+        map: <String, dynamic>{"name": playListName, "musics": []},
+        context: context);
     await httpManager.post();
     print("CreateNewPlayListWithMusic :" +
         httpManager.response.statusCode.toString());
     ResponseManager responseManager = new ResponseManager(
-      response: httpManager.response,
-      successMessage: SettingsManager.mapLanguage["PlayListCreated"],
-      context: context
-    );
+        response: httpManager.response,
+        successMessage: SettingsManager.mapLanguage["PlayListCreated"],
+        context: context);
     responseManager.checkResponseAndPrintIt();
   }
 
@@ -71,15 +73,13 @@ class PlayListController {
     @required String musicId,
   }) async {
     HttpManager httpManager = new HttpManager(
-      path: "playlist/$playlistId/addMusic/$musicId",
-    );
-    await httpManager.postWihtoutBody();
+        path: "playlist/$playlistId/addMusic/$musicId", context: context);
+    await httpManager.postWithoutBody();
     print("addSongToPlayList :" + httpManager.response.request.toString());
     ResponseManager responseManager = new ResponseManager(
         response: httpManager.response,
         successMessage: SettingsManager.mapLanguage["AddSongToPlayList"],
-        context: context
-    );
+        context: context);
     responseManager.checkResponseAndPrintIt();
   }
 }

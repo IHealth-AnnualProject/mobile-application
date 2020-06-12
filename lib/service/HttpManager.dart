@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
+import 'package:betsbi/controller/SettingsController.dart';
+import 'package:betsbi/widget/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,64 +11,105 @@ class HttpManager {
   String path;
   final Map<String, dynamic> map;
   http.Response response;
+  final BuildContext context;
 
-  HttpManager({this.path, this.map});
+  HttpManager({@required this.path, this.map, @required this.context});
 
   get() async {
-    response = await http.get(
-      SettingsManager.cfg.getString("apiUrl") + this.path,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':
-            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-    );
+    try {
+      response = await http.get(
+        SettingsManager.cfg.getString("apiUrl") + this.path,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer ' +
+              SettingsManager.applicationProperties.getCurrentToken(),
+        },
+      ).timeout(Duration(seconds: 6));
+    } on TimeoutException catch (_) {
+      FlushBarMessage.informationMessage(
+              content: SettingsManager.mapLanguage["TimeOut"])
+          .showFlushBarAndDo(
+              context, () => SettingsController.disconnect(context));
+    }
   }
 
   patch() async {
-    response = await http.patch(
-      SettingsManager.cfg.getString("apiUrl") + this.path,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':
-            'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-      },
-      body: jsonEncode(this.map),
-    );
+    try {
+      response = await http
+          .patch(
+            SettingsManager.cfg.getString("apiUrl") + this.path,
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer ' +
+                  SettingsManager.applicationProperties.getCurrentToken(),
+            },
+            body: jsonEncode(this.map),
+          )
+          .timeout(Duration(seconds: 6));
+    } on TimeoutException catch (_) {
+      FlushBarMessage.informationMessage(
+              content: SettingsManager.mapLanguage["TimeOut"])
+          .showFlushBarAndDo(
+              context, () => SettingsController.disconnect(context));
+    }
   }
 
   post() async {
-      response = await http.post(
-        SettingsManager.cfg.getString("apiUrl") + this.path,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization':
-          'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
-        },
-        body: jsonEncode(this.map),
-      );
+    try {
+      response = await http
+          .post(
+            SettingsManager.cfg.getString("apiUrl") + this.path,
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer ' +
+                  SettingsManager.applicationProperties.getCurrentToken(),
+            },
+            body: jsonEncode(this.map),
+          )
+          .timeout(Duration(seconds: 6));
+    } on TimeoutException catch (_) {
+      FlushBarMessage.informationMessage(
+              content: SettingsManager.mapLanguage["TimeOut"])
+          .showFlushBarAndDo(
+              context, () => SettingsController.disconnect(context));
+    }
   }
 
-
-  postWihtoutBody() async {
+  postWithoutBody() async {
+    try {
       response = await http.post(
         SettingsManager.cfg.getString("apiUrl") + this.path,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization':
-          'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
+          'Authorization': 'Bearer ' +
+              SettingsManager.applicationProperties.getCurrentToken(),
         },
-      );
+      ).timeout(Duration(seconds: 6));
+    } on TimeoutException catch (_) {
+      FlushBarMessage.informationMessage(
+              content: SettingsManager.mapLanguage["TimeOut"])
+          .showFlushBarAndDo(
+              context, () => SettingsController.disconnect(context));
+    }
   }
 
   postWithoutAccessToken() async {
-    response = await http.post(
-      SettingsManager.cfg.getString("apiUrl") + this.path,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(this.map),
-    );
+    try {
+      response = await http
+          .post(
+            SettingsManager.cfg.getString("apiUrl") + this.path,
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(this.map),
+          )
+          .timeout(Duration(seconds: 6));
+    } on TimeoutException catch (_) {
+      FlushBarMessage.informationMessage(
+              content: SettingsManager.mapLanguage["TimeOut"])
+          .showFlushBarAndDo(
+              context, () => SettingsController.disconnect(context));
+    }
   }
 
   setPath({@required String newPath}) {

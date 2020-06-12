@@ -13,10 +13,10 @@ class ContactChat extends StatefulWidget {
   ContactChat({this.contact});
 
   @override
-  _contactChatState createState() => _contactChatState();
+  _ContactChatState createState() => _ContactChatState();
 }
 
-class _contactChatState extends State<ContactChat> {
+class _ContactChatState extends State<ContactChat> {
   SQLLiteNewMessage newMessage;
 
   @override

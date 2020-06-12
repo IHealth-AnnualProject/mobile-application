@@ -45,10 +45,16 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
   void initState() {
     super.initState();
     AmbianceController.assetsAudioPlayer.currentPosition.listen((audio) {
-      if (AmbianceController.assetsAudioPlayer.isPlaying.value)
-        if (audio.inSeconds == AmbianceController.assetsAudioPlayer.current.value.audio.duration.inSeconds) {
+      if (AmbianceController.assetsAudioPlayer.isPlaying.value) if (audio
+              .inSeconds ==
+          AmbianceController
+              .assetsAudioPlayer.current.value.audio.duration.inSeconds) {
         AmbianceController.assetsAudioPlayer
-            .open(Audio.file(applicationPath + "/" + AmbianceController.currentSongName + ".mp3"),
+            .open(
+                Audio.file(applicationPath +
+                    "/" +
+                    AmbianceController.currentSongName +
+                    ".mp3"),
                 autoStart: false)
             .whenComplete(() => setState(() {}));
       }
@@ -76,9 +82,10 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
                               applicationPath + "/" + this.widget.name + ".mp3",
                           context: context)
                       : await FileManager.downloadFile(
-                              fileName: this.widget.name + ".mp3",
-                              musicId: this.widget.id)
-                          .whenComplete(() {
+                          fileName: this.widget.name + ".mp3",
+                          musicId: this.widget.id,
+                          context: context,
+                        ).whenComplete(() {
                           setState(() {
                             _memorizer = AsyncMemoizer();
                           });
@@ -115,7 +122,7 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
 
   Future<void> _addToPlayList() async {
     // flutter defined function
-   await showDialog(
+    await showDialog(
       context: context,
       builder: (BuildContext context) {
         return PlayListAddWidget(

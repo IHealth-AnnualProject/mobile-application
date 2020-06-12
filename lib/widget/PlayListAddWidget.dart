@@ -89,6 +89,7 @@ class _PlayListAddState extends State<PlayListAddWidget> {
                 musicId: this.widget.songId,
               );
               await AmbianceController.checkSongAndDownload(
+                context: context,
                 songName: this.widget.songName,
                 duration: this.widget.songDuration,
                 id: this.widget.songId,

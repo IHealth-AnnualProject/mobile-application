@@ -20,7 +20,7 @@ class FeelingController {
 
   static Future<void> sendFeelings(int value, BuildContext context) async {
     HttpManager httpManager = new HttpManager(
-        path: "userProfile/moral-stats", map: <String, int>{'value': value});
+        path: "userProfile/moral-stats", map: <String, int>{'value': value}, context: context);
     await httpManager.post();
     ResponseManager responseManager = new ResponseManager(context: context,response: httpManager.response, onSuccess: () =>  redirectionFeelingToHomePage(context));
     responseManager.checkResponseAndExecuteFunctionIfOk();
@@ -52,7 +52,7 @@ class FeelingController {
   static Future<List<Feelings>> getAllFeelings(
       String userId, BuildContext context) async {
     HttpManager httpManager =
-        new HttpManager(path: 'userProfile/$userId/moral-stats');
+        new HttpManager(path: 'userProfile/$userId/moral-stats', context: context);
     await httpManager.get();
     ResponseManager responseManager = new ResponseManager(response: httpManager.response, context: context, elementToReturn:  getAllFeelingsFromJson(jsonToDecode: httpManager.response.body));
     return responseManager.checkResponseAndRetrieveInformation();
