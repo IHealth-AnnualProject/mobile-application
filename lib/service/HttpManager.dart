@@ -46,6 +46,18 @@ class HttpManager {
       );
   }
 
+
+  postWihtoutBody() async {
+      response = await http.post(
+        SettingsManager.cfg.getString("apiUrl") + this.path,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization':
+          'Bearer ' + SettingsManager.applicationProperties.getCurrentToken(),
+        },
+      );
+  }
+
   postWithoutAccessToken() async {
     response = await http.post(
       SettingsManager.cfg.getString("apiUrl") + this.path,

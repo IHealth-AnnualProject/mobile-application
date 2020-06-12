@@ -11,6 +11,7 @@ import 'package:betsbi/view/PlayListListView.dart';
 import 'package:betsbi/view/PlayListView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/widget/DefaultTextTitle.dart';
 import 'package:betsbi/widget/EmptyListWidget.dart';
 import 'package:betsbi/widget/SubmitButton.dart';
 import 'package:betsbi/widget/TextFormFieldCustomBetsBi.dart';
@@ -94,8 +95,10 @@ class PlayListListState extends State<PlayListListPage>
                       content: SettingsManager.mapLanguage["Submit"],
                       onPressedFunction: () async {
                         if (this._formKey.currentState.validate()) {
-                          //todo wait for api
-                          print("creation");
+                          await PlayListController.createNewPlayList(
+                              context: context,
+                              playListName: playListNameController.value.text);
+                          setState(() {});
                         }
                       },
                     ),
@@ -103,6 +106,7 @@ class PlayListListState extends State<PlayListListPage>
                 ],
               ),
             ),
+            DefaultTextTitle(title: "PlayList",),
             FutureBuilder(
               future: getAllPlayList(),
               builder: (context, snapshot) {

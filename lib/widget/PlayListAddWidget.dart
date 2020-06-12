@@ -75,12 +75,15 @@ class _PlayListAddState extends State<PlayListAddWidget> {
       actions: <Widget>[
         // usually buttons at the bottom of the dialog
         FlatButton(
-          child: new Text("Confirm"),
-          //todo wait for api
-          onPressed: () => print("confirmation"),
+          child: Text(SettingsManager.mapLanguage["Submit"]),
+          onPressed: () => PlayListController.addSongToPlayList(
+            context: context,
+            playlistId: firstValueOfPlayLists.id,
+            musicId: this.widget.songId,
+          ),
         ),
         FlatButton(
-          child: new Text("Close"),
+          child: Text(SettingsManager.mapLanguage["Cancel"]),
           onPressed: () {
             Navigator.of(context).pop();
           },
