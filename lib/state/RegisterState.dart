@@ -95,7 +95,7 @@ class RegisterState extends State<RegisterPage> {
                       ),
                       Container(
                           child: TextFormFieldCustomBetsBi(
-                            obscureText: true,
+                            obscureText: false,
                             textAlign: TextAlign.left,
                             controller: emailController,
                             validator: (value) => CheckController.checkField(

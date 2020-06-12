@@ -27,6 +27,19 @@ class ResponseManager {
       this.functionFromJsonToReturn,
       this.functionListToReturn});
 
+  checkResponseAndPrintIt() {
+    if (response.statusCode >= 100 && response.statusCode < 400) {
+      if (this.onSuccess != null) onSuccess();
+      FlushBarMessage.goodMessage(content: this.successMessage)
+          .showFlushBar(context);
+    } else {
+      if (this.onFailure != null) onFailure();
+      FlushBarMessage.errorMessage(
+          content: Response.fromJson(json.decode(response.body)).content)
+          .showFlushBar(context);
+    }
+  }
+
   checkResponseAndShowIt() {
     if (response.statusCode >= 100 && response.statusCode < 400) {
       if (this.onSuccess != null) onSuccess();
@@ -84,6 +97,19 @@ class ResponseManager {
       FlushBarMessage.errorMessage(
           content: Response.fromJson(json.decode(response.body)).content)
           .showFlushBar(this.context);
+    }
+  }
+
+  bool checkResponseAndConfirmSuccess(){
+    if (response.statusCode >= 100 && response.statusCode < 400) {
+      if (this.onSuccess != null) onSuccess();
+      return true;
+    } else {
+      if (this.onFailure != null) onFailure();
+      FlushBarMessage.errorMessage(
+          content: Response.fromJson(json.decode(response.body)).content)
+          .showFlushBar(this.context);
+      return false;
     }
   }
 }

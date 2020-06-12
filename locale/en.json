@@ -103,5 +103,9 @@
   "PleaseWait": "Veuillez patienter",
   "NothingToShow": "Rien à montrer pour le moment",
   "NothingToShowAndClick": "Rien à montrer pour le moment, cliquez pour créer",
-  "AddThisSongToYourPlayList": "Ajouter cette musique à votre PlayList"
+  "AddThisSongToYourPlayList": "Ajouter cette musique à votre PlayList",
+  "PlayListCreated": "La PlayList a bien été créé",
+  "AddSongToPlayList": "Cette musique a été ajouté à la playlist"
+
+
 }

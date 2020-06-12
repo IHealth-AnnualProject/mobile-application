@@ -1,20 +1,18 @@
 import 'dart:convert';
 
 import 'package:betsbi/controller/AmbianceController.dart';
-import 'package:betsbi/model/Response.dart';
 import 'package:betsbi/model/exercise.dart';
 import 'package:betsbi/model/psychologist.dart';
 import 'package:betsbi/model/searchItem.dart';
 import 'package:betsbi/model/user.dart';
 import 'package:betsbi/model/userProfile.dart';
 import 'package:betsbi/service/HttpManager.dart';
+import 'package:betsbi/service/ResponseManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/AccountView.dart';
 import 'package:betsbi/view/ExerciseView.dart';
-import 'package:betsbi/widget/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import 'ExerciseController.dart';
 
@@ -89,41 +87,41 @@ class SearchBarController {
     var users = new List<User>();
     HttpManager httpManager = new HttpManager(path: "userProfile");
     await httpManager.get();
-
-    _checkResponseUserAndUpdateListIFOK(httpManager.response, users, context);
+    ResponseManager responseManager = new ResponseManager(
+      response: httpManager.response,
+      elementToReturn: new List<User>(),
+      functionListToReturn: () => fromJsonToUser(httpManager),
+      context: context,
+    );
+    users = responseManager.checkResponseAndRetrieveListOfInformation();
     // remove psy from list if you're already a psy
     httpManager.setPath(newPath: 'psychologist');
     await httpManager.get();
-
-    _checkResponsePSYAndUpdateListIFOK(httpManager.response, users, context);
+    responseManager = new ResponseManager(
+      response: httpManager.response,
+      elementToReturn: new List<User>(),
+      functionListToReturn: () => fromJsonToPsy(httpManager),
+      context: context,
+    );
+    users.addAll(responseManager.checkResponseAndRetrieveListOfInformation());
     users.removeWhere((user) =>
-        user.profileId ==
-        SettingsManager.applicationProperties.getCurrentId());
+        user.profileId == SettingsManager.applicationProperties.getCurrentId());
     return users;
   }
 
-  static void _checkResponseUserAndUpdateListIFOK(
-      http.Response response, List<User> users, BuildContext context) {
-    if (response.statusCode >= 100 && response.statusCode < 400) {
-      Iterable list = json.decode(response.body);
-      users.addAll(list.map((model) => UserProfile.fromJson(model)).toList());
-    } else
-      FlushBarMessage.errorMessage(
-              content: Response.fromJson(json.decode(response.body)).content)
-          .showFlushBar(context);
+  static List<User> fromJsonToUser(HttpManager httpManager) {
+    List<User> users = new List<User>();
+    Iterable list = json.decode(httpManager.response.body);
+    users.addAll(list.map((model) => UserProfile.fromJson(model)).toList());
+    return users;
   }
 
-  static void _checkResponsePSYAndUpdateListIFOK(
-      http.Response response, List<User> users, BuildContext context) {
-    if (response.statusCode >= 100 && response.statusCode < 400) {
-      Iterable list = json.decode(response.body);
-      list = json.decode(response.body);
-      users.addAll(
-          list.map((model) => Psychologist.fromJsonForSearch(model)).toList());
-    } else
-      FlushBarMessage.errorMessage(
-              content: Response.fromJson(json.decode(response.body)).content)
-          .showFlushBar(context);
+  static List<User> fromJsonToPsy(HttpManager httpManager) {
+    List<User> users = new List<User>();
+    Iterable list = json.decode(httpManager.response.body);
+    users.addAll(
+        list.map((model) => Psychologist.fromJsonForSearch(model)).toList());
+    return users;
   }
 
   static Widget redirectAfterPushing(SearchItem item) {

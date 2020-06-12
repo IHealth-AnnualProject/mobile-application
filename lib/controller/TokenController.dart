@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:betsbi/model/Response.dart';
 import 'package:betsbi/service/HttpManager.dart';
+import 'package:betsbi/service/ResponseManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/view/LoginView.dart';
-import 'package:betsbi/widget/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class TokenController {
   static Future<bool> checkTokenValidity(BuildContext context) async {
@@ -16,8 +14,8 @@ class TokenController {
       HttpManager httpManager =
       new HttpManager(path: 'auth/is-token-valid');
       await httpManager.get();
-
-      return _checkResponseUserAndUpdateListIFOK(httpManager.response, context);
+      ResponseManager responseManager = new ResponseManager(response: httpManager.response,context: context,);
+      return responseManager.checkResponseAndConfirmSuccess();
     }
     return false;
   }
@@ -30,17 +28,6 @@ class TokenController {
     );
   }
 
-  static bool _checkResponseUserAndUpdateListIFOK(
-      http.Response response, BuildContext context) {
-    if (response != null && response.statusCode >= 100 && response.statusCode < 400) {
-      return true;
-    } else {
-      FlushBarMessage.errorMessage(
-              content: Response.fromJson(json.decode(response.body)).content)
-          .showFlushBar(context);
-      return false;
-    }
-  }
 
   static Future<void>
       setTokenUserIdAndUserProfileIDFromStorageToSettingsManagerVariables() async {

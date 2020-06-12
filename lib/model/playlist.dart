@@ -2,11 +2,17 @@ import 'package:betsbi/model/song.dart';
 import 'package:flutter/cupertino.dart';
 
 class PlayList {
-  final String id;
-  final String name;
-  final List<Song> songs;
+   String id;
+   String name;
+  List<Song> songs;
 
   PlayList({@required this.id, @required this.name, @required this.songs});
+
+  PlayList.defaultConstructor(){
+    this.id  ="";
+    this.name ="";
+    this.songs = [];
+  }
 
   factory PlayList.fromJson(Map<String, dynamic> json) {
     var musics = json['musics'] as List;

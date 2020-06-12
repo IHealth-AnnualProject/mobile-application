@@ -1,15 +1,13 @@
 import 'dart:convert';
 
-import 'package:betsbi/model/response.dart';
 import 'package:betsbi/service/HttpManager.dart';
+import 'package:betsbi/service/ResponseManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/service/SocketManager.dart';
 import 'package:betsbi/view/FeelingsView.dart';
 import 'package:betsbi/view/HomeView.dart';
-import 'package:betsbi/widget/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class LoginController {
   static DateTime feelingsParsed;
@@ -44,47 +42,40 @@ class LoginController {
   static Future<void> login(
       String username, String password, BuildContext context) async {
     HttpManager httpManager =
-    new HttpManager(path: 'auth/login', map: <String, String>{
+        new HttpManager(path: 'auth/login', map: <String, String>{
       'username': username,
       'password': password,
     });
     await httpManager.postWithoutAccessToken();
-    await checkResponseAndRedirectifOK(httpManager.response, context);
+    ResponseManager responseManager = new ResponseManager(
+      response: httpManager.response,
+      onSuccess: () async =>
+          await writePropertiesAfterLogin(httpManager),
+      context: context,
+      destination: redirectionLogin(),
+      successMessage: SettingsManager.mapLanguage["ConnectSent"]
+    );
+    responseManager.checkResponseAndShowIt();
+    return responseManager.checkResponseAndShowIt();
   }
 
-  static Future writePropertiesAfterLogin(http.Response response) async {
+  static Future writePropertiesAfterLogin(HttpManager httpManager) async {
     await SettingsManager.storage
-        .write(key: "userId", value: parseResponse(response.body)["user"]["id"])
+        .write(key: "userId", value: parseResponse(httpManager.response.body)["user"]["id"])
         .then((r) => SettingsManager.applicationProperties
-            .setCurrentId(parseResponse(response.body)["user"]["id"]));
+            .setCurrentId(parseResponse(httpManager.response.body)["user"]["id"]));
     await SettingsManager.storage
         .write(
             key: "token",
-            value: parseResponse(response.body)["token"]["access_token"])
+            value: parseResponse(httpManager.response.body)["token"]["access_token"])
         .then((r) => SettingsManager.applicationProperties.setCurrentToken(
-            parseResponse(response.body)["token"]["access_token"]));
+            parseResponse(httpManager.response.body)["token"]["access_token"]));
     await SettingsManager.storage
         .write(
             key: "isPsy",
-            value: parseResponse(response.body)["user"]["isPsy"].toString())
+            value: parseResponse(httpManager.response.body)["user"]["isPsy"].toString())
         .then((r) => SettingsManager.applicationProperties.setIsPsy(
-            parseResponse(response.body)["user"]["isPsy"].toString()));
-  }
-
-  static Future<void> checkResponseAndRedirectifOK(
-      http.Response response, BuildContext context) async {
-    if (response.statusCode >= 100 && response.statusCode < 400) {
-      await writePropertiesAfterLogin(response);
-      FlushBarMessage.goodMessage(
-              content: SettingsManager.mapLanguage["ConnectSent"] != null
-                  ? SettingsManager.mapLanguage["ConnectSent"]
-                  : "")
-          .showFlushBarAndNavigateAndRemove(
-              context, redirectionLogin());
-    } else
-      FlushBarMessage.errorMessage(
-              content: Response.fromJson(json.decode(response.body)).content)
-          .showFlushBar(context);
+            parseResponse(httpManager.response.body)["user"]["isPsy"].toString()));
   }
 
   static Map<String, dynamic> parseResponse(String response) {
