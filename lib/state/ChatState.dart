@@ -112,7 +112,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
               );
             }
           }),
-      bottomNavigationBar: BottomNavigationBarFooter(2),
+      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: 2,),
     );
   }
 

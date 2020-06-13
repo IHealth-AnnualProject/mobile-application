@@ -55,8 +55,7 @@ class LoginController {
       destination: redirectionLogin(),
       successMessage: SettingsManager.mapLanguage["ConnectSent"]
     );
-    responseManager.checkResponseAndShowIt();
-    return responseManager.checkResponseAndShowIt();
+    return responseManager.checkResponseAndShowItWithNoComingBack();
   }
 
   static Future writePropertiesAfterLogin(HttpManager httpManager) async {

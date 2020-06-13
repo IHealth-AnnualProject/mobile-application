@@ -113,7 +113,7 @@ class QuestState extends State<QuestPage> with WidgetsBindingObserver {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarFooter(null),
+      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: null,),
     );
   }
 }

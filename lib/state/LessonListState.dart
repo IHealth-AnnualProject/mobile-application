@@ -43,7 +43,7 @@ class LessonListState extends State<LessonListView> {
         },
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
-        null,
+        selectedBottomIndexOffLine: 0, selectedBottomIndexOnline: null,
         isOffLine: this.widget.isOffLine,
       ),
     );

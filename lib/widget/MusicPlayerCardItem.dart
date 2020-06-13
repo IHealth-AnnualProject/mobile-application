@@ -56,7 +56,7 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
                     AmbianceController.currentSongName +
                     ".mp3"),
                 autoStart: false)
-            .whenComplete(() => setState(() {}));
+            .whenComplete(() { if(mounted) setState(() {});});
       }
     });
   }

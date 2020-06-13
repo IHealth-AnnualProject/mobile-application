@@ -63,7 +63,7 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
           return Scaffold(
             appBar: AppSearchBar(),
             body:WaitingWidget(),
-            bottomNavigationBar: BottomNavigationBarFooter(1),
+            bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: 1,),
           );
         } else {
           actualContentPage =
@@ -82,7 +82,7 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
                   ),
                 ],
               ),
-              bottomNavigationBar: BottomNavigationBarFooter(1),
+              bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: 1,),
             ),
           );
         }

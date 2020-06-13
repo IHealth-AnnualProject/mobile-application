@@ -72,7 +72,7 @@ class ExerciseListViewStateOffline extends State<ExerciseListViewPage>
         },
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
-        2,
+        selectedBottomIndexOffLine: 2, selectedBottomIndexOnline: null,
         isOffLine: this.widget.isOffLine,
       ),
     );

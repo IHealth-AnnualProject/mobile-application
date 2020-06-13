@@ -30,7 +30,7 @@ class BottomNavigationController {
         break;
       case 1:
         if (currentIndex != 1)
-          Navigator.pushAndRemoveUntil(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => AccountPage(
@@ -43,17 +43,15 @@ class BottomNavigationController {
                     : false,
               ),
             ),
-            (Route<dynamic> route) => false,
           );
         break;
       case 2:
         if (currentIndex != 2)
-          Navigator.pushAndRemoveUntil(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ChatListContactPage(),
             ),
-            (Route<dynamic> route) => false,
           );
         break;
     }
@@ -65,31 +63,49 @@ class BottomNavigationController {
     switch (selectedBottomIndex) {
       case 0:
         if (currentIndex != 0)
-          Navigator.pushAndRemoveUntil(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => LessonListView(
                 isOffLine: true,
               ),
             ),
-            (Route<dynamic> route) => false,
+          ).whenComplete(
+            () => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MemosPage(
+                  isOffline: true,
+                ),
+              ),
+              (Route<dynamic> route) => false,
+            ),
           );
         break;
       case 1:
         if (currentIndex != 1)
-          Navigator.pushAndRemoveUntil(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => MemosPage(
                 isOffline: true,
               ),
             ),
-            (Route<dynamic> route) => false,
+          ).whenComplete(
+            () => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MemosPage(
+                  isOffline: true,
+                ),
+              ),
+              (Route<dynamic> route) => false,
+            ),
           );
         break;
       case 2:
         if (currentIndex != 2) {
-          Navigator.pushAndRemoveUntil(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ExerciseListViewPage(
@@ -98,7 +114,16 @@ class BottomNavigationController {
                 isOffLine: true,
               ),
             ),
-            (Route<dynamic> route) => false,
+          ).whenComplete(
+            () => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MemosPage(
+                  isOffline: true,
+                ),
+              ),
+              (Route<dynamic> route) => false,
+            ),
           );
         }
         break;

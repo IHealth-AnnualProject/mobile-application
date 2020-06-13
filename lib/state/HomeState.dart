@@ -44,7 +44,7 @@ class HomeState extends State<HomePage> with WidgetsBindingObserver {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarFooter(0),
+      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: 0,),
     );
   }
 }

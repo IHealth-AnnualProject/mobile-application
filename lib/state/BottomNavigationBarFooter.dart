@@ -54,7 +54,7 @@ class BottomNavigationBarFooterState extends State<BottomNavigationBarFooter> {
         onTap: (int index) {
           setState(() {
             BottomNavigationController.onBottomTapped(
-                this.widget.selectedBottomIndex, index, context);
+                this.widget.selectedBottomIndexOnline, index, context);
           });
         });
   }
@@ -99,19 +99,19 @@ class BottomNavigationBarFooterState extends State<BottomNavigationBarFooter> {
                 : ""),
           ),
         ],
-        currentIndex: this.widget.selectedBottomIndex,
+        currentIndex: this.widget.selectedBottomIndexOnline,
         selectedItemColor: Colors.amber[800],
         onTap: (int index) {
           setState(() {
             BottomNavigationController.onBottomTapped(
-                this.widget.selectedBottomIndex, index, context);
+                this.widget.selectedBottomIndexOnline, index, context);
           });
         });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (this.widget.selectedBottomIndex == null)
+    if (this.widget.selectedBottomIndexOnline == null)
       return bottomNavigationBarWithoutCurrentIndex();
     else
       return bottomNavigationBarWithCurrentIndex();

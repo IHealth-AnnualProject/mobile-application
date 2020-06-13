@@ -91,7 +91,7 @@ class ChatListContactPageState extends State<ChatListContactPage>
           }
         },
       ),
-      bottomNavigationBar: BottomNavigationBarFooter(2),
+      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: 2,),
     );
   }
 }

@@ -52,6 +52,18 @@ class ResponseManager {
           .showFlushBar(context);
     }
   }
+  checkResponseAndShowItWithNoComingBack() {
+    if (response.statusCode >= 100 && response.statusCode < 400) {
+      if (this.onSuccess != null) onSuccess();
+      FlushBarMessage.goodMessage(content: this.successMessage)
+          .showFlushBarAndNavigatWithNoBack(context, this.destination);
+    } else {
+      if (this.onFailure != null) onFailure();
+      FlushBarMessage.errorMessage(
+              content: Response.fromJson(json.decode(response.body)).content)
+          .showFlushBar(context);
+    }
+  }
 
   checkResponseAndRetrieveInformation() {
     if (response.statusCode >= 100 && response.statusCode < 400) {

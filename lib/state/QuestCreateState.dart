@@ -162,7 +162,7 @@ class QuestCreateState extends State<QuestCreatePage>
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarFooter(null),
+      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: null,),
     );
   }
 

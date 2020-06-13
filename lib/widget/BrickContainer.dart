@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:betsbi/view/HomeView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,15 @@ class BrickContainer extends StatelessWidget {
           onTap: () {
             if (this.destination != null)
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => this.destination));
+                  MaterialPageRoute(builder: (context) => this.destination)).whenComplete(
+                    () => Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomePage(),
+                  ),
+                      (Route<dynamic> route) => false,
+                ),
+              );
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

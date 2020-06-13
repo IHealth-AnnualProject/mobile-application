@@ -112,7 +112,7 @@ class MemosViewState extends State<MemosPage>
         icon: Icon(Icons.add),
         onPressed: () => showAlertDialog(context),
       ), // his trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: BottomNavigationBarFooter(null),
+      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: null,),
     );
   }
 

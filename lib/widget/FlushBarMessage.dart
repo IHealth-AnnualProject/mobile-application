@@ -1,3 +1,4 @@
+import 'package:betsbi/view/HomeView.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +10,20 @@ class FlushBarMessage extends StatelessWidget {
 
   FlushBarMessage({this.content, this.icons, this.color});
 
-  FlushBarMessage.errorMessage({@required this.content, this.icons = Icons.not_interested, this.color = Colors.red});
+  FlushBarMessage.errorMessage(
+      {@required this.content,
+      this.icons = Icons.not_interested,
+      this.color = Colors.red});
 
+  FlushBarMessage.informationMessage(
+      {@required this.content,
+      this.icons = Icons.info,
+      this.color = Colors.green});
 
-  FlushBarMessage.informationMessage({@required this.content, this.icons = Icons.info, this.color = Colors.green});
-
-
-  FlushBarMessage.goodMessage({@required this.content, this.icons = Icons.done_outline, this.color = Colors.yellow});
+  FlushBarMessage.goodMessage(
+      {@required this.content,
+      this.icons = Icons.done_outline,
+      this.color = Colors.yellow});
 
   Flushbar flushbar() {
     return Flushbar(
@@ -35,15 +43,36 @@ class FlushBarMessage extends StatelessWidget {
 
   void showFlushBarAndNavigateAndRemove(
       BuildContext context, Widget destination) {
-    flushbar().show(context).then((_) => Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (BuildContext context) => destination),
-          (Route<dynamic> route) => false,
-        ));
+    flushbar().show(context).then(
+          (_) => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (BuildContext context) => destination),
+          ).whenComplete(
+            () => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomePage(),
+              ),
+              (Route<dynamic> route) => false,
+            ),
+          ),
+        );
   }
 
-  void showFlushBarAndDo(
-      BuildContext context, Function afterShow) {
+  void showFlushBarAndNavigatWithNoBack(
+      BuildContext context, Widget destination) {
+    flushbar().show(context).then(
+          (_) => Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => destination,
+            ),
+                (Route<dynamic> route) => false,
+          ),
+        );
+  }
+
+  void showFlushBarAndDo(BuildContext context, Function afterShow) {
     flushbar().show(context).then((_) => afterShow());
   }
 

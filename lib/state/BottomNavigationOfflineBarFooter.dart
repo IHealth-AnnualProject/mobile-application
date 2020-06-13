@@ -40,7 +40,7 @@ class BottomNavigationOfflineBarFooterState
         onTap: (int index) {
           setState(() {
             BottomNavigationController.offlineOnBottomTapped(
-                this.widget.selectedBottomIndex, index, context);
+                this.widget.selectedBottomIndexOffLine, index, context);
           });
         });
   }
@@ -70,19 +70,19 @@ class BottomNavigationOfflineBarFooterState
             title: Text("Exercise"),
           ),
         ],
-        currentIndex: this.widget.selectedBottomIndex,
+        currentIndex: this.widget.selectedBottomIndexOffLine,
         selectedItemColor: Colors.amber[800],
         onTap: (int index) {
           setState(() {
             BottomNavigationController.offlineOnBottomTapped(
-                this.widget.selectedBottomIndex, index, context);
+                this.widget.selectedBottomIndexOffLine, index, context);
           });
         });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (this.widget.selectedBottomIndex == null)
+    if (this.widget.selectedBottomIndexOffLine == null)
       return bottomNavigationBarWithoutCurrentIndex();
     else
       return bottomNavigationBarWithCurrentIndex();

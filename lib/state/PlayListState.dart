@@ -46,7 +46,7 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppSearchBar(),
-      bottomNavigationBar: BottomNavigationBarFooter(null),
+      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: null,),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[

@@ -106,7 +106,7 @@ class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
         onPressed: () => showAlertDialog(context),
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
-        1,
+        selectedBottomIndexOffLine: 1, selectedBottomIndexOnline: null,
         isOffLine: true,
       ),
     );

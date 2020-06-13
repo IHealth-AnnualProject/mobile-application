@@ -14,27 +14,19 @@ class AppBarOnline extends State<AppSearchBar> {
       centerTitle: true,
       backgroundColor: Color.fromRGBO(0, 116, 113, 1),
       title: Text(SettingsManager.mapLanguage["SearchContainer"]),
-      leading: HistoricalManager.historical.length >= 2
+      leading: Navigator.canPop(context)
           ? IconButton(
-        icon: Icon(Icons.arrow_back, color: Colors.white),
-        onPressed: () {
-          Widget destination = HistoricalManager
-              .historical[HistoricalManager.historical.length - 2];
-          HistoricalManager.historical.removeLast();
-          HistoricalManager.historical.removeLast();
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => destination,
-            ),
-                (Route<dynamic> route) => false,
-          );
-        },
-      )
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                Navigator.pop(
+                  context,
+                );
+              },
+            )
           : Visibility(
-        child: Container(),
-        visible: false,
-      ),
+              child: Container(),
+              visible: false,
+            ),
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.search),
@@ -48,7 +40,8 @@ class AppBarOnline extends State<AppSearchBar> {
         PopupMenuButton<String>(
           onSelected: (choice) => SearchBarController.searchCategory = choice,
           itemBuilder: (BuildContext context) {
-            return SearchBarController.searchChoicesCategory.map((String choice) {
+            return SearchBarController.searchChoicesCategory
+                .map((String choice) {
               return PopupMenuItem<String>(
                 value: choice,
                 child: Text(choice),

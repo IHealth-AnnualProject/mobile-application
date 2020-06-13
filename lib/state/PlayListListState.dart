@@ -67,7 +67,10 @@ class PlayListListState extends State<PlayListListPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppSearchBar(),
-      bottomNavigationBar: BottomNavigationBarFooter(null),
+      bottomNavigationBar: BottomNavigationBarFooter(
+        selectedBottomIndexOffLine: null,
+        selectedBottomIndexOnline: null,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -122,18 +125,26 @@ class PlayListListState extends State<PlayListListPage>
                           itemBuilder: (context, index) => Card(
                             child: ListTile(
                               title: Text(playLists[index].name),
-                              onTap: () => AmbianceController.musicFlush
-                                  .dismiss()
-                                  .whenComplete(
-                                    () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => PlayListPage(
-                                          playList: playLists[index],
-                                        ),
-                                      ),
+                              onTap: () {
+                                if (AmbianceController.musicFlush != null)
+                                  AmbianceController.musicFlush.dismiss();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PlayListPage(
+                                      playList: playLists[index],
                                     ),
                                   ),
+                                ).whenComplete(
+                                        () {
+                                      if (AmbianceController.assetsAudioPlayer.isPlaying.value) {
+                                        AmbianceController.musicFlush
+                                            .dismiss()
+                                            .whenComplete(() => AmbianceController.musicFlush..show(context));
+                                      }
+                                    }
+                                );
+                              },
                             ),
                           ),
                           itemCount: playLists.length,

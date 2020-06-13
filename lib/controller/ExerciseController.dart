@@ -70,7 +70,7 @@ class ExerciseController {
       ),
       title: Text(exercise.name),
       onTap: () {
-        Navigator.pushAndRemoveUntil(
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => ExerciseView(
@@ -78,7 +78,6 @@ class ExerciseController {
               isOffline: isOffLine,
             ),
           ),
-          (Route<dynamic> route) => false,
         );
       },
     );

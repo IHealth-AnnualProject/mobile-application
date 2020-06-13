@@ -127,7 +127,10 @@ class AmbianceState extends State<AmbiancePage>
             return WaitingWidget();
         },
       ),
-      bottomNavigationBar: BottomNavigationBarFooter(null),
+      bottomNavigationBar: BottomNavigationBarFooter(
+        selectedBottomIndexOffLine: null,
+        selectedBottomIndexOnline: null,
+      ),
       floatingActionButton: FloatingActionBubble(
         animation: curvedAnimation.animation,
         iconColor: Colors.blue,
@@ -142,29 +145,49 @@ class AmbianceState extends State<AmbiancePage>
             bubbleColor: Colors.blue,
             icon: Icons.list,
             titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-            onPress: () async => await AmbianceController.musicFlush.dismiss().whenComplete(
-                  () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PlayListListPage(),
-                    ),
-                  ),
+            onPress: () {
+              if (AmbianceController.musicFlush != null)
+                AmbianceController.musicFlush.dismiss();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PlayListListPage(),
                 ),
+              ).whenComplete(
+                () {
+                  if (AmbianceController.assetsAudioPlayer.isPlaying.value) {
+                    AmbianceController.musicFlush
+                        .dismiss()
+                        .whenComplete(() => AmbianceController.musicFlush..show(context));
+                  }
+                }
+              );
+            },
           ),
           // Floating action menu item
           Bubble(
-            title: SettingsManager.mapLanguage["RelaxingColor"],
-            iconColor: Colors.white,
-            bubbleColor: Colors.blue,
-            icon: Icons.spa,
-            titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-            onPress: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => RelaxingView(),
-              ),
-            ),
-          ),
+              title: SettingsManager.mapLanguage["RelaxingColor"],
+              iconColor: Colors.white,
+              bubbleColor: Colors.blue,
+              icon: Icons.spa,
+              titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+              onPress: () {
+                if (AmbianceController.musicFlush != null)
+                  AmbianceController.musicFlush.dismiss();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RelaxingView(),
+                  ),
+                ).whenComplete(
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AmbiancePage(),
+                    ),
+                  ),
+                );
+              }),
         ],
       ),
     );
