@@ -18,7 +18,6 @@ class AmbianceController {
   static AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
   static Flushbar musicFlush;
   static bool isMusicAvailable;
-  static String currentSongName = "";
 
   static Flushbar musicPlayerFlushBar({@required String songName}) {
     return musicFlush = Flushbar<String>(
@@ -45,27 +44,33 @@ class AmbianceController {
    * Close current FlushBar to stop the music if song currently played
    */
   static Future<void> listenMusic(
-      {@required String songName,
-      @required String path,
+      {@required List<Audio> paths,
+      @required String songName,
       @required BuildContext context}) async {
     if (musicFlush != null && musicFlush.isShowing()) {
       musicFlush.dismiss();
       assetsAudioPlayer.stop();
     }
     await assetsAudioPlayer.open(
-      Audio.file(
-        path,
+      Playlist(
+        audios: paths,
       ),
     );
-    currentSongName = songName;
-    musicFlush = musicPlayerFlushBar(songName: currentSongName);
+    assetsAudioPlayer.currentPosition.listen((audio) {
+      if (assetsAudioPlayer.isPlaying.value) if (audio.inSeconds ==
+          assetsAudioPlayer.current.value.audio.duration.inSeconds) {
+        assetsAudioPlayer.next();
+      }
+    });
+    musicFlush = musicPlayerFlushBar(songName: songName);
     musicFlush.show(context);
   }
 
   /*
   get all songs according to API
    */
-  static Future<List<Song>> getAllSongs({@required BuildContext context}) async {
+  static Future<List<Song>> getAllSongs(
+      {@required BuildContext context}) async {
     HttpManager httpManager = new HttpManager(path: 'music/', context: context);
     await httpManager.get();
     List<Song> songs = new List<Song>();
@@ -84,8 +89,10 @@ class AmbianceController {
     return songs;
   }
 
-  static Future<http.Response> downloadFile({@required String musicId, @required BuildContext context}) async {
-    HttpManager httpManager = new HttpManager(path: 'music/$musicId/download', context: context);
+  static Future<http.Response> downloadFile(
+      {@required String musicId, @required BuildContext context}) async {
+    HttpManager httpManager =
+        new HttpManager(path: 'music/$musicId/download', context: context);
     await httpManager.get();
     return httpManager.response;
   }
@@ -113,11 +120,13 @@ class AmbianceController {
   static Future checkSongAndDownload(
       {@required String songName,
       @required String duration,
-      @required String id, @required BuildContext context}) async {
+      @required String id,
+      @required BuildContext context}) async {
     bool exist =
         await checkIfSongAvailable(songName: songName, duration: duration);
     if (!exist)
-      await FileManager.downloadFile(musicId: id, fileName: songName + ".mp3", context: context);
+      await FileManager.downloadFile(
+          musicId: id, fileName: songName + ".mp3", context: context);
   }
 
   /* static bool _checkDurationAreEquals(

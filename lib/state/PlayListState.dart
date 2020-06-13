@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:betsbi/controller/AmbianceController.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
@@ -10,8 +11,11 @@ import 'package:betsbi/widget/EmptyListWidget.dart';
 import 'package:betsbi/widget/MusicPlayerCardItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
+  String applicationPath;
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -46,21 +50,34 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppSearchBar(),
-      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: null,),
+      bottomNavigationBar: BottomNavigationBarFooter(
+        selectedBottomIndexOffLine: null,
+        selectedBottomIndexOnline: null,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             DefaultTextTitle(
               title: this.widget.playList.name,
             ),
-            SizedBox(height: 45,),
+            SizedBox(
+              height: 45,
+            ),
             this.widget.playList.songs.isNotEmpty
                 ? ListView.builder(
                     shrinkWrap: true,
-                    itemBuilder: (context, index) => MusicPlayerCardItem(
-                      duration: this.widget.playList.songs[index].duration,
-                      name: this.widget.playList.songs[index].songName,
-                      id: this.widget.playList.songs[index].id,
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () async => AmbianceController.listenMusic(
+                        songName: this.widget.playList.name,
+                          paths: await _fromSongsToPathWithId(index),
+                          context: context),
+                      child: AbsorbPointer(
+                        child: MusicPlayerCardItem(
+                          duration: this.widget.playList.songs[index].duration,
+                          name: this.widget.playList.songs[index].songName,
+                          id: this.widget.playList.songs[index].id,
+                        ),
+                      ),
                     ),
                     itemCount: this.widget.playList.songs.length,
                   )
@@ -69,5 +86,14 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
         ),
       ),
     );
+  }
+
+  Future<List<Audio>> _fromSongsToPathWithId(int id) async {
+    List<Audio> listAudio = List<Audio>();
+    applicationPath = (await getApplicationDocumentsDirectory()).path;
+    this.widget.playList.songs.skip(id).forEach((song) {
+      listAudio.add(Audio.file(applicationPath + "/" + song.songName + ".mp3"));
+    });
+    return listAudio;
   }
 }

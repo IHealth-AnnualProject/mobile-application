@@ -44,21 +44,7 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
   @override
   void initState() {
     super.initState();
-    AmbianceController.assetsAudioPlayer.currentPosition.listen((audio) {
-      if (AmbianceController.assetsAudioPlayer.isPlaying.value) if (audio
-              .inSeconds ==
-          AmbianceController
-              .assetsAudioPlayer.current.value.audio.duration.inSeconds) {
-        AmbianceController.assetsAudioPlayer
-            .open(
-                Audio.file(applicationPath +
-                    "/" +
-                    AmbianceController.currentSongName +
-                    ".mp3"),
-                autoStart: false)
-            .whenComplete(() { if(mounted) setState(() {});});
-      }
-    });
+
   }
 
   @override
@@ -78,8 +64,7 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
                   onTap: () async => snapshot.data
                       ? AmbianceController.listenMusic(
                           songName: this.widget.name,
-                          path:
-                              applicationPath + "/" + this.widget.name + ".mp3",
+                          paths: [Audio.file(applicationPath + "/" + this.widget.name + ".mp3")],
                           context: context)
                       : await FileManager.downloadFile(
                           fileName: this.widget.name + ".mp3",
