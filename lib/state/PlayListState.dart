@@ -69,7 +69,8 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () async => AmbianceController.listenMusic(
                         songName: this.widget.playList.name,
-                          paths: await _fromSongsToPathWithId(index),
+                          paths: await _fromSongsToPath(),
+                          startAtIndex: index,
                           context: context),
                       child: AbsorbPointer(
                         child: MusicPlayerCardItem(
@@ -88,10 +89,10 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
     );
   }
 
-  Future<List<Audio>> _fromSongsToPathWithId(int id) async {
+  Future<List<Audio>> _fromSongsToPath() async {
     List<Audio> listAudio = List<Audio>();
     applicationPath = (await getApplicationDocumentsDirectory()).path;
-    this.widget.playList.songs.skip(id).forEach((song) {
+    this.widget.playList.songs.forEach((song) {
       listAudio.add(Audio.file(applicationPath + "/" + song.songName + ".mp3"));
     });
     return listAudio;

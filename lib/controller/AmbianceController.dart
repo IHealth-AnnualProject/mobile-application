@@ -46,22 +46,17 @@ class AmbianceController {
   static Future<void> listenMusic(
       {@required List<Audio> paths,
       @required String songName,
-      @required BuildContext context}) async {
+      @required BuildContext context,
+      int startAtIndex = 0}) async {
     if (musicFlush != null && musicFlush.isShowing()) {
       musicFlush.dismiss();
       assetsAudioPlayer.stop();
     }
     await assetsAudioPlayer.open(
-      Playlist(
-        audios: paths,
-      ),
+      Playlist(audios: paths, startIndex: startAtIndex),
     );
-    assetsAudioPlayer.currentPosition.listen((audio) {
-      if (assetsAudioPlayer.isPlaying.value) if (audio.inSeconds ==
-          assetsAudioPlayer.current.value.audio.duration.inSeconds) {
-        assetsAudioPlayer.next();
-      }
-    });
+    if(!assetsAudioPlayer.isLooping.value)
+      assetsAudioPlayer.toggleLoop();
     musicFlush = musicPlayerFlushBar(songName: songName);
     musicFlush.show(context);
   }

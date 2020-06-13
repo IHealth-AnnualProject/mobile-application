@@ -42,9 +42,9 @@ class MusicPlayerProgressIndicatorState
         showValueIndicator: ShowValueIndicator.always,
       ),
       child: Slider(
-        value: actualValue.inSeconds.toDouble(),
+        value: actualValue.inSeconds.toDouble() != null ? actualValue.inSeconds.toDouble() : 0 ,
         min: 0.0,
-        max: maxValue.inSeconds.toDouble(),
+        max: maxValue.inSeconds.toDouble() != null ? maxValue.inSeconds.toDouble() : 0,
         onChanged: (double value) {
           setState(() {
             AmbianceController.assetsAudioPlayer
