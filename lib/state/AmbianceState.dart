@@ -47,7 +47,7 @@ class AmbianceState extends State<AmbiancePage>
     if (AmbianceController.assetsAudioPlayer.isPlaying.value) {
       AmbianceController.musicFlush
           .dismiss()
-          .then((value) => AmbianceController.musicFlush..show(context));
+          .whenComplete(() => AmbianceController.musicFlush..show(context));
     }
   }
 
@@ -142,13 +142,14 @@ class AmbianceState extends State<AmbiancePage>
             bubbleColor: Colors.blue,
             icon: Icons.list,
             titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-            onPress: () => Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PlayListListPage(),
-              ),
-              (Route<dynamic> route) => false,
-            ),
+            onPress: () async => await AmbianceController.musicFlush.dismiss().whenComplete(
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PlayListListPage(),
+                    ),
+                  ),
+                ),
           ),
           // Floating action menu item
           Bubble(
@@ -157,12 +158,11 @@ class AmbianceState extends State<AmbiancePage>
             bubbleColor: Colors.blue,
             icon: Icons.spa,
             titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-            onPress: () => Navigator.pushAndRemoveUntil(
+            onPress: () => Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => RelaxingView(),
               ),
-              (Route<dynamic> route) => false,
             ),
           ),
         ],

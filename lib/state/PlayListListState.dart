@@ -43,7 +43,7 @@ class PlayListListState extends State<PlayListListPage>
     if (AmbianceController.assetsAudioPlayer.isPlaying.value) {
       AmbianceController.musicFlush
           .dismiss()
-          .then((value) => AmbianceController.musicFlush..show(context));
+          .whenComplete(() => AmbianceController.musicFlush..show(context));
     }
   }
 
@@ -122,14 +122,18 @@ class PlayListListState extends State<PlayListListPage>
                           itemBuilder: (context, index) => Card(
                             child: ListTile(
                               title: Text(playLists[index].name),
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PlayListPage(
-                                    playList: playLists[index],
+                              onTap: () => AmbianceController.musicFlush
+                                  .dismiss()
+                                  .whenComplete(
+                                    () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => PlayListPage(
+                                          playList: playLists[index],
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
                             ),
                           ),
                           itemCount: playLists.length,
