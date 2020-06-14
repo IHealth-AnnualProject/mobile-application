@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class ApplicationProperties {
   String _firstEntry;
   int _newMessage = 0;
+  String _notificationPushedActivated;
 
   String _currentLanguage,
       _language,
@@ -21,6 +22,7 @@ class ApplicationProperties {
   String getCurrentToken() => this._currentToken;
   String getCurrentId() => this._currentId;
   String isPsy() => this._isPsy;
+  String areNotificationPushActivated() => this._notificationPushedActivated;
 
   void setCurrentLanguage(String newLanguage) =>
       this._currentLanguage = newLanguage;
@@ -32,6 +34,7 @@ class ApplicationProperties {
   void setCurrentToken(String token) => this._currentToken = token;
   void setCurrentId(String id) => this._currentId = id;
   void setIsPsy(String isPsy) => this._isPsy = isPsy;
+  void setNotificationPushActivated(String notificationPushActivated) => this._notificationPushedActivated = notificationPushActivated;
 
   Future<void> getCurrentLanguageOfApplication(FlutterSecureStorage storage) async {
     setCurrentLanguage(await storage.read(key: "currentLanguage"));
@@ -70,6 +73,13 @@ class ApplicationProperties {
     if (getFirstEntry() == null) {
       await storage.write(key: "firstEntry", value: "true");
       setFirstEntry(await storage.read(key: "firstEntry"));
+    }
+  }
+  Future<void> getNotificationPushedActivatedOfApplication(FlutterSecureStorage storage) async {
+    setNotificationPushActivated(await storage.read(key: "notificationPush"));
+    if (areNotificationPushActivated() == null) {
+      await storage.write(key: "notificationPush", value: "false");
+      setNotificationPushActivated(await storage.read(key: "notificationPush"));
     }
   }
 }

@@ -99,11 +99,13 @@
   "MathExerciseExplanation": "Choisissez la bonne réponse",
   "Lesson": "En savoir plus",
   "AllMusicAvailable": "Toutes les musiques disponibles",
-  "PleaseWait": "Please Wait",
-  "NothingToShow": "Nothing to show",
-  "NothingToShowAndClick": "Nothing to show, click to create",
-  "AddThisSongToYourPlayList": "Add this Song to your PlayList",
-  "PlayListCreated": "The Play List have correctly been created",
-  "AddSongToPlayList": "This song have correctly been added to the playlist",
-  "TimeOut": "Time Out Check out your internet connection"
+  "PleaseWait": "Veuillez patienter",
+  "NothingToShow": "Rien à montrer pour le moment",
+  "NothingToShowAndClick": "Rien à montrer pour le moment, cliquez pour créer",
+  "AddThisSongToYourPlayList": "Ajouter cette musique à votre PlayList",
+  "PlayListCreated": "La PlayList a bien été créé",
+  "AddSongToPlayList": "Cette musique a été ajouté à la playlist",
+  "TimeOut": "Délai expiré, veuillez vérifier votre connexion internet",
+  "Memos" : "Rappel"
+
 }

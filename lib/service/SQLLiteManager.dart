@@ -14,6 +14,14 @@ class SQLLiteManager {
         await _db.execute(
           'CREATE TABLE message(id INTEGER PRIMARY KEY AUTOINCREMENT, userIdTo TEXT, userIdFrom TEXT)',
         );
+        await _db.execute(
+          'CREATE TABLE notification(id INTEGER PRIMARY KEY AUTOINCREMENT,'
+              ' notificationId INTEGER,'
+              ' notificationTitle TEXT,'
+              ' notificationBody TEXT ,'
+              ' notificationType TEXT,'
+              ' notificationDate TEXT)',
+        );
       },
       version: 1,
     );

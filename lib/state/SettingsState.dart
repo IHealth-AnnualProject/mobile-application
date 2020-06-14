@@ -1,6 +1,9 @@
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
+import 'package:betsbi/model/notification.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
+import 'package:betsbi/service/NotificationManager.dart';
+import 'package:betsbi/sqlite/SQLLITeNotification.dart';
 import 'package:betsbi/view/SettingsView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/service/SettingsManager.dart';
@@ -11,7 +14,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
-  bool currentNotification;
+  String currentNotification;
   List<bool> isSelected = [true, false];
 
   void _setLanguage() {
@@ -42,8 +45,9 @@ class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    currentNotification = SettingsManager.cfg.getBool("pushNotification");
-    if (currentNotification)
+    currentNotification =
+        SettingsManager.applicationProperties.areNotificationPushActivated();
+    if (currentNotification == 'true')
       isSelected = [true, false];
     else
       isSelected = [false, true];
@@ -61,22 +65,28 @@ class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
           style: TextStyle(color: Colors.white),
         )
       ],
-      onPressed: (int index) {
-        setState(() {
-          for (int buttonIndex = 0;
-              buttonIndex < isSelected.length;
-              buttonIndex++) {
-            if (buttonIndex == index) {
-              isSelected[buttonIndex] = true;
-            } else {
-              isSelected[buttonIndex] = false;
-            }
-          }
-          if (index == 0)
-            SettingsManager.cfg.updateValue("pushNotification", true);
-          else
-            SettingsManager.cfg.updateValue("pushNotification", false);
-        });
+      onPressed: (int index) async {
+        if (index == 0) {
+          await SettingsManager.setNotificationPush("true");
+          SQLLiteNotification sqlLiteNotification = new SQLLiteNotification();
+          List<LocalNotification> list = new List<LocalNotification>();
+          list = await sqlLiteNotification.getAll();
+          list.forEach(
+              (notification) => NotificationManager.scheduleNotification(
+                    title: notification.notificationTitle,
+                    body: notification.notificationBody,
+                    id: notification.notificationId,
+                    dueDate: notification.notificationDate,
+                  ));
+          // todo schedule notification push for all memos in db
+          setState(() {});
+        } else {
+          await SettingsManager.setNotificationPush("false");
+          await NotificationManager.cancelAllNotifications();
+          setState(() {});
+        }
+
+        setState(() {});
       },
       isSelected: isSelected,
     );
@@ -162,7 +172,10 @@ class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: null,),
+      bottomNavigationBar: BottomNavigationBarFooter(
+        selectedBottomIndexOffLine: null,
+        selectedBottomIndexOnline: null,
+      ),
     );
   }
 }

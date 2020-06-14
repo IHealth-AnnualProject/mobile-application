@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:betsbi/model/applicationProperties.dart';
 import 'package:betsbi/service/JsonParserManager.dart';
+import 'package:betsbi/service/NotificationManager.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:global_configuration/global_configuration.dart';
@@ -31,7 +32,7 @@ class SettingsManager {
     cfg = new GlobalConfiguration();
     storage = new FlutterSecureStorage();
     await GlobalConfiguration().loadFromPath("assets/cfg/settings.json").then(
-          (r) => instanciateConfiguration().then(
+          (r) => instantiateConfiguration().then(
             (r) => loadLanguage('locale/' +
                 applicationProperties.getCurrentLanguage().toLowerCase() +
                 '.json'),
@@ -39,12 +40,15 @@ class SettingsManager {
         );
   }
 
-  static Future<void> instanciateConfiguration() async {
+  static Future<void> instantiateConfiguration() async {
     await applicationProperties.getCurrentLanguageOfApplication(storage);
     await applicationProperties.getLanguageOfApplication(storage);
     await applicationProperties.getFeelingsDateOfApplication(storage);
     await applicationProperties.getPsyOfApplication(storage);
     await applicationProperties.getFirstEntryOfApplication(storage);
+    await applicationProperties
+        .getNotificationPushedActivatedOfApplication(storage);
+    await NotificationManager.initializeNotification();
   }
 
   static Future<void> updateValueOfConfigurationSecureStorage(
@@ -66,5 +70,10 @@ class SettingsManager {
     applicationProperties
         .setCurrentLanguage(applicationProperties.getLanguage());
     applicationProperties.setLanguage(temp);
+  }
+
+  static Future<void> setNotificationPush(String status) async {
+    await storage.write(key: "notificationPush", value: status);
+    applicationProperties.setNotificationPushActivated(status);
   }
 }

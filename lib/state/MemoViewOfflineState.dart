@@ -19,8 +19,10 @@ class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController dueDateController = TextEditingController();
+  final TextEditingController dueTimeController = TextEditingController();
   AsyncMemoizer _memorizer = AsyncMemoizer();
   MemosWidget memosWidget;
+  DateTime picked;
 
   @override
   void dispose() {
@@ -106,7 +108,8 @@ class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
         onPressed: () => showAlertDialog(context),
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
-        selectedBottomIndexOffLine: 1, selectedBottomIndexOnline: null,
+        selectedBottomIndexOffLine: 1,
+        selectedBottomIndexOnline: null,
         isOffLine: true,
       ),
     );
@@ -124,14 +127,15 @@ class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
       child: Text(SettingsManager.mapLanguage["Submit"]),
       onPressed: () {
         if (this._formKey.currentState.validate()) {
-          MemosController.addNewMemoToMemos(
-                  titleController.text, dueDateController.text)
+          MemosController.addNewMemoToMemos(titleController.text,
+                  dueDateController.text + " " + dueTimeController.text)
               .then(
             (memoId) => this.setState(() {
               list.add(
-                new MemosWidget(
+                MemosWidget(
                   title: titleController.text,
-                  dueDate: dueDateController.text,
+                  dueDate:
+                      dueDateController.text + " " + dueTimeController.text,
                   id: memoId,
                   parent: this,
                 ),
@@ -169,23 +173,29 @@ class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width / 3,
-                child: memosFormField(
-                    labelAndHint: SettingsManager.mapLanguage["Title"],
-                    textInputType: TextInputType.text,
-                    textEditingController: titleController),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width / 3,
-                child: dateFormField(
+          Center(
+            child: Wrap(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width / 3,
+                  child: memosFormField(
+                      labelAndHint: SettingsManager.mapLanguage["Title"],
+                      textInputType: TextInputType.text,
+                      textEditingController: titleController),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 3,
+                  child: dateFormField(
                     labelAndHint: SettingsManager.mapLanguage["DueDate"],
-                    textEditingController: titleController),
-              ),
-            ],
-          ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 3,
+                  child: timeFormField(labelAndHint: "DueTime"),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -211,8 +221,7 @@ class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
     );
   }
 
-  TextFormField dateFormField(
-      {String labelAndHint, TextEditingController textEditingController}) {
+  TextFormField dateFormField({String labelAndHint}) {
     return TextFormField(
       obscureText: false,
       textAlign: TextAlign.left,
@@ -229,14 +238,50 @@ class MemoViewOfflineState extends State<MemosPage> with IMemoViewState {
     );
   }
 
+  TextFormField timeFormField({String labelAndHint}) {
+    return TextFormField(
+      obscureText: false,
+      textAlign: TextAlign.left,
+      controller: dueTimeController,
+      onTap: () => _selectTime(),
+      validator: (value) => CheckController.checkField(value),
+      decoration: InputDecoration(
+          labelText: labelAndHint,
+          filled: true,
+          fillColor: Colors.white,
+          hintText: labelAndHint,
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
+    );
+  }
+
   Future _selectDate() async {
-    DateTime picked = await showDatePicker(
+    picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime(DateTime.now().year + 2));
     if (picked != null)
       setState(
-          () => dueDateController.text = DateFormat.yMMMd().format(picked));
+          () => dueDateController.text = DateFormat("dd-MM-yyyy").format(picked));
+  }
+
+  Future _selectTime() async {
+    TimeOfDay picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (BuildContext context, Widget child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child,
+        );
+      },
+    );
+    DateTime now = DateTime.now();
+    DateTime timePicked =
+        DateTime(now.year, now.month, now.day, picked.hour, picked.minute);
+    if (picked != null)
+      setState(() =>
+          dueTimeController.text = DateFormat("HH:mm").format(timePicked));
   }
 }

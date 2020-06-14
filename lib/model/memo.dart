@@ -16,6 +16,6 @@ class Memo {
 
   @override
   String toString() {
-    return 'Dog{id: $id, title: $title, dueDate: $dueDate}';
+    return 'Memo{id: $id, title: $title, dueDate: $dueDate}';
   }
 }
