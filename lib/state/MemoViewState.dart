@@ -16,19 +16,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'IMemoViewState.dart';
-
-class MemosViewState extends State<MemosPage>
-    with WidgetsBindingObserver, IMemoViewState {
+class MemosViewState extends State<MemosPage> with WidgetsBindingObserver {
   List<MemosWidget> list = List<MemosWidget>();
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
-  TextEditingController dueDateController = TextEditingController();
+  final TextEditingController dueDateController = TextEditingController();
   final TextEditingController dueTimeController = TextEditingController();
   AsyncMemoizer _memorizer = AsyncMemoizer();
-  MemosWidget memosWidget;
-  DateTime picked;
-
 
   @override
   void dispose() {
@@ -71,7 +65,9 @@ class MemosViewState extends State<MemosPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppSearchBar(),
+      appBar: AppSearchBar(
+        isOffline: this.widget.isOffline,
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -79,33 +75,38 @@ class MemosViewState extends State<MemosPage>
             SizedBox(
               height: 45,
             ),
-            DefaultCircleAvatar(imagePath: "assets/notes.png",),
+            DefaultCircleAvatar(
+              imagePath: "assets/notes.png",
+            ),
             SizedBox(
               height: 45,
             ),
-            DefaultTextTitle(title: SettingsManager.mapLanguage["MemosList"] ,),
+            DefaultTextTitle(
+              title: SettingsManager.mapLanguage["MemosList"],
+            ),
             FutureBuilder(
-                future: getAllMemos(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return WaitingWidget();
-                  } else {
-                    return Column(
-                      children: <Widget>[
-                        ListView.builder(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.all(8),
-                          itemCount: list.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              child: list[index],
-                            );
-                          },
-                        ),
-                      ],
-                    );
-                  }
-                }),
+              future: getAllMemos(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return WaitingWidget();
+                } else {
+                  return Column(
+                    children: <Widget>[
+                      ListView.builder(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.all(8),
+                        itemCount: list.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            child: list[index],
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                }
+              },
+            ),
           ],
         ),
       ), // T
@@ -115,7 +116,11 @@ class MemosViewState extends State<MemosPage>
         icon: Icon(Icons.add),
         onPressed: () => showAlertDialog(context),
       ), // his trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: null,),
+      bottomNavigationBar: BottomNavigationBarFooter(
+        selectedBottomIndexOffLine: null,
+        selectedBottomIndexOnline: null,
+        isOffLine: this.widget.isOffline,
+      ),
     );
   }
 
@@ -132,14 +137,15 @@ class MemosViewState extends State<MemosPage>
       child: Text(SettingsManager.mapLanguage["Submit"]),
       onPressed: () {
         if (this._formKey.currentState.validate()) {
-          MemosController.addNewMemoToMemos(
-                  titleController.text, dueDateController.text)
+          MemosController.addNewMemoToMemos(titleController.text,
+                  dueDateController.text + " " + dueTimeController.text)
               .then(
             (memoId) => this.setState(() {
               list.add(
-                new MemosWidget(
+                MemosWidget(
                   title: titleController.text,
-                  dueDate: dueDateController.text,
+                  dueDate:
+                      dueDateController.text + " " + dueTimeController.text,
                   id: memoId,
                   parent: this,
                 ),
@@ -189,12 +195,11 @@ class MemosViewState extends State<MemosPage>
               Container(
                 width: MediaQuery.of(context).size.width / 3,
                 child: dateFormField(
-                    labelAndHint: SettingsManager.mapLanguage["DueDate"],
-                    textEditingController: titleController),
+                    labelAndHint: SettingsManager.mapLanguage["DueDate"]),
               ),
               Container(
                 width: MediaQuery.of(context).size.width / 3,
-                child: timeFormField(labelAndHint: "DueTime"),
+                child: timeFormField(labelAndHint: SettingsManager.mapLanguage["DueTime"]),
               ),
             ],
           ),
@@ -223,8 +228,7 @@ class MemosViewState extends State<MemosPage>
     );
   }
 
-  TextFormField dateFormField(
-      {String labelAndHint, TextEditingController textEditingController}) {
+  TextFormField dateFormField({String labelAndHint}) {
     return TextFormField(
       obscureText: false,
       textAlign: TextAlign.left,
@@ -254,22 +258,20 @@ class MemosViewState extends State<MemosPage>
           fillColor: Colors.white,
           hintText: labelAndHint,
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
     );
   }
 
   Future _selectDate() async {
-    picked = await showDatePicker(
+    DateTime picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime(DateTime.now().year + 2));
     if (picked != null)
-      setState(
-              () => dueDateController.text = DateFormat("dd-MM-yyyy").format(picked));
+      setState(() =>
+          dueDateController.text = DateFormat("dd-MM-yyyy").format(picked));
   }
-
-
 
   Future _selectTime() async {
     TimeOfDay picked = await showTimePicker(
@@ -284,9 +286,9 @@ class MemosViewState extends State<MemosPage>
     );
     DateTime now = DateTime.now();
     DateTime timePicked =
-    DateTime(now.year, now.month, now.day, picked.hour, picked.minute);
+        DateTime(now.year, now.month, now.day, picked.hour, picked.minute);
     if (picked != null)
       setState(() =>
-      dueTimeController.text = DateFormat("HH:mm").format(timePicked));
+          dueTimeController.text = DateFormat("HH:mm").format(timePicked));
   }
 }

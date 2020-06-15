@@ -5,7 +5,7 @@ import 'package:betsbi/service/SQLLiteManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/sqlite/SQLLITeNotification.dart';
 import 'package:betsbi/sqlite/SQLLiteMemos.dart';
-import 'package:betsbi/state/IMemoViewState.dart';
+import 'package:betsbi/state/MemoViewState.dart';
 import 'package:betsbi/widget/MemosWidget.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -43,7 +43,7 @@ class MemosController {
     await NotificationManager.cancelNotification(notificationIdDeleted);
   }
 
-  static Future<List<Widget>> getALlMemos(IMemoViewState parent) async {
+  static Future<List<Widget>> getALlMemos(MemosViewState parent) async {
     SQLLiteMemos sqlLiteMemos = new SQLLiteMemos();
     List<MemosWidget> list = new List<MemosWidget>();
     await SQLLiteManager.openDatabaseAndCreateTable().then(

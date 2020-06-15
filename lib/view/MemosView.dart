@@ -1,4 +1,3 @@
-import 'package:betsbi/state/MemoViewOfflineState.dart';
 import 'package:betsbi/state/MemoViewState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,5 +7,5 @@ class MemosPage extends StatefulWidget {
   MemosPage({Key key, this.isOffline = false }) : super(key: key);
 
   @override
-  State<MemosPage> createState() => this.isOffline ? MemoViewOfflineState() : MemosViewState();
+  State<MemosPage> createState() => MemosViewState();
 }
