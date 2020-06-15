@@ -35,7 +35,7 @@ class ResponseManager {
     } else {
       if (this.onFailure != null) onFailure();
       FlushBarMessage.errorMessage(
-          content: Response.fromJson(json.decode(response.body)).content)
+              content: Response.fromJson(json.decode(response.body)).content)
           .showFlushBar(context);
     }
   }
@@ -52,11 +52,13 @@ class ResponseManager {
           .showFlushBar(context);
     }
   }
-  checkResponseAndShowItWithNoComingBack() {
+
+  Future<void> checkResponseAndShowItWithNoComingBack() async {
     if (response.statusCode >= 100 && response.statusCode < 400) {
-      if (this.onSuccess != null) onSuccess();
-      FlushBarMessage.goodMessage(content: this.successMessage)
-          .showFlushBarAndNavigatWithNoBack(context, this.destination);
+      if (this.onSuccess != null)
+        await onSuccess().whenComplete(() =>
+            FlushBarMessage.goodMessage(content: this.successMessage)
+                .showFlushBarAndNavigatWithNoBack(context, this.destination));
     } else {
       if (this.onFailure != null) onFailure();
       FlushBarMessage.errorMessage(
@@ -101,25 +103,25 @@ class ResponseManager {
     }
   }
 
-  void checkResponseAndExecuteFunctionIfOk(){
+  void checkResponseAndExecuteFunctionIfOk() {
     if (response.statusCode >= 100 && response.statusCode < 400) {
       if (this.onSuccess != null) onSuccess();
     } else {
       if (this.onFailure != null) onFailure();
       FlushBarMessage.errorMessage(
-          content: Response.fromJson(json.decode(response.body)).content)
+              content: Response.fromJson(json.decode(response.body)).content)
           .showFlushBar(this.context);
     }
   }
 
-  bool checkResponseAndConfirmSuccess(){
+  bool checkResponseAndConfirmSuccess() {
     if (response.statusCode >= 100 && response.statusCode < 400) {
       if (this.onSuccess != null) onSuccess();
       return true;
     } else {
       if (this.onFailure != null) onFailure();
       FlushBarMessage.errorMessage(
-          content: Response.fromJson(json.decode(response.body)).content)
+              content: Response.fromJson(json.decode(response.body)).content)
           .showFlushBar(this.context);
       return false;
     }

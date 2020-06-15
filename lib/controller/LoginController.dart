@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:betsbi/model/response.dart';
 import 'package:betsbi/service/HttpManager.dart';
-import 'package:betsbi/service/ResponseManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/service/SocketManager.dart';
 import 'package:betsbi/view/FeelingsView.dart';
 import 'package:betsbi/view/HomeView.dart';
+import 'package:betsbi/widget/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,6 @@ class LoginController {
 
   static Widget redirectionLogin({bool isPsy = false}) {
     SocketManager.connectSocket();
-
     if (SettingsManager.applicationProperties.isPsy().toLowerCase() ==
         'false') {
       if (SettingsManager.applicationProperties.getFeelingsDate().isNotEmpty) {
@@ -47,15 +47,18 @@ class LoginController {
       'password': password,
     }, context: context);
     await httpManager.postWithoutAccessToken();
-    ResponseManager responseManager = new ResponseManager(
-      response: httpManager.response,
-      onSuccess: () async =>
-          await writePropertiesAfterLogin(httpManager),
-      context: context,
-      destination: redirectionLogin(),
-      successMessage: SettingsManager.mapLanguage["ConnectSent"]
-    );
-    return responseManager.checkResponseAndShowItWithNoComingBack();
+    await writePropertiesAfterLogin(httpManager).whenComplete(() => checkResponseAndShowItWithNoComingBack(httpManager, context, redirectionLogin()));
+  }
+
+  static checkResponseAndShowItWithNoComingBack(HttpManager httpManager, BuildContext context, Widget destination)  {
+    if (httpManager.response.statusCode >= 100 && httpManager.response.statusCode < 400) {
+            FlushBarMessage.goodMessage(content: SettingsManager.mapLanguage["ConnectSent"])
+                .showFlushBarAndNavigatWithNoBack(context, destination);
+    } else {
+      FlushBarMessage.errorMessage(
+          content: Response.fromJson(json.decode(httpManager.response.body)).content)
+          .showFlushBar(context);
+    }
   }
 
   static Future writePropertiesAfterLogin(HttpManager httpManager) async {
