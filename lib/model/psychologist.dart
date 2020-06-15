@@ -13,8 +13,9 @@ class Psychologist extends User {
       String username,
       String description,
       String birthdate,
-      bool isPsy = true})
-      : super(profileId, username, description, birthdate, isPsy);
+      bool isPsy = true,
+      int level})
+      : super(profileId, username, description, birthdate, isPsy,level);
 
   Psychologist.defaultConstructor(
       {this.firstName = "",
@@ -23,8 +24,9 @@ class Psychologist extends User {
       String username = "",
       String description = "",
       String birthdate = "",
-      bool isPsy = true})
-      : super(profileId, username, description, birthdate, isPsy);
+      bool isPsy = true,
+      int level = 0})
+      : super(profileId, username, description, birthdate, isPsy, level);
 
   factory Psychologist.fromJson(Map<String, dynamic> json) {
     return Psychologist.normalConstructor(
@@ -33,7 +35,13 @@ class Psychologist extends User {
         username: json['user']['username'],
         birthdate: json['birthdate'],
         description: json['description'],
-        profileId: json['id']);
+        profileId: json['id'],
+        level: _determineLevelWithXp(json['user']['xp']));
+  }
+
+  static int _determineLevelWithXp(int xp)
+  {
+    return (xp / 100).floor() + 1;
   }
 
   factory Psychologist.fromJsonForSearch(Map<String, dynamic> json) {
@@ -41,7 +49,8 @@ class Psychologist extends User {
         birthdate: json['birthdate'],
         description: json['description'],
         username: json['user']['username'],
-        profileId: json['id']);
+        profileId: json['id']
+    );
   }
 
   Future<void> getUserProfile({String userID, BuildContext context}) async {
@@ -53,6 +62,7 @@ class Psychologist extends User {
       this.description = userProfileResult.description;
       this.username = userProfileResult.username;
       this.profileId = userProfileResult.profileId;
+      this.level = userProfileResult.level;
     });
   }
 

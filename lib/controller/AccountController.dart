@@ -20,6 +20,7 @@ class AccountController {
         new HttpManager(path: 'userProfile/$userID/user', context: context);
     await httpManager.get();
     UserProfile userProfile = UserProfile.defaultConstructor();
+    print(httpManager.response.body);
     ResponseManager responseManager = new ResponseManager(
         response: httpManager.response,
         context: context,
