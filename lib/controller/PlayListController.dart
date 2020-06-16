@@ -82,4 +82,19 @@ class PlayListController {
         context: context);
     responseManager.checkResponseAndPrintIt();
   }
+
+  static Future<void> removeSongFromPlayList({@required BuildContext context, @required String playlistId,
+    @required String musicId,}) async
+  {
+    HttpManager httpManager = new HttpManager(
+        path: "playlist/$playlistId/deleteMusic/$musicId", context: context);
+    await httpManager.delete();
+    print(httpManager.response.body);
+    ResponseManager responseManager = new ResponseManager(
+        response: httpManager.response,
+        successMessage: SettingsManager.mapLanguage["RemoveFromPlayList"],
+        context: context);
+    return responseManager.checkResponseAndPrintIt();
+
+  }
 }

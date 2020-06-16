@@ -160,6 +160,9 @@ class AmbianceState extends State<AmbiancePage>
                         .dismiss()
                         .whenComplete(() => AmbianceController.musicFlush..show(context));
                   }
+                  setState(() {
+
+                  });
                 }
               );
             },

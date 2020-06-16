@@ -94,13 +94,7 @@ class _PlayListAddState extends State<PlayListAddWidget> {
                 duration: this.widget.songDuration,
                 id: this.widget.songId,
               ).whenComplete(
-                () async => await Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HistoricalManager.historical.last,
-                  ),
-                  (Route<dynamic> route) => false,
-                ),
+                    () => setState(() { _memorizer = new AsyncMemoizer(); }),
               );
             }),
         FlatButton(

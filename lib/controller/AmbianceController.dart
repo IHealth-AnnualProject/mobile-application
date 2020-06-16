@@ -48,6 +48,7 @@ class AmbianceController {
       @required String songName,
       @required BuildContext context,
       int startAtIndex = 0}) async {
+    print(startAtIndex);
     if (musicFlush != null && musicFlush.isShowing()) {
       musicFlush.dismiss();
       assetsAudioPlayer.stop();
