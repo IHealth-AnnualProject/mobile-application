@@ -1,23 +1,22 @@
 import 'package:betsbi/controller/CheckController.dart';
+import 'package:betsbi/controller/ErrorController.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/view/ErrorView.dart';
-import 'package:betsbi/view/HomeView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/DefaultTextTitle.dart';
-import 'package:betsbi/widget/FinalButton.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/widget/SubmitButton.dart';
 import 'package:betsbi/widget/TextFormFieldCustomBetsBi.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ErrorState extends State<ErrorPage> with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController titleEditingController =
-      new TextEditingController();
-  final TextEditingController descriptionEditingController =
+  TextEditingController titleEditingController = new TextEditingController();
+  TextEditingController descriptionEditingController =
       new TextEditingController();
 
   @override
@@ -57,7 +56,9 @@ class ErrorState extends State<ErrorPage> with WidgetsBindingObserver {
                 SizedBox(
                   height: 30,
                 ),
-                DefaultTextTitle(title: SettingsManager.mapLanguage["ErrorTitle"],),
+                DefaultTextTitle(
+                  title: SettingsManager.mapLanguage["ErrorTitle"],
+                ),
                 SizedBox(
                   height: 45,
                 ),
@@ -102,17 +103,19 @@ class ErrorState extends State<ErrorPage> with WidgetsBindingObserver {
                       ),
                       Container(
                         width: 350.0,
-                        child: FinalButton(
-                            content:
-                                SettingsManager.mapLanguage["Submit"] != null
-                                    ? SettingsManager.mapLanguage["Submit"]
-                                    : "",
-                            destination: HomePage(),
-                            formKey: _formKey,
-                            barContent:
-                                SettingsManager.mapLanguage["ErrorSent"] != null
-                                    ? SettingsManager.mapLanguage["ErrorSent"]
-                                    : ""),
+                        child: SubmitButton(
+                          content: SettingsManager.mapLanguage["Submit"],
+                          onPressedFunction: () => ErrorController.sendError(
+                            context: context,
+                            name: titleEditingController.text,
+                            description: descriptionEditingController.text,
+                          ).whenComplete(() => this.setState(() {
+                                titleEditingController =
+                                    new TextEditingController();
+                                descriptionEditingController =
+                                    new TextEditingController();
+                              })),
+                        ),
                       ),
                       SizedBox(
                         height: 20,
@@ -125,7 +128,10 @@ class ErrorState extends State<ErrorPage> with WidgetsBindingObserver {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: null,),
+      bottomNavigationBar: BottomNavigationBarFooter(
+        selectedBottomIndexOffLine: null,
+        selectedBottomIndexOnline: null,
+      ),
     );
   }
 }
