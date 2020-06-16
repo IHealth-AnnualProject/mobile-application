@@ -94,6 +94,7 @@ class MemosViewState extends State<MemosPage> with WidgetsBindingObserver {
                     children: <Widget>[
                       ListView.builder(
                         shrinkWrap: true,
+                        primary: false,
                         padding: EdgeInsets.all(8),
                         itemCount: list.length,
                         itemBuilder: (BuildContext context, int index) {

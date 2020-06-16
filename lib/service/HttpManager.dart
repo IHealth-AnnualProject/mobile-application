@@ -92,6 +92,23 @@ class HttpManager {
               context, () => SettingsController.disconnect(context));
     }
   }
+  delete() async {
+    try {
+      response = await http.delete(
+        SettingsManager.cfg.getString("apiUrl") + this.path,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer ' +
+              SettingsManager.applicationProperties.getCurrentToken(),
+        },
+      ).timeout(Duration(seconds: 6));
+    } on TimeoutException catch (_) {
+      FlushBarMessage.informationMessage(
+              content: SettingsManager.mapLanguage["TimeOut"])
+          .showFlushBarAndDo(
+              context, () => SettingsController.disconnect(context));
+    }
+  }
 
   postWithoutAccessToken() async {
     try {

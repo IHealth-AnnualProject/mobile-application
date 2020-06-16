@@ -1,14 +1,14 @@
 import 'package:betsbi/controller/CheckController.dart';
+import 'package:betsbi/controller/QuestController.dart';
 import 'package:betsbi/controller/SettingsController.dart';
 import 'package:betsbi/controller/TokenController.dart';
 import 'package:betsbi/service/HistoricalManager.dart';
-import 'package:betsbi/view/HomeView.dart';
 import 'package:betsbi/view/QuestCreateView.dart';
 import 'package:betsbi/widget/AppSearchBar.dart';
 import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
 import 'package:betsbi/widget/DefaultTextTitle.dart';
-import 'package:betsbi/widget/FinalButton.dart';
 import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/widget/SubmitButton.dart';
 import 'package:betsbi/widget/TextFormFieldCustomBetsBi.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 class QuestCreateState extends State<QuestCreatePage>
     with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>();
-  List difficulty = ["easy", "normal", "hard"];
+  List difficulty = ["easy", "normal"];
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   final TextEditingController titleController = new TextEditingController();
   final TextEditingController descriptionController =
@@ -141,16 +141,10 @@ class QuestCreateState extends State<QuestCreatePage>
                     ),
                     Container(
                       width: 350.0,
-                      child: FinalButton(
-                          content: SettingsManager.mapLanguage["Submit"] != null
-                              ? SettingsManager.mapLanguage["Submit"]
-                              : "",
-                          destination: HomePage(),
-                          formKey: _formKey,
-                          barContent:
-                              SettingsManager.mapLanguage["ErrorSent"] != null
-                                  ? SettingsManager.mapLanguage["ErrorSent"]
-                                  : ""),
+                      child: SubmitButton(
+                        content: SettingsManager.mapLanguage["Submit"],
+                        onPressedFunction: () => checkFormThenCreateQuest(),
+                      ),
                     ),
                     SizedBox(
                       height: 20,
@@ -162,8 +156,22 @@ class QuestCreateState extends State<QuestCreatePage>
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: null,),
+      bottomNavigationBar: BottomNavigationBarFooter(
+        selectedBottomIndexOffLine: null,
+        selectedBottomIndexOnline: null,
+      ),
     );
+  }
+
+  void checkFormThenCreateQuest() async {
+    if (_formKey.currentState.validate()) {
+      await QuestController.createQuest(
+        context: context,
+        questTitle: titleController.value.text,
+        questDifficulty: _currentDifficulty,
+        questDescription: titleController.value.text,
+      );
+    }
   }
 
   void changedDropDownItem(String selectedDifficulty) {

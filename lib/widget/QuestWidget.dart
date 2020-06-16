@@ -1,20 +1,17 @@
 import 'package:betsbi/controller/QuestController.dart';
+import 'package:betsbi/model/quest.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class QuestWidget extends StatefulWidget {
-  final String title;
-  bool isDone;
-  final String questSate;
-  final String description;
-  int gainExperience;
+  final Quest quest;
+  final State parent;
 
-  QuestWidget(
-      {this.title, this.isDone = false, this.questSate, this.description}) {
-    this.gainExperience =
-        QuestController.generateGainAccordingToState(this.questSate);
-  }
+  QuestWidget({
+    @required this.quest,
+    @required this.parent,
+  });
 
   @override
   _QuestWidgetState createState() => _QuestWidgetState();
@@ -27,23 +24,73 @@ class _QuestWidgetState extends State<QuestWidget> {
       alignment: WrapAlignment.center,
       spacing: 20,
       children: <Widget>[
-        Text(
-          this.widget.title,
-          style: TextStyle(fontSize: 25, color: Color.fromRGBO(0, 157, 153, 1)),
-        ),
-        Text(
-          this.widget.questSate,
-          style: TextStyle(fontSize: 25, color: Color.fromRGBO(0, 157, 153, 1)),
-        ),
         SizedBox(
-          width: 20,
+          height: 30,
         ),
-        this.widget.isDone
-            ? Text(
-                SettingsManager.mapLanguage["Done"],
-                style: TextStyle(color: Color.fromRGBO(255, 195, 0, 1), fontSize: 25),
-              )
-            : RaisedButton(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Flexible(
+              flex: 5,
+              child: Text(
+                this.widget.quest.questTitle,
+                style: TextStyle(
+                    fontSize: 25, color: Color.fromRGBO(0, 157, 153, 1)),
+              ),
+            ),
+            Flexible(
+              flex: 5,
+              child: Text(
+                this.widget.quest.questDifficulty,
+                style: TextStyle(
+                    fontSize: 25, color: Color.fromRGBO(0, 157, 153, 1)),
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            this.widget.quest.questDone == 1
+                ? Text(
+                    SettingsManager.mapLanguage["Done"],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color.fromRGBO(255, 195, 0, 1),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                : Flexible(
+                    flex: 5,
+                    child: RaisedButton(
+                      elevation: 8,
+                      color: Color.fromRGBO(255, 195, 0, 1),
+                      shape: StadiumBorder(
+                          side: BorderSide(
+                        color: Color.fromRGBO(228, 228, 228, 1),
+                      )),
+                      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      onPressed: () async {
+                        await QuestController.validateQuest(
+                                context: context,
+                                quest : this.widget.quest)
+                            .whenComplete(
+                                () => this.widget.parent.setState(() {}));
+                      },
+                      child: Text(
+                        SettingsManager.mapLanguage["Done"],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromRGBO(255, 255, 255, 100),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+            SizedBox(width: 20,),
+            Flexible(
+              flex: 5,
+              child: RaisedButton(
                 elevation: 8,
                 color: Color.fromRGBO(255, 195, 0, 1),
                 shape: StadiumBorder(
@@ -51,14 +98,13 @@ class _QuestWidgetState extends State<QuestWidget> {
                   color: Color.fromRGBO(228, 228, 228, 1),
                 )),
                 padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                onPressed: () {
-                  showAlertDialog(context);
-                  setState(() {
-                    this.widget.isDone = true;
-                  });
+                onPressed: () async {
+                  await QuestController.deleteQuest(
+                          context: context, questId: this.widget.quest.questId)
+                      .whenComplete(() => this.widget.parent.setState(() {}));
                 },
                 child: Text(
-                  SettingsManager.mapLanguage["Done"],
+                  SettingsManager.mapLanguage["Delete"],
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Color.fromRGBO(255, 255, 255, 100),
@@ -66,54 +112,10 @@ class _QuestWidgetState extends State<QuestWidget> {
                   ),
                 ),
               ),
-      ],
-    );
-  }
-
-  showAlertDialog(BuildContext context) {
-    // set up the button
-    Widget okButton = FlatButton(
-      child: Text("OK"),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      backgroundColor: Colors.white,
-      title: Container(
-        width: MediaQuery.of(context).size.width,
-        alignment: Alignment.center,
-        child: Image.asset("assets/congrats.gif"),
-      ),
-      content: Text.rich(
-        TextSpan(
-          text: SettingsManager.mapLanguage["CongratsBegin"],
-          style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
-          children: [
-            TextSpan(
-              text: this.widget.gainExperience.toString(),
-              style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontWeight: FontWeight.bold, fontSize: 17),
-            ),
-            TextSpan(
-              text: SettingsManager.mapLanguage["CongratsEnd"],
-              style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 17),
             ),
           ],
         ),
-      ),
-      actions: [
-        okButton,
       ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
     );
   }
 }

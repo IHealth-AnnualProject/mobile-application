@@ -12,7 +12,7 @@ class SQLLiteMemos implements ISQLLITEManager {
   }
 
   @override
-  Future<List<dynamic>> getAll() async {
+  Future<List<Memo>> getAll() async {
     final List<Map<String, dynamic>> maps = await SQLLiteManager.db.query('memo');
     return List.generate(maps.length, (i) {
       return Memo(

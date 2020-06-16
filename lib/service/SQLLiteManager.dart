@@ -22,6 +22,13 @@ class SQLLiteManager {
               ' notificationType TEXT,'
               ' notificationDate TEXT)',
         );
+        await _db.execute(
+            'CREATE TABLE quest(id INTEGER PRIMARY KEY AUTOINCREMENT, '
+                ' questTitle TEXT,'
+                ' questDescription TEXT,'
+                ' questDifficulty TEXT,'
+                ' questDone INTEGER)'
+        );
       },
       version: 1,
     );

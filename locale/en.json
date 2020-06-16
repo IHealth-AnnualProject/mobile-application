@@ -94,6 +94,7 @@
   "OfflineContent": "Access to multiple tools without internet connection",
   "LoginPage": "Login Page",
   "AddToPlaylist": "Add to playlist",
+  "RemoveFromPlaylist": "Remove from playlist",
   "RelaxingColor": "Relaxing Color",
   "Congratulations": "Congratulation you did it !",
   "Exercise": "exercise",
@@ -108,5 +109,13 @@
   "PlayListCreated": "The Play List have correctly been created",
   "AddSongToPlayList": "This song have correctly been added to the playlist",
   "TimeOut": "Time Out Check out your internet connection",
-  "Memos" : "Memo"
+  "Memos" : "Memo",
+  "QuestCreated": "Your quest has correctly been created",
+  "QuestNotCreated" : "Your quest hasn't been created",
+  "QuestValidated": "You have correctly validated your quest",
+  "QuestDeleted": "You have correctly canceled your quest",
+  "QuestNotDeleted" : "Quest hasn't been deleted",
+  "RemoveFromPlayList": "You have correctly removed it from playlist "
+
+
 }

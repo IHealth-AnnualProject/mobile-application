@@ -94,6 +94,7 @@
   "OfflineContent": "Accèder à diverses fonctionnalités sans avoir recours à internet",
   "LoginPage": "Page de connexion",
   "AddToPlaylist": "Ajouter à la playlist",
+  "RemoveFromPlaylist": "retirer de la playlist",
   "RelaxingColor": "Couleur relaxante",
   "Congratulations": "Félicitation tu as réussi !",
   "PipeGameExplanation": "Tournez les tubes jusqu'à ce que tout coïncide",
@@ -107,6 +108,12 @@
   "PlayListCreated": "La PlayList a bien été créé",
   "AddSongToPlayList": "Cette musique a été ajouté à la playlist",
   "TimeOut": "Délai expiré, veuillez vérifier votre connexion internet",
-  "Memos" : "Rappel"
+  "Memos" : "Rappel",
+  "QuestCreated": "Votre quête a bien été créé",
+  "QuestNotCreated" : "Votre quête n'a pas été créé",
+  "QuestValidated": "Vous avez réussi votre quête",
+  "QuestDeleted": "Vous avez supprimé votre quête",
+  "QuestNotDeleted" : "La suppression n'a pas marché",
+  "RemoveFromPlayList": "Vous avez bien retirer la musique de la playlist"
 
 }
