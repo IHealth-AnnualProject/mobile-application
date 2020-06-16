@@ -1,20 +1,19 @@
 import 'dart:convert';
 
-import 'package:betsbi/model/response.dart';
 import 'package:betsbi/service/HttpManager.dart';
+import 'package:betsbi/service/ResponseManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/service/SocketManager.dart';
 import 'package:betsbi/view/FeelingsView.dart';
 import 'package:betsbi/view/HomeView.dart';
-import 'package:betsbi/widget/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginController {
-  static DateTime feelingsParsed;
 
   static Widget redirectionLogin({bool isPsy = false}) {
     SocketManager.connectSocket();
+    DateTime feelingsParsed;
     if (SettingsManager.applicationProperties.isPsy().toLowerCase() ==
         'false') {
       if (SettingsManager.applicationProperties.getFeelingsDate().isNotEmpty) {
@@ -41,43 +40,47 @@ class LoginController {
 
   static Future<void> login(
       String username, String password, BuildContext context) async {
-    HttpManager httpManager =
-        new HttpManager(path: 'auth/login', map: <String, String>{
-      'username': username,
-      'password': password,
-    }, context: context);
+    HttpManager httpManager = new HttpManager(
+        path: 'auth/login',
+        map: <String, String>{
+          'username': username,
+          'password': password,
+        },
+        context: context);
     await httpManager.postWithoutAccessToken();
-    await writePropertiesAfterLogin(httpManager).whenComplete(() => checkResponseAndShowItWithNoComingBack(httpManager, context, redirectionLogin()));
+    ResponseManager responseManager = new ResponseManager(
+      response: httpManager.response,
+      destination: redirectionLogin(),
+      context:  context,
+      onSuccess:  ()  => writePropertiesAfterLogin(httpManager),
+      successMessage: SettingsManager.mapLanguage["ConnectSent"]
+    );
+    await responseManager.checkResponseAndShowItWithNoComingBack();
   }
 
-  static checkResponseAndShowItWithNoComingBack(HttpManager httpManager, BuildContext context, Widget destination)  {
-    if (httpManager.response.statusCode >= 100 && httpManager.response.statusCode < 400) {
-            FlushBarMessage.goodMessage(content: SettingsManager.mapLanguage["ConnectSent"])
-                .showFlushBarAndNavigatWithNoBack(context, destination);
-    } else {
-      FlushBarMessage.errorMessage(
-          content: Response.fromJson(json.decode(httpManager.response.body)).content)
-          .showFlushBar(context);
-    }
-  }
 
   static Future writePropertiesAfterLogin(HttpManager httpManager) async {
     await SettingsManager.storage
-        .write(key: "userId", value: parseResponse(httpManager.response.body)["user"]["id"])
-        .then((r) => SettingsManager.applicationProperties
-            .setCurrentId(parseResponse(httpManager.response.body)["user"]["id"]));
+        .write(
+            key: "userId",
+            value: parseResponse(httpManager.response.body)["user"]["id"])
+        .then((r) => SettingsManager.applicationProperties.setCurrentId(
+            parseResponse(httpManager.response.body)["user"]["id"]));
     await SettingsManager.storage
         .write(
             key: "token",
-            value: parseResponse(httpManager.response.body)["token"]["access_token"])
+            value: parseResponse(httpManager.response.body)["token"]
+                ["access_token"])
         .then((r) => SettingsManager.applicationProperties.setCurrentToken(
             parseResponse(httpManager.response.body)["token"]["access_token"]));
     await SettingsManager.storage
         .write(
             key: "isPsy",
-            value: parseResponse(httpManager.response.body)["user"]["isPsy"].toString())
+            value: parseResponse(httpManager.response.body)["user"]["isPsy"]
+                .toString())
         .then((r) => SettingsManager.applicationProperties.setIsPsy(
-            parseResponse(httpManager.response.body)["user"]["isPsy"].toString()));
+            parseResponse(httpManager.response.body)["user"]["isPsy"]
+                .toString()));
   }
 
   static Map<String, dynamic> parseResponse(String response) {
