@@ -22,22 +22,20 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
   List<Song> songs;
   List<Audio> audios;
 
-  Future<bool> checkIfSongIsAvailable({String songName, String songDuration, int index}) async {
-      applicationPath = (await getApplicationDocumentsDirectory()).path;
-        bool isAvailable = await AmbianceController.checkIfSongAvailable(
-            songName: songName, duration: songDuration);
-        print("here");
-           _fromSongsToPath(
-            index: index, songName: songName, isAvailable: isAvailable);
-      return isAvailable;
+  Future<bool> checkIfSongIsAvailable(
+      {String songName, String songDuration, int index}) async {
+    applicationPath = (await getApplicationDocumentsDirectory()).path;
+    audios.add(new Audio.file("toTrash"));
+    bool isAvailable = await AmbianceController.checkIfSongAvailable(
+        songName: songName, duration: songDuration);
+    _fromSongsToPath(
+        index: index, songName: songName, isAvailable: isAvailable);
+    return isAvailable;
   }
 
   void _fromSongsToPath({bool isAvailable, String songName, int index}) {
-    print("index " + index.toString());
-    print("length" + audios.length.toString());
-    print(isAvailable);
     if (isAvailable)
-      audios.insert(index,Audio.file(applicationPath + "/" + songName + ".mp3"));
+      audios[index] = new Audio.file(applicationPath + "/" + songName + ".mp3");
   }
 
   @override
@@ -60,7 +58,6 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
           .then((value) => AmbianceController.musicFlush..show(context));
     }
     songs = this.widget.playList.songs;
-    audios = new List<Audio>();
   }
 
   @override
@@ -74,6 +71,7 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    audios = new List<Audio>();
     return Scaffold(
       appBar: AppSearchBar(),
       bottomNavigationBar: BottomNavigationBarFooter(
@@ -111,7 +109,9 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
         elevation: 10,
         child: FutureBuilder(
           future: checkIfSongIsAvailable(
-              songName: song.songName, songDuration: song.duration, index : index),
+              songName: song.songName,
+              songDuration: song.duration,
+              index: index),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListTile(
@@ -128,8 +128,7 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
                         musicId: song.id,
                         context: context,
                       ).whenComplete(() {
-                        setState(() {
-                        });
+                        setState(() {});
                       }),
                 trailing: snapshot.data
                     ? Icon(Icons.play_arrow)
@@ -162,7 +161,6 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
               .whenComplete(
             () => setState(() {
               songs.removeAt(index);
-              audios = new List<Audio>();
             }),
           ),
         ),
