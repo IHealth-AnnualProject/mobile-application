@@ -37,8 +37,8 @@ class FlushBarMessage extends StatelessWidget {
         duration: Duration(seconds: 1));
   }
 
-  void showFlushBar(BuildContext context) {
-    flushbar().show(context);
+  Future<void> showFlushBar(BuildContext context) async {
+    await flushbar().show(context);
   }
 
   void showFlushBarAndNavigateAndRemove(

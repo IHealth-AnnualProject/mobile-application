@@ -114,6 +114,7 @@
   "QuestValidated": "Vous avez réussi votre quête",
   "QuestDeleted": "Vous avez supprimé votre quête",
   "QuestNotDeleted" : "La suppression n'a pas marché",
-  "RemoveFromPlayList": "Vous avez bien retirer la musique de la playlist"
-
+  "RemoveFromPlayList": "Vous avez bien retirer la musique de la playlist",
+  "YouWithToReport": "Vous souhaitez signaler cet utilisateur :",
+  "ReportSent" : "Merci de votre signalement"
 }

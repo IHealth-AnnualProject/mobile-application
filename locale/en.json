@@ -115,7 +115,9 @@
   "QuestValidated": "You have correctly validated your quest",
   "QuestDeleted": "You have correctly canceled your quest",
   "QuestNotDeleted" : "Quest hasn't been deleted",
-  "RemoveFromPlayList": "You have correctly removed it from playlist "
+  "RemoveFromPlayList": "You have correctly removed it from playlist ",
+  "YouWithToReport": "You wish to report this user :",
+  "ReportSent" : "Thanks for your report"
 
 
 }

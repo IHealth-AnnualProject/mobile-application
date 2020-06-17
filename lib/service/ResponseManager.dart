@@ -39,6 +39,19 @@ class ResponseManager {
           .showFlushBar(context);
     }
   }
+  checkResponseAndPrintItThenPopBack() {
+    if (response.statusCode >= 100 && response.statusCode < 400) {
+      if (this.onSuccess != null) onSuccess();
+      FlushBarMessage.goodMessage(content: this.successMessage)
+          .showFlushBar(context).whenComplete(() => Navigator.of(context).pop());
+
+    } else {
+      if (this.onFailure != null) onFailure();
+      FlushBarMessage.errorMessage(
+              content: Response.fromJson(json.decode(response.body)).content)
+          .showFlushBar(context);
+    }
+  }
 
   checkResponseAndShowIt() {
     if (response.statusCode >= 100 && response.statusCode < 400) {

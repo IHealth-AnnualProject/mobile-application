@@ -3,6 +3,7 @@ import 'package:betsbi/model/contact.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:betsbi/sqlite/SQLLiteNewMessage.dart';
 import 'package:betsbi/view/ChatView.dart';
+import 'package:betsbi/view/ReportView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -64,13 +65,20 @@ class _ContactChatState extends State<ContactChat> {
           caption: SettingsManager.mapLanguage["Delete"],
           color: Colors.red,
           icon: Icons.delete,
-          onTap: () => print("archive"),
+          onTap: () => print("delete")
         ),
         IconSlideAction(
           caption: SettingsManager.mapLanguage["Report"],
           color: Colors.black87,
           icon: Icons.report,
-          onTap: () => print('Share'),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ReportView(
+                  userId: this.widget.contact.userId,
+                  userName: this.widget.contact.username,
+                )),
+          ).whenComplete(() => this.setState(() { })),
         ),
       ],
     );
