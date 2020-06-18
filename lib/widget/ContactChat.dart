@@ -34,8 +34,7 @@ class _ContactChatState extends State<ContactChat> {
       child: Container(
         color: Colors.white,
         child: ListTile(
-          leading:
-              widget.contact.isPsy ? Icon(Icons.spa) : Icon(Icons.account_box),
+          leading: CircleAvatar(child : Image.asset("assets/skin/accessories/accessories1.png"),backgroundColor: Colors.white,),
           title: Text(widget.contact.username),
           trailing: Badge(
             badgeContent: Text(

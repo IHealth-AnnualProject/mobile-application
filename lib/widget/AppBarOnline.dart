@@ -1,5 +1,4 @@
 import 'package:betsbi/controller/SearchBarController.dart';
-import 'package:betsbi/service/HistoricalManager.dart';
 import 'package:betsbi/service/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -49,7 +49,6 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
   findUserInformation() {
     return this._memorizer.runOnce(() async {
       await profile.getUserProfile(userID: this.widget.userId);
-      print("prout");
       setState(() {});
       return profile;
     });
