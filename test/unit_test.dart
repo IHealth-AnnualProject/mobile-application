@@ -1,8 +1,8 @@
 
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:betsbi/model/face.dart';
-import 'package:betsbi/model/skinColor.dart';
-import 'package:betsbi/service/JsonParserManager.dart';
+import 'package:betsbi/manager/JsonParserManager.dart';
+import 'package:betsbi/services/account/model/face.dart';
+import 'package:betsbi/services/account/model/skinColor.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
