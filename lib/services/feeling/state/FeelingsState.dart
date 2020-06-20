@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FeelingsState extends State<FeelingsPage> with WidgetsBindingObserver {
-  //todo clean custom scroll view
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);

@@ -1,21 +1,37 @@
 import 'package:betsbi/manager/HistoricalManager.dart';
+import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/lesson/controller/LessonController.dart';
 import 'package:betsbi/services/lesson/view/LessonListView.dart';
+import 'package:betsbi/services/settings/controller/SettingsController.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
 import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LessonListState extends State<LessonListPage> {
-  List<Widget> list;
+class LessonListState extends State<LessonListPage> with WidgetsBindingObserver {
+  List<Widget> listLesson;
 
-  //todo add on resume
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && !this.widget.isOffLine) {
+      TokenController.checkTokenValidity(context).then((result) {
+        if (!result) SettingsController.disconnect(context);
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    list = new List<Widget>();
+    listLesson = new List<Widget>();
+    WidgetsBinding.instance.addObserver(this);
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
@@ -30,13 +46,13 @@ class LessonListState extends State<LessonListPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             LessonController.decodeJsonAndStoreItInsideLessonList(
-                snapshot.data.toString(), list, context);
+                snapshot.data.toString(), listLesson, context);
             return ListView.builder(
               padding: const EdgeInsets.all(8),
-              itemCount: list.length,
+              itemCount: listLesson.length,
               itemBuilder: (BuildContext context, int index) {
                 return Card(
-                  child: list[index],
+                  child: listLesson[index],
                 );
               },
             );

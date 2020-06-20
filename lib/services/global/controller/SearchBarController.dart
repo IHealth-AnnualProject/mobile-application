@@ -20,7 +20,7 @@ class SearchBarController {
   static String searchCategory = "user";
   static List<String> searchChoicesCategory = ["user", "exercise"];
 
-  static Future<List<Exercise>> getAllExercise({BuildContext context}) async {
+  static Future<List<Exercise>> getAllExercise({@required BuildContext context}) async {
     String jsonWithOutputList;
     jsonWithOutputList = await ExerciseController.getJsonAccodingToExerciseType(
         context: context, type: 'math');
@@ -29,10 +29,10 @@ class SearchBarController {
   }
 
   static Future<List<SearchItem>> getAllPropsAccordingToCategoryChosen(
-      {BuildContext context}) async {
+      {@required BuildContext context}) async {
     List<SearchItem> items = new List<SearchItem>();
     if (searchCategory.toString() == 'user') {
-      await getAllProfile(context).then(
+      await getAllProfile(context : context).then(
         (users) => users.forEach(
           (user) => items.add(
             SearchItem.userItem(
@@ -64,7 +64,7 @@ class SearchBarController {
     return items;
   }
 
-  static Future<List<SearchItem>> getAllMusic({BuildContext context}) async {
+  static Future<List<SearchItem>> getAllMusic({@required BuildContext context}) async {
     List<SearchItem> items = new List<SearchItem>();
     await AmbianceController.getAllSongs(context: context).then(
       (songs) => songs.forEach(
@@ -83,32 +83,33 @@ class SearchBarController {
     return items;
   }
 
-  //todo split
-
-  static Future<List<User>> getAllProfile(BuildContext context) async {
-    var users = new List<User>();
-    HttpManager httpManager = new HttpManager(path: "userProfile", context: context);
+  static Future<List<User>> getAllUser({@required BuildContext context, @required Function listToReturn, @required String path}) async
+  {
+    List<User> users = new List<User>();
+    HttpManager httpManager =
+    new HttpManager(path: path, context: context);
     await httpManager.get();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,
       elementToReturn: new List<User>(),
-      functionListToReturn: () => fromJsonToUser(httpManager),
+      functionListToReturn: () => listToReturn(httpManager),
       context: context,
     );
     users = responseManager.checkResponseAndRetrieveListOfInformation();
-    // remove psy from list if you're already a psy
-    httpManager.setPath(newPath: 'psychologist');
-    await httpManager.get();
-    responseManager = new ResponseManager(
-      response: httpManager.response,
-      elementToReturn: new List<User>(),
-      functionListToReturn: () => fromJsonToPsy(httpManager),
-      context: context,
-    );
-    users.addAll(responseManager.checkResponseAndRetrieveListOfInformation());
+    return users;
+  }
+
+  static Future<List<User>> getAllProfile({@required BuildContext context}) async {
+    List<User> users = new List<User>();
+    users = await getAllUser(context: context, listToReturn: fromJsonToUser, path: "userProfile");
+    users.addAll(await getAllUser(context: context, listToReturn: fromJsonToPsy, path: "psychologist"));
+    removeCurrentUserFromList(users);
+    return users;
+  }
+
+  static removeCurrentUserFromList(List<User> users) {
     users.removeWhere((user) =>
         user.profileId == SettingsManager.applicationProperties.getCurrentId());
-    return users;
   }
 
   static List<User> fromJsonToUser(HttpManager httpManager) {

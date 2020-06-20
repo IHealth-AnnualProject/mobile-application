@@ -1,12 +1,14 @@
 import 'package:betsbi/manager/HistoricalManager.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/exercise/view/ExerciseView.dart';
+import 'package:betsbi/services/global/controller/TokenController.dart';
+import 'package:betsbi/services/settings/controller/SettingsController.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
 import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class MathExerciseState extends State<ExercisePage> {
+class MathExerciseState extends State<ExercisePage> with WidgetsBindingObserver {
   List<Widget> questionList;
   bool isCongratsHidden = false;
 
@@ -14,10 +16,24 @@ class MathExerciseState extends State<ExercisePage> {
   void initState() {
     convertAnswersToListWidget();
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
-  // todo add on resume
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && !this.widget.isOffline) {
+      TokenController.checkTokenValidity(context).then((result) {
+        if (!result) SettingsController.disconnect(context);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

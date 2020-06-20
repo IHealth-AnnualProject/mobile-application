@@ -78,7 +78,6 @@ class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
                     id: notification.notificationId,
                     dueDate: notification.notificationDate,
                   ));
-          // todo schedule notification push for all memos in db
           setState(() {});
         } else {
           await SettingsManager.setNotificationPush("false");

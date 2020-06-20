@@ -1,6 +1,8 @@
 import 'package:badges/badges.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
-import 'package:betsbi/services/global/controller/BottomNavigationController.dart';
+import 'package:betsbi/services/account/view/AccountView.dart';
+import 'package:betsbi/services/chat/view/ChatListContactView.dart';
+import 'package:betsbi/services/home/view/HomeView.dart';
 import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +55,7 @@ class BottomNavigationBarFooterState extends State<BottomNavigationBarFooter> {
         ],
         onTap: (int index) {
           setState(() {
-            BottomNavigationController.onBottomTapped(
+            onBottomTapped(
                 this.widget.selectedBottomIndexOnline, index, context);
           });
         });
@@ -103,7 +105,7 @@ class BottomNavigationBarFooterState extends State<BottomNavigationBarFooter> {
         selectedItemColor: Colors.amber[800],
         onTap: (int index) {
           setState(() {
-            BottomNavigationController.onBottomTapped(
+            onBottomTapped(
                 this.widget.selectedBottomIndexOnline, index, context);
           });
         });
@@ -115,5 +117,55 @@ class BottomNavigationBarFooterState extends State<BottomNavigationBarFooter> {
       return bottomNavigationBarWithoutCurrentIndex();
     else
       return bottomNavigationBarWithCurrentIndex();
+  }
+
+  int onBottomTapped(
+      int currentIndex, int selectedBottomIndex, BuildContext context) {
+    switch (selectedBottomIndex) {
+      case 0:
+        if (currentIndex != 0)
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomePage(
+                isPsy: SettingsManager.applicationProperties
+                    .isPsy()
+                    .toLowerCase() ==
+                    'true'
+                    ? true
+                    : false,
+              ),
+            ),
+                (Route<dynamic> route) => false,
+          );
+        break;
+      case 1:
+        if (currentIndex != 1)
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AccountPage(
+                userId: SettingsManager.applicationProperties.getCurrentId(),
+                isPsy: SettingsManager.applicationProperties
+                    .isPsy()
+                    .toLowerCase() ==
+                    'true'
+                    ? true
+                    : false,
+              ),
+            ),
+          ).whenComplete(() => this.setState(() { }));
+        break;
+      case 2:
+        if (currentIndex != 2)
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatListContactPage(),
+            ),
+          ).whenComplete(() => this.setState(() { }));
+        break;
+    }
+    return selectedBottomIndex;
   }
 }

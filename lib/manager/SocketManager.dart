@@ -49,7 +49,6 @@ class SocketManager {
   }
 
   static _onNewMessage(dynamic data) async {
-    print("socketManager");
     SettingsManager.applicationProperties.setNewMessage(
         SettingsManager.applicationProperties.getNewMessage() + 1);
     SQLLiteNewMessage sqlLiteNewMessage = new SQLLiteNewMessage();

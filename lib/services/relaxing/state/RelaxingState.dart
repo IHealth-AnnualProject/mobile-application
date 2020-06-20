@@ -1,19 +1,28 @@
 import 'package:betsbi/animation/CurvedAnimation.dart';
 import 'package:betsbi/presentation/ColorPaletteRelaxing.dart';
+import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/relaxing/view/AmbianceView.dart';
 import 'package:betsbi/services/relaxing/view/RelaxingView.dart';
+import 'package:betsbi/services/settings/controller/SettingsController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class RelaxingState extends State<RelaxingPage> with TickerProviderStateMixin {
+class RelaxingState extends State<RelaxingPage> with TickerProviderStateMixin, WidgetsBindingObserver {
   CustomCurvedAnimation curvedAnimation;
 
-  //todo add on resume
-
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      TokenController.checkTokenValidity(context).then((result) {
+        if (!result) SettingsController.disconnect(context);
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     curvedAnimation = new CustomCurvedAnimation.withoutCurve(
         begin: 0.2, end: 1, duration: Duration(seconds: 4), vsync: this);
     curvedAnimation.addListenerOnAnimation(
@@ -36,6 +45,7 @@ class RelaxingState extends State<RelaxingPage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     curvedAnimation.animationController.dispose();
     super.dispose();
   }
