@@ -19,9 +19,8 @@ class FeelingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: () {
-        FeelingController.sendFeelings(this.idButton,context);
-      },
+      onPressed: () async =>
+          await FeelingController.sendFeelings(this.idButton, context),
       color: this.colorButton,
       textColor: Colors.white,
       child: Icon(
