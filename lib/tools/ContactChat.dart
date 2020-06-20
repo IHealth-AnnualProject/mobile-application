@@ -1,8 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
-import 'package:betsbi/services/chat/SQLLiteNewMessage.dart';
 import 'package:betsbi/services/chat/model/contact.dart';
-import 'package:betsbi/services/chat/view/ChatView.dart';
 import 'package:betsbi/services/report/view/ReportView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +16,10 @@ class ContactChat extends StatefulWidget {
 }
 
 class _ContactChatState extends State<ContactChat> {
-  SQLLiteNewMessage newMessage;
 
   @override
   void initState() {
     super.initState();
-    newMessage = SQLLiteNewMessage();
   }
 
   @override
@@ -45,15 +41,6 @@ class _ContactChatState extends State<ContactChat> {
             animationDuration: Duration(milliseconds: 300),
             animationType: BadgeAnimationType.slide,
           ),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChatPage(
-                        userContactedId: widget.contact.userId,
-                      )),
-            );
-          },
           subtitle: Text(widget.contact.isPsy
               ? SettingsManager.mapLanguage["PsyChoice"]
               : SettingsManager.mapLanguage["UserChoice"]),

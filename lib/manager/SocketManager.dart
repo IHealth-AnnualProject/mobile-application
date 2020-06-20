@@ -17,7 +17,7 @@ class SocketManager {
       'autoConnect': false,
     });
     socket.on('connection', (data) => _onConnection(data));
-    socket.on('newMessage', (data) => _onNewMessage(data));
+    socket.on('newMessage', (data) async => await _onNewMessage(data));
     socket.on('join', (data) => _onJoin(data));
     socket.connect();
     socket.emit("sub", <String, dynamic>{
@@ -48,12 +48,13 @@ class SocketManager {
     print(data);
   }
 
-  static _onNewMessage(dynamic data) {
+  static _onNewMessage(dynamic data) async {
+    print("socketManager");
     SettingsManager.applicationProperties.setNewMessage(
         SettingsManager.applicationProperties.getNewMessage() + 1);
     SQLLiteNewMessage sqlLiteNewMessage = new SQLLiteNewMessage();
     Message receivedMessage = Message.fromJson(data);
-    sqlLiteNewMessage.insert(
+    await sqlLiteNewMessage.insert(
       new NewMessage(
         userIdTo: SettingsManager.applicationProperties.getCurrentId(),
         userIdFrom: receivedMessage.userFromID,

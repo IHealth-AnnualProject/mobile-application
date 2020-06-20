@@ -1,7 +1,9 @@
 import 'package:async/async.dart';
 import 'package:betsbi/manager/HistoricalManager.dart';
+import 'package:betsbi/services/chat/SQLLiteNewMessage.dart';
 import 'package:betsbi/services/chat/controller/ChatController.dart';
 import 'package:betsbi/services/chat/model/contact.dart';
+import 'package:betsbi/services/chat/view/ChatView.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
 
@@ -31,6 +33,7 @@ class ChatListContactState extends State<ChatListContactPage>
       }
       index++;
     });
+    if(mounted)
     setState(() {});
   }
 
@@ -38,7 +41,6 @@ class ChatListContactState extends State<ChatListContactPage>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-    this._memorizer = AsyncMemoizer();
   }
 
   @override
@@ -58,6 +60,10 @@ class ChatListContactState extends State<ChatListContactPage>
       });
       socket.on('newMessage', (data) => _onNewMessage(data));
       contacts = await ChatController.getAllContact(context: context);
+      SQLLiteNewMessage newMessage = new SQLLiteNewMessage();
+      contacts.forEach((contact) async {
+        contact.setNewMessage(await newMessage.countByIdFromAndTo(userIdFrom: contact.userId, userIdTo: SettingsManager.applicationProperties.getCurrentId()));
+      });
       return context;
     });
   }
@@ -83,8 +89,19 @@ class ChatListContactState extends State<ChatListContactPage>
           } else {
             return ListView.builder(
               itemBuilder: (context, index) => Card(
-                child: ContactChat(
-                  contact: contacts[index],
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChatPage(
+                            userContactedId: contacts[index].userId,
+                          ),),
+                    ).whenComplete(() => this.setState(() {_memorizer = AsyncMemoizer(); }));
+                  },
+                  child: ContactChat(
+                    contact: contacts[index],
+                  ),
                 ),
               ),
               itemCount: contacts.length,
@@ -92,7 +109,10 @@ class ChatListContactState extends State<ChatListContactPage>
           }
         },
       ),
-      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: 2,),
+      bottomNavigationBar: BottomNavigationBarFooter(
+        selectedBottomIndexOffLine: null,
+        selectedBottomIndexOnline: 2,
+      ),
     );
   }
 }

@@ -18,17 +18,15 @@ import 'package:socket_io_client/socket_io_client.dart';
 
 class ChatState extends State<ChatPage> with WidgetsBindingObserver {
   TextEditingController mTextMessageController = new TextEditingController();
-  List<Widget> list = new List<Widget>();
+  List<Widget> messages = new List<Widget>();
   Socket socket;
   AsyncMemoizer _memorizer = AsyncMemoizer();
-  //todo to clean
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
-
   }
 
   @override
@@ -49,45 +47,67 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
 
   _instanciateChatWithAllMessageAndInput() {
     return this._memorizer.runOnce(() async {
-      socket =
-          io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
-        'transports': ['websocket'],
-        'autoConnect': false,
-      });
-      socket.on('newMessage', (data) => _onNewMessage(data));
+      instantiateSocketForChat(onNewMessage: _onNewMessage);
       await ChatController.getAllMessageIdFromContact(
               contactID: this.widget.userContactedId)
           .then((listMessage) {
         listMessage.forEach((message) {
-          list.add(SettingsManager.applicationProperties.getCurrentId() ==
+          messages.add(SettingsManager.applicationProperties.getCurrentId() ==
                   message.userFromID
               ? myMessage(content: message.content)
               : hisMessage(content: message.content));
         });
       });
-      list.add(lineSendMessage());
-      list = list.reversed.toList();
-      SQLLiteNewMessage newMessage = new SQLLiteNewMessage();
-      SettingsManager.applicationProperties.setNewMessage(SettingsManager
-              .applicationProperties
-              .getNewMessage() -
-          await newMessage
-              .countByIdFromAndTo(
-                  userIdFrom: this.widget.userContactedId,
-                  userIdTo:
-                      SettingsManager.applicationProperties.getCurrentId())
-              .then((value) async =>
-                  await newMessage.deleteById(this.widget.userContactedId)));
+      messages.add(lineSendMessage());
+      messages = messages.reversed.toList();
+      await updateSettingsPropertyNewMessageLessWithCurrentNewMessageFromThisUserAndRemoveITFromBDD();
     });
+  }
+
+  Future updateSettingsPropertyNewMessageLessWithCurrentNewMessageFromThisUserAndRemoveITFromBDD() async {
+    SQLLiteNewMessage newMessage = new SQLLiteNewMessage();
+    SettingsManager.applicationProperties.setNewMessage(SettingsManager
+            .applicationProperties
+            .getNewMessage() -
+        await newMessage
+            .countByIdFromAndTo(
+                userIdFrom: this.widget.userContactedId,
+                userIdTo:
+                    SettingsManager.applicationProperties.getCurrentId())
+            .then((value) async =>
+                await newMessage.deleteById(this.widget.userContactedId)));
   }
 
   _onNewMessage(dynamic data) {
     Message receivedMessage = Message.fromJson(data);
     if (this.widget.userContactedId == receivedMessage.userFromID) {
-      list.insert(1, hisMessage(content: receivedMessage.content));
-      setState(() {});
+      messages.insert(1, hisMessage(content: receivedMessage.content));
+      if(mounted)
+        setState(() {});
     }
   }
+
+    void instantiateSocketForChat({@required Function onNewMessage}) {
+    socket =
+        io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
+          'transports': ['websocket'],
+          'autoConnect': false,
+        });
+    socket.on('newMessage', (data) => onNewMessage(data));
+  }
+
+   void emitNewMessage({@required String idReceiver,@required String content})
+  {
+    socket.emit("sendMessage", <String, dynamic>{
+      'token':
+      SettingsManager.applicationProperties.getCurrentToken(),
+      'data': {
+        'content': content,
+        'idReceiver': idReceiver,
+      }
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -105,9 +125,9 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
               return ListView.builder(
                 reverse: true,
                 padding: const EdgeInsets.all(8),
-                itemCount: list.length,
+                itemCount: messages.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return list[index];
+                  return messages[index];
                 },
               );
             }
@@ -143,19 +163,12 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {
               if (mTextMessageController.text.isNotEmpty) {
-                socket.emit("sendMessage", <String, dynamic>{
-                  'token':
-                      SettingsManager.applicationProperties.getCurrentToken(),
-                  'data': {
-                    'content': mTextMessageController.text,
-                    'idReceiver': this.widget.userContactedId,
-                  }
-                });
-                list.insert(
+                emitNewMessage(idReceiver: this.widget.userContactedId, content: mTextMessageController.text);
+                messages.insert(
                   1,
                   myMessage(content: mTextMessageController.text),
                 );
-                setState(() {});
+                setState(() {mTextMessageController = new TextEditingController(); });
               }
             },
             child: Icon(Icons.send),

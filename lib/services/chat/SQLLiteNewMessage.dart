@@ -1,6 +1,7 @@
 import 'package:betsbi/manager/SQLLiteManager.dart';
 import 'package:betsbi/services/chat/model/newMessage.dart';
 import 'package:betsbi/services/global/ISQLLITEManager.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLLiteNewMessage implements ISQLLITEManager {
@@ -28,7 +29,7 @@ class SQLLiteNewMessage implements ISQLLITEManager {
     );
   }
 
-  Future<int> countByIdFromAndTo({String userIdFrom, String userIdTo}) async {
+  Future<int> countByIdFromAndTo({@required String userIdFrom, @required String userIdTo}) async {
     await SQLLiteManager.openDatabaseAndCreateTable();
     return Sqflite.firstIntValue(
       await SQLLiteManager.db.rawQuery(
