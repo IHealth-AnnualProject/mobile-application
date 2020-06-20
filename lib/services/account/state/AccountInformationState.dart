@@ -1,12 +1,9 @@
 import 'dart:ui';
 import 'package:async/async.dart';
-import 'package:betsbi/manager/JsonParserManager.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/account/controller/SkinController.dart';
 import 'package:betsbi/services/global/controller/CheckController.dart';
-import 'package:betsbi/services/account/model/accessorie.dart';
-import 'package:betsbi/services/account/model/face.dart';
 import 'package:betsbi/services/account/model/psychologist.dart';
-import 'package:betsbi/services/account/model/skinColor.dart';
 import 'package:betsbi/services/account/model/userProfile.dart';
 import 'package:betsbi/services/chat/view/ChatView.dart';
 import 'package:betsbi/services/account/view/SkinSettingsView.dart';
@@ -29,9 +26,6 @@ class AccountInformationState extends State<AccountInformationPage> {
   TextEditingController descriptionController;
   bool isEntered = false;
   AsyncMemoizer _memorizer = AsyncMemoizer();
-  List<Face> faces;
-  List<SkinColor> skinColors;
-  List<Accessory> accessories;
   int defaultFaceIndex = 0;
   int defaultSkinColorIndex = 0;
   int defaultAccessoryIndex = 0;
@@ -102,33 +96,16 @@ class AccountInformationState extends State<AccountInformationPage> {
     return result;
   }
 
-  _getSkinParametersFromJson() async {
+  _getSkinParametersFromJsonAndCurrentIndexForSkin() async {
     return this._memorizer.runOnce(() async {
-      Map<String, dynamic> mapSkin =
-          await JsonParserManager.parseJsonFromAssetsToMap(
-              "assets/skin/skin.json");
-      faces = new List<Face>();
-      skinColors = new List<SkinColor>();
-      accessories = new List<Accessory>();
-      mapSkin["Face"].forEach((face) {
-        face.forEach((faceKey, faceValue) =>
-            faces.add(Face.fromJson(key: faceKey, value: faceValue)));
-      });
-      mapSkin["SkinColor"].forEach((color) {
-        color.forEach((colorKey, colorValue) =>
-            skinColors.add(SkinColor.fromJson(key: colorKey, value: colorValue)));
-      });
-      mapSkin["Accessories"].forEach((accessory) {
-        accessory.forEach((accessoryKey, accessoryValue) => accessories
-            .add(Accessory.fromJson(key: accessoryKey, value: accessoryValue)));
-      });
-      defaultFaceIndex = faces.lastIndexWhere(
+      await SkinController.getSkinParametersFromJsonInList();
+      defaultFaceIndex = SkinController.faces.lastIndexWhere(
           (face) => face.level.toString() + face.code == test.split("_")[0]);
-      defaultSkinColorIndex = skinColors.lastIndexWhere(
+      defaultSkinColorIndex = SkinController.skinColors.lastIndexWhere(
           (color) => color.level.toString() + color.code == test.split("_")[1]);
-      defaultAccessoryIndex = accessories.lastIndexWhere(
+      defaultAccessoryIndex = SkinController.accessories.lastIndexWhere(
           (accessory) => accessory.level.toString() + accessory.code == test.split("_")[2]);
-      return faces;
+      return SkinController.faces;
     });
   }
 
@@ -177,7 +154,7 @@ class AccountInformationState extends State<AccountInformationPage> {
     if (!isEntered) userInformation();
     return SingleChildScrollView(
       child: FutureBuilder(
-        future: _getSkinParametersFromJson(),
+        future: _getSkinParametersFromJsonAndCurrentIndexForSkin(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Form(
@@ -194,27 +171,24 @@ class AccountInformationState extends State<AccountInformationPage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => SkinSettingsPage(
-                                    accessories: accessories,
                                     level: this.widget.profile.level,
-                                    faces: faces,
                                     skinCode: test,
-                                    skinColors: skinColors,
                                   ),
                                 ),
                               ).whenComplete(() => this.setState(() {_memorizer = AsyncMemoizer();})),
                           child: AvatarSkinWidget(
                             skinColor:
-                                skinColors[defaultSkinColorIndex].colorTable,
+                                SkinController.skinColors[defaultSkinColorIndex].colorTable,
                             accessoryImage:
-                                accessories[defaultAccessoryIndex].image,
-                            faceImage: faces[defaultFaceIndex].image,
+                            SkinController.accessories[defaultAccessoryIndex].image,
+                            faceImage: SkinController.faces[defaultFaceIndex].image,
                           ))
                       : AvatarSkinWidget(
                           skinColor:
-                              skinColors[defaultSkinColorIndex].colorTable,
+                          SkinController.skinColors[defaultSkinColorIndex].colorTable,
                           accessoryImage:
-                              accessories[defaultAccessoryIndex].image,
-                          faceImage: faces[defaultFaceIndex].image,
+                          SkinController.accessories[defaultAccessoryIndex].image,
+                          faceImage: SkinController.faces[defaultFaceIndex].image,
                         ),
                   SizedBox(
                     height: 45,

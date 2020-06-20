@@ -7,16 +7,10 @@ import 'package:flutter/cupertino.dart';
 class SkinSettingsPage extends StatefulWidget {
   final int level;
   final String skinCode;
-  final List<Face> faces;
-  final List<SkinColor> skinColors;
-  final List<Accessory> accessories;
 
   SkinSettingsPage(
       {@required this.level,
-      @required this.skinCode,
-      @required this.faces,
-      @required this.accessories,
-      @required this.skinColors});
+      @required this.skinCode});
 
   @override
   State<SkinSettingsPage> createState() => SkinSettingsState();

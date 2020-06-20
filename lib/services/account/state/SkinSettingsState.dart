@@ -1,4 +1,5 @@
 import 'package:betsbi/manager/HistoricalManager.dart';
+import 'package:betsbi/services/account/controller/SkinController.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
 
@@ -31,13 +32,13 @@ class SkinSettingsState extends State<SkinSettingsPage>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
-    defaultFaceIndex = this.widget.faces.lastIndexWhere((face) =>
+    defaultFaceIndex = SkinController.faces.lastIndexWhere((face) =>
     face.level.toString() + face.code ==
         this.widget.skinCode.split("_")[0]);
-    defaultSkinColorIndex = this.widget.skinColors.lastIndexWhere((color) =>
+    defaultSkinColorIndex = SkinController.skinColors.lastIndexWhere((color) =>
     color.level.toString() + color.code ==
         this.widget.skinCode.split("_")[1]);
-    defaultAccessoryIndex = this.widget.accessories.lastIndexWhere((color) =>
+    defaultAccessoryIndex = SkinController.accessories.lastIndexWhere((color) =>
     color.level.toString() + color.code ==
         this.widget.skinCode.split("_")[2]);
 
@@ -53,10 +54,10 @@ class SkinSettingsState extends State<SkinSettingsPage>
   }
 
   getInformation(){
-    faceRequiredLevel = this.widget.faces[defaultFaceIndex].level;
-    colorRequiredLevel = this.widget.skinColors[defaultSkinColorIndex].level;
+    faceRequiredLevel =SkinController.faces[defaultFaceIndex].level;
+    colorRequiredLevel = SkinController.skinColors[defaultSkinColorIndex].level;
     accessoryRequiredLevel =
-        this.widget.accessories[defaultAccessoryIndex].level;
+        SkinController.accessories[defaultAccessoryIndex].level;
   }
 
   @override
@@ -118,7 +119,7 @@ class SkinSettingsState extends State<SkinSettingsPage>
                         padding: EdgeInsets.all(8.0),
                         splashColor: Colors.blueAccent,
                         onPressed: () {
-                          if (defaultSkinColorIndex < this.widget.skinColors.length - 1)
+                          if (defaultSkinColorIndex < SkinController.skinColors.length - 1)
                             setState(() {
                               defaultSkinColorIndex++;
                             });
@@ -160,7 +161,7 @@ class SkinSettingsState extends State<SkinSettingsPage>
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: this.widget.faces[defaultFaceIndex]
+                            hintText: SkinController.faces[defaultFaceIndex]
                                 .image
                                 .replaceAll(".png", "")),
                       ),
@@ -172,7 +173,7 @@ class SkinSettingsState extends State<SkinSettingsPage>
                         padding: EdgeInsets.all(8.0),
                         splashColor: Colors.blueAccent,
                         onPressed: () {
-                          if (defaultFaceIndex < this.widget.faces.length - 1)
+                          if (defaultFaceIndex < SkinController.faces.length - 1)
                             setState(() {
                               defaultFaceIndex++;
                             });
@@ -214,7 +215,7 @@ class SkinSettingsState extends State<SkinSettingsPage>
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: this.widget.accessories[defaultAccessoryIndex]
+                            hintText: SkinController.accessories[defaultAccessoryIndex]
                                 .image
                                 .replaceAll(".png", "")),
                       ),
@@ -226,7 +227,7 @@ class SkinSettingsState extends State<SkinSettingsPage>
                         padding: EdgeInsets.all(8.0),
                         splashColor: Colors.blueAccent,
                         onPressed: () {
-                          if (defaultAccessoryIndex < this.widget.accessories.length - 1)
+                          if (defaultAccessoryIndex < SkinController.accessories.length - 1)
                             setState(() {
                               defaultAccessoryIndex++;
                             });
@@ -245,9 +246,9 @@ class SkinSettingsState extends State<SkinSettingsPage>
               height: 45,
             ),
             AvatarSkinWidget(
-              faceImage: this.widget.faces[defaultFaceIndex].image,
-              accessoryImage: this.widget.accessories[defaultAccessoryIndex].image,
-              skinColor: this.widget.skinColors[defaultSkinColorIndex].colorTable,
+              faceImage: SkinController.faces[defaultFaceIndex].image,
+              accessoryImage: SkinController.accessories[defaultAccessoryIndex].image,
+              skinColor: SkinController.skinColors[defaultSkinColorIndex].colorTable,
             ),
             SizedBox(
               height: 45,
