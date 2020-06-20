@@ -117,7 +117,8 @@
   "QuestNotDeleted" : "Quest hasn't been deleted",
   "RemoveFromPlayList": "You have correctly removed it from playlist ",
   "YouWithToReport": "You wish to report this user :",
-  "ReportSent" : "Thanks for your report"
+  "ReportSent" : "Thanks for your report",
+  "StoreContainer": "Store"
 
 
 }

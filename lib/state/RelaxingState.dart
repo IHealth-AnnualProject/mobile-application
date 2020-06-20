@@ -8,6 +8,9 @@ import 'package:flutter/material.dart';
 class RelaxingState extends State<RelaxingView> with TickerProviderStateMixin {
   CustomCurvedAnimation curvedAnimation;
 
+  //todo add on resume
+
+
   @override
   void initState() {
     super.initState();

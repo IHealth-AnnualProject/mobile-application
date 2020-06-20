@@ -7,6 +7,8 @@ class BottomNavigationBarFooter extends StatefulWidget {
   final int selectedBottomIndexOffLine;
   final bool isOffLine;
 
+  //todo make 2 different constructors
+
   BottomNavigationBarFooter({this.selectedBottomIndexOnline, this.selectedBottomIndexOffLine, this.isOffLine = false});
 
   @override

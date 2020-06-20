@@ -6,6 +6,7 @@ import 'package:betsbi/view/LessonListView.dart';
 import 'package:betsbi/view/MemosView.dart';
 import 'package:betsbi/view/QuestView.dart';
 import 'package:betsbi/view/SettingsView.dart';
+import 'package:betsbi/view/ShopView.dart';
 import 'package:betsbi/view/TrainingView.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
@@ -73,6 +74,13 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
         iconBrick: CommunityMaterialIcons.google_classroom,
         destination: LessonListView(),
         image: "knowmore.png"),
+    //todo to update
+    BrickContainer(
+        colorBrick: Color.fromRGBO(249, 89, 51, 1),
+        textBrick: SettingsManager.mapLanguage['StoreContainer'],
+        iconBrick: CommunityMaterialIcons.google_classroom,
+        destination: ShopPage(),
+        image: "knowmore.png"),
     BrickContainer(
         colorBrick: Color.fromRGBO(51, 171, 249, 1),
         textBrick: SettingsManager.mapLanguage["SettingsContainer"] != null
@@ -123,6 +131,13 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
         textBrick: SettingsManager.mapLanguage['Lesson'],
         iconBrick: CommunityMaterialIcons.google_classroom,
         destination: LessonListView(),
+        image: "knowmore.png"),
+    //todo to update
+    BrickContainer(
+        colorBrick: Color.fromRGBO(249, 89, 51, 1),
+        textBrick: SettingsManager.mapLanguage['StoreContainer'],
+        iconBrick: CommunityMaterialIcons.google_classroom,
+        destination: ShopPage(),
         image: "knowmore.png"),
     BrickContainer(
         colorBrick: Color.fromRGBO(51, 171, 249, 1),
