@@ -1,16 +1,17 @@
-import 'package:betsbi/services/settings/SettingsController.dart';
-import 'package:betsbi/controller/TokenController.dart';
-import 'package:betsbi/service/HistoricalManager.dart';
-import 'package:betsbi/services/account/SkinSettingsView.dart';
+import 'package:betsbi/manager/HistoricalManager.dart';
+import 'package:betsbi/services/global/controller/TokenController.dart';
+import 'package:betsbi/services/settings/controller/SettingsController.dart';
+
+import 'package:betsbi/services/account/view/SkinSettingsView.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
-import 'package:betsbi/widget/AvatarSkinWidget.dart';
-import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/tools/AvatarSkinWidget.dart';
+import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
 import 'package:betsbi/tools/SubmitButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SkinSettingsState extends State<SkinSettingsView>
+class SkinSettingsState extends State<SkinSettingsPage>
     with WidgetsBindingObserver {
   int defaultFaceIndex = 0;
   int defaultSkinColorIndex = 0;

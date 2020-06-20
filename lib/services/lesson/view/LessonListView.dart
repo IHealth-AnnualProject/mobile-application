@@ -1,14 +1,14 @@
-import 'package:betsbi/services/lesson/LessonListState.dart';
+import 'package:betsbi/services/lesson/state/LessonListState.dart';
 import 'package:flutter/cupertino.dart';
 
-class LessonListView extends StatefulWidget{
+class LessonListPage extends StatefulWidget{
 
   final bool isOffLine;
 
-  LessonListView({this.isOffLine = false});
+  LessonListPage({this.isOffLine = false});
 
 
   @override
-  State<LessonListView> createState() => LessonListState();
+  State<LessonListPage> createState() => LessonListState();
 
 }

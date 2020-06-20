@@ -1,4 +1,4 @@
-import 'package:betsbi/services/error/ErrorState.dart';
+import 'package:betsbi/services/error/state/ErrorState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

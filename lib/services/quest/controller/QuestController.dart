@@ -1,5 +1,5 @@
-import 'package:betsbi/services/quest/quest.dart';
-import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/services/quest/model/quest.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/quest/SQLLiteQuest.dart';
 import 'package:betsbi/tools/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';

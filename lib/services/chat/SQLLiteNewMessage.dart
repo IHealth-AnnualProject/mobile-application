@@ -1,6 +1,6 @@
-import 'package:betsbi/model/newMessage.dart';
-import 'package:betsbi/service/SQLLiteManager.dart';
-import 'package:betsbi/sqlite/ISQLLITEManager.dart';
+import 'package:betsbi/manager/SQLLiteManager.dart';
+import 'package:betsbi/services/chat/model/newMessage.dart';
+import 'package:betsbi/services/global/ISQLLITEManager.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLLiteNewMessage implements ISQLLITEManager {

@@ -1,12 +1,12 @@
-import 'package:betsbi/services/memo/memo.dart';
-import 'package:betsbi/services/global/notification.dart';
-import 'package:betsbi/service/NotificationManager.dart';
-import 'package:betsbi/service/SQLLiteManager.dart';
-import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/manager/NotificationManager.dart';
+import 'package:betsbi/manager/SQLLiteManager.dart';
+import 'package:betsbi/services/memo/model/memo.dart';
+import 'package:betsbi/services/global/model/notification.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/settings/SQLLITeNotification.dart';
 import 'package:betsbi/services/memo/SQLLiteMemos.dart';
-import 'package:betsbi/services/memo/MemoViewState.dart';
-import 'package:betsbi/widget/MemosWidget.dart';
+import 'package:betsbi/services/memo/state/MemoState.dart';
+import 'package:betsbi/tools/MemosWidget.dart';
 import 'package:flutter/cupertino.dart';
 
 class MemosController {
@@ -43,7 +43,7 @@ class MemosController {
     await NotificationManager.cancelNotification(notificationIdDeleted);
   }
 
-  static Future<List<Widget>> getALlMemos(MemosViewState parent) async {
+  static Future<List<Widget>> getALlMemos(MemosState parent) async {
     SQLLiteMemos sqlLiteMemos = new SQLLiteMemos();
     List<MemosWidget> list = new List<MemosWidget>();
     await SQLLiteManager.openDatabaseAndCreateTable().then(

@@ -1,4 +1,4 @@
-import 'package:betsbi/services/exercise/TrainingState.dart';
+import 'package:betsbi/services/exercise/state/TrainingState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
 
 class CheckController{
 

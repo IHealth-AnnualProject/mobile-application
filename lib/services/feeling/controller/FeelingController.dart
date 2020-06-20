@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:betsbi/services/feeling/feelings.dart';
-import 'package:betsbi/service/HttpManager.dart';
-import 'package:betsbi/service/ResponseManager.dart';
-import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/services/home/HomeView.dart';
+import 'package:betsbi/manager/HttpManager.dart';
+import 'package:betsbi/manager/ResponseManager.dart';
+import 'package:betsbi/services/feeling/model/feelings.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/home/view/HomeView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

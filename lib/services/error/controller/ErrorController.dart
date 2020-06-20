@@ -1,6 +1,7 @@
-import 'package:betsbi/service/HttpManager.dart';
-import 'package:betsbi/service/ResponseManager.dart';
-import 'package:betsbi/service/SettingsManager.dart';
+
+import 'package:betsbi/manager/HttpManager.dart';
+import 'package:betsbi/manager/ResponseManager.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 
 class ErrorController {

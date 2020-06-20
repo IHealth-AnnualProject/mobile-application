@@ -1,5 +1,5 @@
-import 'package:betsbi/services/lesson/LessonController.dart';
-import 'package:betsbi/services/lesson/LessonView.dart';
+import 'package:betsbi/services/lesson/controller/LessonController.dart';
+import 'package:betsbi/services/lesson/view/LessonPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
@@ -7,6 +7,8 @@ import 'package:intro_views_flutter/intro_views_flutter.dart';
 
 class LessonState extends State<LessonView> {
   List<PageViewModel> pageModels;
+
+  //todo add on resume
 
   @override
   void initState() {

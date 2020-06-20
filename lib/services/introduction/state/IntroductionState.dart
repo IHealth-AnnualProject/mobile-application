@@ -1,5 +1,5 @@
-import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/services/introduction/IntroductionView.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/introduction/view/IntroductionView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';

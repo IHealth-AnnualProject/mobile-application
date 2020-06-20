@@ -1,5 +1,5 @@
-import 'package:betsbi/services/account/AccountController.dart';
-import 'package:betsbi/model/user.dart';
+import 'package:betsbi/services/account/controller/AccountController.dart';
+import 'package:betsbi/services/account/model/user.dart';
 import 'package:flutter/cupertino.dart';
 
 class UserProfile extends User {

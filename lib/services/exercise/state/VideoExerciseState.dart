@@ -1,20 +1,21 @@
 import 'package:async/async.dart';
-import 'package:betsbi/services/settings/SettingsController.dart';
-import 'package:betsbi/controller/TokenController.dart';
-import 'package:betsbi/service/HistoricalManager.dart';
-import 'package:betsbi/services/exercise/ExerciseView.dart';
+import 'package:betsbi/manager/HistoricalManager.dart';
+import 'package:betsbi/services/global/controller/TokenController.dart';
+import 'package:betsbi/services/settings/controller/SettingsController.dart';
+import 'package:betsbi/services/exercise/view/ExerciseView.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
-import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoExerciseState extends State<ExerciseView>
+class VideoExerciseState extends State<ExercisePage>
     with WidgetsBindingObserver {
   VideoPlayerController _controller;
   final AsyncMemoizer _memorizer = AsyncMemoizer();
+
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {

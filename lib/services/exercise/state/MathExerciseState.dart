@@ -1,12 +1,12 @@
-import 'package:betsbi/service/HistoricalManager.dart';
-import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/services/exercise/ExerciseView.dart';
+import 'package:betsbi/manager/HistoricalManager.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/exercise/view/ExerciseView.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
-import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class MathExerciseState extends State<ExerciseView> {
+class MathExerciseState extends State<ExercisePage> {
   List<Widget> questionList;
   bool isCongratsHidden = false;
 
@@ -16,6 +16,8 @@ class MathExerciseState extends State<ExerciseView> {
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
     super.initState();
   }
+
+  // todo add on resume
 
   @override
   Widget build(BuildContext context) {

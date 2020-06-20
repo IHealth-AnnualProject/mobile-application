@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:betsbi/model/exercise.dart';
-import 'package:betsbi/services/exercise/LogicExerciseState.dart';
-import 'package:betsbi/services/exercise/ExerciseView.dart';
+import 'package:betsbi/services/exercise/model/exercise.dart';
+import 'package:betsbi/services/exercise/state/LogicExerciseState.dart';
+import 'package:betsbi/services/exercise/view/ExerciseView.dart';
 import 'package:betsbi/tools/PipeElement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -73,7 +73,7 @@ class ExerciseController {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ExerciseView(
+            builder: (context) => ExercisePage(
               exercise: exercise,
               isOffline: isOffLine,
             ),

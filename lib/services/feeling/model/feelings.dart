@@ -1,4 +1,4 @@
-import 'package:betsbi/services/feeling/FeelingController.dart';
+import 'package:betsbi/services/feeling/controller/FeelingController.dart';
 import 'package:flutter/cupertino.dart';
 
 class Feelings {

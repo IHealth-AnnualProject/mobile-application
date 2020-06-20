@@ -1,10 +1,11 @@
 import 'dart:collection';
-import 'package:betsbi/model/applicationProperties.dart';
-import 'package:betsbi/service/JsonParserManager.dart';
-import 'package:betsbi/service/NotificationManager.dart';
+import 'package:betsbi/services/settings/model/applicationProperties.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:global_configuration/global_configuration.dart';
+
+import 'JsonParserManager.dart';
+import 'NotificationManager.dart';
 
 class SettingsManager {
   static LinkedHashMap<String, dynamic> mapLanguage =

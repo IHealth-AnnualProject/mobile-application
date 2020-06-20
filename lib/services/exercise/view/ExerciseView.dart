@@ -4,15 +4,15 @@ import 'package:betsbi/services/exercise/state/MathExerciseState.dart';
 import 'package:betsbi/services/exercise/state/VideoExerciseState.dart';
 import 'package:flutter/cupertino.dart';
 
-class ExerciseView extends StatefulWidget {
+class ExercisePage extends StatefulWidget {
   final Exercise exercise;
   final bool isOffline;
 
-  ExerciseView({this.exercise, this.isOffline = false});
+  ExercisePage({this.exercise, this.isOffline = false});
 
   @override
-  State<ExerciseView> createState() {
-    State<ExerciseView> returnStatement;
+  State<ExercisePage> createState() {
+    State<ExercisePage> returnStatement;
     switch (this.exercise.type) {
       case 'Logic':
         returnStatement = LogicExerciseState();

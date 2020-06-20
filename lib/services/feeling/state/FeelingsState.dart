@@ -1,10 +1,10 @@
-import 'package:betsbi/services/settings/SettingsController.dart';
-import 'package:betsbi/controller/TokenController.dart';
+import 'package:betsbi/services/global/controller/TokenController.dart';
+import 'package:betsbi/services/settings/controller/SettingsController.dart';
 import 'package:betsbi/presentation/FeelingsFontIcons.dart';
-import 'package:betsbi/services/feeling/FeelingsView.dart';
+import 'package:betsbi/services/feeling/view/FeelingsView.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
 import 'package:betsbi/tools/FeelingButton.dart';
-import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

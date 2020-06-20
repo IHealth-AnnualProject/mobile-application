@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:betsbi/services/account/psychologist.dart';
-import 'package:betsbi/services/account/tabContent.dart';
-import 'package:betsbi/model/user.dart';
-import 'package:betsbi/services/account/userProfile.dart';
-import 'package:betsbi/service/HttpManager.dart';
-import 'package:betsbi/service/ResponseManager.dart';
-import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/services/account/AccountView.dart';
-import 'package:betsbi/services/account/AccountInformation.dart';
-import 'package:betsbi/services/account/AccountTrace.dart';
+import 'package:betsbi/manager/HttpManager.dart';
+import 'package:betsbi/manager/ResponseManager.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/account/model/psychologist.dart';
+import 'package:betsbi/services/account/model/tabContent.dart';
+import 'package:betsbi/services/account/model/user.dart';
+import 'package:betsbi/services/account/model/userProfile.dart';
+import 'package:betsbi/services/account/view/AccountInformationView.dart';
+import 'package:betsbi/services/account/view/AccountTraceView.dart';
+import 'package:betsbi/services/account/view/AccountView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -112,7 +112,7 @@ class AccountController {
           text: "Information",
         )
       ], tabWidget: [
-        AccountInformation(
+        AccountInformationPage(
           profile: user,
           isReadOnly: true,
           isPsy: user.isPsy,
@@ -130,12 +130,12 @@ class AccountController {
           text: SettingsManager.mapLanguage["Trace"],
         )
       ], tabWidget: [
-        AccountInformation(
+        AccountInformationPage(
           profile: user,
           isReadOnly: true,
           isPsy: user.isPsy,
         ),
-        AccountTrace(
+        AccountTracePage(
           profile: user,
         ),
       ]);
@@ -151,12 +151,12 @@ class AccountController {
           text: SettingsManager.mapLanguage["Trace"],
         )
       ], tabWidget: [
-        AccountInformation(
+        AccountInformationPage(
           profile: user,
           isReadOnly: false,
           isPsy: user.isPsy,
         ),
-        AccountTrace(
+        AccountTracePage(
           profile: user,
         ),
       ]);
@@ -168,7 +168,7 @@ class AccountController {
           text: "Information",
         )
       ], tabWidget: [
-        AccountInformation(
+        AccountInformationPage(
           profile: user,
           isReadOnly: SettingsManager.applicationProperties.getCurrentId() ==
                   user.profileId

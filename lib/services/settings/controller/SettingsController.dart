@@ -1,8 +1,8 @@
-import 'package:betsbi/service/HistoricalManager.dart';
-import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/manager/HistoricalManager.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/introduction/view/IntroductionView.dart';
-import 'package:betsbi/services/registration/LoginView.dart';
-import 'package:betsbi/services/settings/SettingsView.dart';
+import 'package:betsbi/services/registrationAndLogin/view/LoginView.dart';
+import 'package:betsbi/services/settings/view/SettingsView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

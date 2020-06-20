@@ -1,11 +1,12 @@
-import 'package:betsbi/services/settings/SettingsController.dart';
-import 'package:betsbi/controller/TokenController.dart';
-import 'package:betsbi/service/HistoricalManager.dart';
-import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/services/exercise/ExerciseListView.dart';
-import 'package:betsbi/services/exercise/TrainingView.dart';
+import 'package:betsbi/manager/HistoricalManager.dart';
+import 'package:betsbi/services/global/controller/TokenController.dart';
+import 'package:betsbi/services/settings/controller/SettingsController.dart';
+
+import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/exercise/view/ExerciseListView.dart';
+import 'package:betsbi/services/exercise/view/TrainingView.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
-import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:betsbi/tools/ExercisePresentation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,7 @@ class TrainingState extends State<TrainingPage> with WidgetsBindingObserver {
               index: _trainIndex,
               children: <Widget>[
                 ExercisePresentation(
-                  destination: ExerciseListViewPage(
+                  destination: ExerciseListPage(
                     type: "Math",
                     leading: "assets/math.png",
                   ),
@@ -83,14 +84,14 @@ class TrainingState extends State<TrainingPage> with WidgetsBindingObserver {
                       SettingsManager.mapLanguage["ExercisePhysical"],
                   contentComponent:
                       SettingsManager.mapLanguage["TrainingExplanation"],
-                  destination: ExerciseListViewPage(
+                  destination: ExerciseListPage(
                     leading: "assets/muscle.png",
                     type: "Muscle",
                   ),
                   leadingComponent: "assets/muscle.png",
                 ),
                 ExercisePresentation(
-                  destination: ExerciseListViewPage(
+                  destination: ExerciseListPage(
                     type: "Emergency",
                     leading: "assets/emergency.png",
                   ),

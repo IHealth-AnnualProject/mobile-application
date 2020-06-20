@@ -1,35 +1,26 @@
 import 'dart:ui';
 import 'package:async/async.dart';
-import 'package:betsbi/services/global/CheckController.dart';
-import 'package:betsbi/services/account/accessorie.dart';
-import 'package:betsbi/services/account/face.dart';
-import 'package:betsbi/services/account/psychologist.dart';
-import 'package:betsbi/services/account/skinColor.dart';
-import 'package:betsbi/model/user.dart';
-import 'package:betsbi/services/account/userProfile.dart';
-import 'package:betsbi/service/JsonParserManager.dart';
-import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/services/chat/ChatView.dart';
-import 'package:betsbi/services/account/SkinSettingsView.dart';
-import 'package:betsbi/widget/AvatarSkinWidget.dart';
+import 'package:betsbi/manager/JsonParserManager.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/global/controller/CheckController.dart';
+import 'package:betsbi/services/account/model/accessorie.dart';
+import 'package:betsbi/services/account/model/face.dart';
+import 'package:betsbi/services/account/model/psychologist.dart';
+import 'package:betsbi/services/account/model/skinColor.dart';
+import 'package:betsbi/services/account/model/userProfile.dart';
+import 'package:betsbi/services/chat/view/ChatView.dart';
+import 'package:betsbi/services/account/view/SkinSettingsView.dart';
+import 'package:betsbi/tools/AvatarSkinWidget.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class AccountInformation extends StatefulWidget {
-  final bool isReadOnly;
-  final bool isPsy;
-  final User profile;
-  AccountInformation(
-      {@required this.isReadOnly, this.isPsy, this.profile, Key key})
-      : super(key: key);
+import '../view/AccountInformationView.dart';
 
-  State<AccountInformation> createState() => _AccountInformationState();
-}
 
-class _AccountInformationState extends State<AccountInformation> {
+class AccountInformationState extends State<AccountInformationPage> {
   var userProfile;
   final _formKey = GlobalKey<FormState>();
   TextEditingController firstNameController;
@@ -202,7 +193,7 @@ class _AccountInformationState extends State<AccountInformation> {
                           onTap: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SkinSettingsView(
+                                  builder: (context) => SkinSettingsPage(
                                     accessories: accessories,
                                     level: this.widget.profile.level,
                                     faces: faces,

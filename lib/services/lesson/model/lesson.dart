@@ -1,4 +1,4 @@
-import 'package:betsbi/services/introduction/pageModel.dart';
+import 'package:betsbi/services/introduction/model/pageModel.dart';
 
 class Lesson {
   final String name;

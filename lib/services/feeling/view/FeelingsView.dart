@@ -1,4 +1,4 @@
-import 'package:betsbi/services/feeling/FeelingsState.dart';
+import 'package:betsbi/services/feeling/state/FeelingsState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

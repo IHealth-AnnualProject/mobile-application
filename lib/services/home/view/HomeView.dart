@@ -1,4 +1,4 @@
-import 'package:betsbi/services/home/HomeState.dart';
+import 'package:betsbi/services/home/state/HomeState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

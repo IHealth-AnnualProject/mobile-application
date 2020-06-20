@@ -1,4 +1,4 @@
-import 'package:betsbi/services/account/AccountState.dart';
+import 'package:betsbi/services/account/state/AccountState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

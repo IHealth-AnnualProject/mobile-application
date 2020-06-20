@@ -1,20 +1,20 @@
 import 'dart:convert';
 
-import 'package:betsbi/services/relaxing/AmbianceController.dart';
-import 'package:betsbi/model/exercise.dart';
-import 'package:betsbi/services/account/psychologist.dart';
-import 'package:betsbi/services/global/searchItem.dart';
-import 'package:betsbi/model/user.dart';
-import 'package:betsbi/services/account/userProfile.dart';
-import 'package:betsbi/service/HttpManager.dart';
-import 'package:betsbi/service/ResponseManager.dart';
-import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/services/account/AccountView.dart';
-import 'package:betsbi/services/exercise/ExerciseView.dart';
+import 'package:betsbi/manager/HttpManager.dart';
+import 'package:betsbi/manager/ResponseManager.dart';
+import 'package:betsbi/services/account/model/user.dart';
+import 'package:betsbi/services/relaxing/controller/AmbianceController.dart';
+import 'package:betsbi/services/exercise/model/exercise.dart';
+import 'package:betsbi/services/account/model/psychologist.dart';
+import 'package:betsbi/services/global/model/searchItem.dart';
+import 'package:betsbi/services/account/model/userProfile.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/account/view/AccountView.dart';
+import 'package:betsbi/services/exercise/view/ExerciseView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../exercise/ExerciseController.dart';
+import '../../exercise/controller/ExerciseController.dart';
 
 class SearchBarController {
   static String searchCategory = "user";
@@ -83,6 +83,8 @@ class SearchBarController {
     return items;
   }
 
+  //todo split
+
   static Future<List<User>> getAllProfile(BuildContext context) async {
     var users = new List<User>();
     HttpManager httpManager = new HttpManager(path: "userProfile", context: context);
@@ -131,7 +133,7 @@ class SearchBarController {
           AccountPage(isPsy: item.user.isPsy, userId: item.user.profileId);
     }
     if (searchCategory == 'exercise') {
-      redirection = ExerciseView(
+      redirection = ExercisePage(
         exercise: item.exercise,
       );
     }

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:betsbi/services/lesson/lesson.dart';
-import 'package:betsbi/services/introduction/pageModel.dart';
-import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/services/lesson/LessonView.dart';
+import 'package:betsbi/services/lesson/model/lesson.dart';
+import 'package:betsbi/services/introduction/model/pageModel.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/lesson/view/LessonPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';

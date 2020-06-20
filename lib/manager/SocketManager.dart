@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:betsbi/model/message.dart';
-import 'package:betsbi/model/newMessage.dart';
-import 'package:betsbi/sqlite/SQLLiteNewMessage.dart';
+import 'package:betsbi/services/chat/model/message.dart';
+import 'package:betsbi/services/chat/model/newMessage.dart';
+import 'package:betsbi/services/chat/SQLLiteNewMessage.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import 'SQLLiteManager.dart';

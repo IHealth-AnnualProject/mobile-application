@@ -1,6 +1,6 @@
-import 'package:betsbi/model/exercise.dart';
-import 'package:betsbi/model/song.dart';
-import 'package:betsbi/model/user.dart';
+import 'package:betsbi/services/account/model/user.dart';
+import 'package:betsbi/services/exercise/model/exercise.dart';
+import 'package:betsbi/services/playlist/model/song.dart';
 import 'package:flutter/cupertino.dart';
 
 class SearchItem {

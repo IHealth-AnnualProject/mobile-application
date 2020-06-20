@@ -10,7 +10,7 @@ import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ExerciseListViewStateOffline extends State<ExerciseListViewPage>
+class ExerciseListStateOffline extends State<ExerciseListPage>
     with WidgetsBindingObserver {
   List<Widget> listExercise;
   final AsyncMemoizer _memorizer = AsyncMemoizer();

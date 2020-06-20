@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:betsbi/model/contact.dart';
-import 'package:betsbi/services/chat/message.dart';
-import 'package:betsbi/service/HttpManager.dart';
-import 'package:betsbi/service/ResponseManager.dart';
-import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/manager/HttpManager.dart';
+import 'package:betsbi/manager/ResponseManager.dart';
+import 'package:betsbi/services/chat/model/contact.dart';
+import 'package:betsbi/services/chat/model/message.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/chat/SQLLiteNewMessage.dart';
 import 'package:flutter/cupertino.dart';
 

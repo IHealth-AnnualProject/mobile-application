@@ -1,14 +1,16 @@
-import 'package:betsbi/services/lesson/LessonController.dart';
-import 'package:betsbi/service/HistoricalManager.dart';
-import 'package:betsbi/services/lesson/LessonListView.dart';
+import 'package:betsbi/manager/HistoricalManager.dart';
+import 'package:betsbi/services/lesson/controller/LessonController.dart';
+import 'package:betsbi/services/lesson/view/LessonListView.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
-import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LessonListState extends State<LessonListView> {
+class LessonListState extends State<LessonListPage> {
   List<Widget> list;
+
+  //todo add on resume
 
   @override
   void initState() {

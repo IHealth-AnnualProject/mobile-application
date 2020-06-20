@@ -1,4 +1,4 @@
-import 'package:betsbi/services/chat/ChatState.dart';
+import 'package:betsbi/services/chat/state/ChatState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -8,5 +8,5 @@ class ChatPage extends StatefulWidget {
   ChatPage({@required this.userContactedId});
 
   @override
-  ChatPageState createState() => ChatPageState();
+  ChatState createState() => ChatState();
 }

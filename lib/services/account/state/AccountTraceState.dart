@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
-import 'package:betsbi/services/feeling/feelings.dart';
-import 'package:betsbi/model/user.dart';
-import 'package:betsbi/service/SettingsManager.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/account/view/AccountTraceView.dart';
+import 'package:betsbi/services/feeling/model/feelings.dart';
 import 'package:betsbi/tools/DefaultCircleAvatar.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
@@ -9,15 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-class AccountTrace extends StatefulWidget {
-  final User profile;
 
-  AccountTrace({Key key, @required this.profile}) : super(key: key);
-
-  State<AccountTrace> createState() => _AccountTraceState();
-}
-
-class _AccountTraceState extends State<AccountTrace> {
+class AccountTraceState extends State<AccountTracePage> {
   List<Feelings> feelings;
   AsyncMemoizer _memorizer = AsyncMemoizer();
 

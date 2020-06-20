@@ -1,10 +1,10 @@
-import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/services/account/AccountView.dart';
-import 'package:betsbi/services/chat/ChatListContactView.dart';
-import 'package:betsbi/services/exercise/ExerciseListView.dart';
-import 'package:betsbi/services/home/HomeView.dart';
-import 'package:betsbi/services/lesson/LessonListView.dart';
-import 'package:betsbi/services/memo/MemosView.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/account/view/AccountView.dart';
+import 'package:betsbi/services/chat/view/ChatListContactView.dart';
+import 'package:betsbi/services/exercise/view/ExerciseListView.dart';
+import 'package:betsbi/services/home/view/HomeView.dart';
+import 'package:betsbi/services/lesson/view/LessonListView.dart';
+import 'package:betsbi/services/memo/view/MemosView.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavigationController {
@@ -66,7 +66,7 @@ class BottomNavigationController {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => LessonListView(
+              builder: (context) => LessonListPage(
                 isOffLine: true,
               ),
             ),
@@ -108,7 +108,7 @@ class BottomNavigationController {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ExerciseListViewPage(
+              builder: (context) => ExerciseListPage(
                 type: 'Math',
                 leading: 'assets/math.png',
                 isOffLine: true,

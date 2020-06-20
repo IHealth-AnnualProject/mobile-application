@@ -1,19 +1,22 @@
-import 'package:betsbi/services/exercise/ExerciseController.dart';
-import 'package:betsbi/service/HistoricalManager.dart';
-import 'package:betsbi/service/SettingsManager.dart';
-import 'package:betsbi/services/exercise/ExerciseView.dart';
+import 'package:betsbi/manager/HistoricalManager.dart';
+import 'package:betsbi/services/exercise/controller/ExerciseController.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/exercise/view/ExerciseView.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
-import 'package:betsbi/widget/BottomNavigationBarFooter.dart';
+import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-class LogicExerciseState extends State<ExerciseView> {
+class LogicExerciseState extends State<ExercisePage> {
   List<Widget> listCaseExercise =
       new List<Widget>.generate(36, (i) => Container());
   bool isCongratsHidden = false;
+
+
+  //todo add on resume
 
   @override
   void initState() {
