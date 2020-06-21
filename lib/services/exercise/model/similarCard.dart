@@ -13,7 +13,7 @@ class SimilarCard extends Exercise {
     var cards = json['CardList'] as List;
     List<CardElement> cardList =
         cards.map((i) => CardElement.fromJson(i)).toList();
-    cardList += cardList;
+    cardList += cardList + cardList + cardList;
     cardList.shuffle();
     return SimilarCard(
         name: json['Name'], type: json['Type'], cardList: cardList);

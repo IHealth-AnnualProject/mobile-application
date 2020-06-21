@@ -117,5 +117,6 @@
   "RemoveFromPlayList": "Vous avez bien retirer la musique de la playlist",
   "YouWithToReport": "Vous souhaitez signaler cet utilisateur :",
   "ReportSent" : "Merci de votre signalement",
-  "StoreContainer": "Boutique"
+  "StoreContainer": "Boutique",
+  "SimilarCardTitle" : "Faites les pairs pour réussir cet exercice"
 }

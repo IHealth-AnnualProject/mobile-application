@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/exercise/model/emergencyExercise.dart';
 import 'package:betsbi/services/exercise/model/exercise.dart';
 import 'package:betsbi/services/exercise/model/mathExercise.dart';
@@ -9,6 +10,7 @@ import 'package:betsbi/services/exercise/view/MathExerciseView.dart';
 import 'package:betsbi/services/exercise/view/PipeExerciseView.dart';
 import 'package:betsbi/services/exercise/view/SimilarCardExerciseView.dart';
 import 'package:betsbi/services/exercise/view/VideoExerciseView.dart';
+import 'package:betsbi/tools/DefaultTextTitle.dart';
 import 'package:betsbi/tools/PipeElement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -136,11 +138,8 @@ class ExerciseController {
       @required BuildContext context,
       @required bool isOffLine,
       @required String type}) {
-    print("decode");
     List<Exercise> exercises =
         convertJsonToExerciseList(jsonToDecode: jsonToDecode, type: type);
-    print("decode");
-
     if (exercises.isEmpty) return new List<Widget>();
     return fromExerciseToWidget(
         listInputExercise: exercises,
@@ -156,9 +155,8 @@ class ExerciseController {
     if (listFromJson.isEmpty) return exercises;
     exercises.addAll(
       listFromJson.map(
-        (model) {      print(exercises.length.toString() + model["Type"].toString());
-
-        Exercise exercise;
+        (model) {
+          Exercise exercise;
           if (type == "Emergency") return EmergencyExercise.fromJson(model);
           switch (model["Type"].toString()) {
             case "Math":
@@ -194,5 +192,29 @@ class ExerciseController {
       ),
     );
     return listExerciseWidget;
+  }
+
+  static showAlertDialog({@required BuildContext context}) {
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      title: DefaultTextTitle(
+        title: SettingsManager.mapLanguage["Congratulations"],
+      ),
+      content: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Image.asset("assets/congrats.gif"),
+      ),
+      actions: [],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    ).whenComplete(() => Navigator.of(context).pop());
   }
 }

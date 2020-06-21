@@ -118,7 +118,6 @@
   "RemoveFromPlayList": "You have correctly removed it from playlist ",
   "YouWithToReport": "You wish to report this user :",
   "ReportSent" : "Thanks for your report",
-  "StoreContainer": "Store"
-
-
+  "StoreContainer": "Store",
+  "SimilarCardTitle" : "Makes pairs to succeed this exercise"
 }
