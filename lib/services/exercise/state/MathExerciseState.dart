@@ -8,7 +8,8 @@ import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class MathExerciseState extends State<MathExercisePage> with WidgetsBindingObserver {
+class MathExerciseState extends State<MathExercisePage>
+    with WidgetsBindingObserver {
   List<Widget> questionList;
   bool isCongratsHidden = false;
 
@@ -38,55 +39,79 @@ class MathExerciseState extends State<MathExercisePage> with WidgetsBindingObser
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppSearchBar(isOffline: this.widget.isOffline,),
-      body: Column(
-        children: <Widget>[
-          Text(
-            SettingsManager.mapLanguage["MathExerciseExplanation"],
-            textAlign: TextAlign.center,
-            style:
-                TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            this.widget.exercise.question,
-            textAlign: TextAlign.center,
-            style:
-                TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 30),
-          ),
-          SizedBox(
-            height: 45,
-          ),
-          Container(
-            height: 200,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: questionList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Wrap(
-                  children: <Widget>[
-                    questionList[index],
-                    SizedBox(
-                      width: 10,
-                    )
-                  ],
-                );
-              },
+      appBar: AppSearchBar(
+        isOffline: this.widget.isOffline,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Text(
+              SettingsManager.mapLanguage["MathExerciseExplanation"],
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
             ),
-          ),
-          Visibility(
-            visible: isCongratsHidden,
-            child: Text(SettingsManager.mapLanguage["Congratulations"],
-                style: TextStyle(
-                    color: Color.fromRGBO(0, 157, 153, 1), fontSize: 30)),
-          ),
-        ],
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              this.widget.exercise.question,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Color.fromRGBO(0, 157, 153, 1), fontSize: 30),
+            ),
+            SizedBox(
+              height: 45,
+            ),
+            Container(
+              height: 200,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: questionList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Wrap(
+                    children: <Widget>[
+                      questionList[index],
+                      SizedBox(
+                        width: 10,
+                      )
+                    ],
+                  );
+                },
+              ),
+            ),
+            Visibility(
+              visible: isCongratsHidden,
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    SettingsManager.mapLanguage["Congratulations"],
+                    style: TextStyle(
+                      color: Color.fromRGBO(0, 157, 153, 1),
+                      fontSize: 30,
+                    ),
+                  ),
+                  Visibility(
+                    visible: this.widget.exercise.explanation != "",
+                    child: Text(
+                      this.widget.exercise.explanation,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color.fromRGBO(0, 157, 153, 1),
+                        fontSize: 30,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
-        selectedBottomIndexOffLine: 0, selectedBottomIndexOnline: null,
+        selectedBottomIndexOffLine: 0,
+        selectedBottomIndexOnline: null,
         isOffLine: this.widget.isOffline,
       ),
     );

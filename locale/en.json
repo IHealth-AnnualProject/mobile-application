@@ -119,5 +119,7 @@
   "YouWithToReport": "You wish to report this user :",
   "ReportSent" : "Thanks for your report",
   "StoreContainer": "Store",
-  "SimilarCardTitle" : "Makes pairs to succeed this exercise"
+  "SimilarCardTitle" : "Makes pairs to succeed this exercise",
+  "EnigmaFish" : "In a pond, there are 10 fish.Two have drowned, four are swimming away, three are dead. How many fish are left?",
+  "EnigmaFishExplanation" : "10 because they never left the pond"
 }

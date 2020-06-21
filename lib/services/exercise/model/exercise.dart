@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class Exercise {
   String name;
   String type;

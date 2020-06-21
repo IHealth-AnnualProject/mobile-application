@@ -35,12 +35,26 @@
     "Difficulty": "Easy",
     "Type": "Math",
     "Question": "1 + 1 = ?",
+    "Explanation": "",
     "Answers": [
       "2",
       "11",
       "322"
     ],
     "Result": "2"
+  },
+  {
+    "Name": "Enigma N°1",
+    "Difficulty": "Easy",
+    "Type": "Math",
+    "Question": "EnigmaFish",
+    "Explanation" : "EnigmaFishExplanation",
+    "Answers": [
+      "10",
+      "3",
+      "7"
+    ],
+    "Result": "10"
   },
   {
     "Name" : "Tutorial Similar Card",
@@ -70,6 +84,49 @@
         "Color": [39, 197, 101, 1],
         "Face": "face8.png",
         "Accessory" : "accessories19.png"
+      }
+    ]
+  },
+  {
+    "Name" : "Similar Card N°2",
+    "Difficulty" : "Easy",
+    "Type" : "SimilarCard",
+    "CardList": [
+      {
+        "Id": 1,
+        "Color": [3, 218, 190, 1],
+        "Face": "face9.png",
+        "Accessory" : "accessories24.png"
+      },
+      {
+        "Id": 2,
+        "Color": [248, 98, 211, 1],
+        "Face": "face1.png",
+        "Accessory" : "accessories1.png"
+      },
+      {
+        "Id": 3,
+        "Color": [212, 19, 189, 1],
+        "Face": "face16.png",
+        "Accessory" : "accessories4.png"
+      },
+      {
+        "Id": 4,
+        "Color": [136, 251, 223, 1],
+        "Face": "face60.png",
+        "Accessory" : "accessories13.png"
+      },
+      {
+        "Id": 5,
+        "Color": [61, 227, 166, 1],
+        "Face": "face50.png",
+        "Accessory" : "accessories9.png"
+      },
+      {
+        "Id": 6,
+        "Color": [1, 247, 282, 1],
+        "Face": "face40.png",
+        "Accessory" : "accessories10.png"
       }
     ]
   }

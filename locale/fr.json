@@ -118,5 +118,7 @@
   "YouWithToReport": "Vous souhaitez signaler cet utilisateur :",
   "ReportSent" : "Merci de votre signalement",
   "StoreContainer": "Boutique",
-  "SimilarCardTitle" : "Faites les pairs pour réussir cet exercice"
+  "SimilarCardTitle" : "Faites les pairs pour réussir cet exercice",
+  "EnigmaFish" : "Dans un étang, il y a 10 poissons.Deux se sont noyés, quatre nagent au loin, trois sont morts. Combien de poissons restent-ils ?",
+  "EnigmaFishExplanation" : "10 car ils n'ont jamais quitté l'étang"
 }

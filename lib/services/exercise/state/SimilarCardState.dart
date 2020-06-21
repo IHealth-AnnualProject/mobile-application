@@ -120,12 +120,12 @@ class SimilarCardState extends State<SimilarCardPage> {
                 shrinkWrap: true,
                 itemCount: cardsElement.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4),
+                    crossAxisCount: this.widget.exercise.numberColumnCardList),
                 itemBuilder: (context, index) =>
                     AnimationConfiguration.staggeredGrid(
                   position: index,
                   duration: Duration(milliseconds: 375),
-                  columnCount: 4,
+                  columnCount: this.widget.exercise.numberColumnCardList,
                   child: ScaleAnimation(
                     child: FadeInAnimation(
                       child: Card(
