@@ -30,8 +30,8 @@ class VideoExerciseState extends State<VideoExercisePage>
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
-    _controller = VideoPlayerController.network(
-      'http://techslides.com/demos/sample-videos/small.mp4',
+    _controller = VideoPlayerController.asset(
+      this.widget.exercise.videoPath,
     );
     super.initState();
   }
