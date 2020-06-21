@@ -41,5 +41,36 @@
       "322"
     ],
     "Result": "2"
+  },
+  {
+    "Name" : "Tutorial Similar Card",
+    "Difficulty" : "Easy",
+    "Type" : "SimilarCard",
+    "CardList": [
+      {
+        "Id": 1,
+        "Color": [0, 157, 153, 1],
+        "Face": "face36.png",
+        "Accessory" : "accessories17.png"
+      },
+      {
+        "Id": 2,
+        "Color": [212, 19, 189, 1],
+        "Face": "face10.png",
+        "Accessory" : "accessories8.png"
+      },
+      {
+        "Id": 3,
+        "Color": [212, 19, 189, 1],
+        "Face": "face15.png",
+        "Accessory" : "accessories2.png"
+      },
+      {
+        "Id": 4,
+        "Color": [39, 197, 101, 1],
+        "Face": "face8.png",
+        "Accessory" : "accessories19.png"
+      }
+    ]
   }
 ]
