@@ -68,10 +68,10 @@ class ResponseManager {
 
   Future<void> checkResponseAndShowItWithNoComingBack() async {
     if (response.statusCode >= 100 && response.statusCode < 400) {
-      if (this.onSuccess != null)
-        await onSuccess().whenComplete(() =>
+      if (this.onSuccess != null) onSuccess();
+
             FlushBarMessage.goodMessage(content: this.successMessage)
-                .showFlushBarAndNavigatWithNoBack(context, this.destination));
+                .showFlushBarAndNavigatWithNoBack(context, this.destination);
     } else {
       if (this.onFailure != null) onFailure();
       FlushBarMessage.errorMessage(

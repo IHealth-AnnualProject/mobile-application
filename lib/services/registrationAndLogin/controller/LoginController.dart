@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:betsbi/manager/HttpManager.dart';
-import 'package:betsbi/manager/ResponseManager.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/manager/SocketManager.dart';
 import 'package:betsbi/services/feeling/view/FeelingsView.dart';
+import 'package:betsbi/services/global/model/response.dart';
 import 'package:betsbi/services/home/view/HomeView.dart';
+import 'package:betsbi/tools/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginController {
-
-  static Widget redirectionLogin({bool isPsy = false}) {
+  static Widget redirectionLogin({bool isPsy = false})  {
     SocketManager.connectSocket();
     DateTime feelingsParsed;
     if (SettingsManager.applicationProperties.isPsy().toLowerCase() ==
@@ -48,39 +48,40 @@ class LoginController {
         },
         context: context);
     await httpManager.postWithoutAccessToken();
-    ResponseManager responseManager = new ResponseManager(
-      response: httpManager.response,
-      destination: redirectionLogin(),
-      context:  context,
-      onSuccess:  ()  => writePropertiesAfterLogin(httpManager),
-      successMessage: SettingsManager.mapLanguage["ConnectSent"]
-    );
-    await responseManager.checkResponseAndShowItWithNoComingBack();
+    await checkResponseAndShowItWithNoComingBack(httpManager, context);
+  }
+
+  static Future<void> checkResponseAndShowItWithNoComingBack(HttpManager httpManager, BuildContext context) async {
+    if (httpManager.response.statusCode >= 100 && httpManager.response.statusCode < 400) {
+       await writePropertiesAfterLogin(httpManager);
+      FlushBarMessage.goodMessage(content:SettingsManager.mapLanguage["ConnectSent"])
+          .showFlushBarAndNavigatWithNoBack(context, redirectionLogin());
+    } else {
+      FlushBarMessage.errorMessage(
+          content: Response.fromJson(json.decode(httpManager.response.body)).content)
+          .showFlushBar(context);
+    }
   }
 
 
-  static Future writePropertiesAfterLogin(HttpManager httpManager) async {
-    await SettingsManager.storage
-        .write(
-            key: "userId",
-            value: parseResponse(httpManager.response.body)["user"]["id"])
-        .then((r) => SettingsManager.applicationProperties.setCurrentId(
-            parseResponse(httpManager.response.body)["user"]["id"]));
-    await SettingsManager.storage
-        .write(
-            key: "token",
-            value: parseResponse(httpManager.response.body)["token"]
-                ["access_token"])
-        .then((r) => SettingsManager.applicationProperties.setCurrentToken(
-            parseResponse(httpManager.response.body)["token"]["access_token"]));
-    await SettingsManager.storage
-        .write(
-            key: "isPsy",
-            value: parseResponse(httpManager.response.body)["user"]["isPsy"]
-                .toString())
-        .then((r) => SettingsManager.applicationProperties.setIsPsy(
-            parseResponse(httpManager.response.body)["user"]["isPsy"]
-                .toString()));
+  static Future<void> writePropertiesAfterLogin(HttpManager httpManager) async {
+    SettingsManager.applicationProperties
+        .setCurrentId(parseResponse(httpManager.response.body)["user"]["id"]);
+    SettingsManager.applicationProperties.setCurrentToken(
+        parseResponse(httpManager.response.body)["token"]["access_token"]);
+    SettingsManager.applicationProperties.setIsPsy(
+        parseResponse(httpManager.response.body)["user"]["isPsy"].toString());
+    await SettingsManager.storage.write(
+        key: "userId",
+        value: parseResponse(httpManager.response.body)["user"]["id"]);
+    await SettingsManager.storage.write(
+        key: "token",
+        value: parseResponse(httpManager.response.body)["token"]
+            ["access_token"]);
+    await SettingsManager.storage.write(
+        key: "isPsy",
+        value: parseResponse(httpManager.response.body)["user"]["isPsy"]
+            .toString());
   }
 
   static Map<String, dynamic> parseResponse(String response) {

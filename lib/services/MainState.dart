@@ -13,7 +13,7 @@ class MainState extends State<MainPage> {
   Widget destination;
   AsyncMemoizer _memorizer = AsyncMemoizer();
 
-  _instanciteConfigurationPropertiesAndLaguageAndFindRedirection() {
+  _instantiateConfigurationPropertiesAndLaguageAndFindRedirection() {
     return this._memorizer.runOnce(() async {
       await SettingsManager.instanciateConfigurationAndLoadLanguage()
           .then((r) async {
@@ -42,7 +42,7 @@ class MainState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: _instanciteConfigurationPropertiesAndLaguageAndFindRedirection(),
+        future: _instantiateConfigurationPropertiesAndLaguageAndFindRedirection(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Column(
