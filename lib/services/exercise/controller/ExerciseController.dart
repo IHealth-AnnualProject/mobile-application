@@ -1,8 +1,14 @@
 import 'dart:convert';
-
+import 'package:betsbi/services/exercise/model/emergencyExercise.dart';
 import 'package:betsbi/services/exercise/model/exercise.dart';
-import 'package:betsbi/services/exercise/state/LogicExerciseState.dart';
-import 'package:betsbi/services/exercise/view/ExerciseView.dart';
+import 'package:betsbi/services/exercise/model/mathExercise.dart';
+import 'package:betsbi/services/exercise/model/pipeGame.dart';
+import 'package:betsbi/services/exercise/model/similarCard.dart';
+import 'package:betsbi/services/exercise/state/PipeExerciseState.dart';
+import 'package:betsbi/services/exercise/view/MathExerciseView.dart';
+import 'package:betsbi/services/exercise/view/PipeExerciseView.dart';
+import 'package:betsbi/services/exercise/view/SimilarCardExerciseView.dart';
+import 'package:betsbi/services/exercise/view/VideoExerciseView.dart';
 import 'package:betsbi/tools/PipeElement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -27,22 +33,58 @@ class ExerciseController {
     }
   }
 
+  static Widget getRedirectionAccordingToExerciseType({@required Exercise exercise, bool isOffLine = false})
+  {
+    Widget destination;
+    switch (exercise.type) {
+      case "Math":
+        destination = MathExercisePage(exercise: exercise,
+          isOffline: isOffLine,);
+        break;
+      case "Pipe":
+        destination = PipeExercisePage(exercise: exercise,
+          isOffline: isOffLine,);
+        break;
+      case "Emergency":
+        destination = VideoExercisePage(exercise: exercise,
+          isOffline: isOffLine,);
+        break;
+      case "SimilarCard":
+        destination = SimilarCardPage(exercise: exercise,
+          isOffline: isOffLine,);
+        break;
+    }
+    return destination;
+  }
+
+
   static Future<List<Widget>> getAllJsonAndRecoverListOfExercise(
       {@required BuildContext context}) async {
-    String mathExercise = await getJsonAccodingToExerciseType(type: "Math", context: context);
+    String mathExercise =
+        await getJsonAccodingToExerciseType(type: "Math", context: context);
     String emergencyExercise = await getJsonAccodingToExerciseType(
         type: "Emergency", context: context);
     List<Widget> listExercises = new List<Widget>();
-    listExercises = decodeJsonAndStoreItInsideExerciseList(jsonToDecode: mathExercise, leading: "assets/math.png", context: context, isOffLine: true, type: 'Math');
-    listExercises.addAll(decodeJsonAndStoreItInsideExerciseList(jsonToDecode: emergencyExercise, leading: "assets/emergency.png", context: context, isOffLine: true, type: 'Emergency'));
+    listExercises = decodeJsonAndStoreItInsideExerciseList(
+        jsonToDecode: mathExercise,
+        leading: "assets/math.png",
+        context: context,
+        isOffLine: true,
+        type: 'Math');
+    listExercises.addAll(decodeJsonAndStoreItInsideExerciseList(
+        jsonToDecode: emergencyExercise,
+        leading: "assets/emergency.png",
+        context: context,
+        isOffLine: true,
+        type: 'Emergency'));
     return listExercises;
   }
 
   static void createListWidgetOverMapString(
-      {@required Exercise exercise,
+      {@required PipeGame pipeGame,
       @required List<Widget> listCasePipeGame,
-      @required LogicExerciseState logicExerciseState}) {
-    exercise.inputPipe.forEach((key, value) {
+      @required PipeExerciseState logicExerciseState}) {
+    pipeGame.inputPipe.forEach((key, value) {
       if (value == 'end' || value == 'start') {
         listCasePipeGame[int.parse(key)] = defaultImage(image: value);
       } else
@@ -73,10 +115,7 @@ class ExerciseController {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ExercisePage(
-              exercise: exercise,
-              isOffline: isOffLine,
-            ),
+            builder: (context) => getRedirectionAccordingToExerciseType(exercise: exercise,isOffLine: isOffLine)
           ),
         );
       },
@@ -89,7 +128,8 @@ class ExerciseController {
       @required BuildContext context,
       @required bool isOffLine,
       @required String type}) {
-    List<Exercise> exercises = convertJsonToExerciseList(jsonToDecode: jsonToDecode, type: type);
+    List<Exercise> exercises =
+        convertJsonToExerciseList(jsonToDecode: jsonToDecode, type: type);
     if (exercises.isEmpty) return new List<Widget>();
     return fromExerciseToWidget(
         listInputExercise: exercises,
@@ -98,12 +138,29 @@ class ExerciseController {
         isOffLine: isOffLine);
   }
 
-  static List<Exercise> convertJsonToExerciseList({@required String jsonToDecode, @required String type}){
+  static List<Exercise> convertJsonToExerciseList(
+      {@required String jsonToDecode, @required String type}) {
     Iterable listFromJson = json.decode(jsonToDecode);
     List<Exercise> exercises = new List<Exercise>();
     if (listFromJson.isEmpty) return exercises;
-    exercises.addAll(
-        listFromJson.map((model) => Exercise.fromJson(model, type)).toList());
+    exercises.addAll(listFromJson.map((model) {
+      Exercise exercise;
+      switch (type) {
+        case "Math":
+          exercise = MathExercise.fromJson(model);
+          break;
+        case "Pipe":
+          exercise = PipeGame.fromJson(model);
+          break;
+        case "Emergency":
+          exercise = EmergencyExercise.fromJson(model);
+          break;
+        case "SimilarCard":
+          exercise = SimilarCard.fromJson(model);
+          break;
+      }
+      return exercise;
+    }));
     return exercises;
   }
 
@@ -113,15 +170,17 @@ class ExerciseController {
       @required BuildContext context,
       @required bool isOffLine}) {
     List<Widget> listExerciseWidget = new List<Widget>();
-    listInputExercise.forEach(
-      (exercise) => listExerciseWidget.add(
-        exerciseWidget(
-            leading: leading,
-            exercise: exercise,
-            context: context,
-            isOffLine: isOffLine),
-      ),
-    );
+    listInputExercise.forEach((element) => print(element.name));
+      listInputExercise.forEach(
+            (exercise) =>
+            listExerciseWidget.add(
+              exerciseWidget(
+                  leading: leading,
+                  exercise: exercise,
+                  context: context,
+                  isOffLine: isOffLine),
+            ),
+      );
     return listExerciseWidget;
   }
 }

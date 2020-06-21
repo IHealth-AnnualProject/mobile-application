@@ -10,7 +10,6 @@ import 'package:betsbi/services/global/model/searchItem.dart';
 import 'package:betsbi/services/account/model/userProfile.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/account/view/AccountView.dart';
-import 'package:betsbi/services/exercise/view/ExerciseView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -134,9 +133,7 @@ class SearchBarController {
           AccountPage(isPsy: item.user.isPsy, userId: item.user.profileId);
     }
     if (searchCategory == 'exercise') {
-      redirection = ExercisePage(
-        exercise: item.exercise,
-      );
+      redirection = ExerciseController.getRedirectionAccordingToExerciseType(exercise: item.exercise);
     }
     return redirection;
   }

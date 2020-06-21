@@ -1,6 +1,6 @@
 import 'package:betsbi/manager/HistoricalManager.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
-import 'package:betsbi/services/exercise/view/ExerciseView.dart';
+import 'package:betsbi/services/exercise/view/MathExerciseView.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
@@ -8,7 +8,7 @@ import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class MathExerciseState extends State<ExercisePage> with WidgetsBindingObserver {
+class MathExerciseState extends State<MathExercisePage> with WidgetsBindingObserver {
   List<Widget> questionList;
   bool isCongratsHidden = false;
 

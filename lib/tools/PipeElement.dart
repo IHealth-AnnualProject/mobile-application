@@ -1,10 +1,10 @@
-import 'package:betsbi/services/exercise/state/LogicExerciseState.dart';
+import 'package:betsbi/services/exercise/state/PipeExerciseState.dart';
 import 'package:flutter/cupertino.dart';
 
 class PipeElement extends StatefulWidget {
   final String name;
   final String idMap;
-  final LogicExerciseState logicExerciseState;
+  final PipeExerciseState logicExerciseState;
 
   PipeElement({this.name, this.logicExerciseState, this.idMap});
 

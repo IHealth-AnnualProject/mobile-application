@@ -1,7 +1,7 @@
 import 'package:betsbi/manager/HistoricalManager.dart';
 import 'package:betsbi/services/exercise/controller/ExerciseController.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
-import 'package:betsbi/services/exercise/view/ExerciseView.dart';
+import 'package:betsbi/services/exercise/view/PipeExerciseView.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
@@ -12,7 +12,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-class LogicExerciseState extends State<ExercisePage> with WidgetsBindingObserver {
+class PipeExerciseState extends State<PipeExercisePage> with WidgetsBindingObserver {
   List<Widget> listCaseExercise =
       new List<Widget>.generate(36, (i) => Container());
   bool isCongratsHidden = false;
@@ -33,7 +33,7 @@ class LogicExerciseState extends State<ExercisePage> with WidgetsBindingObserver
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
     WidgetsBinding.instance.addObserver(this);
     ExerciseController.createListWidgetOverMapString(
-        exercise: this.widget.exercise,
+        pipeGame: this.widget.exercise,
         logicExerciseState: this,
         listCasePipeGame: listCaseExercise);
   }

@@ -2,7 +2,7 @@
   {
     "Name": "Tutorial Exercise",
     "Difficulty": "Easy",
-    "Type": "Logic",
+    "Type": "Pipe",
     "InputPipe": {
       "0": "start",
       "6": "pipe-to-left",
@@ -34,8 +34,12 @@
     "Name": "Tutorial Exercise",
     "Difficulty": "Easy",
     "Type": "Math",
-    "Question" : "1 + 1 = ?",
-    "Answers": ["2","11","322"],
+    "Question": "1 + 1 = ?",
+    "Answers": [
+      "2",
+      "11",
+      "322"
+    ],
     "Result": "2"
   }
 ]
