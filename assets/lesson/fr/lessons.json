@@ -38,5 +38,38 @@
         "MainImage": "assets/introduction/introduction_exercice.png"
       }
     ]
+  },
+  {
+    "Name": "Relativiser",
+    "Pages": [
+      {
+        "Title": "Relativiser",
+        "PageColor": [128,195,241,1],
+        "Bubble": "assets/lesson/relativiser.png",
+        "Body": "Jouer avec l'espace - Jouer avec le temps",
+        "MainImage": "assets/lesson/relativiser.png"
+      },
+      {
+        "Title": "Quel est l'impact de nos soucis sur l'échelle mondiale ?",
+        "PageColor": [88, 214, 141, 1],
+        "Bubble": "assets/lesson/space.png",
+        "Body": "Regarder le journal pour remarquer que ce qui nous tracasse ne fait pas la une",
+        "MainImage": "assets/lesson/space.png"
+      },
+      {
+        "Title": "Quelle sera votre regard sur vos problème dans 10 ans ?",
+        "PageColor": [243, 223, 63, 1],
+        "Bubble": "assets/lesson/time.png",
+        "Body": "Imaginer vous dans plusieurs années entrain de penser à vos problèmes actuelles",
+        "MainImage": "assets/lesson/time.png"
+      },
+      {
+        "Title": "Donnez vous une nouvelle dimension à vos difficultés",
+        "PageColor": [208, 167, 229, 1],
+        "Bubble": "assets/lesson/motivation.png",
+        "Body": "Jouer avec le temps et l'espace",
+        "MainImage": "assets/lesson/motivation.png"
+      }
+    ]
   }
 ]
