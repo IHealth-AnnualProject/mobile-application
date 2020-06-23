@@ -5,16 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BrickContainer extends StatelessWidget {
-  final Color colorBrick;
   final String textBrick;
-  final IconData iconBrick;
   final StatefulWidget destination;
   final String image;
 
   const BrickContainer(
-      {this.colorBrick,
-      this.textBrick,
-      this.iconBrick,
+      {this.textBrick,
       this.destination,
       this.image});
 

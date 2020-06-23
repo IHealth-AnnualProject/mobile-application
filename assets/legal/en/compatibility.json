@@ -1,0 +1,4 @@
+{
+  "Android": "The minimum version required for use on an Android device: 4.1",
+  "IOS" : "The minimum version required for use on an IOS device: 8.0"
+}

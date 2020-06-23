@@ -1,5 +1,6 @@
 import 'package:betsbi/manager/HistoricalManager.dart';
 import 'package:betsbi/services/global/controller/CheckController.dart';
+import 'package:betsbi/services/legal/view/LegalMentionView.dart';
 import 'package:betsbi/services/memo/view/MemosView.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/registrationAndLogin/controller/LoginController.dart';

@@ -9,4 +9,9 @@ class JsonParserManager {
         .loadString(assetsPath)
         .then((jsonStr) => jsonDecode(jsonStr));
   }
+
+  static Map<String, dynamic> parseJsonFromResponseToMap(
+      String response)  {
+    return jsonDecode(response);
+  }
 }
