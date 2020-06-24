@@ -1,15 +1,27 @@
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/global/controller/SearchBarController.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'SearchApp.dart';
 
-
-class AppBarWithTabs extends StatelessWidget with PreferredSizeWidget {
+class AppBarWithTabs extends StatefulWidget  with PreferredSizeWidget {
   final List<Tab> tabText;
 
   AppBarWithTabs({this.tabText});
+
+  @override
+  State<StatefulWidget> createState() => AppBarWithTabsState();
+
+
+  @override
+  Size get preferredSize =>
+      Size.fromHeight(kToolbarHeight + kBottomNavigationBarHeight);
+}
+
+class AppBarWithTabsState extends State<AppBarWithTabs> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +43,7 @@ class AppBarWithTabs extends StatelessWidget with PreferredSizeWidget {
         visible: false,
       ),
       bottom: TabBar(
-        tabs: this.tabText,
+        tabs: this.widget.tabText,
       ),
       actions: <Widget>[
         IconButton(
@@ -44,7 +56,8 @@ class AppBarWithTabs extends StatelessWidget with PreferredSizeWidget {
           },
         ),
         PopupMenuButton<String>(
-          onSelected: (choice) => SearchBarController.searchCategory = choice,
+          icon:  SearchBarController.searchCategory == "user" ? Icon(CommunityMaterialIcons.account) : Icon(CommunityMaterialIcons.note),
+          onSelected: (choice) => this.setState(() { SearchBarController.searchCategory = choice; }) ,
           itemBuilder: (BuildContext context) {
             return SearchBarController.searchChoicesCategory
                 .map((String choice) {
@@ -58,8 +71,4 @@ class AppBarWithTabs extends StatelessWidget with PreferredSizeWidget {
       ],
     );
   }
-
-  @override
-  Size get preferredSize =>
-      Size.fromHeight(kToolbarHeight + kBottomNavigationBarHeight);
 }
