@@ -2,6 +2,7 @@ import 'package:betsbi/manager/HttpManager.dart';
 import 'package:betsbi/manager/JsonParserManager.dart';
 import 'package:betsbi/manager/ResponseManager.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class DataUsePolicyController {
 
@@ -31,4 +32,39 @@ class DataUsePolicyController {
     return responseManager.checkResponseAndRetrieveInformationFromJson();
   }
 
+  static DataTable getDataInformationOfUser({Map<String, dynamic> currentUserInformation})
+  {
+    List<DataColumn> headersList = new List<DataColumn>();
+    List<DataCell> rowList = new List<DataCell>();
+    currentUserInformation.forEach((header, row) {
+      if (header != "id" && header != "user") {
+        headersList.add(
+          DataColumn(
+            label: Text(
+              header,
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
+        );
+        rowList.add(DataCell(Text(row.toString())));
+      }
+    });
+    currentUserInformation["user"].forEach((header, row) {
+      if (header != "id") {
+        headersList.add(
+          DataColumn(
+            label: Text(
+              header,
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
+        );
+        rowList.add(DataCell(Text(row.toString())));
+      }
+    });
+    return DataTable(
+      columns: headersList,
+      rows: <DataRow>[DataRow(cells: rowList)],
+    );
+  }
 }

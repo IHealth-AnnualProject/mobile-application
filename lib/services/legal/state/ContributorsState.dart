@@ -48,7 +48,12 @@ class ContributorsState extends State<ContributorsPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(height: 20,),
-            DefaultTextTitle(title: SettingsManager.mapLanguage["Contributors"],),
+            Align(
+              alignment: Alignment.center,
+              child: DefaultTextTitle(
+                title: SettingsManager.mapLanguage["Contributors"],
+              ),
+            ),
             SizedBox(height: 20,),
             Text(SettingsManager.mapLanguage["HomePage"] + " - " + SettingsManager.mapLanguage["IconAreMadeBy"],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Color.fromRGBO(0, 157, 153, 1)),),
             Divider(thickness: 2,),

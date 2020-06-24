@@ -33,8 +33,7 @@ class ChatListContactState extends State<ChatListContactPage>
       }
       index++;
     });
-    if(mounted)
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   @override
@@ -62,7 +61,9 @@ class ChatListContactState extends State<ChatListContactPage>
       contacts = await ChatController.getAllContact(context: context);
       SQLLiteNewMessage newMessage = new SQLLiteNewMessage();
       contacts.forEach((contact) async {
-        contact.setNewMessage(await newMessage.countByIdFromAndTo(userIdFrom: contact.userId, userIdTo: SettingsManager.applicationProperties.getCurrentId()));
+        contact.setNewMessage(await newMessage.countByIdFromAndTo(
+            userIdFrom: contact.userId,
+            userIdTo: SettingsManager.applicationProperties.getCurrentId()));
       });
       return context;
     });
@@ -87,24 +88,36 @@ class ChatListContactState extends State<ChatListContactPage>
           if (!snapshot.hasData) {
             return WaitingWidget();
           } else {
-            return ListView.builder(
-              itemBuilder: (context, index) => Card(
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ChatPage(
-                            userContactedId: contacts[index].userId,
-                          ),),
-                    ).whenComplete(() => this.setState(() {_memorizer = AsyncMemoizer(); }));
-                  },
-                  child: ContactChat(
-                    contact: contacts[index],
+            return Column(
+              children: <Widget>[
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => Card(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatPage(
+                              userContactedId: contacts[index].userId,
+                            ),
+                          ),
+                        ).whenComplete(
+                          () => this.setState(
+                            () {
+                              _memorizer = AsyncMemoizer();
+                            },
+                          ),
+                        );
+                      },
+                      child: ContactChat(
+                        contact: contacts[index],
+                      ),
+                    ),
                   ),
+                  itemCount: contacts.length,
                 ),
-              ),
-              itemCount: contacts.length,
+              ],
             );
           }
         },

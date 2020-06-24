@@ -2,6 +2,7 @@ import 'package:betsbi/manager/HistoricalManager.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/legal/controller/DataUsePolicyController.dart';
+import 'package:betsbi/services/legal/controller/LegalMentionController.dart';
 import 'package:betsbi/services/legal/view/DataUsePolicyView.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
@@ -14,9 +15,7 @@ import 'package:flutter/material.dart';
 class DataUsePolicyState extends State<DataUsePolicyPage>
     with WidgetsBindingObserver {
   Map<String, dynamic> currentUserInformation;
-  Map<String, dynamic> currentUserProfileInformation;
-  List<DataColumn> headersList = new List<DataColumn>();
-  List<DataCell> rowList = new List<DataCell>();
+  List<Widget> elementsFromMapContent;
   bool isVisible = false;
 
   @override
@@ -39,6 +38,7 @@ class DataUsePolicyState extends State<DataUsePolicyPage>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
+    elementsFromMapContent = LegalMentionController.generateContentOfLegalPageAccordingToGivenMap(this.widget.content);
   }
 
   getAllUserInformation() async {
@@ -50,33 +50,7 @@ class DataUsePolicyState extends State<DataUsePolicyPage>
         : currentUserInformation =
             await DataUsePolicyController.getCurrentUserProfileInformation(
                 SettingsManager.applicationProperties.getCurrentId(), context);
-    currentUserInformation.forEach((header, row) {
-      if (header != "id" && header != "user") {
-        headersList.add(
-          DataColumn(
-            label: Text(
-              header,
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-          ),
-        );
-        rowList.add(DataCell(Text(row.toString())));
-      }
-    });
-    currentUserInformation["user"].forEach((header, row) {
-      if (header != "id") {
-        headersList.add(
-          DataColumn(
-            label: Text(
-              header,
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-          ),
-        );
-        rowList.add(DataCell(Text(row.toString())));
-      }
-    });
-    return currentUserInformation;
+    return DataUsePolicyController.getDataInformationOfUser(currentUserInformation: currentUserInformation);
   }
 
   @override
@@ -94,134 +68,17 @@ class DataUsePolicyState extends State<DataUsePolicyPage>
             SizedBox(
               height: 20,
             ),
-            DefaultTextTitle(
-              title: SettingsManager.mapLanguage["DataUsePolicy"],
+            Align(
+              alignment: Alignment.center,
+              child: DefaultTextTitle(
+                title: SettingsManager.mapLanguage["DataUsePolicy"],
+              ),
             ),
             SizedBox(
               height: 20,
             ),
-            Text(
-              "1 : " + SettingsManager.mapLanguage["Collect"],
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Color.fromRGBO(0, 157, 153, 1)),
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            Text(
-              this.widget.content["Collect"],
-              style: TextStyle(
-                  fontSize: 15, color: Color.fromRGBO(0, 157, 153, 1)),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "2 : " + SettingsManager.mapLanguage["DataUse"],
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Color.fromRGBO(0, 157, 153, 1)),
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            Text(
-              this.widget.content["DataUse"],
-              style: TextStyle(
-                  fontSize: 15, color: Color.fromRGBO(0, 157, 153, 1)),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "3 : " + SettingsManager.mapLanguage["PrivacyOnlineShop"],
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Color.fromRGBO(0, 157, 153, 1)),
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            Text(
-              this.widget.content["PrivacyOnlineShop"],
-              style: TextStyle(
-                  fontSize: 15, color: Color.fromRGBO(0, 157, 153, 1)),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "4 : " + SettingsManager.mapLanguage["ThirdParties"],
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Color.fromRGBO(0, 157, 153, 1)),
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            Text(
-              this.widget.content["ThirdParties"],
-              style: TextStyle(
-                  fontSize: 15, color: Color.fromRGBO(0, 157, 153, 1)),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "5 : " + SettingsManager.mapLanguage["ProtectionOfInformation"],
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Color.fromRGBO(0, 157, 153, 1)),
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            Text(
-              this.widget.content["ProtectionOfInformation"],
-              style: TextStyle(
-                  fontSize: 15, color: Color.fromRGBO(0, 157, 153, 1)),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "6 : " + SettingsManager.mapLanguage["Cookies"],
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Color.fromRGBO(0, 157, 153, 1)),
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            Text(
-              this.widget.content["Cookies"],
-              style: TextStyle(
-                  fontSize: 15, color: Color.fromRGBO(0, 157, 153, 1)),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "7 : " + SettingsManager.mapLanguage["Consent"],
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Color.fromRGBO(0, 157, 153, 1)),
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            Text(
-              this.widget.content["Consent"],
-              style: TextStyle(
-                  fontSize: 15, color: Color.fromRGBO(0, 157, 153, 1)),
+            Column(
+              children: elementsFromMapContent,
             ),
             SizedBox(
               height: 45,
@@ -235,10 +92,7 @@ class DataUsePolicyState extends State<DataUsePolicyPage>
                     children: <Widget>[
                       Visibility(
                         visible: isVisible,
-                        child: DataTable(
-                          columns: headersList,
-                          rows: <DataRow>[DataRow(cells: rowList)],
-                        ),
+                        child: snapshot.data,
                       ),
                       SizedBox(
                         height: 45,

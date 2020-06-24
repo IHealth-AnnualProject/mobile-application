@@ -146,5 +146,7 @@
   "YouWithToReport": "Vous souhaitez signaler cet utilisateur :",
   "HomePage" : "Page d'accueil",
   "IconAreMadeBy" : "Les icones ont été réalisés par (sur https://www.flaticon.com/)",
-  "SeePersonalInformation" : "Montrer les informations personnelles"
+  "SeePersonalInformation" : "Montrer les informations personnelles",
+  "Android" : "Android",
+  "IOS" : "IOS"
 }

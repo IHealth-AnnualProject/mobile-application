@@ -146,6 +146,9 @@
   "YouWithToReport": "You wish to report this user :",
   "HomePage" : "Home Page",
   "IconAreMadeBy" : "Icon made by (from https://www.flaticon.com/)",
-  "SeePersonalInformation" : "Show Personal Information"
+  "SeePersonalInformation" : "Show Personal Information",
+  "Android" : "Android",
+  "IOS" : "IOS"
+
 
 }
