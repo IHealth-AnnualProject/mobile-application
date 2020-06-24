@@ -25,9 +25,6 @@ class RelaxingState extends State<RelaxingPage> with TickerProviderStateMixin, W
     curvedAnimation.addListenerOnAnimation(
           (status) {
         if (status == AnimationStatus.completed) {
-          Color firstColor = ColorPaletteRelaxing.firstPalette.first;
-          ColorPaletteRelaxing.firstPalette.removeAt(0);
-          ColorPaletteRelaxing.firstPalette.add(firstColor);
           if (mounted) {
             setState(() {
               restartAnimation();
