@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/home/view/HomeView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class BrickContainer extends StatelessWidget {
                     () => Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HomePage(),
+                    builder: (context) => HomePage(isPsy: SettingsManager.applicationProperties.isPsy() == 'true' ? true : false,),
                   ),
                       (Route<dynamic> route) => false,
                 ),

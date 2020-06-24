@@ -31,6 +31,7 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
+    print(this.widget.userId);
     if (!this.widget.isPsy)
       profile = new UserProfile.defaultConstructor();
     else
