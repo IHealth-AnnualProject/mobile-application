@@ -5,6 +5,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:betsbi/manager/FileManager.dart';
 import 'package:betsbi/manager/HttpManager.dart';
 import 'package:betsbi/manager/ResponseManager.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/playlist/model/song.dart';
 import 'package:betsbi/tools/MusicPlayerButtonPlay.dart';
 import 'package:betsbi/tools/MusicPlayerProgressIndicator.dart';
@@ -57,8 +58,7 @@ class AmbianceController {
     await assetsAudioPlayer.open(
       Playlist(audios: paths, startIndex: startAtIndex),
     );
-    if(!assetsAudioPlayer.isLooping.value)
-      assetsAudioPlayer.toggleLoop();
+    if (!assetsAudioPlayer.isLooping.value) assetsAudioPlayer.toggleLoop();
     musicFlush = musicPlayerFlushBar(songName: songName);
     musicFlush.show(context);
   }
@@ -91,6 +91,12 @@ class AmbianceController {
     HttpManager httpManager =
         new HttpManager(path: 'music/$musicId/download', context: context);
     await httpManager.get();
+    ResponseManager responseManager = new ResponseManager(
+      response: httpManager.response,
+      context: context,
+      successMessage: SettingsManager.mapLanguage["DownloadedFile"],
+    );
+    responseManager.checkResponseAndPrintIt();
     return httpManager.response;
   }
 

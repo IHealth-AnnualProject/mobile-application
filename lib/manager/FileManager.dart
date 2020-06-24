@@ -9,7 +9,7 @@ class FileManager {
   static Future<void> downloadFile({@required String fileName, @required String musicId, @required BuildContext context}) async {
     String dir = (await getApplicationDocumentsDirectory()).path;
     File file = new File('$dir/$fileName');
-    var response = await AmbianceController.downloadFile(musicId: musicId);
+    var response = await AmbianceController.downloadFile(musicId: musicId, context: context);
     var bytes = response.bodyBytes;
     await file.writeAsBytes(bytes, flush: true);
   }
