@@ -168,7 +168,7 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
                   1,
                   myMessage(content: mTextMessageController.text),
                 );
-                setState(() {mTextMessageController = new TextEditingController(); });
+                setState(() {mTextMessageController.clear(); });
               }
             },
             child: Icon(Icons.send),

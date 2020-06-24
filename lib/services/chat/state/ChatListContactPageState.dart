@@ -60,6 +60,8 @@ class ChatListContactState extends State<ChatListContactPage>
       socket.on('newMessage', (data) => _onNewMessage(data));
       contacts = await ChatController.getAllContact(context: context);
       SQLLiteNewMessage newMessage = new SQLLiteNewMessage();
+      contacts.removeWhere((contact) =>
+          contact.userId == SettingsManager.cfg.getString("ChatBotId"));
       contacts.forEach((contact) async {
         contact.setNewMessage(await newMessage.countByIdFromAndTo(
             userIdFrom: contact.userId,
@@ -90,6 +92,35 @@ class ChatListContactState extends State<ChatListContactPage>
           } else {
             return Column(
               children: <Widget>[
+                Card(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatPage(
+                            userContactedId:
+                                SettingsManager.cfg.getString("ChatBotId"),
+                          ),
+                        ),
+                      ).whenComplete(
+                        () => this.setState(
+                          () {
+                            _memorizer = AsyncMemoizer();
+                          },
+                        ),
+                      );
+                    },
+                    child: ContactChat(
+                      contact: Contact(
+                        isPsy: false,
+                        newMessage: 0,
+                        userId: SettingsManager.cfg.getString("ChatBotId"),
+                        username: SettingsManager.cfg.getString("ChatBotId"),
+                      ),
+                    ),
+                  ),
+                ),
                 ListView.builder(
                   shrinkWrap: true,
                   itemBuilder: (context, index) => Card(
