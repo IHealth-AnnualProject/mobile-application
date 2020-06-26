@@ -38,7 +38,9 @@ class DataUsePolicyState extends State<DataUsePolicyPage>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
-    elementsFromMapContent = LegalMentionController.generateContentOfLegalPageAccordingToGivenMap(this.widget.content);
+    elementsFromMapContent =
+        LegalMentionController.generateContentOfLegalPageAccordingToGivenMap(
+            this.widget.content);
   }
 
   getAllUserInformation() async {
@@ -50,7 +52,8 @@ class DataUsePolicyState extends State<DataUsePolicyPage>
         : currentUserInformation =
             await DataUsePolicyController.getCurrentUserProfileInformation(
                 SettingsManager.applicationProperties.getCurrentId(), context);
-    return DataUsePolicyController.getDataInformationOfUser(currentUserInformation: currentUserInformation);
+    return DataUsePolicyController.getDataInformationOfUser(
+        currentUserInformation: currentUserInformation);
   }
 
   @override
@@ -87,34 +90,44 @@ class DataUsePolicyState extends State<DataUsePolicyPage>
               future: getAllUserInformation(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Visibility(
-                        visible: isVisible,
-                        child: snapshot.data,
-                      ),
-                      SizedBox(
-                        height: 45,
-                      ),
-                      Visibility(
-                        visible: !isVisible,
-                        child: SubmitButton(
-                          content: SettingsManager
-                              .mapLanguage["SeePersonalInformation"],
-                          onPressedFunction: () => this.setState(
-                            () {
-                              isVisible = true;
-                            },
+                  return Tooltip(
+                    message:
+                        SettingsManager.mapLanguage["DataUsePolicyToolTipInfo"],
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Visibility(
+                            visible: isVisible,
+                            child: snapshot.data,
                           ),
-                        ),
-                      )
-                    ],
+                          SizedBox(
+                            height: 45,
+                          ),
+                          Visibility(
+                            visible: !isVisible,
+                            child: SubmitButton(
+                              content: SettingsManager
+                                  .mapLanguage["SeePersonalInformation"],
+                              onPressedFunction: () => this.setState(
+                                () {
+                                  isVisible = true;
+                                },
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   );
                 } else
                   return CircularProgressIndicator();
               },
-            )
+            ),
+            SizedBox(
+              height: 45,
+            ),
           ],
         ),
       ),

@@ -149,7 +149,9 @@
   "SeePersonalInformation" : "Show Personal Information",
   "DownloadedFile" : "Your music have correctly been downloaded",
   "Android" : "Android",
-  "IOS" : "IOS"
+  "IOS" : "IOS",
+  "DataUsePolicyToolTipInfo" : "Swipe from right to left to see more information"
+
 
 
 }

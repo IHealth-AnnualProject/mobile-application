@@ -9,8 +9,9 @@ class UserProfile extends User {
       String username,
       String userProfileId,
       bool isPsy = false,
-      int level})
-      : super(userProfileId, username, description, birthdate, isPsy, level);
+      int level,
+      String email})
+      : super(userProfileId, username, description, birthdate, isPsy, level, email);
 
   UserProfile.defaultConstructor(
       {String birthdate = "",
@@ -18,8 +19,9 @@ class UserProfile extends User {
       String username = "",
       String userProfileId = "",
       bool isPsy = false,
-      int level = 0})
-      : super(userProfileId, username, description, birthdate, isPsy, level);
+      int level = 0,
+      String email = ""})
+      : super(userProfileId, username, description, birthdate, isPsy, level, email);
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile.normalConstructor(
@@ -27,7 +29,8 @@ class UserProfile extends User {
         description: json['description'],
         username: json['user']['username'],
         userProfileId: json['user']['id'],
-        level: _determineLevelWithXp(json['user']['xp'])
+        level: _determineLevelWithXp(json['user']['xp']),
+        email: json['email']
         );
   }
 
@@ -44,6 +47,7 @@ class UserProfile extends User {
       this.username = userProfileResult.username;
       this.profileId = userProfileResult.profileId;
       this.level = userProfileResult.level;
+      this.email = userProfileResult.email;
     });
   }
 

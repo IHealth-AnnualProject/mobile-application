@@ -40,9 +40,12 @@ class DataUsePolicyController {
       if (header != "id" && header != "user") {
         headersList.add(
           DataColumn(
-            label: Text(
+            label: Expanded(
+              child :
+              Text(
               header,
               style: TextStyle(fontStyle: FontStyle.italic),
+              ),
             ),
           ),
         );

@@ -171,10 +171,12 @@ class RegisterState extends State<RegisterPage> {
                           onPressedFunction: () async {
                             if (this._formKey.currentState.validate()) {
                               await RegisterController.register(
-                                  userNameController.text,
-                                  passwordController.text,
-                                  _isSelected[1],
-                                  context);
+                                userNameController.text,
+                                passwordController.text,
+                                _isSelected[1],
+                                context,
+                                emailController.text,
+                              );
                             }
                           },
                         ),

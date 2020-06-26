@@ -149,5 +149,6 @@
   "SeePersonalInformation" : "Montrer les informations personnelles",
   "DownloadedFile" : "Votre musique a bien été téléchargé",
   "Android" : "Android",
-  "IOS" : "IOS"
+  "IOS" : "IOS",
+  "DataUsePolicyToolTipInfo" : "Faites glisser de la droite vers la gauche pour voir plus"
 }

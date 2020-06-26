@@ -14,8 +14,8 @@ class Psychologist extends User {
       String description,
       String birthdate,
       bool isPsy = true,
-      int level})
-      : super(profileId, username, description, birthdate, isPsy,level);
+      int level,String email})
+      : super(profileId, username, description, birthdate, isPsy,level, email);
 
   Psychologist.defaultConstructor(
       {this.firstName = "",
@@ -25,8 +25,8 @@ class Psychologist extends User {
       String description = "",
       String birthdate = "",
       bool isPsy = true,
-      int level = 0})
-      : super(profileId, username, description, birthdate, isPsy, level);
+      int level = 0,String email = ""})
+      : super(profileId, username, description, birthdate, isPsy, level, email);
 
   factory Psychologist.fromJson(Map<String, dynamic> json) {
     return Psychologist.normalConstructor(
@@ -36,7 +36,9 @@ class Psychologist extends User {
         birthdate: json['birthdate'],
         description: json['description'],
         profileId: json['id'],
-        level: _determineLevelWithXp(json['user']['xp']));
+        level: _determineLevelWithXp(json['user']['xp']),
+        email: json['email']
+        );
   }
 
   static int _determineLevelWithXp(int xp)
@@ -63,6 +65,7 @@ class Psychologist extends User {
       this.username = userProfileResult.username;
       this.profileId = userProfileResult.profileId;
       this.level = userProfileResult.level;
+      this.email = userProfileResult.email;
     });
   }
 

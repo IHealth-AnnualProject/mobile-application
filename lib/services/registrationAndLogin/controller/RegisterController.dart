@@ -8,13 +8,14 @@ import 'package:flutter/material.dart';
 
 class RegisterController {
   static Future<void> register(String username, String password, bool isPsy,
-      BuildContext context) async {
+      BuildContext context, String email) async {
     HttpManager httpManager = new HttpManager(
         path: 'auth/register',
         map: <String, dynamic>{
           'username': username,
           'password': password,
-          'isPsy': isPsy
+          'isPsy': isPsy,
+          'email' : email
         }, context: context);
     await httpManager.postWithoutAccessToken();
     ResponseManager responseManager = new ResponseManager(
