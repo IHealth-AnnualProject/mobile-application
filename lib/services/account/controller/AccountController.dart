@@ -50,6 +50,7 @@ class AccountController {
       String description,
       String profileId,
       bool isPsy,
+      String skin,
       BuildContext context}) async {
     HttpManager httpManager = new HttpManager(
         path: 'userProfile',
@@ -78,6 +79,7 @@ class AccountController {
       String geolocation,
       String description,
       String profileId,
+      String skin,
       bool isPsy,
       BuildContext context}) async {
     HttpManager httpManager = new HttpManager(

@@ -5,9 +5,10 @@ abstract class User {
   String profileId;
   bool isPsy;
   String email;
+  String skin;
   int level;
 
-  User(this.profileId, this.username, this.description, this.birthdate, this.isPsy, this.level, this.email);
+  User(this.profileId, this.username, this.description, this.birthdate, this.isPsy, this.level, this.email, this.skin);
 
   Future<void> getUserProfile({String userID});
 

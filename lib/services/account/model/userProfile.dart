@@ -10,8 +10,9 @@ class UserProfile extends User {
       String userProfileId,
       bool isPsy = false,
       int level,
-      String email})
-      : super(userProfileId, username, description, birthdate, isPsy, level, email);
+      String email,
+      String skin})
+      : super(userProfileId, username, description, birthdate, isPsy, level, email, skin);
 
   UserProfile.defaultConstructor(
       {String birthdate = "",
@@ -20,8 +21,9 @@ class UserProfile extends User {
       String userProfileId = "",
       bool isPsy = false,
       int level = 0,
-      String email = ""})
-      : super(userProfileId, username, description, birthdate, isPsy, level, email);
+      String email = "",
+      String skin})
+      : super(userProfileId, username, description, birthdate, isPsy, level, email, skin);
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile.normalConstructor(
@@ -30,7 +32,8 @@ class UserProfile extends User {
         username: json['user']['username'],
         userProfileId: json['user']['id'],
         level: _determineLevelWithXp(json['user']['xp']),
-        email: json['email']
+        email: json['email'],
+        skin : json['skin'].toString().isEmpty ? "1AAAA_1AAAA_1AAAA" : json['skin'],
         );
   }
 
@@ -48,6 +51,7 @@ class UserProfile extends User {
       this.profileId = userProfileResult.profileId;
       this.level = userProfileResult.level;
       this.email = userProfileResult.email;
+      this.skin = userProfileResult.skin;
     });
   }
 
@@ -57,6 +61,7 @@ class UserProfile extends User {
       String description,
       String profileId,
       bool isPsy,
+      String skin,
       BuildContext context}) async {
     await AccountController.updateCurrentUserInformation(
             birthdate: birthdate,
@@ -64,6 +69,7 @@ class UserProfile extends User {
             description: description,
             profileId: profileId,
             isPsy: isPsy,
+            skin : skin,
             context: context);
   }
 }

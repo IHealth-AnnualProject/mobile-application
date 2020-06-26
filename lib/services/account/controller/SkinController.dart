@@ -1,18 +1,21 @@
+import 'package:betsbi/manager/HttpManager.dart';
 import 'package:betsbi/manager/JsonParserManager.dart';
+import 'package:betsbi/manager/ResponseManager.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/account/model/accessorie.dart';
 import 'package:betsbi/services/account/model/face.dart';
 import 'package:betsbi/services/account/model/skinColor.dart';
+import 'package:flutter/cupertino.dart';
 
-class SkinController{
+class SkinController {
   static List<Face> faces = List<Face>();
   static List<SkinColor> skinColors = List<SkinColor>();
   static List<Accessory> accessories = List<Accessory>();
 
-  static getSkinParametersFromJsonInList() async
-  {
+  static getSkinParametersFromJsonInList() async {
     Map<String, dynamic> mapSkin =
         await JsonParserManager.parseJsonFromAssetsToMap(
-        "assets/skin/skin.json");
+            "assets/skin/skin.json");
     faces = new List<Face>();
     skinColors = new List<SkinColor>();
     accessories = new List<Accessory>();
@@ -31,5 +34,20 @@ class SkinController{
     return faces;
   }
 
-
+  static Future<void> updateSkinForCurrentUser(
+      {@required String skinCode, @required BuildContext context}) async {
+    HttpManager httpManager = new HttpManager(
+        path: SettingsManager.applicationProperties.isPsy().toLowerCase() ==
+                'true'
+            ? 'psychologist'
+            : 'userProfile',
+        context: context,
+        map: <String, dynamic>{"skin": skinCode});
+    await httpManager.patch();
+    ResponseManager responseManager = ResponseManager(
+        response: httpManager.response,
+        context: context,
+        successMessage: SettingsManager.mapLanguage["UpdatedSkin"]);
+    responseManager.checkResponseAndPrintIt();
+  }
 }

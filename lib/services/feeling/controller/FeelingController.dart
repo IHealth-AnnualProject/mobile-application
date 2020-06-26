@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class FeelingController {
-  static void redirectionFeelingToHomePage(BuildContext context) {
-    SettingsManager.storage
+  static Future<void> redirectionFeelingToHomePage(BuildContext context) async {
+   await SettingsManager.storage
         .write(key: "feelingsDate", value: DateTime.now().toString())
         .then((r) => Navigator.pushAndRemoveUntil(
             context,
@@ -22,7 +22,7 @@ class FeelingController {
     HttpManager httpManager = new HttpManager(
         path: "userProfile/moral-stats", map: <String, int>{'value': value}, context: context);
     await httpManager.post();
-    ResponseManager responseManager = new ResponseManager(context: context,response: httpManager.response, onSuccess: () =>  redirectionFeelingToHomePage(context));
+    ResponseManager responseManager = new ResponseManager(context: context,response: httpManager.response, onSuccess: () async =>  await redirectionFeelingToHomePage(context));
     responseManager.checkResponseAndExecuteFunctionIfOk();
   }
 

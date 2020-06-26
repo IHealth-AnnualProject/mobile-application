@@ -14,8 +14,11 @@ class Psychologist extends User {
       String description,
       String birthdate,
       bool isPsy = true,
-      int level,String email})
-      : super(profileId, username, description, birthdate, isPsy,level, email);
+      int level,
+      String email,
+      String skin})
+      : super(profileId, username, description, birthdate, isPsy, level, email,
+            skin);
 
   Psychologist.defaultConstructor(
       {this.firstName = "",
@@ -25,24 +28,28 @@ class Psychologist extends User {
       String description = "",
       String birthdate = "",
       bool isPsy = true,
-      int level = 0,String email = ""})
-      : super(profileId, username, description, birthdate, isPsy, level, email);
+      int level = 0,
+      String email = "",
+      String skin = ""})
+      : super(profileId, username, description, birthdate, isPsy, level, email,
+            skin);
 
   factory Psychologist.fromJson(Map<String, dynamic> json) {
     return Psychologist.normalConstructor(
-        firstName: json['first_name'],
-        lastName: json['last_name'],
-        username: json['user']['username'],
-        birthdate: json['birthdate'],
-        description: json['description'],
-        profileId: json['id'],
-        level: _determineLevelWithXp(json['user']['xp']),
-        email: json['email']
-        );
+      firstName: json['first_name'],
+      lastName: json['last_name'],
+      username: json['user']['username'],
+      birthdate: json['birthdate'],
+      description: json['description'],
+      profileId: json['id'],
+      level: _determineLevelWithXp(json['user']['xp']),
+      email: json['email'],
+      skin:
+          json['skin'].toString().isEmpty ? "1AAAA_1AAAA_1AAAA" : json['skin'],
+    );
   }
 
-  static int _determineLevelWithXp(int xp)
-  {
+  static int _determineLevelWithXp(int xp) {
     return (xp / 100).floor() + 1;
   }
 
@@ -51,8 +58,7 @@ class Psychologist extends User {
         birthdate: json['birthdate'],
         description: json['description'],
         username: json['user']['username'],
-        profileId: json['id']
-    );
+        profileId: json['id']);
   }
 
   Future<void> getUserProfile({String userID, BuildContext context}) async {
@@ -66,6 +72,7 @@ class Psychologist extends User {
       this.profileId = userProfileResult.profileId;
       this.level = userProfileResult.level;
       this.email = userProfileResult.email;
+      this.skin = userProfileResult.skin;
     });
   }
 
@@ -75,16 +82,19 @@ class Psychologist extends User {
       String birthdate,
       String geolocation,
       String description,
-        String profileId,
-        bool isPsy,
+      String profileId,
+      bool isPsy,
+        String skin,
       BuildContext context}) async {
     await AccountController.updateCurrentPsyInformation(
-            firstname: firstname,
-            lastname: lastname,
-            birthdate: birthdate,
-            geolocation: "",
-            description: description,
-            profileId : profileId,
-            isPsy : isPsy, context: context);
+        firstname: firstname,
+        lastname: lastname,
+        birthdate: birthdate,
+        geolocation: "",
+        description: description,
+        profileId: profileId,
+        isPsy: isPsy,
+        skin : skin,
+        context: context);
   }
 }
