@@ -41,6 +41,8 @@ dependencies:
   path_provider: ^1.6.10
   flutter_local_notifications: ^1.4.4+1
   flip_card: ^0.4.4
+  search_map_place: ^0.3.0
+  google_maps_flutter: ^0.5.28+1
   flutter:
     sdk: flutter
   yaml: ^2.2.0

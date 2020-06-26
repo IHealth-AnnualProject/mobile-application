@@ -48,7 +48,6 @@ class ChatController {
         context: context,
         elementToReturn:
             getContactFromJson(jsonToDecode: httpManager.response.body));
-    SQLLiteNewMessage sqlLiteNewMessage;
     return responseManager.checkResponseAndRetrieveInformation();
   }
 

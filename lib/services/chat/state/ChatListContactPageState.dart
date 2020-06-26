@@ -101,6 +101,7 @@ class ChatListContactState extends State<ChatListContactPage>
                           builder: (context) => ChatPage(
                             userContactedId:
                                 SettingsManager.cfg.getString("ChatBotId"),
+                            userContactedName: SettingsManager.cfg.getString("ChatBotId"),
                           ),
                         ),
                       ).whenComplete(
@@ -131,6 +132,7 @@ class ChatListContactState extends State<ChatListContactPage>
                           MaterialPageRoute(
                             builder: (context) => ChatPage(
                               userContactedId: contacts[index].userId,
+                              userContactedName: contacts[index].username,
                             ),
                           ),
                         ).whenComplete(

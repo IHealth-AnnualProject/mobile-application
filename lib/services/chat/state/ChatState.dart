@@ -64,7 +64,8 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
     });
   }
 
-  Future updateSettingsPropertyNewMessageLessWithCurrentNewMessageFromThisUserAndRemoveITFromBDD() async {
+  Future
+      updateSettingsPropertyNewMessageLessWithCurrentNewMessageFromThisUserAndRemoveITFromBDD() async {
     SQLLiteNewMessage newMessage = new SQLLiteNewMessage();
     SettingsManager.applicationProperties.setNewMessage(SettingsManager
             .applicationProperties
@@ -72,8 +73,7 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
         await newMessage
             .countByIdFromAndTo(
                 userIdFrom: this.widget.userContactedId,
-                userIdTo:
-                    SettingsManager.applicationProperties.getCurrentId())
+                userIdTo: SettingsManager.applicationProperties.getCurrentId())
             .then((value) async =>
                 await newMessage.deleteById(this.widget.userContactedId)));
   }
@@ -82,32 +82,28 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
     Message receivedMessage = Message.fromJson(data);
     if (this.widget.userContactedId == receivedMessage.userFromID) {
       messages.insert(1, hisMessage(content: receivedMessage.content));
-      if(mounted)
-        setState(() {});
+      if (mounted) setState(() {});
     }
   }
 
-    void instantiateSocketForChat({@required Function onNewMessage}) {
+  void instantiateSocketForChat({@required Function onNewMessage}) {
     socket =
         io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
-          'transports': ['websocket'],
-          'autoConnect': false,
-        });
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
     socket.on('newMessage', (data) => onNewMessage(data));
   }
 
-   void emitNewMessage({@required String idReceiver,@required String content})
-  {
+  void emitNewMessage({@required String idReceiver, @required String content}) {
     socket.emit("sendMessage", <String, dynamic>{
-      'token':
-      SettingsManager.applicationProperties.getCurrentToken(),
+      'token': SettingsManager.applicationProperties.getCurrentToken(),
       'data': {
         'content': content,
         'idReceiver': idReceiver,
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +128,10 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
               );
             }
           }),
-      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: 2,),
+      bottomNavigationBar: BottomNavigationBarFooter(
+        selectedBottomIndexOffLine: null,
+        selectedBottomIndexOnline: 2,
+      ),
     );
   }
 
@@ -163,12 +162,16 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {
               if (mTextMessageController.text.isNotEmpty) {
-                emitNewMessage(idReceiver: this.widget.userContactedId, content: mTextMessageController.text);
+                emitNewMessage(
+                    idReceiver: this.widget.userContactedId,
+                    content: mTextMessageController.text);
                 messages.insert(
                   1,
                   myMessage(content: mTextMessageController.text),
                 );
-                setState(() {mTextMessageController.clear(); });
+                setState(() {
+                  mTextMessageController.clear();
+                });
               }
             },
             child: Icon(Icons.send),
@@ -183,10 +186,21 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
       margin: BubbleEdges.only(top: 10),
       alignment: Alignment.topLeft,
       nip: BubbleNip.leftTop,
-      child: Text(
-        content,
+      child: RichText(
         textAlign: TextAlign.right,
-        style: TextStyle(fontSize: 25),
+        text: TextSpan(
+          text: SettingsManager.mapLanguage["Me"] + ": ",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Colors.black87),
+          children: <TextSpan>[
+            TextSpan(
+              text: content,
+              style: TextStyle(
+                fontSize: 25,
+                  color: Colors.black87
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -197,10 +211,21 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
       alignment: Alignment.topRight,
       nip: BubbleNip.rightTop,
       color: Color.fromRGBO(225, 255, 199, 1.0),
-      child: Text(
-        content,
+      child: RichText(
         textAlign: TextAlign.right,
-        style: TextStyle(fontSize: 25),
+        text: TextSpan(
+          text: this.widget.userContactedName + ": ",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Colors.black87),
+          children: <TextSpan>[
+            TextSpan(
+              text: content,
+              style: TextStyle(
+                fontSize: 25,
+                  color: Colors.black87
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
