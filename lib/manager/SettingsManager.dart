@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'package:betsbi/services/settings/model/applicationProperties.dart';
-import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:global_configuration/global_configuration.dart';
 
@@ -15,19 +14,6 @@ class SettingsManager {
   static ApplicationProperties applicationProperties =
       new ApplicationProperties.defaultConstructor();
 
-  static void deviceLanguage() async {
-    String localLanguage = await Devicelocale.currentLocale;
-    switch (localLanguage) {
-      case "fr":
-        cfg.updateValue("currentLanguage", "FR");
-        cfg.updateValue("language", "EN");
-        break;
-      default:
-        cfg.updateValue("currentLanguage", "EN");
-        cfg.updateValue("language", "FR");
-        break;
-    }
-  }
 
   static Future<void> instanciateConfigurationAndLoadLanguage() async {
     cfg = new GlobalConfiguration();
