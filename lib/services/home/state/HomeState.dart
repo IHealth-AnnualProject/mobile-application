@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:betsbi/manager/HistoricalManager.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
@@ -31,6 +34,14 @@ class HomeState extends State<HomePage> with WidgetsBindingObserver {
     }
   }
 
+  String getBannerAdUnitId()
+  {
+    if(Platform.isIOS)
+      return "ca-app-pub-4901338220117159/8532020232";
+    else
+      return "ca-app-pub-4901338220117159/9940045640";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +49,47 @@ class HomeState extends State<HomePage> with WidgetsBindingObserver {
       body: Center(
         child: Column(
           children: <Widget>[
+            AdmobBanner(
+                adUnitId: getBannerAdUnitId(),
+                adSize: AdmobBannerSize.BANNER,
+                listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+                  switch (event) {
+                    case AdmobAdEvent.loaded:
+                      print('Admob banner loaded!');
+                      break;
+
+                    case AdmobAdEvent.opened:
+                      print('Admob banner opened!');
+                      break;
+
+                    case AdmobAdEvent.closed:
+                      print('Admob banner closed!');
+                      break;
+
+                    case AdmobAdEvent.failedToLoad:
+                      print('Admob banner failed to load. Error code: ${args['errorCode']}');
+                      break;
+                    case AdmobAdEvent.clicked:
+                      print('Admob banner closed!');
+                      break;
+                    case AdmobAdEvent.impression:
+                      print('Admob banner closed!');
+                      break;
+                    case AdmobAdEvent.leftApplication:
+                      print('Admob banner closed!');
+                      break;
+                    case AdmobAdEvent.completed:
+                      print('Admob banner closed!');
+                      break;
+                    case AdmobAdEvent.rewarded:
+                      print('Admob banner closed!');
+                      break;
+                    case AdmobAdEvent.started:
+                      print('Admob banner closed!');
+                      break;
+                  }
+                }
+            ),
             Expanded(
               child: GridViewHomeWidget(isPsy: this.widget.isPsy),
             ),
