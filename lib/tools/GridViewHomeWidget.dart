@@ -7,7 +7,6 @@ import 'package:betsbi/services/lesson/view/LessonListView.dart';
 import 'package:betsbi/services/memo/view/MemosView.dart';
 import 'package:betsbi/services/quest/view/QuestView.dart';
 import 'package:betsbi/services/settings/view/SettingsView.dart';
-import 'package:betsbi/services/shop/view/ShopView.dart';
 import 'package:betsbi/services/exercise/view/TrainingView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -62,11 +61,6 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
         textBrick: SettingsManager.mapLanguage['Lesson'],
         destination: LessonListPage(),
         image: "knowmore.png"),
-    //todo to update
-    BrickContainer(
-        textBrick: SettingsManager.mapLanguage['StoreContainer'],
-        destination: ShopPage(),
-        image: "store.png"),
     BrickContainer(
         textBrick: SettingsManager.mapLanguage["SettingsContainer"] != null
             ? SettingsManager.mapLanguage["SettingsContainer"]
@@ -112,11 +106,6 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
         textBrick: SettingsManager.mapLanguage['Lesson'],
         destination: LessonListPage(),
         image: "knowmore.png"),
-    //todo to update
-    BrickContainer(
-        textBrick: SettingsManager.mapLanguage['StoreContainer'],
-        destination: ShopPage(),
-        image: "store.png"),
     BrickContainer(
         textBrick: SettingsManager.mapLanguage["SettingsContainer"] != null
             ? SettingsManager.mapLanguage["SettingsContainer"]
@@ -139,6 +128,7 @@ class _GridViewPsyWidgetState extends State<GridViewHomeWidget> {
 
   GridView gridViewUserOrPsy() {
     return GridView.builder(
+      primary: false,
       itemCount: this.widget.isPsy ? homePsy.length : homeUser.length,
       gridDelegate:
           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
