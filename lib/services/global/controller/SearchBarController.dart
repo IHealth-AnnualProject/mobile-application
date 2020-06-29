@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:betsbi/manager/HttpManager.dart';
 import 'package:betsbi/manager/ResponseManager.dart';
+import 'package:betsbi/services/account/controller/AccountController.dart';
 import 'package:betsbi/services/account/model/user.dart';
 import 'package:betsbi/services/relaxing/controller/AmbianceController.dart';
 import 'package:betsbi/services/exercise/model/exercise.dart';
@@ -10,16 +11,22 @@ import 'package:betsbi/services/global/model/searchItem.dart';
 import 'package:betsbi/services/account/model/userProfile.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/account/view/AccountView.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../exercise/controller/ExerciseController.dart';
 
 class SearchBarController {
-  static String searchCategory = "user";
-  static List<String> searchChoicesCategory = ["user", "exercise"];
+  static String searchCategory = SettingsManager.mapLanguage["User"];
+  static List<String> searchChoicesCategory = [
+    SettingsManager.mapLanguage["User"],
+    SettingsManager.mapLanguage["Psy"],
+    SettingsManager.mapLanguage["Exercise"]
+  ];
 
-  static Future<List<Exercise>> getAllExercise({@required BuildContext context}) async {
+  static Future<List<Exercise>> getAllExercise(
+      {@required BuildContext context}) async {
     String jsonWithOutputList;
     jsonWithOutputList = await ExerciseController.getJsonAccodingToExerciseType(
         context: context, type: 'math');
@@ -30,40 +37,72 @@ class SearchBarController {
   static Future<List<SearchItem>> getAllPropsAccordingToCategoryChosen(
       {@required BuildContext context}) async {
     List<SearchItem> items = new List<SearchItem>();
-    if (searchCategory.toString() == 'user') {
-      await getAllProfile(context : context).then(
-        (users) => users.forEach(
-          (user) => items.add(
-            SearchItem.userItem(
-                trailing:
-                    user.isPsy ? Icon(Icons.spa) : Icon(Icons.account_box),
-                title: user.username,
-                user: user,
-                subtitle: user.isPsy
-                    ? SettingsManager.mapLanguage["PsyChoice"]
-                    : SettingsManager.mapLanguage["UserChoice"]),
-          ),
-        ),
-      );
-    }
-    if (searchCategory.toString() == 'exercise') {
-      await getAllExercise(context: context).then(
-        (exercises) => exercises.forEach(
-          (exercise) => items.add(
-            SearchItem.exerciseItem(
-              subtitle: exercise.type,
-              title: exercise.name,
-              exercise: exercise,
-              trailing: Icon(Icons.note),
-            ),
-          ),
-        ),
-      );
-    }
+    if (searchCategory == SettingsManager.mapLanguage["User"])
+      await getAllUserThenAddItToListOfSearchItem(context, items);
+    else if (searchCategory == SettingsManager.mapLanguage["Exercise"])
+      await getAllExerciseThenAddItToListOfSearchItem(context, items);
+    else if(searchCategory == SettingsManager.mapLanguage["Psy"])
+      await getAllPsyThenAddItToListOfSearchItem(context, items);
     return items;
   }
 
-  static Future<List<SearchItem>> getAllMusic({@required BuildContext context}) async {
+  static Future getAllExerciseThenAddItToListOfSearchItem(
+      BuildContext context, List<SearchItem> items) async {
+    await getAllExercise(context: context).then(
+      (exercises) => exercises.forEach(
+        (exercise) => items.add(
+          SearchItem.exerciseItem(
+            subtitle: exercise.type,
+            title: exercise.name,
+            exercise: exercise,
+            trailing: Icon(Icons.note),
+          ),
+        ),
+      ),
+    );
+  }
+
+  static Future getAllUserThenAddItToListOfSearchItem(
+      BuildContext context, List<SearchItem> items) async {
+    await getAllUserProfile(context: context).then(
+      (users) => users.forEach(
+        (user)  {
+          Widget avatar = AccountController.getUserAvatarAccordingToHisIdForSearch(user: user, context : context);
+          items.add(
+          SearchItem.userItem(
+            trailing: avatar,
+            title: user.username,
+            user: user,
+            subtitle: SettingsManager.mapLanguage["User"],
+          ),
+        );},
+      ),
+    );
+  }
+
+
+
+  static Future getAllPsyThenAddItToListOfSearchItem(
+      BuildContext context, List<SearchItem> items) async {
+    await getAllPsyProfile(context: context).then(
+      (users) => users.forEach(
+        (user)  {
+           Widget avatar = AccountController.getUserAvatarAccordingToHisIdForSearch(user: user, context : context);
+           items.add(
+          SearchItem.userItem(
+            trailing: avatar,
+            title: user.username,
+            user: user,
+            subtitle: SettingsManager.mapLanguage["Psy"],
+          ),
+        );},
+      ),
+    );
+  }
+
+
+  static Future<List<SearchItem>> getAllMusic(
+      {@required BuildContext context}) async {
     List<SearchItem> items = new List<SearchItem>();
     await AmbianceController.getAllSongs(context: context).then(
       (songs) => songs.forEach(
@@ -82,11 +121,12 @@ class SearchBarController {
     return items;
   }
 
-  static Future<List<User>> getAllUser({@required BuildContext context, @required Function listToReturn, @required String path}) async
-  {
+  static Future<List<User>> getAllUser(
+      {@required BuildContext context,
+      @required Function listToReturn,
+      @required String path}) async {
     List<User> users = new List<User>();
-    HttpManager httpManager =
-    new HttpManager(path: path, context: context);
+    HttpManager httpManager = new HttpManager(path: path, context: context);
     await httpManager.get();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,
@@ -98,13 +138,25 @@ class SearchBarController {
     return users;
   }
 
-  static Future<List<User>> getAllProfile({@required BuildContext context}) async {
+  static Future<List<User>> getAllUserProfile(
+      {@required BuildContext context}) async {
     List<User> users = new List<User>();
-    users = await getAllUser(context: context, listToReturn: fromJsonToUser, path: "userProfile");
-    users.addAll(await getAllUser(context: context, listToReturn: fromJsonToPsy, path: "psychologist"));
+    users = await getAllUser(
+        context: context, listToReturn: fromJsonToUser, path: "userProfile");
     removeCurrentUserFromList(users);
     return users;
   }
+
+    static Future<List<User>> getAllPsyProfile(
+      {@required BuildContext context}) async {
+    List<User> psychologists = new List<User>();
+    psychologists = await getAllUser(
+        context: context, listToReturn: fromJsonToPsy, path: "psychologist");
+    removeCurrentUserFromList(psychologists);
+    return psychologists;
+  }
+
+
 
   static removeCurrentUserFromList(List<User> users) {
     users.removeWhere((user) =>
@@ -128,13 +180,32 @@ class SearchBarController {
 
   static Widget redirectAfterPushing(SearchItem item) {
     Widget redirection;
-    if (searchCategory == 'user') {
+    if (searchCategory == SettingsManager.mapLanguage["User"]) {
       redirection =
           AccountPage(isPsy: item.user.isPsy, userId: item.user.profileId);
     }
-    if (searchCategory == 'exercise') {
-      redirection = ExerciseController.getRedirectionAccordingToExerciseType(exercise: item.exercise);
+    else if (searchCategory == SettingsManager.mapLanguage["Psy"]) {
+      redirection =
+          AccountPage(isPsy: item.user.isPsy, userId: item.user.profileId);
+    }
+    else if (searchCategory == SettingsManager.mapLanguage["Exercise"]) {
+      redirection = ExerciseController.getRedirectionAccordingToExerciseType(
+          exercise: item.exercise);
     }
     return redirection;
+  }
+
+  static Icon getCurrentIconSearchBarCategory(){
+    Icon icon;
+    if (searchCategory == SettingsManager.mapLanguage["User"]) {
+      icon = Icon(CommunityMaterialIcons.account);
+    }
+    else if (searchCategory == SettingsManager.mapLanguage["Psy"]) {
+      icon = Icon(CommunityMaterialIcons.spa);
+    }
+    else if (searchCategory == SettingsManager.mapLanguage["Exercise"]) {
+      icon = Icon(CommunityMaterialIcons.note);
+    }
+    return icon;
   }
 }

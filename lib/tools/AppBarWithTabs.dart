@@ -1,12 +1,11 @@
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/global/controller/SearchBarController.dart';
-import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'SearchApp.dart';
 
-class AppBarWithTabs extends StatefulWidget  with PreferredSizeWidget {
+class AppBarWithTabs extends StatefulWidget with PreferredSizeWidget {
   final List<Tab> tabText;
 
   AppBarWithTabs({this.tabText});
@@ -14,15 +13,12 @@ class AppBarWithTabs extends StatefulWidget  with PreferredSizeWidget {
   @override
   State<StatefulWidget> createState() => AppBarWithTabsState();
 
-
   @override
   Size get preferredSize =>
       Size.fromHeight(kToolbarHeight + kBottomNavigationBarHeight);
 }
 
 class AppBarWithTabsState extends State<AppBarWithTabs> {
-
-
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -31,17 +27,17 @@ class AppBarWithTabsState extends State<AppBarWithTabs> {
       title: Text(SettingsManager.mapLanguage["SearchContainer"]),
       leading: Navigator.canPop(context)
           ? IconButton(
-        icon: Icon(Icons.arrow_back, color: Colors.white),
-        onPressed: () {
-          Navigator.pop(
-            context,
-          );
-        },
-      )
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                Navigator.pop(
+                  context,
+                );
+              },
+            )
           : Visibility(
-        child: Container(),
-        visible: false,
-      ),
+              child: Container(),
+              visible: false,
+            ),
       bottom: TabBar(
         tabs: this.widget.tabText,
       ),
@@ -56,8 +52,10 @@ class AppBarWithTabsState extends State<AppBarWithTabs> {
           },
         ),
         PopupMenuButton<String>(
-          icon:  SearchBarController.searchCategory == "user" ? Icon(CommunityMaterialIcons.account) : Icon(CommunityMaterialIcons.note),
-          onSelected: (choice) => this.setState(() { SearchBarController.searchCategory = choice; }) ,
+          icon: SearchBarController.getCurrentIconSearchBarCategory(),
+          onSelected: (choice) => this.setState(() {
+            SearchBarController.searchCategory = choice;
+          }),
           itemBuilder: (BuildContext context) {
             return SearchBarController.searchChoicesCategory
                 .map((String choice) {

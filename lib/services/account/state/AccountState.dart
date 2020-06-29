@@ -31,7 +31,6 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
-    print(this.widget.userId);
     if (!this.widget.isPsy)
       profile = new UserProfile.defaultConstructor();
     else
@@ -49,7 +48,7 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
 
   findUserInformation() {
     return this._memorizer.runOnce(() async {
-      await profile.getUserProfile(userID: this.widget.userId);
+      await profile.getUserProfile(userID: this.widget.userId, context: context);
       setState(() {});
       return profile;
     });

@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 abstract class User {
   String birthdate;
   String description;
@@ -10,6 +12,6 @@ abstract class User {
 
   User(this.profileId, this.username, this.description, this.birthdate, this.isPsy, this.level, this.email, this.skin);
 
-  Future<void> getUserProfile({String userID});
+  Future<void> getUserProfile({String userID, @required BuildContext context});
 
 }

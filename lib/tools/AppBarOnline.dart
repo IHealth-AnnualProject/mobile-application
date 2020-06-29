@@ -1,6 +1,5 @@
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/global/controller/SearchBarController.dart';
-import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,8 +37,10 @@ class AppBarOnline extends State<AppSearchBar> {
           },
         ),
         PopupMenuButton<String>(
-          icon:  SearchBarController.searchCategory == "user" ? Icon(CommunityMaterialIcons.account) : Icon(CommunityMaterialIcons.note),
-          onSelected: (choice) => this.setState(() { SearchBarController.searchCategory = choice; }) ,
+          icon: SearchBarController.getCurrentIconSearchBarCategory(),
+          onSelected: (choice) => this.setState(() {
+            SearchBarController.searchCategory = choice;
+          }),
           itemBuilder: (BuildContext context) {
             return SearchBarController.searchChoicesCategory
                 .map((String choice) {

@@ -30,7 +30,7 @@ class Psychologist extends User {
       bool isPsy = true,
       int level = 0,
       String email = "",
-      String skin = ""})
+      String skin = "1AAAA_1AAAA_1AAAA"})
       : super(profileId, username, description, birthdate, isPsy, level, email,
             skin);
 
@@ -58,7 +58,8 @@ class Psychologist extends User {
         birthdate: json['birthdate'],
         description: json['description'],
         username: json['user']['username'],
-        profileId: json['id']);
+        profileId: json['id'],
+        skin : json['skin'].toString().isEmpty ? "1AAAA_1AAAA_1AAAA" : json['skin'] );
   }
 
   Future<void> getUserProfile({String userID, BuildContext context}) async {

@@ -12,7 +12,8 @@ class UserProfile extends User {
       int level,
       String email,
       String skin})
-      : super(userProfileId, username, description, birthdate, isPsy, level, email, skin);
+      : super(userProfileId, username, description, birthdate, isPsy, level,
+            email, skin);
 
   UserProfile.defaultConstructor(
       {String birthdate = "",
@@ -22,23 +23,24 @@ class UserProfile extends User {
       bool isPsy = false,
       int level = 0,
       String email = "",
-      String skin})
-      : super(userProfileId, username, description, birthdate, isPsy, level, email, skin);
+      String skin = "1AAAA_1AAAA_1AAAA"})
+      : super(userProfileId, username, description, birthdate, isPsy, level,
+            email, skin);
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile.normalConstructor(
-        birthdate: json['birthdate'],
-        description: json['description'],
-        username: json['user']['username'],
-        userProfileId: json['user']['id'],
-        level: _determineLevelWithXp(json['user']['xp']),
-        email: json['email'],
-        skin : json['skin'].toString().isEmpty ? "1AAAA_1AAAA_1AAAA" : json['skin'],
-        );
+      birthdate: json['birthdate'],
+      description: json['description'],
+      username: json['user']['username'],
+      userProfileId: json['user']['id'],
+      level: _determineLevelWithXp(json['user']['xp']),
+      email: json['email'],
+      skin:
+          json['skin'].toString().isEmpty ? "1AAAA_1AAAA_1AAAA" : json['skin'],
+    );
   }
 
-  static int _determineLevelWithXp(int xp)
-  {
+  static int _determineLevelWithXp(int xp) {
     return (xp / 100).floor() + 1;
   }
 
@@ -64,12 +66,12 @@ class UserProfile extends User {
       String skin,
       BuildContext context}) async {
     await AccountController.updateCurrentUserInformation(
-            birthdate: birthdate,
-            geolocation: "",
-            description: description,
-            profileId: profileId,
-            isPsy: isPsy,
-            skin : skin,
-            context: context);
+        birthdate: birthdate,
+        geolocation: "",
+        description: description,
+        profileId: profileId,
+        isPsy: isPsy,
+        skin: skin,
+        context: context);
   }
 }

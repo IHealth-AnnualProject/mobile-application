@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 class SearchItem {
   String title;
   String subtitle;
-  Icon trailing;
+  Widget trailing;
   Exercise exercise;
   User user;
   Song song;

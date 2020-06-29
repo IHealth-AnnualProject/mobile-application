@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:betsbi/services/account/controller/SkinController.dart';
 import 'package:betsbi/services/settings/model/applicationProperties.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:global_configuration/global_configuration.dart';
@@ -36,6 +37,7 @@ class SettingsManager {
     await applicationProperties
         .getNotificationPushedActivatedOfApplication(storage);
     await NotificationManager.initializeNotification();
+    await SkinController.getSkinParametersFromJsonInList();
   }
 
   static Future<void> updateValueOfConfigurationSecureStorage(

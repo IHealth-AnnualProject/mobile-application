@@ -248,7 +248,7 @@ class SkinSettingsState extends State<SkinSettingsPage>
             SizedBox(
               height: 45,
             ),
-            AvatarSkinWidget(
+            AvatarSkinWidget.accountConstructor(
               faceImage: SkinController.faces[defaultFaceIndex].image,
               accessoryImage:
                   SkinController.accessories[defaultAccessoryIndex].image,

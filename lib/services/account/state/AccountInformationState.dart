@@ -1,13 +1,12 @@
 import 'dart:ui';
 import 'package:async/async.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
-import 'package:betsbi/services/account/controller/SkinController.dart';
+import 'package:betsbi/services/account/controller/AccountController.dart';
 import 'package:betsbi/services/global/controller/CheckController.dart';
 import 'package:betsbi/services/account/model/psychologist.dart';
 import 'package:betsbi/services/account/model/userProfile.dart';
 import 'package:betsbi/services/chat/view/ChatView.dart';
 import 'package:betsbi/services/account/view/SkinSettingsView.dart';
-import 'package:betsbi/tools/AvatarSkinWidget.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,15 +19,12 @@ import '../view/AccountInformationView.dart';
 class AccountInformationState extends State<AccountInformationPage> {
   var userProfile;
   final _formKey = GlobalKey<FormState>();
+  Widget currentUserWidget;
   TextEditingController firstNameController;
   TextEditingController lastNameController;
   TextEditingController ageController;
   TextEditingController descriptionController;
   AsyncMemoizer _memorizer = AsyncMemoizer();
-  int defaultFaceIndex = 0;
-  int defaultSkinColorIndex = 0;
-  int defaultAccessoryIndex = 0;
-  //todo théo api vite
 
   @override
   void initState() {
@@ -96,18 +92,7 @@ class AccountInformationState extends State<AccountInformationPage> {
   _getSkinParametersFromJsonAndCurrentIndexForSkin() async {
     return this._memorizer.runOnce(() async {
       await userInformation();
-      await SkinController.getSkinParametersFromJsonInList();
-      defaultFaceIndex = SkinController.faces.lastIndexWhere((face) =>
-          face.level.toString() + face.code == userProfile.skin.split("_")[0]);
-      defaultSkinColorIndex = SkinController.skinColors.lastIndexWhere(
-          (color) =>
-              color.level.toString() + color.code ==
-              userProfile.skin.split("_")[1]);
-      defaultAccessoryIndex = SkinController.accessories.lastIndexWhere(
-          (accessory) =>
-              accessory.level.toString() + accessory.code ==
-              userProfile.skin.split("_")[2]);
-      return SkinController.faces;
+      return currentUserWidget = AccountController.getUserAvatarAccordingToHisIdForAccount(user: userProfile, context : context);
     });
   }
 
@@ -173,28 +158,14 @@ class AccountInformationState extends State<AccountInformationPage> {
                                 MaterialPageRoute(
                                   builder: (context) => SkinSettingsPage(
                                     level: this.widget.profile.level,
-                                    skinCode: userProfile.skin,
+                                    skinCode: this.widget.profile.skin,
                                   ),
                                 ),
                               ).whenComplete(() => this.setState(() {
                                     _memorizer = AsyncMemoizer();
                                   })),
-                          child: AvatarSkinWidget(
-                            skinColor: SkinController
-                                .skinColors[defaultSkinColorIndex].colorTable,
-                            accessoryImage: SkinController
-                                .accessories[defaultAccessoryIndex].image,
-                            faceImage:
-                                SkinController.faces[defaultFaceIndex].image,
-                          ))
-                      : AvatarSkinWidget(
-                          skinColor: SkinController
-                              .skinColors[defaultSkinColorIndex].colorTable,
-                          accessoryImage: SkinController
-                              .accessories[defaultAccessoryIndex].image,
-                          faceImage:
-                              SkinController.faces[defaultFaceIndex].image,
-                        ),
+                          child: currentUserWidget)
+                      : currentUserWidget,
                   SizedBox(
                     height: 45,
                   ),
@@ -287,47 +258,53 @@ class AccountInformationState extends State<AccountInformationPage> {
                     height: 45,
                   ),
                   SettingsManager.applicationProperties.getCurrentId() ==
-                      this.widget.profile.profileId && SettingsManager.applicationProperties.isPsy() == 'true'
-                      ?
-                  SearchMapPlaceWidget(
-                    apiKey: SettingsManager.cfg.getString("apiKey"),
-                    placeholder: "DefaultValue",
-                    language: SettingsManager.applicationProperties
-                        .getCurrentLanguage()
-                        .toLowerCase(),
-                    onSelected: (place) async =>
-                        print((await place.geolocation).coordinates),
-                  ) : Visibility(
-                    visible: this.widget.isPsy,
-                    child:
-                        //todo theo
-                  Container(
-                    width: 350,
-                    child: TextFormField(
-                      controller: ageController,
-                      obscureText: false,
-                      maxLines: 1,
-                      readOnly: this.widget.isReadOnly,
-                      textAlign: TextAlign.left,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return SettingsManager.mapLanguage["EnterText"] !=
-                              null
-                              ? SettingsManager.mapLanguage["EnterText"]
-                              : "";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                          labelText: SettingsManager.mapLanguage["Birthdate"],
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: SettingsManager.mapLanguage["Birthdate"],
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16.0))),
-                    ),
-                  )
-                    ,),
+                              this.widget.profile.profileId &&
+                          SettingsManager.applicationProperties.isPsy() ==
+                              'true'
+                      ? SearchMapPlaceWidget(
+                          apiKey: SettingsManager.cfg.getString("apiKey"),
+                          placeholder: "DefaultValue",
+                          language: SettingsManager.applicationProperties
+                              .getCurrentLanguage()
+                              .toLowerCase(),
+                          onSelected: (place) async =>
+                              print((await place.geolocation).coordinates),
+                        )
+                      : Visibility(
+                          visible: this.widget.isPsy,
+                          child:
+                              //todo theo
+                              Container(
+                            width: 350,
+                            child: TextFormField(
+                              controller: ageController,
+                              obscureText: false,
+                              maxLines: 1,
+                              readOnly: this.widget.isReadOnly,
+                              textAlign: TextAlign.left,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return SettingsManager
+                                              .mapLanguage["EnterText"] !=
+                                          null
+                                      ? SettingsManager.mapLanguage["EnterText"]
+                                      : "";
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  labelText:
+                                      SettingsManager.mapLanguage["Birthdate"],
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  hintText:
+                                      SettingsManager.mapLanguage["Birthdate"],
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(16.0))),
+                            ),
+                          ),
+                        ),
                   SizedBox(
                     height: 45,
                   ),
