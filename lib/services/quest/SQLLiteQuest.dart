@@ -18,19 +18,21 @@ class SQLLiteQuest implements ISQLLITEManager {
     if (maps.length == 0) return new List<Quest>();
     return List.generate(maps.length, (i) {
       return Quest(
-          questId: maps[i]['id'],
-          questTitle: maps[i]['questTitle'],
-          questDifficulty: maps[i]['questDifficulty'],
-          questDescription: maps[i]['questDescription'],
-          questDone: maps[i]['questDone']);
+        questId: maps[i]['id'],
+        questTitle: maps[i]['questTitle'],
+        questDifficulty: maps[i]['questDifficulty'],
+        questDescription: maps[i]['questDescription'],
+        questDone: maps[i]['questDone'],
+        userId: maps[i]['userId'],
+      );
     });
   }
 
   @override
   Future<int> update(dynamic quest) async {
     await SQLLiteManager.openDatabaseAndCreateTable();
-    return await SQLLiteManager.db
-        .update('quest', quest.toMap(), where: 'id = ?', whereArgs: [quest.questId]);
+    return await SQLLiteManager.db.update('quest', quest.toMap(),
+        where: 'id = ?', whereArgs: [quest.questId]);
   }
 
   @override

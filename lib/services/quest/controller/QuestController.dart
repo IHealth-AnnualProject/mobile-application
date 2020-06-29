@@ -41,6 +41,7 @@ class QuestController {
         questDescription: questDescription,
         questDifficulty: questDifficulty,
         questTitle: questTitle,
+        userId: SettingsManager.applicationProperties.getCurrentId(),
     questDone: 0));
     if (insertReturn != null)
       FlushBarMessage.goodMessage(

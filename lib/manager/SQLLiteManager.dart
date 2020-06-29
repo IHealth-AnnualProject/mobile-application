@@ -24,6 +24,7 @@ class SQLLiteManager {
         );
         await _db.execute(
             'CREATE TABLE quest(id INTEGER PRIMARY KEY AUTOINCREMENT, '
+                ' userId TEXT,'
                 ' questTitle TEXT,'
                 ' questDescription TEXT,'
                 ' questDifficulty TEXT,'

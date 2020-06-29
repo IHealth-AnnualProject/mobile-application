@@ -5,6 +5,7 @@ class Quest {
   String questTitle;
   String questDifficulty;
   String questDescription;
+  String userId;
   int questDone;
 
   Quest(
@@ -12,14 +13,16 @@ class Quest {
       @required this.questTitle,
       @required this.questDifficulty,
       @required this.questDescription,
-      @required this.questDone});
+      @required this.questDone,
+      @required this.userId});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       'questTitle': questTitle,
       'questDifficulty': questDifficulty,
       'questDescription': questDescription,
-      'questDone': questDone
+      'questDone': questDone,
+      'userId' : userId
     };
     if (questId != null) map['id'] = questId;
     return map;

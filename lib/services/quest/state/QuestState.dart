@@ -48,6 +48,7 @@ class QuestState extends State<QuestPage> with WidgetsBindingObserver {
       () async {
         listQuestWidget = new List<Widget>();
         List<Quest> quests = await QuestController.getAllQuest();
+        quests.removeWhere((quest) => quest.userId != SettingsManager.applicationProperties.getCurrentId());
         quests.forEach(
           (quest) => listQuestWidget.add(
             QuestWidget(
