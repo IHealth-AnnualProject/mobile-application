@@ -92,7 +92,9 @@ class AccountInformationState extends State<AccountInformationPage> {
   _getSkinParametersFromJsonAndCurrentIndexForSkin() async {
     return this._memorizer.runOnce(() async {
       await userInformation();
-      return currentUserWidget = AccountController.getUserAvatarAccordingToHisIdForAccount(user: userProfile, context : context);
+      return currentUserWidget =
+          AccountController.getUserAvatarAccordingToHisIdForAccount(
+              user: userProfile, context: context);
     });
   }
 
@@ -207,10 +209,29 @@ class AccountInformationState extends State<AccountInformationPage> {
                         ),
                         accountFormField(
                             labelAndHintText:
-                                SettingsManager.mapLanguage["FirstNameText"],
+                                SettingsManager.mapLanguage["LastNameText"],
                             inputType: TextInputType.text,
-                            controller: firstNameController,
+                            controller: lastNameController,
                             maxLength: 100),
+                        SizedBox(
+                          height: 45,
+                        ),
+                        IgnorePointer(
+                          ignoring: this.widget.isReadOnly,
+                          child :
+                        Container(
+                          width: 350,
+                          child: SearchMapPlaceWidget(
+                            icon: Icons.location_on,
+                            apiKey: SettingsManager.cfg.getString("apiKey"),
+                            placeholder: "DefaultValue",
+                            language: SettingsManager.applicationProperties
+                                .getCurrentLanguage()
+                                .toLowerCase(),
+                            onSelected: (place) async =>
+                                print((await place.geolocation).coordinates),
+                          ),
+                        ),),
                         SizedBox(
                           height: 45,
                         ),
@@ -254,57 +275,6 @@ class AccountInformationState extends State<AccountInformationPage> {
                       inputType: TextInputType.text,
                       controller: descriptionController,
                       maxLength: 300),
-                  SizedBox(
-                    height: 45,
-                  ),
-                  SettingsManager.applicationProperties.getCurrentId() ==
-                              this.widget.profile.profileId &&
-                          SettingsManager.applicationProperties.isPsy() ==
-                              'true'
-                      ? SearchMapPlaceWidget(
-                          apiKey: SettingsManager.cfg.getString("apiKey"),
-                          placeholder: "DefaultValue",
-                          language: SettingsManager.applicationProperties
-                              .getCurrentLanguage()
-                              .toLowerCase(),
-                          onSelected: (place) async =>
-                              print((await place.geolocation).coordinates),
-                        )
-                      : Visibility(
-                          visible: this.widget.isPsy,
-                          child:
-                              //todo theo
-                              Container(
-                            width: 350,
-                            child: TextFormField(
-                              controller: ageController,
-                              obscureText: false,
-                              maxLines: 1,
-                              readOnly: this.widget.isReadOnly,
-                              textAlign: TextAlign.left,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return SettingsManager
-                                              .mapLanguage["EnterText"] !=
-                                          null
-                                      ? SettingsManager.mapLanguage["EnterText"]
-                                      : "";
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                  labelText:
-                                      SettingsManager.mapLanguage["Birthdate"],
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  hintText:
-                                      SettingsManager.mapLanguage["Birthdate"],
-                                  border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(16.0))),
-                            ),
-                          ),
-                        ),
                   SizedBox(
                     height: 45,
                   ),
