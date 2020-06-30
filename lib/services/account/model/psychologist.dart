@@ -38,6 +38,7 @@ class Psychologist extends User {
             skin, geolocation);
 
   factory Psychologist.fromJson(Map<String, dynamic> json) {
+
     return Psychologist.normalConstructor(
       firstName: json['first_name'],
       lastName: json['last_name'],
@@ -48,7 +49,7 @@ class Psychologist extends User {
       level: _determineLevelWithXp(json['user']['xp']),
       email: json['email'],
       skin:
-          json['skin'].toString().isEmpty ? "1AAAA_1AAAA_1AAAA" : json['skin'],
+          json['user']['skin'].toString().isEmpty ? "1AAAA_1AAAA_1AAAA" : json['user']['skin'],
       geolocation: json['geolocation']==  null ? "" : json['geolocation']
     );
   }
@@ -63,9 +64,9 @@ class Psychologist extends User {
         description: json['description'],
         username: json['user']['username'],
         profileId: json['id'],
-        skin: json['skin'].toString().isEmpty
+        skin: json['user']['skin'].toString().isEmpty
             ? "1AAAA_1AAAA_1AAAA"
-            : json['skin'],
+            : json['user']['skin'],
         geolocation: json['geolocation'] ==  null ? "" : json['geolocation']);
   }
 

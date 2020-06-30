@@ -92,7 +92,6 @@ class AccountInformationState extends State<AccountInformationPage> {
 
   _getSkinParametersFromJsonAndCurrentIndexForSkin() async {
     return this._memorizer.runOnce(() async {
-      print("prout");
       await userInformation();
       return currentUserWidget =
           AccountController.getUserAvatarAccordingToHisIdForAccount(
