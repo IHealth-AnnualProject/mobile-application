@@ -118,7 +118,7 @@ class MemosState extends State<MemosPage> with WidgetsBindingObserver {
         onPressed: () => showAlertDialog(context),
       ), // his trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: BottomNavigationBarFooter(
-        selectedBottomIndexOffLine: null,
+        selectedBottomIndexOffLine: 1,
         selectedBottomIndexOnline: null,
         isOffLine: this.widget.isOffline,
       ),
