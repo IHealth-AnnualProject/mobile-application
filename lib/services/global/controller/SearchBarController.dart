@@ -91,25 +91,23 @@ class SearchBarController {
     bool isGeolocationOk = await GeolocationManager.areAllPermissionGranted();
     if (!isGeolocationOk) {
       await getAllPsyProfile(context: context).then(
-            (users) =>
-            users.forEach(
-                  (user) {
-                Widget avatar =
+        (users) => users.forEach(
+          (user) {
+            Widget avatar =
                 AccountController.getUserAvatarAccordingToHisIdForSearch(
                     user: user, context: context);
-                items.add(
-                  SearchItem.userItem(
-                    trailing: avatar,
-                    title: user.username,
-                    user: user,
-                    subtitle: SettingsManager.mapLanguage["Psy"],
-                  ),
-                );
-              },
-            ),
+            items.add(
+              SearchItem.userItem(
+                trailing: avatar,
+                title: user.username,
+                user: user,
+                subtitle: SettingsManager.mapLanguage["Psy"],
+              ),
+            );
+          },
+        ),
       );
-    }
-    else {
+    } else {
       List<User> users = await getAllPsyProfile(context: context);
       List<User> sortedList = await sortUserListOnGeolocation(users);
       sortedList.forEach(
@@ -130,20 +128,19 @@ class SearchBarController {
     }
   }
 
-  static Future<List<User>> sortUserListOnGeolocation(List<User> users) async
-  {
-    users.forEach((element) {if(element.geolocation == null) element.geolocation ="";});
+  static Future<List<User>> sortUserListOnGeolocation(List<User> users) async {
+    users.forEach((element) {
+      if (element.geolocation == null) element.geolocation = "";
+    });
 
     List<User> userWithGeolocation = List<User>();
+
     userWithGeolocation.addAll(users);
-    userWithGeolocation.removeWhere((user) =>
-        user.geolocation.isEmpty
-      );
-    users.removeWhere((current) =>
-       current.geolocation.isNotEmpty
-    );
+    userWithGeolocation.removeWhere((user) => user.geolocation.isEmpty);
+    users.removeWhere((current) => current.geolocation.isNotEmpty);
     Location location = Location();
-    LocationData currentLocation = await location.getLocation();
+    LocationData currentLocation;
+    currentLocation = await location.getLocation();
     if (userWithGeolocation.length > 1)
       userWithGeolocation.sort((a, b) {
         LatLng psyALatLng = new LatLng(
@@ -153,11 +150,11 @@ class SearchBarController {
             double.parse(b.geolocation.split("||")[1].split(",")[0]),
             double.parse(b.geolocation.split("||")[1].split(",")[1]));
         int distanceUserFromA =
-        GeolocationManager.getDistanceInMeterBetweenHereAndAnotherPlace(
-            currentLocation, psyALatLng);
+            GeolocationManager.getDistanceInMeterBetweenHereAndAnotherPlace(
+                currentLocation, psyALatLng);
         int distanceUserFromB =
-        GeolocationManager.getDistanceInMeterBetweenHereAndAnotherPlace(
-            currentLocation, psyBLatLng);
+            GeolocationManager.getDistanceInMeterBetweenHereAndAnotherPlace(
+                currentLocation, psyBLatLng);
         return distanceUserFromA.compareTo(distanceUserFromB);
       });
     List<User> sortedListWithNearestUserInFirst = new List<User>();

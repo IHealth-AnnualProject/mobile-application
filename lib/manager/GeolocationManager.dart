@@ -5,6 +5,7 @@ class GeolocationManager{
 
   static Future<bool> areAllPermissionGranted()
   async {
+    bool result;
     Location location = new Location();
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
@@ -13,10 +14,20 @@ class GeolocationManager{
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied)
       _permissionGranted = await location.requestPermission();
+    _serviceEnabled ? result = true : result = false;
+    switch(_permissionGranted){
 
-    if(_serviceEnabled == false && _permissionGranted == PermissionStatus.denied)
-      return false;
-    else return true;
+      case PermissionStatus.granted:
+        result = true;
+        break;
+      case PermissionStatus.denied:
+       result = false;
+        break;
+      case PermissionStatus.deniedForever:
+        result = false;
+        break;
+    }
+     return result;
   }
 
   static int getDistanceInMeterBetweenHereAndAnotherPlace(LocationData currentLocation ,LatLng anotherPlace)
