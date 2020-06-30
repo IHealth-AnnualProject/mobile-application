@@ -24,6 +24,7 @@ class AccountInformationState extends State<AccountInformationPage> {
   TextEditingController lastNameController;
   TextEditingController ageController;
   TextEditingController descriptionController;
+  String locationController;
   AsyncMemoizer _memorizer = AsyncMemoizer();
 
   @override
@@ -91,6 +92,7 @@ class AccountInformationState extends State<AccountInformationPage> {
 
   _getSkinParametersFromJsonAndCurrentIndexForSkin() async {
     return this._memorizer.runOnce(() async {
+      print("prout");
       await userInformation();
       return currentUserWidget =
           AccountController.getUserAvatarAccordingToHisIdForAccount(
@@ -107,6 +109,7 @@ class AccountInformationState extends State<AccountInformationPage> {
           description: descriptionController.text,
           profileId: this.widget.profile.profileId,
           isPsy: this.widget.isPsy,
+          geolocation : locationController,
           context: context);
     else
       await userProfile.updateProfile(
@@ -224,12 +227,12 @@ class AccountInformationState extends State<AccountInformationPage> {
                           child: SearchMapPlaceWidget(
                             icon: Icons.location_on,
                             apiKey: SettingsManager.cfg.getString("apiKey"),
-                            placeholder: "DefaultValue",
+                            placeholder: userProfile.geolocation.toString().isEmpty ? SettingsManager.mapLanguage["AddressSelector"] : userProfile.geolocation.toString().split("||")[0],
                             language: SettingsManager.applicationProperties
                                 .getCurrentLanguage()
                                 .toLowerCase(),
                             onSelected: (place) async =>
-                                print((await place.geolocation).coordinates),
+                            locationController = place.description +"||"+ (await place.geolocation).coordinates.latitude.toString()+","+(await place.geolocation).coordinates.longitude.toString(),
                           ),
                         ),),
                         SizedBox(

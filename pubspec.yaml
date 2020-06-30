@@ -42,7 +42,8 @@ dependencies:
   flip_card: ^0.4.4
   search_map_place: ^0.3.0
   admob_flutter: "^0.3.4"
-
+  latlong: ^0.6.1
+  location: ^3.0.2
   flutter:
     sdk: flutter
   yaml: ^2.2.0

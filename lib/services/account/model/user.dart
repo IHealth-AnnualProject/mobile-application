@@ -9,8 +9,9 @@ abstract class User {
   String email;
   String skin;
   int level;
+  String geolocation;
 
-  User(this.profileId, this.username, this.description, this.birthdate, this.isPsy, this.level, this.email, this.skin);
+  User(this.profileId, this.username, this.description, this.birthdate, this.isPsy, this.level, this.email, this.skin, this.geolocation);
 
   Future<void> getUserProfile({String userID, @required BuildContext context});
 

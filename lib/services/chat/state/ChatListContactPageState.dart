@@ -118,6 +118,7 @@ class ChatListContactState extends State<ChatListContactPage>
                         newMessage: 0,
                         userId: SettingsManager.cfg.getString("ChatBotId"),
                         username: SettingsManager.cfg.getString("ChatBotId"),
+                        skin: "1AAAA_1AAAA_1AAAA"
                       ),
                     ),
                   ),

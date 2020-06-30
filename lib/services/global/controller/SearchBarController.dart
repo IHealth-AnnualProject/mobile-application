@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:betsbi/manager/GeolocationManager.dart';
 import 'package:betsbi/manager/HttpManager.dart';
 import 'package:betsbi/manager/ResponseManager.dart';
 import 'package:betsbi/services/account/controller/AccountController.dart';
@@ -14,6 +15,8 @@ import 'package:betsbi/services/account/view/AccountView.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:latlong/latlong.dart';
+import 'package:location/location.dart';
 
 import '../../exercise/controller/ExerciseController.dart';
 
@@ -41,7 +44,7 @@ class SearchBarController {
       await getAllUserThenAddItToListOfSearchItem(context, items);
     else if (searchCategory == SettingsManager.mapLanguage["Exercise"])
       await getAllExerciseThenAddItToListOfSearchItem(context, items);
-    else if(searchCategory == SettingsManager.mapLanguage["Psy"])
+    else if (searchCategory == SettingsManager.mapLanguage["Psy"])
       await getAllPsyThenAddItToListOfSearchItem(context, items);
     return items;
   }
@@ -66,40 +69,102 @@ class SearchBarController {
       BuildContext context, List<SearchItem> items) async {
     await getAllUserProfile(context: context).then(
       (users) => users.forEach(
-        (user)  {
-          Widget avatar = AccountController.getUserAvatarAccordingToHisIdForSearch(user: user, context : context);
+        (user) {
+          Widget avatar =
+              AccountController.getUserAvatarAccordingToHisIdForSearch(
+                  user: user, context: context);
           items.add(
-          SearchItem.userItem(
-            trailing: avatar,
-            title: user.username,
-            user: user,
-            subtitle: SettingsManager.mapLanguage["User"],
-          ),
-        );},
+            SearchItem.userItem(
+              trailing: avatar,
+              title: user.username,
+              user: user,
+              subtitle: SettingsManager.mapLanguage["User"],
+            ),
+          );
+        },
       ),
     );
   }
-
-
 
   static Future getAllPsyThenAddItToListOfSearchItem(
       BuildContext context, List<SearchItem> items) async {
-    await getAllPsyProfile(context: context).then(
-      (users) => users.forEach(
-        (user)  {
-           Widget avatar = AccountController.getUserAvatarAccordingToHisIdForSearch(user: user, context : context);
-           items.add(
-          SearchItem.userItem(
-            trailing: avatar,
-            title: user.username,
-            user: user,
-            subtitle: SettingsManager.mapLanguage["Psy"],
-          ),
-        );},
-      ),
-    );
+    bool isGeolocationOk = await GeolocationManager.areAllPermissionGranted();
+    if (!isGeolocationOk) {
+      await getAllPsyProfile(context: context).then(
+            (users) =>
+            users.forEach(
+                  (user) {
+                Widget avatar =
+                AccountController.getUserAvatarAccordingToHisIdForSearch(
+                    user: user, context: context);
+                items.add(
+                  SearchItem.userItem(
+                    trailing: avatar,
+                    title: user.username,
+                    user: user,
+                    subtitle: SettingsManager.mapLanguage["Psy"],
+                  ),
+                );
+              },
+            ),
+      );
+    }
+    else {
+      List<User> users = await getAllPsyProfile(context: context);
+      List<User> sortedList = await sortUserListOnGeolocation(users);
+      sortedList.forEach(
+        (user) {
+          Widget avatar =
+              AccountController.getUserAvatarAccordingToHisIdForSearch(
+                  user: user, context: context);
+          items.add(
+            SearchItem.userItem(
+              trailing: avatar,
+              title: user.username,
+              user: user,
+              subtitle: SettingsManager.mapLanguage["Psy"],
+            ),
+          );
+        },
+      );
+    }
   }
 
+  static Future<List<User>> sortUserListOnGeolocation(List<User> users) async
+  {
+    users.forEach((element) {if(element.geolocation == null) element.geolocation ="";});
+
+    List<User> userWithGeolocation = List<User>();
+    userWithGeolocation.addAll(users);
+    userWithGeolocation.removeWhere((user) =>
+        user.geolocation.isEmpty
+      );
+    users.removeWhere((current) =>
+       current.geolocation.isNotEmpty
+    );
+    Location location = Location();
+    LocationData currentLocation = await location.getLocation();
+    if (userWithGeolocation.length > 1)
+      userWithGeolocation.sort((a, b) {
+        LatLng psyALatLng = new LatLng(
+            double.parse(a.geolocation.split("||")[1].split(",")[0]),
+            double.parse(a.geolocation.split("||")[1].split(",")[1]));
+        LatLng psyBLatLng = new LatLng(
+            double.parse(b.geolocation.split("||")[1].split(",")[0]),
+            double.parse(b.geolocation.split("||")[1].split(",")[1]));
+        int distanceUserFromA =
+        GeolocationManager.getDistanceInMeterBetweenHereAndAnotherPlace(
+            currentLocation, psyALatLng);
+        int distanceUserFromB =
+        GeolocationManager.getDistanceInMeterBetweenHereAndAnotherPlace(
+            currentLocation, psyBLatLng);
+        return distanceUserFromA.compareTo(distanceUserFromB);
+      });
+    List<User> sortedListWithNearestUserInFirst = new List<User>();
+    sortedListWithNearestUserInFirst.addAll(userWithGeolocation);
+    sortedListWithNearestUserInFirst.addAll(users);
+    return sortedListWithNearestUserInFirst;
+  }
 
   static Future<List<SearchItem>> getAllMusic(
       {@required BuildContext context}) async {
@@ -147,7 +212,7 @@ class SearchBarController {
     return users;
   }
 
-    static Future<List<User>> getAllPsyProfile(
+  static Future<List<User>> getAllPsyProfile(
       {@required BuildContext context}) async {
     List<User> psychologists = new List<User>();
     psychologists = await getAllUser(
@@ -155,8 +220,6 @@ class SearchBarController {
     removeCurrentUserFromList(psychologists);
     return psychologists;
   }
-
-
 
   static removeCurrentUserFromList(List<User> users) {
     users.removeWhere((user) =>
@@ -183,27 +246,23 @@ class SearchBarController {
     if (searchCategory == SettingsManager.mapLanguage["User"]) {
       redirection =
           AccountPage(isPsy: item.user.isPsy, userId: item.user.profileId);
-    }
-    else if (searchCategory == SettingsManager.mapLanguage["Psy"]) {
+    } else if (searchCategory == SettingsManager.mapLanguage["Psy"]) {
       redirection =
           AccountPage(isPsy: item.user.isPsy, userId: item.user.profileId);
-    }
-    else if (searchCategory == SettingsManager.mapLanguage["Exercise"]) {
+    } else if (searchCategory == SettingsManager.mapLanguage["Exercise"]) {
       redirection = ExerciseController.getRedirectionAccordingToExerciseType(
           exercise: item.exercise);
     }
     return redirection;
   }
 
-  static Icon getCurrentIconSearchBarCategory(){
+  static Icon getCurrentIconSearchBarCategory() {
     Icon icon;
     if (searchCategory == SettingsManager.mapLanguage["User"]) {
       icon = Icon(CommunityMaterialIcons.account);
-    }
-    else if (searchCategory == SettingsManager.mapLanguage["Psy"]) {
+    } else if (searchCategory == SettingsManager.mapLanguage["Psy"]) {
       icon = Icon(CommunityMaterialIcons.spa);
-    }
-    else if (searchCategory == SettingsManager.mapLanguage["Exercise"]) {
+    } else if (searchCategory == SettingsManager.mapLanguage["Exercise"]) {
       icon = Icon(CommunityMaterialIcons.note);
     }
     return icon;

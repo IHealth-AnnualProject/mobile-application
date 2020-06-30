@@ -136,7 +136,8 @@ class AccountController {
           "first_name": firstname,
           "last_name": lastname,
           "birthdate": birthdate,
-          "description": description
+          "description": description,
+          "geolocation" : geolocation
         });
     await httpManager.patch();
     ResponseManager responseManager = new ResponseManager(

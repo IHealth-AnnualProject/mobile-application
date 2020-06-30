@@ -37,10 +37,7 @@ class SkinController {
   static Future<void> updateSkinForCurrentUser(
       {@required String skinCode, @required BuildContext context}) async {
     HttpManager httpManager = new HttpManager(
-        path: SettingsManager.applicationProperties.isPsy().toLowerCase() ==
-                'true'
-            ? 'psychologist'
-            : 'userProfile',
+        path: 'user',
         context: context,
         map: <String, dynamic>{"skin": skinCode});
     await httpManager.patch();

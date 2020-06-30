@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 class Psychologist extends User {
   String firstName;
   String lastName;
+  String geolocation;
 
   Psychologist.normalConstructor(
       {this.firstName,
@@ -16,23 +17,25 @@ class Psychologist extends User {
       bool isPsy = true,
       int level,
       String email,
-      String skin})
+      String skin = "1AAAA_1AAAA_1AAAA",
+      String geolocation =""})
       : super(profileId, username, description, birthdate, isPsy, level, email,
-            skin);
+            skin, geolocation);
 
-  Psychologist.defaultConstructor(
-      {this.firstName = "",
-      this.lastName = "",
-      String profileId = "",
-      String username = "",
-      String description = "",
-      String birthdate = "",
-      bool isPsy = true,
-      int level = 0,
-      String email = "",
-      String skin = "1AAAA_1AAAA_1AAAA"})
-      : super(profileId, username, description, birthdate, isPsy, level, email,
-            skin);
+  Psychologist.defaultConstructor({
+    this.firstName = "",
+    this.lastName = "",
+    String profileId = "",
+    String username = "",
+    String description = "",
+    String birthdate = "",
+    bool isPsy = true,
+    int level = 0,
+    String email = "",
+    String skin = "1AAAA_1AAAA_1AAAA",
+    String geolocation = "",
+  }) : super(profileId, username, description, birthdate, isPsy, level, email,
+            skin, geolocation);
 
   factory Psychologist.fromJson(Map<String, dynamic> json) {
     return Psychologist.normalConstructor(
@@ -46,6 +49,7 @@ class Psychologist extends User {
       email: json['email'],
       skin:
           json['skin'].toString().isEmpty ? "1AAAA_1AAAA_1AAAA" : json['skin'],
+      geolocation: json['geolocation']==  null ? "" : json['geolocation']
     );
   }
 
@@ -59,7 +63,10 @@ class Psychologist extends User {
         description: json['description'],
         username: json['user']['username'],
         profileId: json['id'],
-        skin : json['skin'].toString().isEmpty ? "1AAAA_1AAAA_1AAAA" : json['skin'] );
+        skin: json['skin'].toString().isEmpty
+            ? "1AAAA_1AAAA_1AAAA"
+            : json['skin'],
+        geolocation: json['geolocation'] ==  null ? "" : json['geolocation']);
   }
 
   Future<void> getUserProfile({String userID, BuildContext context}) async {
@@ -74,6 +81,7 @@ class Psychologist extends User {
       this.level = userProfileResult.level;
       this.email = userProfileResult.email;
       this.skin = userProfileResult.skin;
+      this.geolocation = userProfileResult.geolocation;
     });
   }
 
@@ -85,17 +93,17 @@ class Psychologist extends User {
       String description,
       String profileId,
       bool isPsy,
-        String skin,
+      String skin,
       BuildContext context}) async {
     await AccountController.updateCurrentPsyInformation(
         firstname: firstname,
         lastname: lastname,
         birthdate: birthdate,
-        geolocation: "",
+        geolocation:geolocation,
         description: description,
         profileId: profileId,
         isPsy: isPsy,
-        skin : skin,
+        skin: skin,
         context: context);
   }
 }

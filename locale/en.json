@@ -153,5 +153,7 @@
   "DataUsePolicyToolTipInfo" : "Swipe from right to left to see more information",
   "UpdatedSkin" : "Your skin have correctly been updated",
   "Psy" : "Psy",
-  "Me": "Me"
+  "Me": "Me",
+  "AddressSelector" : "Choose a place where you work"
+
 }

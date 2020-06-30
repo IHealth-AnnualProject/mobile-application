@@ -11,9 +11,9 @@ class UserProfile extends User {
       bool isPsy = false,
       int level,
       String email,
-      String skin})
+      String skin,String geolocation})
       : super(userProfileId, username, description, birthdate, isPsy, level,
-            email, skin);
+            email, skin, geolocation);
 
   UserProfile.defaultConstructor(
       {String birthdate = "",
@@ -23,9 +23,9 @@ class UserProfile extends User {
       bool isPsy = false,
       int level = 0,
       String email = "",
-      String skin = "1AAAA_1AAAA_1AAAA"})
+      String skin = "1AAAA_1AAAA_1AAAA", String geolocation =""})
       : super(userProfileId, username, description, birthdate, isPsy, level,
-            email, skin);
+            email, skin,geolocation);
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile.normalConstructor(
@@ -36,7 +36,7 @@ class UserProfile extends User {
       level: _determineLevelWithXp(json['user']['xp']),
       email: json['email'],
       skin:
-          json['skin'].toString().isEmpty ? "1AAAA_1AAAA_1AAAA" : json['skin'],
+          json['user']['skin'].toString().isEmpty ? "1AAAA_1AAAA_1AAAA" : json['user']['skin'],
     );
   }
 
