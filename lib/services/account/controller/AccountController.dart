@@ -143,13 +143,9 @@ class AccountController {
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,
       context: context,
-      destination: AccountPage(
-        userId: profileId,
-        isPsy: isPsy,
-      ),
       successMessage: SettingsManager.mapLanguage["UpdateUserInformation"],
     );
-    responseManager.checkResponseAndShowIt();
+    responseManager.checkResponseAndPrintIt();
   }
 
   static TabContent getTabBarAndViewAccordingToUserTypeAndId(

@@ -18,7 +18,7 @@ class Psychologist extends User {
       int level,
       String email,
       String skin = "1AAAA_1AAAA_1AAAA",
-      String geolocation =""})
+      this.geolocation =""})
       : super(profileId, username, description, birthdate, isPsy, level, email,
             skin, geolocation);
 
@@ -33,12 +33,11 @@ class Psychologist extends User {
     int level = 0,
     String email = "",
     String skin = "1AAAA_1AAAA_1AAAA",
-    String geolocation = "",
+    this.geolocation = "",
   }) : super(profileId, username, description, birthdate, isPsy, level, email,
             skin, geolocation);
 
   factory Psychologist.fromJson(Map<String, dynamic> json) {
-
     return Psychologist.normalConstructor(
       firstName: json['first_name'],
       lastName: json['last_name'],
@@ -50,7 +49,7 @@ class Psychologist extends User {
       email: json['email'],
       skin:
           json['user']['skin'].toString().isEmpty ? "1AAAA_1AAAA_1AAAA" : json['user']['skin'],
-      geolocation: json['geolocation']==  null ? "" : json['geolocation']
+      geolocation: json['geolocation'] == null ? "" : json['geolocation']
     );
   }
 

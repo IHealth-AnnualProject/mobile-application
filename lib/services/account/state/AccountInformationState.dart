@@ -48,6 +48,7 @@ class AccountInformationState extends State<AccountInformationPage> {
           ..text = userProfile.birthdate;
         descriptionController = new TextEditingController()
           ..text = userProfile.description;
+        locationController = userProfile.geolocation;
       });
     } else {
       await userProfile.getUserProfile(userID: this.widget.profile.profileId);
@@ -79,12 +80,14 @@ class AccountInformationState extends State<AccountInformationPage> {
         validator: (value) => CheckController.checkField(value),
         keyboardType: inputType,
         decoration: InputDecoration(
-            labelText: labelAndHintText != null ? labelAndHintText : "",
-            filled: true,
-            fillColor: Colors.white,
-            hintText: labelAndHintText != null ? labelAndHintText : "",
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))),
+          labelText: labelAndHintText != null ? labelAndHintText : "",
+          filled: true,
+          fillColor: Colors.white,
+          hintText: labelAndHintText != null ? labelAndHintText : "",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+        ),
       ),
     );
     return result;
@@ -127,7 +130,9 @@ class AccountInformationState extends State<AccountInformationPage> {
       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
       onPressed: () async {
         if (this._formKey.currentState.validate()) {
-          await updateInformation();
+          await updateInformation().whenComplete(() => this.setState(() {
+            _memorizer = AsyncMemoizer();
+          }));
         }
       },
       child: Text(
@@ -233,9 +238,7 @@ class AccountInformationState extends State<AccountInformationPage> {
                                   userProfile.geolocation.toString().isEmpty
                                       ? SettingsManager
                                           .mapLanguage["AddressSelector"]
-                                      : userProfile.geolocation
-                                          .toString()
-                                          .split("||")[0],
+                                      : locationController.split("||")[0],
                               language: SettingsManager.applicationProperties
                                   .getCurrentLanguage()
                                   .toLowerCase(),
