@@ -1,6 +1,3 @@
-import 'package:betsbi/services/account/model/accessorie.dart';
-import 'package:betsbi/services/account/model/face.dart';
-import 'package:betsbi/services/account/model/skinColor.dart';
 import 'package:betsbi/services/account/state/SkinSettingsState.dart';
 import 'package:flutter/cupertino.dart';
 

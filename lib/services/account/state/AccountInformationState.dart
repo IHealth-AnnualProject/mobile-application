@@ -108,7 +108,7 @@ class AccountInformationState extends State<AccountInformationPage> {
           description: descriptionController.text,
           profileId: this.widget.profile.profileId,
           isPsy: this.widget.isPsy,
-          geolocation : locationController,
+          geolocation: locationController,
           context: context);
     else
       await userProfile.updateProfile(
@@ -161,13 +161,17 @@ class AccountInformationState extends State<AccountInformationPage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => SkinSettingsPage(
-                                    level: this.widget.profile.level,
-                                    skinCode: this.widget.profile.skin,
+                                    level: userProfile.level,
+                                    skinCode: userProfile.skin,
                                   ),
                                 ),
-                              ).whenComplete(() => this.setState(() {
+                              ).whenComplete(
+                                () => this.setState(
+                                  () {
                                     _memorizer = AsyncMemoizer();
-                                  })),
+                                  },
+                                ),
+                              ),
                           child: currentUserWidget)
                       : currentUserWidget,
                   SizedBox(
@@ -220,20 +224,36 @@ class AccountInformationState extends State<AccountInformationPage> {
                         ),
                         IgnorePointer(
                           ignoring: this.widget.isReadOnly,
-                          child :
-                        Container(
-                          width: 350,
-                          child: SearchMapPlaceWidget(
-                            icon: Icons.location_on,
-                            apiKey: SettingsManager.cfg.getString("apiKey"),
-                            placeholder: userProfile.geolocation.toString().isEmpty ? SettingsManager.mapLanguage["AddressSelector"] : userProfile.geolocation.toString().split("||")[0],
-                            language: SettingsManager.applicationProperties
-                                .getCurrentLanguage()
-                                .toLowerCase(),
-                            onSelected: (place) async =>
-                            locationController = place.description +"||"+ (await place.geolocation).coordinates.latitude.toString()+","+(await place.geolocation).coordinates.longitude.toString(),
+                          child: Container(
+                            width: 350,
+                            child: SearchMapPlaceWidget(
+                              icon: Icons.location_on,
+                              apiKey: SettingsManager.cfg.getString("apiKey"),
+                              placeholder:
+                                  userProfile.geolocation.toString().isEmpty
+                                      ? SettingsManager
+                                          .mapLanguage["AddressSelector"]
+                                      : userProfile.geolocation
+                                          .toString()
+                                          .split("||")[0],
+                              language: SettingsManager.applicationProperties
+                                  .getCurrentLanguage()
+                                  .toLowerCase(),
+                              onSelected: (place) async => locationController =
+                                  place.description +
+                                      "||" +
+                                      (await place.geolocation)
+                                          .coordinates
+                                          .latitude
+                                          .toString() +
+                                      "," +
+                                      (await place.geolocation)
+                                          .coordinates
+                                          .longitude
+                                          .toString(),
+                            ),
                           ),
-                        ),),
+                        ),
                         SizedBox(
                           height: 45,
                         ),
