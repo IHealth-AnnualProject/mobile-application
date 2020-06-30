@@ -107,31 +107,34 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: true,
-      appBar: AppSearchBar(),
-      body: FutureBuilder(
-          future: _instanciateChatWithAllMessageAndInput(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: WaitingWidget(),
-              );
-            } else {
-              return ListView.builder(
-                reverse: true,
-                padding: const EdgeInsets.all(8),
-                itemCount: messages.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return messages[index];
-                },
-              );
-            }
-          }),
-      bottomNavigationBar: BottomNavigationBarFooter(
-        selectedBottomIndexOffLine: null,
-        selectedBottomIndexOnline: 2,
+    return WillPopScope(
+      child: Scaffold(
+        resizeToAvoidBottomPadding: true,
+        appBar: AppSearchBar(),
+        body: FutureBuilder(
+            future: _instanciateChatWithAllMessageAndInput(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: WaitingWidget(),
+                );
+              } else {
+                return ListView.builder(
+                  reverse: true,
+                  padding: const EdgeInsets.all(8),
+                  itemCount: messages.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return messages[index];
+                  },
+                );
+              }
+            }),
+        bottomNavigationBar: BottomNavigationBarFooter(
+          selectedBottomIndexOffLine: null,
+          selectedBottomIndexOnline: 2,
+        ),
       ),
+      onWillPop: () async => await updateSettingsPropertyNewMessageLessWithCurrentNewMessageFromThisUserAndRemoveITFromBDD() ,
     );
   }
 
@@ -190,14 +193,12 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
         textAlign: TextAlign.right,
         text: TextSpan(
           text: SettingsManager.mapLanguage["Me"] + ": ",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Colors.black87),
+          style: TextStyle(
+              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black87),
           children: <TextSpan>[
             TextSpan(
               text: content,
-              style: TextStyle(
-                fontSize: 25,
-                  color: Colors.black87
-              ),
+              style: TextStyle(fontSize: 25, color: Colors.black87),
             ),
           ],
         ),
@@ -215,14 +216,12 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
         textAlign: TextAlign.right,
         text: TextSpan(
           text: this.widget.userContactedName + ": ",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Colors.black87),
+          style: TextStyle(
+              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black87),
           children: <TextSpan>[
             TextSpan(
               text: content,
-              style: TextStyle(
-                fontSize: 25,
-                  color: Colors.black87
-              ),
+              style: TextStyle(fontSize: 25, color: Colors.black87),
             ),
           ],
         ),
