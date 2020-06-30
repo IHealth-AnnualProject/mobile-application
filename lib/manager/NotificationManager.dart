@@ -106,7 +106,7 @@ class NotificationManager {
       var androidPlatformChannelSpecifics = AndroidNotificationDetails(
           id.toString(),
           title,
-          body);
+          body,priority:  Priority.High, importance: Importance.High);
       var iOSPlatformChannelSpecifics = IOSNotificationDetails();
       NotificationDetails platformChannelSpecifics = NotificationDetails(
           androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
