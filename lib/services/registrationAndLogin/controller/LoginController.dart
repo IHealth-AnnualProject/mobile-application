@@ -11,8 +11,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginController {
-  static Widget redirectionLogin({bool isPsy = false})  {
+  static Future<Widget> redirectionLogin({bool isPsy = false}) async {
     SocketManager.connectSocket();
+    SettingsManager.applicationProperties.setFeelingsDate(await SettingsManager.storage.read(key: "feelingsDate"));
     DateTime feelingsParsed;
     if (SettingsManager.applicationProperties.isPsy().toLowerCase() ==
         'false') {
@@ -55,7 +56,7 @@ class LoginController {
     if (httpManager.response.statusCode >= 100 && httpManager.response.statusCode < 400) {
        await writePropertiesAfterLogin(httpManager);
       FlushBarMessage.goodMessage(content:SettingsManager.mapLanguage["ConnectSent"])
-          .showFlushBarAndNavigatWithNoBack(context, redirectionLogin());
+          .showFlushBarAndNavigatWithNoBack(context, await redirectionLogin());
     } else {
       FlushBarMessage.errorMessage(
           content: Response.fromJson(json.decode(httpManager.response.body)).content)

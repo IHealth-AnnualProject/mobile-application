@@ -10,19 +10,26 @@ import 'package:intl/intl.dart';
 
 class FeelingController {
   static Future<void> redirectionFeelingToHomePage(BuildContext context) async {
-   await SettingsManager.storage
-        .write(key: "feelingsDate", value: DateTime.now().toString())
-        .then((r) => Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-            (Route<dynamic> route) => false));
+    await SettingsManager.storage.write(
+      key: "feelingsDate",
+      value: DateTime.now().toString(),
+    ).whenComplete(() async =>
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+        (Route<dynamic> route) => false));
   }
 
   static Future<void> sendFeelings(int value, BuildContext context) async {
     HttpManager httpManager = new HttpManager(
-        path: "userProfile/moral-stats", map: <String, int>{'value': value}, context: context);
+        path: "userProfile/moral-stats",
+        map: <String, int>{'value': value},
+        context: context);
     await httpManager.post();
-    ResponseManager responseManager = new ResponseManager(context: context,response: httpManager.response, onSuccess: () async =>  await redirectionFeelingToHomePage(context));
+    ResponseManager responseManager = new ResponseManager(
+        context: context,
+        response: httpManager.response,
+        onSuccess: () async => await redirectionFeelingToHomePage(context));
     responseManager.checkResponseAndExecuteFunctionIfOk();
   }
 
@@ -51,14 +58,19 @@ class FeelingController {
 
   static Future<List<Feelings>> getAllFeelings(
       String userId, BuildContext context) async {
-    HttpManager httpManager =
-        new HttpManager(path: 'userProfile/$userId/moral-stats', context: context);
+    HttpManager httpManager = new HttpManager(
+        path: 'userProfile/$userId/moral-stats', context: context);
     await httpManager.get();
-    ResponseManager responseManager = new ResponseManager(response: httpManager.response, context: context, elementToReturn:  getAllFeelingsFromJson(jsonToDecode: httpManager.response.body));
+    ResponseManager responseManager = new ResponseManager(
+        response: httpManager.response,
+        context: context,
+        elementToReturn:
+            getAllFeelingsFromJson(jsonToDecode: httpManager.response.body));
     return responseManager.checkResponseAndRetrieveInformation();
   }
 
-  static List<Feelings> getAllFeelingsFromJson({@required String jsonToDecode}){
+  static List<Feelings> getAllFeelingsFromJson(
+      {@required String jsonToDecode}) {
     var feelings = new List<Feelings>();
     Iterable list = json.decode(jsonToDecode);
     feelings = list.map((model) => Feelings.fromJson(model)).toList();

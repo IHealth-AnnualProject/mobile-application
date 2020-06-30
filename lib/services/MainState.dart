@@ -18,8 +18,8 @@ class MainState extends State<MainPage> {
       await SettingsManager.instanciateConfigurationAndLoadLanguage()
           .then((r) async {
         await TokenController.checkTokenValidity(context).then(
-            (tokenValid) => tokenValid
-                ? destination = LoginController.redirectionLogin()
+            (tokenValid) async  => tokenValid
+                ? destination = await LoginController.redirectionLogin()
                 : SettingsManager.applicationProperties.getFirstEntry() ==
                         'true'
                     ? destination = IntroductionPage(
