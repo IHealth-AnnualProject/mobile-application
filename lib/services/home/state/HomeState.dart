@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:betsbi/manager/HistoricalManager.dart';
+import 'package:betsbi/manager/PubManager.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
 import 'package:betsbi/services/home/view/HomeView.dart';
@@ -12,6 +11,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeState extends State<HomePage> with WidgetsBindingObserver {
+  PubManager pubManager = new PubManager();
+
   @override
   void initState() {
     super.initState();
@@ -34,13 +35,6 @@ class HomeState extends State<HomePage> with WidgetsBindingObserver {
     }
   }
 
-  String getBannerAdUnitId()
-  {
-    if(Platform.isIOS)
-      return "ca-app-pub-4901338220117159/8532020232";
-    else
-      return "ca-app-pub-4901338220117159/9940045640";
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +44,7 @@ class HomeState extends State<HomePage> with WidgetsBindingObserver {
         child: Column(
           children: <Widget>[
             AdmobBanner(
-                adUnitId: getBannerAdUnitId(),
+                adUnitId: pubManager.getBannerAdUnitId(),
                 adSize: AdmobBannerSize.BANNER,
                 listener: (AdmobAdEvent event, Map<String, dynamic> args) {
                   switch (event) {
