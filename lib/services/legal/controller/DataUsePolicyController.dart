@@ -5,24 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DataUsePolicyController {
-  static Future<Map<String, dynamic>> getCurrentUserProfileInformation(
-      String userID, BuildContext context) async {
-    HttpManager httpManager =
-        new HttpManager(path: 'userProfile/$userID/user', context: context);
-    await httpManager.get();
-    ResponseManager responseManager = new ResponseManager(
-      response: httpManager.response,
-      context: context,
-    );
-    return responseManager.checkResponseRetrieveInformationWithAFunction(
-        toReturn: () => JsonParserManager.parseJsonFromResponseToMap(
-            httpManager.response.body),elementToReturnIfFalse: new Map<String, dynamic>());
-  }
 
-  static Future<Map<String, dynamic>> getCurrentPsyProfileInformation(
-      String userID, BuildContext context) async {
+  static Future<Map<String, dynamic>> getCurrentUserProfileInformation({
+      @required String userID, @required BuildContext context, @required String isPsy}) async {
+    String userPath = isPsy.toLowerCase() == 'true' ? 'psychologist' : 'userProfile';
     HttpManager httpManager =
-        new HttpManager(path: 'psychologist/$userID/user', context: context);
+        new HttpManager(path:  '$userPath/$userID/user', context: context);
     await httpManager.get();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,

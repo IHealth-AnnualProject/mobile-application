@@ -45,13 +45,11 @@ class DataUsePolicyState extends State<DataUsePolicyPage>
 
   getAllUserInformation() async {
     currentUserInformation = new Map<String, dynamic>();
-    SettingsManager.applicationProperties.isPsy() == 'true'
-        ? currentUserInformation =
-            await DataUsePolicyController.getCurrentPsyProfileInformation(
-                SettingsManager.applicationProperties.getCurrentId(), context)
-        : currentUserInformation =
-            await DataUsePolicyController.getCurrentUserProfileInformation(
-                SettingsManager.applicationProperties.getCurrentId(), context);
+    currentUserInformation =
+        await DataUsePolicyController.getCurrentUserProfileInformation(
+            userID: SettingsManager.applicationProperties.getCurrentId(),
+            context: context,
+            isPsy: SettingsManager.applicationProperties.isPsy());
     return DataUsePolicyController.getDataInformationOfUser(
         currentUserInformation: currentUserInformation);
   }
