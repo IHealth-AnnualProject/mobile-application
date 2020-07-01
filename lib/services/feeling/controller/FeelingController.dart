@@ -74,7 +74,6 @@ class FeelingController {
     var feelings = new List<Feelings>();
     Iterable list = json.decode(jsonToDecode);
     feelings = list.map((model) => Feelings.fromJson(model)).toList();
-    feelings.forEach((element) => print(element.toString()));
     List<Feelings> allFeelings = toListFeelings(feelings);
     allFeelings.sort((a, b) => a.dayOfFeeling.compareTo(b.dayOfFeeling));
     return allFeelings;

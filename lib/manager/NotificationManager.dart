@@ -35,7 +35,6 @@ class NotificationManager {
     if (payload != null) {
       debugPrint('notification payload: ' + payload);
     }
-    print("ici");
     await Navigator.push(
       context,
       MaterialPageRoute(
