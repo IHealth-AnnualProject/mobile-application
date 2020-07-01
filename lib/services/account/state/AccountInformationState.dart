@@ -65,6 +65,7 @@ class AccountInformationState extends State<AccountInformationPage> {
       {TextInputType inputType,
       String labelAndHintText,
       TextEditingController controller,
+        Widget icon,
       int maxLine,
       int maxLength}) {
     Container result;
@@ -82,6 +83,7 @@ class AccountInformationState extends State<AccountInformationPage> {
         decoration: InputDecoration(
           labelText: labelAndHintText != null ? labelAndHintText : "",
           filled: true,
+          icon: icon,
           fillColor: Colors.white,
           hintText: labelAndHintText != null ? labelAndHintText : "",
           border: OutlineInputBorder(
@@ -92,6 +94,7 @@ class AccountInformationState extends State<AccountInformationPage> {
     );
     return result;
   }
+
 
   _getSkinParametersFromJsonAndCurrentIndexForSkin() async {
     return this._memorizer.runOnce(() async {
@@ -214,6 +217,7 @@ class AccountInformationState extends State<AccountInformationPage> {
                                 SettingsManager.mapLanguage["FirstNameText"],
                             inputType: TextInputType.text,
                             controller: firstNameController,
+                            icon: Icon(Icons.person),
                             maxLength: 100),
                         SizedBox(
                           height: 45,
@@ -223,6 +227,7 @@ class AccountInformationState extends State<AccountInformationPage> {
                                 SettingsManager.mapLanguage["LastNameText"],
                             inputType: TextInputType.text,
                             controller: lastNameController,
+                            icon: Icon(Icons.person),
                             maxLength: 100),
                         SizedBox(
                           height: 45,
@@ -284,6 +289,7 @@ class AccountInformationState extends State<AccountInformationPage> {
                       decoration: InputDecoration(
                           labelText: SettingsManager.mapLanguage["Birthdate"],
                           filled: true,
+                          icon: Icon(Icons.date_range),
                           fillColor: Colors.white,
                           hintText: SettingsManager.mapLanguage["Birthdate"],
                           border: OutlineInputBorder(

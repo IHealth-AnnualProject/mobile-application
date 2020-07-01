@@ -8,6 +8,7 @@ import 'package:betsbi/services/registrationAndLogin/view/RegisterView.dart';
 import 'package:betsbi/tools/ForgotPassword.dart';
 import 'package:betsbi/tools/SubmitButton.dart';
 import 'package:betsbi/tools/TextFormFieldCustomBetsBi.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +65,7 @@ class LoginState extends State<LoginPage> {
                               obscureText: false,
                               controller: userNameController,
                               textAlign: TextAlign.left,
+                              icon: Icon(Icons.person),
                               validator: (value) =>
                                   CheckController.checkField(value),
                               labelText:
@@ -82,6 +84,7 @@ class LoginState extends State<LoginPage> {
                             child: TextFormFieldCustomBetsBi(
                               obscureText: true,
                               controller: passwordController,
+                              icon: Icon(Icons.lock),
                               child: true,
                               textAlign: TextAlign.left,
                               validator: (value) =>

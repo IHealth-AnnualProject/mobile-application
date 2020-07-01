@@ -14,6 +14,7 @@ class TextFormFieldCustomBetsBi extends StatefulWidget {
   final Color fillColor;
   final String hintText;
   final bool child;
+  final Widget icon;
 
   TextFormFieldCustomBetsBi(
       {@required this.obscureText,
@@ -24,6 +25,7 @@ class TextFormFieldCustomBetsBi extends StatefulWidget {
       @required this.filled,
       @required this.fillColor,
       @required this.hintText,
+        this.icon,
       this.child = false,
       this.maxLines = 1,
       this.keyBoardType = TextInputType.text,
@@ -55,6 +57,7 @@ class TextFormFieldCustomBetsBiState extends State<TextFormFieldCustomBetsBi> {
       decoration: InputDecoration(
         labelText: this.widget.labelText,
         filled: this.widget.filled,
+        icon: this.widget.icon,
         fillColor: this.widget.fillColor,
         hintText: this.widget.hintText,
         suffixIcon: !this.widget.child

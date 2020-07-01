@@ -80,6 +80,7 @@ class RegisterState extends State<RegisterPage> {
                             obscureText: false,
                             textAlign: TextAlign.left,
                             controller: userNameController,
+                            icon: Icon(Icons.person),
                             validator: (value) =>
                                 CheckController.checkField(value),
                             labelText:
@@ -98,6 +99,7 @@ class RegisterState extends State<RegisterPage> {
                             obscureText: false,
                             textAlign: TextAlign.left,
                             controller: emailController,
+                            icon: Icon(Icons.email),
                             validator: (value) => CheckController.checkField(
                                 value,
                                 emailToCheck: value),
@@ -116,6 +118,7 @@ class RegisterState extends State<RegisterPage> {
                             obscureText: true,
                             textAlign: TextAlign.left,
                             controller: passwordController,
+                            icon: Icon(Icons.lock),
                             child: true,
                             validator: (value) =>
                                 CheckController.checkField(value),
@@ -135,6 +138,7 @@ class RegisterState extends State<RegisterPage> {
                             obscureText: true,
                             textAlign: TextAlign.left,
                             controller: confirmPasswordController,
+                            icon: Icon(Icons.lock),
                             child: true,
                             validator: (value) => CheckController.checkField(
                                 value,
