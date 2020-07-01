@@ -15,7 +15,7 @@ class MainState extends State<MainPage> {
 
   _instantiateConfigurationPropertiesAndLaguageAndFindRedirection() {
     return this._memorizer.runOnce(() async {
-      await SettingsManager.instanciateConfigurationAndLoadLanguage()
+      await SettingsManager.instantiateConfigurationAndLoadLanguage()
           .then((r) async {
         await TokenController.checkTokenValidity(context).then(
             (tokenValid) async  => tokenValid

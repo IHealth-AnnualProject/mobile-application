@@ -60,7 +60,7 @@ class AccountTraceState extends State<AccountTracePage> {
           height: 45,
         ),
         DefaultTextTitle(
-          title: this.widget.profile.username + " lv.1",
+          title: this.widget.profile.username + " lv." + this.widget.profile.level.toString(),
         ),
         SizedBox(
           height: 45,

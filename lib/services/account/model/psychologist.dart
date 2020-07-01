@@ -96,9 +96,9 @@ class Psychologist extends User {
       String skin,
       BuildContext context}) async {
     await AccountController.updateCurrentPsyInformation(
-        firstname: firstname,
-        lastname: lastname,
-        birthdate: birthdate,
+        firstName: firstname,
+        lastName: lastname,
+        birthDate: birthdate,
         geolocation:geolocation,
         description: description,
         profileId: profileId,

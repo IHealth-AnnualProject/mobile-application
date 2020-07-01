@@ -16,7 +16,7 @@ class SettingsManager {
       new ApplicationProperties.defaultConstructor();
 
 
-  static Future<void> instanciateConfigurationAndLoadLanguage() async {
+  static Future<void> instantiateConfigurationAndLoadLanguage() async {
     cfg = new GlobalConfiguration();
     storage = new FlutterSecureStorage();
     await GlobalConfiguration().loadFromPath("assets/cfg/settings.json").then(

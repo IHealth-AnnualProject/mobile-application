@@ -66,7 +66,7 @@ class UserProfile extends User {
       String skin,
       BuildContext context}) async {
     await AccountController.updateCurrentUserInformation(
-        birthdate: birthdate,
+        birthDate: birthdate,
         geolocation: "",
         description: description,
         profileId: profileId,

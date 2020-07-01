@@ -73,8 +73,7 @@ class SkinSettingsState extends State<SkinSettingsPage>
             child: Column(
           children: [
             DefaultTextTitle(
-              title:
-                  "Choisissez le skin que vous souhaitez afficher sur l'application",
+              title: SettingsManager.mapLanguage["ChoiceSkin"],
             ),
             SizedBox(
               height: 20,
@@ -284,7 +283,7 @@ class SkinSettingsState extends State<SkinSettingsPage>
                             context: context),
                     content: SettingsManager.mapLanguage["Submit"],
                   )
-                : Text("Required Level :" + requiredLevel().toString()),
+                : Text(SettingsManager.mapLanguage["RequiredLevel"] + requiredLevel().toString()),
           ],
         )),
       ),

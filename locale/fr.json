@@ -154,6 +154,7 @@
   "UpdatedSkin" : "Votre skin a bien été mis à jour",
   "Psy" : "Psy",
   "Me": "Moi",
-  "AddressSelector" : "Chosissez l'endroit où vous travaillez"
-
+  "AddressSelector" : "Chosissez l'endroit où vous travaillez",
+  "ChoiceSkin" : "Choisissez le skin que vous souhaitez afficher sur l'application",
+  "RequiredLevel" : "Niveau requis :"
 }

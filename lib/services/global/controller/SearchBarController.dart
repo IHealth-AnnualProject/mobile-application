@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:betsbi/manager/GeolocationManager.dart';
 import 'package:betsbi/manager/HttpManager.dart';
 import 'package:betsbi/manager/ResponseManager.dart';
-import 'package:betsbi/services/account/controller/AccountController.dart';
+import 'package:betsbi/services/account/controller/SkinController.dart';
 import 'package:betsbi/services/account/model/user.dart';
 import 'package:betsbi/services/relaxing/controller/AmbianceController.dart';
 import 'package:betsbi/services/exercise/model/exercise.dart';
@@ -12,6 +12,7 @@ import 'package:betsbi/services/global/model/searchItem.dart';
 import 'package:betsbi/services/account/model/userProfile.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/account/view/AccountView.dart';
+import 'package:betsbi/tools/AvatarSkinWidget.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +72,7 @@ class SearchBarController {
       (users) => users.forEach(
         (user) {
           Widget avatar =
-              AccountController.getUserAvatarAccordingToHisIdForSearch(
+              getUserAvatarAccordingToHisIdForSearch(
                   user: user, context: context);
           items.add(
             SearchItem.userItem(
@@ -94,7 +95,7 @@ class SearchBarController {
         (users) => users.forEach(
           (user) {
             Widget avatar =
-                AccountController.getUserAvatarAccordingToHisIdForSearch(
+                getUserAvatarAccordingToHisIdForSearch(
                     user: user, context: context);
             items.add(
               SearchItem.userItem(
@@ -113,7 +114,7 @@ class SearchBarController {
       sortedList.forEach(
         (user) {
           Widget avatar =
-              AccountController.getUserAvatarAccordingToHisIdForSearch(
+              getUserAvatarAccordingToHisIdForSearch(
                   user: user, context: context);
           items.add(
             SearchItem.userItem(
@@ -181,6 +182,25 @@ class SearchBarController {
       ),
     );
     return items;
+  }
+
+  static Widget getUserAvatarAccordingToHisIdForSearch(
+      {@required User user, @required BuildContext context}) {
+    int defaultFaceIndex = SkinController.faces.lastIndexWhere(
+            (face) => face.level.toString() + face.code == user.skin.split("_")[0]);
+    int defaultSkinColorIndex = SkinController.skinColors.lastIndexWhere(
+            (color) =>
+        color.level.toString() + color.code == user.skin.split("_")[1]);
+    int defaultAccessoryIndex = SkinController.accessories.lastIndexWhere(
+            (accessory) =>
+        accessory.level.toString() + accessory.code ==
+            user.skin.split("_")[2]);
+
+    return AvatarSkinWidget.searchConstructor(
+      faceImage: SkinController.faces[defaultFaceIndex].image,
+      accessoryImage: SkinController.accessories[defaultAccessoryIndex].image,
+      skinColor: SkinController.skinColors[defaultSkinColorIndex].colorTable,
+    );
   }
 
   static Future<List<User>> getAllUser(

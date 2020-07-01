@@ -70,27 +70,8 @@ class AccountController {
     );
   }
 
-  static Widget getUserAvatarAccordingToHisIdForSearch(
-      {@required User user, @required BuildContext context}) {
-    int defaultFaceIndex = SkinController.faces.lastIndexWhere(
-        (face) => face.level.toString() + face.code == user.skin.split("_")[0]);
-    int defaultSkinColorIndex = SkinController.skinColors.lastIndexWhere(
-        (color) =>
-            color.level.toString() + color.code == user.skin.split("_")[1]);
-    int defaultAccessoryIndex = SkinController.accessories.lastIndexWhere(
-        (accessory) =>
-            accessory.level.toString() + accessory.code ==
-            user.skin.split("_")[2]);
-
-    return AvatarSkinWidget.searchConstructor(
-      faceImage: SkinController.faces[defaultFaceIndex].image,
-      accessoryImage: SkinController.accessories[defaultAccessoryIndex].image,
-      skinColor: SkinController.skinColors[defaultSkinColorIndex].colorTable,
-    );
-  }
-
   static Future<void> updateCurrentUserInformation(
-      {String birthdate,
+      {String birthDate,
       String geolocation,
       String description,
       String profileId,
@@ -101,7 +82,7 @@ class AccountController {
         path: 'userProfile',
         context: context,
         map: <String, dynamic>{
-          "birthdate": birthdate,
+          "birthdate": birthDate,
           "description": description
         });
     await httpManager.patch();
@@ -120,9 +101,9 @@ class AccountController {
   }
 
   static Future<void> updateCurrentPsyInformation(
-      {String firstname,
-      String lastname,
-      String birthdate,
+      {String firstName,
+      String lastName,
+      String birthDate,
       String geolocation,
       String description,
       String profileId,
@@ -133,9 +114,9 @@ class AccountController {
         path: 'psychologist',
         context: context,
         map: <String, dynamic>{
-          "first_name": firstname,
-          "last_name": lastname,
-          "birthdate": birthdate,
+          "first_name": firstName,
+          "last_name": lastName,
+          "birthdate": birthDate,
           "description": description,
           "geolocation": geolocation
         });
@@ -144,7 +125,8 @@ class AccountController {
       response: httpManager.response,
       context: context,
     );
-    responseManager.checkResponseAndShowWithFlushBarMessageTheAnswer(successMessage: SettingsManager.mapLanguage["UpdateUserInformation"]);
+    responseManager.checkResponseAndShowWithFlushBarMessageTheAnswer(
+        successMessage: SettingsManager.mapLanguage["UpdateUserInformation"]);
   }
 
   static TabContent getTabBarAndViewAccordingToUserTypeAndId(

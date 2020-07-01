@@ -8,6 +8,7 @@ import 'package:betsbi/services/account/model/userProfile.dart';
 import 'package:betsbi/services/chat/view/ChatView.dart';
 import 'package:betsbi/services/account/view/SkinSettingsView.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
+import 'package:betsbi/tools/SubmitButton.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class AccountInformationState extends State<AccountInformationPage> {
   Widget currentUserWidget;
   TextEditingController firstNameController;
   TextEditingController lastNameController;
-  TextEditingController ageController;
+  TextEditingController birthDateController;
   TextEditingController descriptionController;
   String locationController;
   AsyncMemoizer _memorizer = AsyncMemoizer();
@@ -44,7 +45,7 @@ class AccountInformationState extends State<AccountInformationPage> {
           ..text = userProfile.firstName;
         lastNameController = new TextEditingController()
           ..text = userProfile.lastName;
-        ageController = new TextEditingController()
+        birthDateController = new TextEditingController()
           ..text = userProfile.birthdate;
         descriptionController = new TextEditingController()
           ..text = userProfile.description;
@@ -53,7 +54,7 @@ class AccountInformationState extends State<AccountInformationPage> {
     } else {
       await userProfile.getUserProfile(userID: this.widget.profile.profileId);
       setState(() {
-        ageController = new TextEditingController()
+        birthDateController = new TextEditingController()
           ..text = userProfile.birthdate.toString();
         descriptionController = new TextEditingController()
           ..text = userProfile.description;
@@ -65,7 +66,7 @@ class AccountInformationState extends State<AccountInformationPage> {
       {TextInputType inputType,
       String labelAndHintText,
       TextEditingController controller,
-        Widget icon,
+      Widget icon,
       int maxLine,
       int maxLength}) {
     Container result;
@@ -95,7 +96,6 @@ class AccountInformationState extends State<AccountInformationPage> {
     return result;
   }
 
-
   _getSkinParametersFromJsonAndCurrentIndexForSkin() async {
     return this._memorizer.runOnce(() async {
       await userInformation();
@@ -110,7 +110,7 @@ class AccountInformationState extends State<AccountInformationPage> {
       await userProfile.updateProfile(
           firstname: firstNameController.text,
           lastname: lastNameController.text,
-          birthdate: ageController.text,
+          birthdate: birthDateController.text,
           description: descriptionController.text,
           profileId: this.widget.profile.profileId,
           isPsy: this.widget.isPsy,
@@ -118,14 +118,14 @@ class AccountInformationState extends State<AccountInformationPage> {
           context: context);
     else
       await userProfile.updateProfile(
-          birthdate: ageController.text,
+          birthdate: birthDateController.text,
           description: descriptionController.text,
           profileId: this.widget.profile.profileId,
           isPsy: this.widget.isPsy,
           context: context);
   }
 
-  RaisedButton finalButton({String barContent, String buttonContent}) {
+  RaisedButton finalButton({String buttonContent}) {
     return RaisedButton(
       elevation: 8,
       shape: StadiumBorder(),
@@ -134,8 +134,8 @@ class AccountInformationState extends State<AccountInformationPage> {
       onPressed: () async {
         if (this._formKey.currentState.validate()) {
           await updateInformation().whenComplete(() => this.setState(() {
-            _memorizer = AsyncMemoizer();
-          }));
+                _memorizer = AsyncMemoizer();
+              }));
         }
       },
       child: Text(
@@ -271,7 +271,7 @@ class AccountInformationState extends State<AccountInformationPage> {
                   Container(
                     width: 350,
                     child: TextFormField(
-                      controller: ageController,
+                      controller: birthDateController,
                       obscureText: false,
                       maxLines: 1,
                       readOnly: this.widget.isReadOnly,
@@ -312,39 +312,34 @@ class AccountInformationState extends State<AccountInformationPage> {
                   SettingsManager.applicationProperties.getCurrentId() ==
                           this.widget.profile.profileId
                       ? Container(
-                          child: finalButton(
-                            buttonContent:
-                                SettingsManager.mapLanguage["Submit"] != null
-                                    ? SettingsManager.mapLanguage["Submit"]
-                                    : "",
-                            barContent: SettingsManager
-                                        .mapLanguage["UpdateUserInformation"] !=
-                                    null
-                                ? SettingsManager
-                                    .mapLanguage["UpdateUserInformation"]
-                                : "",
-                          ),
-                          width: 350)
-                      : RaisedButton(
-                          elevation: 8,
-                          shape: StadiumBorder(),
-                          color: Color.fromRGBO(255, 195, 0, 1),
-                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChatPage(
-                                userContactedId: this.widget.profile.profileId,
-                                userContactedName: this.widget.profile.username,
+                          child: SubmitButton(
+                              onPressedFunction: () async {
+                                if (this._formKey.currentState.validate())
+                                  await updateInformation().whenComplete(
+                                    () => this.setState(
+                                      () {
+                                        _memorizer = AsyncMemoizer();
+                                      },
+                                    ),
+                                  );
+                              },
+                              content: SettingsManager.mapLanguage["Submit"]),
+                          width: 350,
+                        )
+                      : Container(
+                          width: 350,
+                          child: SubmitButton(
+                            content: "Contact",
+                            onPressedFunction: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatPage(
+                                  userContactedId:
+                                      this.widget.profile.profileId,
+                                  userContactedName:
+                                      this.widget.profile.username,
+                                ),
                               ),
-                            ),
-                          ),
-                          child: Text(
-                            "Contact",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color.fromRGBO(255, 255, 255, 100),
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -367,8 +362,8 @@ class AccountInformationState extends State<AccountInformationPage> {
           firstDate: new DateTime(1920),
           lastDate: new DateTime(DateTime.now().year));
       if (picked != null)
-        setState(
-            () => ageController.text = DateFormat('yyyy-MM-dd').format(picked));
+        setState(() =>
+            birthDateController.text = DateFormat('yyyy-MM-dd').format(picked));
     }
   }
 }
