@@ -116,6 +116,7 @@ class RegisterState extends State<RegisterPage> {
                             obscureText: true,
                             textAlign: TextAlign.left,
                             controller: passwordController,
+                            child: true,
                             validator: (value) =>
                                 CheckController.checkField(value),
                             labelText:
@@ -134,6 +135,7 @@ class RegisterState extends State<RegisterPage> {
                             obscureText: true,
                             textAlign: TextAlign.left,
                             controller: confirmPasswordController,
+                            child: true,
                             validator: (value) => CheckController.checkField(
                                 value,
                                 passwordToCheck: passwordController.text),
