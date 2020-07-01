@@ -23,7 +23,8 @@ class SimilarCardState extends State<SimilarCardPage> {
 
   @override
   void initState() {
-    currentCardList = this.widget.exercise.cardList;
+    currentCardList = new List<CardElement>();
+    currentCardList.addAll(this.widget.exercise.cardList);
     fullCardElementsWithListOfCard();
     super.initState();
   }

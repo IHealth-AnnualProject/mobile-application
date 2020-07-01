@@ -1,5 +1,6 @@
 import 'package:betsbi/manager/HistoricalManager.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/exercise/controller/ExerciseController.dart';
 import 'package:betsbi/services/exercise/view/MathExerciseView.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
@@ -81,31 +82,6 @@ class MathExerciseState extends State<MathExercisePage>
                 },
               ),
             ),
-            Visibility(
-              visible: isCongratsHidden,
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    SettingsManager.mapLanguage["Congratulations"],
-                    style: TextStyle(
-                      color: Color.fromRGBO(0, 157, 153, 1),
-                      fontSize: 30,
-                    ),
-                  ),
-                  Visibility(
-                    visible: this.widget.exercise.explanation != "",
-                    child: Text(
-                      this.widget.exercise.explanation,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color.fromRGBO(0, 157, 153, 1),
-                        fontSize: 30,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
           ],
         ),
       ),
@@ -118,11 +94,8 @@ class MathExerciseState extends State<MathExercisePage>
   }
 
   void checkAnswerWithResult(String answer) {
-    setState(() {
-      answer == this.widget.exercise.result
-          ? isCongratsHidden = true
-          : isCongratsHidden = false;
-    });
+    if(answer == this.widget.exercise.result)
+      ExerciseController.showAlertDialog(context: context,content: this.widget.exercise.explanation);
   }
 
   void convertAnswersToListWidget() {

@@ -194,13 +194,13 @@ class ExerciseController {
     return listExerciseWidget;
   }
 
-  static showAlertDialog({@required BuildContext context}) {
+  static showAlertDialog({@required BuildContext context, String content = ""}) {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       backgroundColor: Colors.white,
       title: DefaultTextTitle(
-        title: SettingsManager.mapLanguage["Congratulations"],
+        title: SettingsManager.mapLanguage["Congratulations"] + "\n" + content,
       ),
       content: Container(
         width: MediaQuery.of(context).size.width,

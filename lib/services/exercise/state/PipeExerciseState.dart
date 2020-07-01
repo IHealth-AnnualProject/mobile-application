@@ -15,7 +15,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 class PipeExerciseState extends State<PipeExercisePage> with WidgetsBindingObserver {
   List<Widget> listCaseExercise =
       new List<Widget>.generate(36, (i) => Container());
-  bool isCongratsHidden = false;
+  Map<String, dynamic> mapTempForEndOfGame;
 
 
   @override
@@ -32,6 +32,8 @@ class PipeExerciseState extends State<PipeExercisePage> with WidgetsBindingObser
     super.initState();
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
     WidgetsBinding.instance.addObserver(this);
+    mapTempForEndOfGame = new Map<String, dynamic>();
+    mapTempForEndOfGame.addAll(this.widget.exercise.inputPipe);
     ExerciseController.createListWidgetOverMapString(
         pipeGame: this.widget.exercise,
         logicExerciseState: this,
@@ -90,12 +92,6 @@ class PipeExerciseState extends State<PipeExercisePage> with WidgetsBindingObser
           SizedBox(
             height: 20,
           ),
-          Visibility(
-            visible: isCongratsHidden,
-            child: Text(SettingsManager.mapLanguage["Congratulations"],
-                style: TextStyle(
-                    color: Color.fromRGBO(0, 157, 153, 1), fontSize: 30)),
-          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
@@ -109,9 +105,10 @@ class PipeExerciseState extends State<PipeExercisePage> with WidgetsBindingObser
     setState(() {
       if (mapEquals(
           this.widget.exercise.inputPipe, this.widget.exercise.outputPipe)) {
-        isCongratsHidden = true;
-      } else
-        isCongratsHidden = false;
+        this.widget.exercise.inputPipe.clear();
+        this.widget.exercise.inputPipe.addAll(mapTempForEndOfGame);
+        ExerciseController.showAlertDialog(context: context);
+      }
     });
   }
 }
