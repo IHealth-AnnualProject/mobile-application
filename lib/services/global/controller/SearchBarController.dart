@@ -192,11 +192,9 @@ class SearchBarController {
     await httpManager.get();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,
-      elementToReturn: new List<User>(),
-      functionListToReturn: () => listToReturn(httpManager),
       context: context,
     );
-    users = responseManager.checkResponseAndRetrieveListOfInformation();
+    users = responseManager.checkResponseRetrieveInformationWithAFunction(toReturn: () => listToReturn(httpManager),elementToReturnIfFalse:  new List<User>());
     return users;
   }
 

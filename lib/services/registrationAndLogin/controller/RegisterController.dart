@@ -20,10 +20,8 @@ class RegisterController {
     await httpManager.postWithoutAccessToken();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,
-      successMessage: SettingsManager.mapLanguage["RegisterSent"],
       context: context,
-      destination: LoginPage(),
     );
-    return responseManager.checkResponseAndShowIt();
+    return responseManager.checkResponseAndShowWithFlushBarMessageTheAnswerThenGoToDestination(destination: LoginPage(),successMessage: SettingsManager.mapLanguage["RegisterSent"]);
   }
 }

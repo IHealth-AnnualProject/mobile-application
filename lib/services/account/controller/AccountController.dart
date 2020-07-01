@@ -24,12 +24,14 @@ class AccountController {
     await httpManager.get();
     UserProfile userProfile = UserProfile.defaultConstructor();
     ResponseManager responseManager = new ResponseManager(
-        response: httpManager.response,
-        context: context,
-        elementToReturn: userProfile,
-        functionFromJsonToReturn: () =>
-            UserProfile.fromJson(json.decode(httpManager.response.body)));
-    return responseManager.checkResponseAndRetrieveInformationFromJson();
+      response: httpManager.response,
+      context: context,
+    );
+    return responseManager.checkResponseRetrieveInformationWithAFunction(
+        toReturn: () => UserProfile.fromJson(
+              json.decode(httpManager.response.body),
+            ),
+        elementToReturnIfFalse: userProfile);
   }
 
   static Future<Psychologist> getCurrentPsyInformation(
@@ -39,55 +41,51 @@ class AccountController {
     await httpManager.get();
     Psychologist psychologist = new Psychologist.defaultConstructor();
     ResponseManager responseManager = new ResponseManager(
-        response: httpManager.response,
-        context: context,
-        elementToReturn: psychologist,
-        functionFromJsonToReturn: () =>
-            Psychologist.fromJson(json.decode(httpManager.response.body)));
-    return responseManager.checkResponseAndRetrieveInformationFromJson();
+      response: httpManager.response,
+      context: context,
+    );
+    return responseManager.checkResponseRetrieveInformationWithAFunction(
+        toReturn: () => Psychologist.fromJson(
+              json.decode(httpManager.response.body),
+            ),
+        elementToReturnIfFalse: psychologist);
   }
 
-  static Widget getUserAvatarAccordingToHisIdForAccount({@required User user, @required BuildContext context})
-   {
-      int defaultFaceIndex = SkinController.faces.lastIndexWhere((face) =>
-      face.level.toString() + face.code == user.skin.split("_")[0]);
-      int defaultSkinColorIndex = SkinController.skinColors.lastIndexWhere(
-              (color) =>
-          color.level.toString() + color.code ==
-              user.skin.split("_")[1]);
-      int defaultAccessoryIndex = SkinController.accessories.lastIndexWhere(
-              (accessory) =>
-          accessory.level.toString() + accessory.code ==
-              user.skin.split("_")[2]);
+  static Widget getUserAvatarAccordingToHisIdForAccount(
+      {@required User user, @required BuildContext context}) {
+    int defaultFaceIndex = SkinController.faces.lastIndexWhere(
+        (face) => face.level.toString() + face.code == user.skin.split("_")[0]);
+    int defaultSkinColorIndex = SkinController.skinColors.lastIndexWhere(
+        (color) =>
+            color.level.toString() + color.code == user.skin.split("_")[1]);
+    int defaultAccessoryIndex = SkinController.accessories.lastIndexWhere(
+        (accessory) =>
+            accessory.level.toString() + accessory.code ==
+            user.skin.split("_")[2]);
 
     return AvatarSkinWidget.accountConstructor(
       faceImage: SkinController.faces[defaultFaceIndex].image,
-      accessoryImage:
-      SkinController.accessories[defaultAccessoryIndex].image,
-      skinColor:
-      SkinController.skinColors[defaultSkinColorIndex].colorTable,
+      accessoryImage: SkinController.accessories[defaultAccessoryIndex].image,
+      skinColor: SkinController.skinColors[defaultSkinColorIndex].colorTable,
     );
   }
 
-  static Widget getUserAvatarAccordingToHisIdForSearch({@required User user, @required BuildContext context})
-   {
-      int defaultFaceIndex = SkinController.faces.lastIndexWhere((face) =>
-      face.level.toString() + face.code == user.skin.split("_")[0]);
-      int defaultSkinColorIndex = SkinController.skinColors.lastIndexWhere(
-              (color) =>
-          color.level.toString() + color.code ==
-              user.skin.split("_")[1]);
-      int defaultAccessoryIndex = SkinController.accessories.lastIndexWhere(
-              (accessory) =>
-          accessory.level.toString() + accessory.code ==
-              user.skin.split("_")[2]);
+  static Widget getUserAvatarAccordingToHisIdForSearch(
+      {@required User user, @required BuildContext context}) {
+    int defaultFaceIndex = SkinController.faces.lastIndexWhere(
+        (face) => face.level.toString() + face.code == user.skin.split("_")[0]);
+    int defaultSkinColorIndex = SkinController.skinColors.lastIndexWhere(
+        (color) =>
+            color.level.toString() + color.code == user.skin.split("_")[1]);
+    int defaultAccessoryIndex = SkinController.accessories.lastIndexWhere(
+        (accessory) =>
+            accessory.level.toString() + accessory.code ==
+            user.skin.split("_")[2]);
 
     return AvatarSkinWidget.searchConstructor(
       faceImage: SkinController.faces[defaultFaceIndex].image,
-      accessoryImage:
-      SkinController.accessories[defaultAccessoryIndex].image,
-      skinColor:
-      SkinController.skinColors[defaultSkinColorIndex].colorTable,
+      accessoryImage: SkinController.accessories[defaultAccessoryIndex].image,
+      skinColor: SkinController.skinColors[defaultSkinColorIndex].colorTable,
     );
   }
 
@@ -110,13 +108,15 @@ class AccountController {
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,
       context: context,
-      destination: AccountPage(
-        userId: profileId,
-        isPsy: isPsy,
-      ),
-      successMessage: SettingsManager.mapLanguage["UpdateUserInformation"],
     );
-    responseManager.checkResponseAndShowIt();
+    responseManager
+        .checkResponseAndShowWithFlushBarMessageTheAnswerThenGoToDestination(
+            destination: AccountPage(
+              userId: profileId,
+              isPsy: isPsy,
+            ),
+            successMessage:
+                SettingsManager.mapLanguage["UpdateUserInformation"]);
   }
 
   static Future<void> updateCurrentPsyInformation(
@@ -137,15 +137,14 @@ class AccountController {
           "last_name": lastname,
           "birthdate": birthdate,
           "description": description,
-          "geolocation" : geolocation
+          "geolocation": geolocation
         });
     await httpManager.patch();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,
       context: context,
-      successMessage: SettingsManager.mapLanguage["UpdateUserInformation"],
     );
-    responseManager.checkResponseAndPrintIt();
+    responseManager.checkResponseAndShowWithFlushBarMessageTheAnswer(successMessage: SettingsManager.mapLanguage["UpdateUserInformation"]);
   }
 
   static TabContent getTabBarAndViewAccordingToUserTypeAndId(

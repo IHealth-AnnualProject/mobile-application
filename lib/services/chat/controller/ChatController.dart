@@ -9,7 +9,6 @@ import 'package:betsbi/services/chat/SQLLiteNewMessage.dart';
 import 'package:flutter/cupertino.dart';
 
 class ChatController {
-
   static Future<List<Message>> getAllMessageIdFromContact(
       {String contactID, BuildContext context}) async {
     HttpManager httpManager =
@@ -18,10 +17,10 @@ class ChatController {
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,
       context: context,
-      elementToReturn:
-          getMessageFromJson(jsonToDecode: httpManager.response.body),
     );
-    return responseManager.checkResponseAndRetrieveInformation();
+    return responseManager.checkResponseAndReturnTheDesiredElement(
+        elementToReturn:
+            getMessageFromJson(jsonToDecode: httpManager.response.body));
   }
 
   static List<Message> getMessageFromJson({@required String jsonToDecode}) {
@@ -39,16 +38,18 @@ class ChatController {
     return contacts;
   }
 
-  static Future<List<Contact>> getAllContact({@required BuildContext context}) async {
+  static Future<List<Contact>> getAllContact(
+      {@required BuildContext context}) async {
     HttpManager httpManager =
         new HttpManager(path: 'conversation', context: context);
     await httpManager.get();
     ResponseManager responseManager = new ResponseManager(
-        response: httpManager.response,
-        context: context,
+      response: httpManager.response,
+      context: context,
+    );
+    return responseManager.checkResponseAndReturnTheDesiredElement(
         elementToReturn:
             getContactFromJson(jsonToDecode: httpManager.response.body));
-    return responseManager.checkResponseAndRetrieveInformation();
   }
 
   static void setAllNewMessageFromContact({@required List<Contact> contacts}) {

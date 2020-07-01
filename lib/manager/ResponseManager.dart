@@ -6,31 +6,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class ResponseManager {
-  final dynamic elementToReturn;
   final BuildContext context;
   final http.Response response;
   final Function onSuccess;
-  final Widget destination;
   final Function onFailure;
-  final String successMessage;
-  final Function functionFromJsonToReturn;
-  final Function functionListToReturn;
 
   ResponseManager(
       {@required this.response,
-      this.elementToReturn,
-      this.context,
-      this.successMessage,
+      @required this.context,
       this.onSuccess,
-      this.onFailure,
-      this.destination,
-      this.functionFromJsonToReturn,
-      this.functionListToReturn});
+      this.onFailure});
 
-  checkResponseAndPrintIt() {
+  checkResponseAndShowWithFlushBarMessageTheAnswer({@required String successMessage}) {
     if (response.statusCode >= 100 && response.statusCode < 400) {
       if (this.onSuccess != null) onSuccess();
-      FlushBarMessage.goodMessage(content: this.successMessage)
+      FlushBarMessage.goodMessage(content: successMessage)
           .showFlushBar(context);
     } else {
       if (this.onFailure != null) onFailure();
@@ -39,10 +29,10 @@ class ResponseManager {
           .showFlushBar(context);
     }
   }
-  checkResponseAndPrintItThenPopBack() {
+  checkResponseAndShowWithFlushBarMessageTheAnswerThenPopTheContext({@required String successMessage}) {
     if (response.statusCode >= 100 && response.statusCode < 400) {
       if (this.onSuccess != null) onSuccess();
-      FlushBarMessage.goodMessage(content: this.successMessage)
+      FlushBarMessage.goodMessage(content: successMessage)
           .showFlushBar(context).whenComplete(() => Navigator.of(context).pop());
 
     } else {
@@ -53,11 +43,11 @@ class ResponseManager {
     }
   }
 
-  checkResponseAndShowIt() {
+  checkResponseAndShowWithFlushBarMessageTheAnswerThenGoToDestination({@required Widget destination,@required String successMessage}) {
     if (response.statusCode >= 100 && response.statusCode < 400) {
       if (this.onSuccess != null) onSuccess();
-      FlushBarMessage.goodMessage(content: this.successMessage)
-          .showFlushBarAndNavigateAndRemove(context, this.destination);
+      FlushBarMessage.goodMessage(content: successMessage)
+          .showFlushBarAndNavigateAndRemove(context, destination);
     } else {
       if (this.onFailure != null) onFailure();
       FlushBarMessage.errorMessage(
@@ -66,21 +56,8 @@ class ResponseManager {
     }
   }
 
-  Future<void> checkResponseAndShowItWithNoComingBack() async {
-    if (response.statusCode >= 100 && response.statusCode < 400) {
-      if (this.onSuccess != null) onSuccess();
 
-            FlushBarMessage.goodMessage(content: this.successMessage)
-                .showFlushBarAndNavigatWithNoBack(context, this.destination);
-    } else {
-      if (this.onFailure != null) onFailure();
-      FlushBarMessage.errorMessage(
-              content: Response.fromJson(json.decode(response.body)).content)
-          .showFlushBar(context);
-    }
-  }
-
-  checkResponseAndRetrieveInformation() {
+  checkResponseAndReturnTheDesiredElement({@required dynamic elementToReturn}) {
     if (response.statusCode >= 100 && response.statusCode < 400) {
       if (this.onSuccess != null) onSuccess();
       return elementToReturn;
@@ -93,26 +70,16 @@ class ResponseManager {
     }
   }
 
-  checkResponseAndRetrieveInformationFromJson() {
+  checkResponseRetrieveInformationWithAFunction({@required Function toReturn, @required dynamic elementToReturnIfFalse}) {
     if (response.statusCode >= 100 && response.statusCode < 400) {
       if (this.onSuccess != null) onSuccess();
-      return this.functionFromJsonToReturn();
+      return toReturn();
     } else {
       if (this.onFailure != null) onFailure();
       FlushBarMessage.errorMessage(
               content: Response.fromJson(json.decode(response.body)).content)
           .showFlushBar(this.context);
-      return elementToReturn;
-    }
-  }
-
-  checkResponseAndRetrieveListOfInformation() {
-    if (response.statusCode >= 100 && response.statusCode < 400) {
-      if (this.onSuccess != null) onSuccess();
-      return functionListToReturn();
-    } else {
-      if (this.onFailure != null) onFailure();
-      return elementToReturn;
+      return elementToReturnIfFalse;
     }
   }
 
@@ -127,7 +94,7 @@ class ResponseManager {
     }
   }
 
-  bool checkResponseAndConfirmSuccess() {
+  bool checkResponseReturnTrueIfOkAndFalseIfNotOk() {
     if (response.statusCode >= 100 && response.statusCode < 400) {
       if (this.onSuccess != null) onSuccess();
       return true;

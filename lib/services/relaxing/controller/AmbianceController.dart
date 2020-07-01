@@ -71,11 +71,12 @@ class AmbianceController {
     await httpManager.get();
     List<Song> songs = new List<Song>();
     ResponseManager responseManager = new ResponseManager(
+      context: context,
       response: httpManager.response,
-      elementToReturn: songs,
-      functionListToReturn: () => _getSongsWithResponseBody(httpManager, songs),
     );
-    return responseManager.checkResponseAndRetrieveListOfInformation();
+    return responseManager.checkResponseRetrieveInformationWithAFunction(
+        toReturn: () => _getSongsWithResponseBody(httpManager, songs),
+        elementToReturnIfFalse: songs);
   }
 
   static List<Song> _getSongsWithResponseBody(
@@ -93,9 +94,8 @@ class AmbianceController {
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,
       context: context,
-      successMessage: SettingsManager.mapLanguage["DownloadedFile"],
     );
-    responseManager.checkResponseAndPrintIt();
+    responseManager.checkResponseAndShowWithFlushBarMessageTheAnswer(successMessage: SettingsManager.mapLanguage["DownloadedFile"]);
     return httpManager.response;
   }
 

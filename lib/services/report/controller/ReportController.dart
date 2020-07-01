@@ -17,9 +17,8 @@ class ReportController {
     await httpManager.post();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,
-      successMessage: SettingsManager.mapLanguage["ReportSent"],
       context: context,
     );
-    responseManager.checkResponseAndPrintItThenPopBack();
+    responseManager.checkResponseAndShowWithFlushBarMessageTheAnswerThenPopTheContext(successMessage: SettingsManager.mapLanguage["ReportSent"]);
   }
 }

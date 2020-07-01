@@ -15,7 +15,7 @@ class TokenController {
       new HttpManager(path: 'auth/is-token-valid', context: context);
       await httpManager.get();
       ResponseManager responseManager = new ResponseManager(response: httpManager.response,context: context,);
-      return responseManager.checkResponseAndConfirmSuccess();
+      return responseManager.checkResponseReturnTrueIfOkAndFalseIfNotOk();
     }
     return false;
   }

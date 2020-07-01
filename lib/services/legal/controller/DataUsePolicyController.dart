@@ -5,35 +5,36 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DataUsePolicyController {
-
   static Future<Map<String, dynamic>> getCurrentUserProfileInformation(
       String userID, BuildContext context) async {
     HttpManager httpManager =
-    new HttpManager(path: 'userProfile/$userID/user', context: context);
+        new HttpManager(path: 'userProfile/$userID/user', context: context);
     await httpManager.get();
     ResponseManager responseManager = new ResponseManager(
-        response: httpManager.response,
-        context: context,
-        elementToReturn: new Map<String, dynamic>(),
-        functionFromJsonToReturn: () => JsonParserManager.parseJsonFromResponseToMap(httpManager.response.body));
-    return responseManager.checkResponseAndRetrieveInformationFromJson();
+      response: httpManager.response,
+      context: context,
+    );
+    return responseManager.checkResponseRetrieveInformationWithAFunction(
+        toReturn: () => JsonParserManager.parseJsonFromResponseToMap(
+            httpManager.response.body),elementToReturnIfFalse: new Map<String, dynamic>());
   }
 
   static Future<Map<String, dynamic>> getCurrentPsyProfileInformation(
       String userID, BuildContext context) async {
     HttpManager httpManager =
-    new HttpManager(path: 'psychologist/$userID/user', context: context);
+        new HttpManager(path: 'psychologist/$userID/user', context: context);
     await httpManager.get();
     ResponseManager responseManager = new ResponseManager(
-        response: httpManager.response,
-        context: context,
-        elementToReturn: new Map<String, dynamic>(),
-        functionFromJsonToReturn: () => JsonParserManager.parseJsonFromResponseToMap(httpManager.response.body));
-    return responseManager.checkResponseAndRetrieveInformationFromJson();
+      response: httpManager.response,
+      context: context,
+    );
+    return responseManager.checkResponseRetrieveInformationWithAFunction(
+        toReturn: () => JsonParserManager.parseJsonFromResponseToMap(
+            httpManager.response.body),elementToReturnIfFalse: new Map<String, dynamic>());
   }
 
-  static DataTable getDataInformationOfUser({Map<String, dynamic> currentUserInformation})
-  {
+  static DataTable getDataInformationOfUser(
+      {Map<String, dynamic> currentUserInformation}) {
     List<DataColumn> headersList = new List<DataColumn>();
     List<DataCell> rowList = new List<DataCell>();
     currentUserInformation.forEach((header, row) {
@@ -41,10 +42,9 @@ class DataUsePolicyController {
         headersList.add(
           DataColumn(
             label: Expanded(
-              child :
-              Text(
-              header,
-              style: TextStyle(fontStyle: FontStyle.italic),
+              child: Text(
+                header,
+                style: TextStyle(fontStyle: FontStyle.italic),
               ),
             ),
           ),

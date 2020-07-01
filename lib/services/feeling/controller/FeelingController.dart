@@ -63,10 +63,8 @@ class FeelingController {
     await httpManager.get();
     ResponseManager responseManager = new ResponseManager(
         response: httpManager.response,
-        context: context,
-        elementToReturn:
-            getAllFeelingsFromJson(jsonToDecode: httpManager.response.body));
-    return responseManager.checkResponseAndRetrieveInformation();
+        context: context,);
+    return responseManager.checkResponseAndReturnTheDesiredElement(elementToReturn: getAllFeelingsFromJson(jsonToDecode: httpManager.response.body));
   }
 
   static List<Feelings> getAllFeelingsFromJson(

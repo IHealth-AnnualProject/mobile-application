@@ -15,9 +15,8 @@ class ErrorController {
     await httpManager.post();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,
-      successMessage: SettingsManager.mapLanguage["ErrorSent"],
       context: context
     );
-    responseManager.checkResponseAndPrintIt();
+    responseManager.checkResponseAndShowWithFlushBarMessageTheAnswer(successMessage: SettingsManager.mapLanguage["ErrorSent"]);
   }
 }

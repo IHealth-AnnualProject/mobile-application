@@ -43,8 +43,7 @@ class SkinController {
     await httpManager.patch();
     ResponseManager responseManager = ResponseManager(
         response: httpManager.response,
-        context: context,
-        successMessage: SettingsManager.mapLanguage["UpdatedSkin"]);
-    responseManager.checkResponseAndPrintIt();
+        context: context,);
+    responseManager.checkResponseAndShowWithFlushBarMessageTheAnswer(successMessage: SettingsManager.mapLanguage["UpdatedSkin"]);
   }
 }

@@ -13,13 +13,12 @@ class PlayListController {
     HttpManager httpManager =
         new HttpManager(path: "playlist", context: context);
     await httpManager.get();
-    print("GetAllPlayList :" + httpManager.response.statusCode.toString());
     ResponseManager responseManager = new ResponseManager(
+      context: context,
       response: httpManager.response,
-      functionListToReturn: () => fromJsonToPlayListList(httpManager),
-      elementToReturn: new List<PlayList>(),
     );
-    return responseManager.checkResponseAndRetrieveListOfInformation();
+    return responseManager.checkResponseRetrieveInformationWithAFunction(
+        toReturn: () => fromJsonToPlayListList(httpManager),elementToReturnIfFalse: new List<PlayList>());
   }
 
   static List<PlayList> fromJsonToPlayListList(HttpManager httpManager) {
@@ -39,14 +38,14 @@ class PlayListController {
     HttpManager httpManager =
         new HttpManager(path: "playlist/$playListId", context: context);
     await httpManager.get();
-    print("GetPlayList :" + httpManager.response.request.toString());
     ResponseManager responseManager = new ResponseManager(
         response: httpManager.response,
-        functionFromJsonToReturn: () => PlayList.fromJson(
-              json.decode(httpManager.response.body),
-            ),
-        elementToReturn: PlayList.defaultConstructor());
-    return responseManager.checkResponseAndRetrieveInformationFromJson();
+        context: context);
+    return responseManager.checkResponseRetrieveInformationWithAFunction(
+      toReturn: () => PlayList.fromJson(
+        json.decode(httpManager.response.body),
+      ),elementToReturnIfFalse: PlayList.defaultConstructor()
+    );
   }
 
   static Future<void> createNewPlayList({
@@ -62,9 +61,8 @@ class PlayListController {
         httpManager.response.statusCode.toString());
     ResponseManager responseManager = new ResponseManager(
         response: httpManager.response,
-        successMessage: SettingsManager.mapLanguage["PlayListCreated"],
         context: context);
-    responseManager.checkResponseAndPrintIt();
+    responseManager.checkResponseAndShowWithFlushBarMessageTheAnswer(successMessage: SettingsManager.mapLanguage["PlayListCreated"]);
   }
 
   static Future<void> addSongToPlayList({
@@ -75,26 +73,23 @@ class PlayListController {
     HttpManager httpManager = new HttpManager(
         path: "playlist/$playlistId/addMusic/$musicId", context: context);
     await httpManager.postWithoutBody();
-    print("addSongToPlayList :" + httpManager.response.request.toString());
     ResponseManager responseManager = new ResponseManager(
         response: httpManager.response,
-        successMessage: SettingsManager.mapLanguage["AddSongToPlayList"],
         context: context);
-    responseManager.checkResponseAndPrintIt();
+    responseManager.checkResponseAndShowWithFlushBarMessageTheAnswer(successMessage: SettingsManager.mapLanguage["AddSongToPlayList"]);
   }
 
-  static Future<void> removeSongFromPlayList({@required BuildContext context, @required String playlistId,
-    @required String musicId,}) async
-  {
+  static Future<void> removeSongFromPlayList({
+    @required BuildContext context,
+    @required String playlistId,
+    @required String musicId,
+  }) async {
     HttpManager httpManager = new HttpManager(
         path: "playlist/$playlistId/deleteMusic/$musicId", context: context);
     await httpManager.delete();
-    print(httpManager.response.body);
     ResponseManager responseManager = new ResponseManager(
         response: httpManager.response,
-        successMessage: SettingsManager.mapLanguage["RemoveFromPlayList"],
         context: context);
-    return responseManager.checkResponseAndPrintIt();
-
+    return responseManager.checkResponseAndShowWithFlushBarMessageTheAnswer(successMessage: SettingsManager.mapLanguage["RemoveFromPlayList"]);
   }
 }
