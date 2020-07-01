@@ -13,6 +13,7 @@ import 'package:betsbi/services/chat/view/ChatListContactView.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
 import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:betsbi/tools/ContactChat.dart';
+import 'package:betsbi/tools/DefaultTextTitle.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +102,8 @@ class ChatListContactState extends State<ChatListContactPage>
                           builder: (context) => ChatPage(
                             userContactedId:
                                 SettingsManager.cfg.getString("ChatBotId"),
-                            userContactedName: SettingsManager.cfg.getString("ChatBotId"),
+                            userContactedName:
+                                SettingsManager.cfg.getString("ChatBotId"),
                           ),
                         ),
                       ).whenComplete(
@@ -114,43 +116,49 @@ class ChatListContactState extends State<ChatListContactPage>
                     },
                     child: ContactChat(
                       contact: Contact(
-                        isPsy: false,
-                        newMessage: 0,
-                        userId: SettingsManager.cfg.getString("ChatBotId"),
-                        username: SettingsManager.cfg.getString("ChatBotId"),
-                        skin: "1AAAA_1AAAA_1AAAA"
-                      ),
+                          isPsy: false,
+                          newMessage: 0,
+                          userId: SettingsManager.cfg.getString("ChatBotId"),
+                          username: SettingsManager.cfg.getString("ChatBotId"),
+                          skin: "1AAAA_1AAAA_1AAAA"),
                     ),
                   ),
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) => Card(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChatPage(
-                              userContactedId: contacts[index].userId,
-                              userContactedName: contacts[index].username,
+                contacts.isNotEmpty
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        itemBuilder: (context, index) => Card(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChatPage(
+                                    userContactedId: contacts[index].userId,
+                                    userContactedName: contacts[index].username,
+                                  ),
+                                ),
+                              ).whenComplete(
+                                () => this.setState(
+                                  () {
+                                    _memorizer = AsyncMemoizer();
+                                  },
+                                ),
+                              );
+                            },
+                            child: ContactChat(
+                              contact: contacts[index],
                             ),
                           ),
-                        ).whenComplete(
-                          () => this.setState(
-                            () {
-                              _memorizer = AsyncMemoizer();
-                            },
-                          ),
-                        );
-                      },
-                      child: ContactChat(
-                        contact: contacts[index],
+                        ),
+                        itemCount: contacts.length,
+                      )
+                    : Center(
+                        child: DefaultTextTitle(
+                          title: SettingsManager.mapLanguage["FindFriends"],
+                        ),
                       ),
-                    ),
-                  ),
-                  itemCount: contacts.length,
-                ),
               ],
             );
           }

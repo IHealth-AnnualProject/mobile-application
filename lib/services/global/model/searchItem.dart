@@ -6,14 +6,15 @@ import 'package:flutter/cupertino.dart';
 class SearchItem {
   String title;
   String subtitle;
-  Widget trailing;
+  Widget leading;
   Exercise exercise;
   User user;
   Song song;
+  bool contactButton;
 
-  SearchItem.userItem({this.title, this.subtitle, this.trailing, this.user});
+  SearchItem.userItem({this.title, this.subtitle, this.leading, this.user, this.contactButton = true});
 
-  SearchItem.exerciseItem({this.title, this.subtitle, this.trailing, this.exercise});
+  SearchItem.exerciseItem({this.title, this.subtitle, this.leading, this.exercise, this.contactButton = false});
 
-  SearchItem.songItem({this.title, this.subtitle, this.trailing, this.song});
+  SearchItem.songItem({this.title, this.subtitle, this.leading, this.song, this.contactButton = false});
 }

@@ -156,5 +156,6 @@
   "Me": "Me",
   "AddressSelector" : "Choose a place where you work",
   "ChoiceSkin" : "Choose the skin you want to display on the application",
-  "RequiredLevel" : "Required Level :"
+  "RequiredLevel" : "Required Level :",
+  "FindFriends" : "You can find other user to talk with directly by searching in the upper search bar"
 }

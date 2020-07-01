@@ -1,20 +1,23 @@
 import 'package:betsbi/services/global/controller/SearchBarController.dart';
 import 'package:betsbi/services/global/model/searchItem.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/tools/CircleContactButton.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:async/async.dart';
 
 class DataSearch extends SearchDelegate<String> {
   List<SearchItem> items;
-  AsyncMemoizer _memoizer = AsyncMemoizer();
+  AsyncMemoizer _memorizer = AsyncMemoizer();
   final BuildContext context;
 
   DataSearch(this.context);
 
   getSearchList() {
-    return this._memoizer.runOnce(() async {
-      return items = await SearchBarController.getAllPropsAccordingToCategoryChosen(context: context);
+    return this._memorizer.runOnce(() async {
+      return items =
+          await SearchBarController.getAllPropsAccordingToCategoryChosen(
+              context: context);
     });
   }
 
@@ -73,7 +76,7 @@ class DataSearch extends SearchDelegate<String> {
           return WaitingWidget();
         } else {
           // data loaded:
-          _memoizer = AsyncMemoizer();
+          _memorizer = AsyncMemoizer();
           final suggestionList = query.isEmpty
               ? items
               : items
@@ -87,25 +90,31 @@ class DataSearch extends SearchDelegate<String> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SearchBarController.redirectAfterPushing(suggestionList[index]),
+                      builder: (context) =>
+                          SearchBarController.redirectAfterPushing(
+                              suggestionList[index]),
                     ),
                   );
                 },
-                trailing: items[index].trailing,
+                leading: items[index].leading,
                 subtitle: Text(items[index].subtitle),
+                trailing: items[index].contactButton
+                    ? CircleContactButton(
+                        userContactedId: items[index].user.profileId,
+                        userContactedName: items[index].user.username,
+                      )
+                    : Icon(Icons.arrow_forward_ios),
                 title: RichText(
                   text: TextSpan(
-                    text: suggestionList[index]
-                        .title
-                        .substring(0, query.length),
+                    text:
+                        suggestionList[index].title.substring(0, query.length),
                     style: TextStyle(
                         color: Color.fromRGBO(0, 157, 153, 1),
                         fontWeight: FontWeight.bold),
                     children: [
                       TextSpan(
-                        text: suggestionList[index]
-                            .title
-                            .substring(query.length),
+                        text:
+                            suggestionList[index].title.substring(query.length),
                         style: TextStyle(
                           color: Color.fromRGBO(0, 157, 153, 1),
                         ),

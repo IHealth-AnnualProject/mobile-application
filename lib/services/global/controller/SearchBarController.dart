@@ -59,7 +59,7 @@ class SearchBarController {
             subtitle: exercise.type,
             title: exercise.name,
             exercise: exercise,
-            trailing: Icon(Icons.note),
+            leading: Icon(Icons.note),
           ),
         ),
       ),
@@ -76,7 +76,7 @@ class SearchBarController {
                   user: user, context: context);
           items.add(
             SearchItem.userItem(
-              trailing: avatar,
+              leading: avatar,
               title: user.username,
               user: user,
               subtitle: SettingsManager.mapLanguage["User"],
@@ -99,7 +99,7 @@ class SearchBarController {
                     user: user, context: context);
             items.add(
               SearchItem.userItem(
-                trailing: avatar,
+                leading: avatar,
                 title: user.username,
                 user: user,
                 subtitle: SettingsManager.mapLanguage["Psy"],
@@ -118,7 +118,7 @@ class SearchBarController {
                   user: user, context: context);
           items.add(
             SearchItem.userItem(
-              trailing: avatar,
+              leading: avatar,
               title: user.username,
               user: user,
               subtitle: SettingsManager.mapLanguage["Psy"],
@@ -174,7 +174,7 @@ class SearchBarController {
             SearchItem.songItem(
               subtitle: song.duration,
               title: song.songName,
-              trailing: Icon(Icons.play_arrow),
+              leading: Icon(Icons.play_arrow),
               song: song,
             ),
           );
