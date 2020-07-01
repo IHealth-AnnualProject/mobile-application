@@ -30,20 +30,14 @@ class _QuestWidgetState extends State<QuestWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Flexible(
-              flex: 5,
-              child: Text(
-                this.widget.quest.questTitle,
+            RichText(
+              text: TextSpan(
+                text: this.widget.quest.questTitle+" ",
                 style: TextStyle(
-                    fontSize: 25, color: Color.fromRGBO(0, 157, 153, 1)),
-              ),
-            ),
-            Flexible(
-              flex: 5,
-              child: Text(
-                this.widget.quest.questDifficulty,
-                style: TextStyle(
-                    fontSize: 25, color: Color.fromRGBO(0, 157, 153, 1)),
+                    fontSize: 25, color: Color.fromRGBO(0, 157, 153, 1),fontFamily: 'PoetsenOne'),
+                children: <TextSpan>[
+                  TextSpan(text: this.widget.quest.questDifficulty.toUpperCase(), style: TextStyle(fontWeight: FontWeight.bold)),
+                ],
               ),
             ),
           ],
