@@ -8,7 +8,6 @@ import 'package:betsbi/services/registrationAndLogin/view/RegisterView.dart';
 import 'package:betsbi/tools/ForgotPassword.dart';
 import 'package:betsbi/tools/SubmitButton.dart';
 import 'package:betsbi/tools/TextFormFieldCustomBetsBi.dart';
-import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -138,7 +137,6 @@ class LoginState extends State<LoginPage> {
                   width: 350,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       InkWell(
                         onTap: () => SettingsManager.setLanguage()
@@ -168,9 +166,11 @@ class LoginState extends State<LoginPage> {
                                     fontSize: 17)),
                             InkWell(
                               onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RegisterPage())),
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => RegisterPage(),
+                                ),
+                              ),
                               child: new Text(
                                 SettingsManager.mapLanguage["SignUp"] != null
                                     ? SettingsManager.mapLanguage["SignUp"]
@@ -186,7 +186,10 @@ class LoginState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                )
+                ),
+                SizedBox(
+                  height: 50,
+                ),
               ],
             ),
           ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -204,8 +207,6 @@ class LoginState extends State<LoginPage> {
       ),
     );
   }
-
-
 
   Flushbar offlineChoiceFlushBar() {
     return Flushbar(

@@ -127,14 +127,14 @@ class MemosState extends State<MemosPage> with WidgetsBindingObserver {
 
   showAlertDialog(BuildContext context) {
     // set up the button
-    Widget okButton = FlatButton(
+    Widget cancelButton = FlatButton(
       child: Text(SettingsManager.mapLanguage["Cancel"]),
       onPressed: () {
         Navigator.pop(context);
       },
     );
 
-    Widget cancelButton = FlatButton(
+    Widget submitButton = FlatButton(
       child: Text(SettingsManager.mapLanguage["Submit"]),
       onPressed: () {
         if (this._formKey.currentState.validate()) {
@@ -151,6 +151,10 @@ class MemosState extends State<MemosPage> with WidgetsBindingObserver {
                   parent: this,
                 ),
               );
+              titleController.clear();
+              dueTimeController.clear();
+              dueDateController.clear();
+              Navigator.of(context).pop();
             }),
           );
         }
@@ -165,7 +169,7 @@ class MemosState extends State<MemosPage> with WidgetsBindingObserver {
         style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
       ),
       content: formToCreateMemoOnDueDate(),
-      actions: [okButton, cancelButton],
+      actions: [submitButton, cancelButton],
     );
 
     // show the dialog

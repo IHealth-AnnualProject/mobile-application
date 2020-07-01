@@ -101,75 +101,83 @@ class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
     );
     return Scaffold(
       appBar: AppSearchBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          SizedBox(
-            height: 45,
-          ),
-          DefaultCircleAvatar(
-            imagePath: "assets/settings.png",
-          ),
-          SizedBox(
-            height: 45,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                SettingsManager.mapLanguage["LanguageChanged"] != null
-                    ? SettingsManager.mapLanguage["LanguageChanged"]
-                    : "",
-                style: TextStyle(
-                    color: Color.fromRGBO(0, 157, 153, 1), fontSize: 25),
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              language,
-            ],
-          ),
-          SizedBox(
-            height: 45,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                SettingsManager.mapLanguage["NotificationPushActivated"] != null
-                    ? SettingsManager.mapLanguage["NotificationPushActivated"]
-                    : "",
-                style: TextStyle(
-                    color: Color.fromRGBO(0, 157, 153, 1), fontSize: 25),
-              ),
-              statusPushNotification
-            ],
-          ),
-          SizedBox(
-            height: 45,
-          ),
-          SubmitButton(
-            onPressedFunction: () =>
-                SettingsController.reloadIntroductionPage(context),
-            content: SettingsManager.mapLanguage["ReloadIntroduction"],
-          ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                child: SubmitButton(
-                  onPressedFunction: () =>
-                      SettingsController.disconnect(context),
-                  content: SettingsManager.mapLanguage["Logout"],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            SizedBox(
+              height: 45,
+            ),
+            DefaultCircleAvatar(
+              imagePath: "assets/settings.png",
+            ),
+            SizedBox(
+              height: 45,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  SettingsManager.mapLanguage["LanguageChanged"] != null
+                      ? SettingsManager.mapLanguage["LanguageChanged"]
+                      : "",
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 157, 153, 1), fontSize: 25),
                 ),
-                width: 350,
+                SizedBox(
+                  width: 20,
+                ),
+                language,
+              ],
+            ),
+            SizedBox(
+              height: 45,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  SettingsManager.mapLanguage["NotificationPushActivated"] !=
+                          null
+                      ? SettingsManager.mapLanguage["NotificationPushActivated"]
+                      : "",
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 157, 153, 1), fontSize: 25),
+                ),
+                statusPushNotification
+              ],
+            ),
+            SizedBox(
+              height: 45,
+            ),
+            SubmitButton(
+              onPressedFunction: () =>
+                  SettingsController.reloadIntroductionPage(context),
+              content: SettingsManager.mapLanguage["ReloadIntroduction"],
+            ),
+            SizedBox(
+              height: 45,
+            ),
+            Flexible(
+              fit: FlexFit.loose,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  child: SubmitButton(
+                    onPressedFunction: () =>
+                        SettingsController.disconnect(context),
+                    content: SettingsManager.mapLanguage["Logout"],
+                  ),
+                  width: 350,
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-        ],
+            SizedBox(
+              height: 20,
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
         selectedBottomIndexOffLine: null,

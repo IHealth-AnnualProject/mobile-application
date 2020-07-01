@@ -19,20 +19,24 @@ class RegisterState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     final statusUser = ToggleButtons(
       color: Colors.white,
-      fillColor: Colors.blue,
+      fillColor: Colors.cyanAccent,
       borderRadius: BorderRadius.circular(16.0),
       children: <Widget>[
         Text(
           SettingsManager.mapLanguage["UserChoice"] != null
               ? SettingsManager.mapLanguage["UserChoice"]
               : "",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: Color.fromRGBO(0, 157, 153, 1),
+          ),
         ),
         Text(
           SettingsManager.mapLanguage["PsyChoice"] != null
               ? SettingsManager.mapLanguage["PsyChoice"]
               : "",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: Color.fromRGBO(0, 157, 153, 1),
+          ),
         )
       ],
       onPressed: (int index) {
