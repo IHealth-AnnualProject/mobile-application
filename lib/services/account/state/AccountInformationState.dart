@@ -100,8 +100,8 @@ class AccountInformationState extends State<AccountInformationPage> {
     return this._memorizer.runOnce(() async {
       await userInformation();
       return currentUserWidget =
-          AccountController.getUserAvatarAccordingToHisIdForAccount(
-              user: userProfile, context: context);
+          AccountController.getUserAvatarAccordingToHisIdForAccountAsWidget(
+              userSkin: userProfile.skin);
     });
   }
 
@@ -338,6 +338,7 @@ class AccountInformationState extends State<AccountInformationPage> {
                                       this.widget.profile.profileId,
                                   userContactedName:
                                       this.widget.profile.username,
+                                  userContactedSkin: AccountController.getUserAvatarAccordingToHisIdForAccountAsObject(userSkin: this.widget.profile.skin),
                                 ),
                               ),
                             ),

@@ -1,9 +1,8 @@
 import 'package:badges/badges.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
-import 'package:betsbi/services/account/controller/SkinController.dart';
+import 'package:betsbi/services/account/controller/AccountController.dart';
 import 'package:betsbi/services/chat/model/contact.dart';
 import 'package:betsbi/services/report/view/ReportView.dart';
-import 'package:betsbi/tools/AvatarSkinWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -24,27 +23,7 @@ class _ContactChatState extends State<ContactChat> {
     super.initState();
   }
 
-   Widget getUserAvatarAccordingToHisIdForSearch()
-  {
-    int defaultFaceIndex = SkinController.faces.lastIndexWhere((face) =>
-    face.level.toString() + face.code == this.widget.contact.skin.split("_")[0]);
-    int defaultSkinColorIndex = SkinController.skinColors.lastIndexWhere(
-            (color) =>
-        color.level.toString() + color.code ==
-            this.widget.contact.skin.split("_")[1]);
-    int defaultAccessoryIndex = SkinController.accessories.lastIndexWhere(
-            (accessory) =>
-        accessory.level.toString() + accessory.code ==
-            this.widget.contact.skin.split("_")[2]);
 
-    return AvatarSkinWidget.searchConstructor(
-      faceImage: SkinController.faces[defaultFaceIndex].image,
-      accessoryImage:
-      SkinController.accessories[defaultAccessoryIndex].image,
-      skinColor:
-      SkinController.skinColors[defaultSkinColorIndex].colorTable,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +33,7 @@ class _ContactChatState extends State<ContactChat> {
       child: Container(
         color: Colors.white,
         child: ListTile(
-          leading: getUserAvatarAccordingToHisIdForSearch(),
+          leading: AccountController.getUserAvatarAccordingToHisIdForAccountAsSearchWidget(userSkin: this.widget.contact.skin),
           title: Text(widget.contact.username),
           trailing: Badge(
             badgeContent: Text(

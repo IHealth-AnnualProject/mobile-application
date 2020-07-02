@@ -1,3 +1,4 @@
+import 'package:betsbi/services/account/controller/AccountController.dart';
 import 'package:betsbi/services/global/controller/SearchBarController.dart';
 import 'package:betsbi/services/global/model/searchItem.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
@@ -102,6 +103,7 @@ class DataSearch extends SearchDelegate<String> {
                     ? CircleContactButton(
                         userContactedId: items[index].user.profileId,
                         userContactedName: items[index].user.username,
+                      userContactedSkin: AccountController.getUserAvatarAccordingToHisIdForAccountAsObject(userSkin: items[index].user.skin),
                       )
                     : Icon(Icons.arrow_forward_ios),
                 title: RichText(

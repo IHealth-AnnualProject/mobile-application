@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:betsbi/manager/HttpManager.dart';
 import 'package:betsbi/manager/ResponseManager.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/account/model/UserSkin.dart';
 import 'package:betsbi/services/account/model/psychologist.dart';
 import 'package:betsbi/services/account/model/tabContent.dart';
 import 'package:betsbi/services/account/model/user.dart';
@@ -51,23 +52,58 @@ class AccountController {
         elementToReturnIfFalse: psychologist);
   }
 
-  static Widget getUserAvatarAccordingToHisIdForAccount(
-      {@required User user, @required BuildContext context}) {
+  static Widget getUserAvatarAccordingToHisIdForAccountAsWidget(
+      {@required String userSkin}) {
     int defaultFaceIndex = SkinController.faces.lastIndexWhere(
-        (face) => face.level.toString() + face.code == user.skin.split("_")[0]);
+        (face) => face.level.toString() + face.code == userSkin.split("_")[0]);
     int defaultSkinColorIndex = SkinController.skinColors.lastIndexWhere(
         (color) =>
-            color.level.toString() + color.code == user.skin.split("_")[1]);
+            color.level.toString() + color.code == userSkin.split("_")[1]);
     int defaultAccessoryIndex = SkinController.accessories.lastIndexWhere(
         (accessory) =>
             accessory.level.toString() + accessory.code ==
-            user.skin.split("_")[2]);
+            userSkin.split("_")[2]);
 
     return AvatarSkinWidget.accountConstructor(
       faceImage: SkinController.faces[defaultFaceIndex].image,
       accessoryImage: SkinController.accessories[defaultAccessoryIndex].image,
       skinColor: SkinController.skinColors[defaultSkinColorIndex].colorTable,
     );
+  }
+  static Widget getUserAvatarAccordingToHisIdForAccountAsSearchWidget(
+      {@required String userSkin}) {
+    int defaultFaceIndex = SkinController.faces.lastIndexWhere(
+        (face) => face.level.toString() + face.code == userSkin.split("_")[0]);
+    int defaultSkinColorIndex = SkinController.skinColors.lastIndexWhere(
+        (color) =>
+            color.level.toString() + color.code == userSkin.split("_")[1]);
+    int defaultAccessoryIndex = SkinController.accessories.lastIndexWhere(
+        (accessory) =>
+            accessory.level.toString() + accessory.code ==
+            userSkin.split("_")[2]);
+
+    return AvatarSkinWidget.searchConstructor(
+      faceImage: SkinController.faces[defaultFaceIndex].image,
+      accessoryImage: SkinController.accessories[defaultAccessoryIndex].image,
+      skinColor: SkinController.skinColors[defaultSkinColorIndex].colorTable,
+    );
+  }
+
+  static UserSkin getUserAvatarAccordingToHisIdForAccountAsObject(
+      {@required String userSkin}) {
+    int defaultFaceIndex = SkinController.faces.lastIndexWhere(
+        (face) => face.level.toString() + face.code == userSkin.split("_")[0]);
+    int defaultSkinColorIndex = SkinController.skinColors.lastIndexWhere(
+        (color) =>
+            color.level.toString() + color.code == userSkin.split("_")[1]);
+    int defaultAccessoryIndex = SkinController.accessories.lastIndexWhere(
+        (accessory) =>
+            accessory.level.toString() + accessory.code ==
+            userSkin.split("_")[2]);
+    return UserSkin(
+        accessoryPath: SkinController.accessories[defaultAccessoryIndex].image,
+        skinColor: SkinController.skinColors[defaultSkinColorIndex].colorTable,
+        facePath: SkinController.faces[defaultFaceIndex].image);
   }
 
   static Future<void> updateCurrentUserInformation(

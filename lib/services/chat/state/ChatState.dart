@@ -9,6 +9,7 @@ import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/chat/SQLLiteNewMessage.dart';
 import 'package:betsbi/services/chat/view/ChatView.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
+import 'package:betsbi/tools/AvatarSkinWidget.dart';
 import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:bubble/bubble.dart';
@@ -58,6 +59,9 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
               : hisMessage(content: message.content));
         });
       });
+      messages.add(SizedBox(
+        height: 20,
+      ));
       messages.add(lineSendMessage());
       messages = messages.reversed.toList();
       await updateSettingsPropertyNewMessageLessWithCurrentNewMessageFromThisUserAndRemoveITFromBDD();
@@ -112,29 +116,31 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
         resizeToAvoidBottomPadding: true,
         appBar: AppSearchBar(),
         body: FutureBuilder(
-            future: _instanciateChatWithAllMessageAndInput(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: WaitingWidget(),
-                );
-              } else {
-                return ListView.builder(
-                  reverse: true,
-                  padding: const EdgeInsets.all(8),
-                  itemCount: messages.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return messages[index];
-                  },
-                );
-              }
-            }),
+          future: _instanciateChatWithAllMessageAndInput(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: WaitingWidget(),
+              );
+            } else {
+              return ListView.builder(
+                reverse: true,
+                padding: const EdgeInsets.all(8),
+                itemCount: messages.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return messages[index];
+                },
+              );
+            }
+          },
+        ),
         bottomNavigationBar: BottomNavigationBarFooter(
           selectedBottomIndexOffLine: null,
           selectedBottomIndexOnline: 2,
         ),
       ),
-      onWillPop: () async => await updateSettingsPropertyNewMessageLessWithCurrentNewMessageFromThisUserAndRemoveITFromBDD() ,
+      onWillPop: () async =>
+          await updateSettingsPropertyNewMessageLessWithCurrentNewMessageFromThisUserAndRemoveITFromBDD(),
     );
   }
 
@@ -184,47 +190,71 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
     );
   }
 
-  Bubble myMessage({@required content}) {
+  Widget myMessage({@required content}) {
     return Bubble(
-      margin: BubbleEdges.only(top: 10),
-      alignment: Alignment.topLeft,
-      nip: BubbleNip.leftTop,
-      child: RichText(
-        textAlign: TextAlign.right,
-        text: TextSpan(
-          text: SettingsManager.mapLanguage["Me"] + ": ",
-          style: TextStyle(
-              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black87),
-          children: <TextSpan>[
-            TextSpan(
-              text: content,
-              style: TextStyle(fontSize: 25, color: Colors.black87),
+        margin: BubbleEdges.only(top: 10),
+        alignment: Alignment.topLeft,
+        nip: BubbleNip.leftTop,
+        child: Wrap(
+          children: <Widget>[
+            RichText(
+              textAlign: TextAlign.right,
+              text: TextSpan(
+                text: SettingsManager.mapLanguage["Me"] + ": ",
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: content,
+                    style: TextStyle(fontSize: 25, color: Colors.black87),
+                  ),
+                ],
+              ),
             ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 
-  Bubble hisMessage({@required content}) {
-    return Bubble(
-      margin: BubbleEdges.only(top: 10),
+  Widget hisMessage({@required content}) {
+    return Align(
       alignment: Alignment.topRight,
-      nip: BubbleNip.rightTop,
-      color: Color.fromRGBO(225, 255, 199, 1.0),
-      child: RichText(
-        textAlign: TextAlign.right,
-        text: TextSpan(
-          text: this.widget.userContactedName + ": ",
-          style: TextStyle(
-              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black87),
-          children: <TextSpan>[
-            TextSpan(
-              text: content,
-              style: TextStyle(fontSize: 25, color: Colors.black87),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Flexible(
+            flex: 9,
+            child: Bubble(
+              margin: BubbleEdges.only(top: 10),
+              nip: BubbleNip.rightTop,
+              color: Color.fromRGBO(225, 255, 199, 1.0),
+              child: RichText(
+                textAlign: TextAlign.right,
+                text: TextSpan(
+                  text: this.widget.userContactedName + ": ",
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: content,
+                      style: TextStyle(fontSize: 25, color: Colors.black87),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ],
-        ),
+          ),
+          Flexible(
+            flex: 1,
+            child: AvatarSkinWidget.searchConstructor(
+                accessoryImage: this.widget.userContactedSkin.accessoryPath,
+                faceImage: this.widget.userContactedSkin.facePath,
+                skinColor: this.widget.userContactedSkin.skinColor),
+          ),
+        ],
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:betsbi/manager/HistoricalManager.dart';
+import 'package:betsbi/services/account/controller/AccountController.dart';
 import 'package:betsbi/services/chat/SQLLiteNewMessage.dart';
 import 'package:betsbi/services/chat/controller/ChatController.dart';
 import 'package:betsbi/services/chat/model/contact.dart';
@@ -104,6 +105,7 @@ class ChatListContactState extends State<ChatListContactPage>
                                 SettingsManager.cfg.getString("ChatBotId"),
                             userContactedName:
                                 SettingsManager.cfg.getString("ChatBotId"),
+                            userContactedSkin: AccountController.getUserAvatarAccordingToHisIdForAccountAsObject(userSkin: "1AAAA_1AAAA_1AAAA"),
                           ),
                         ),
                       ).whenComplete(
@@ -137,6 +139,7 @@ class ChatListContactState extends State<ChatListContactPage>
                                   builder: (context) => ChatPage(
                                     userContactedId: contacts[index].userId,
                                     userContactedName: contacts[index].username,
+                                    userContactedSkin: AccountController.getUserAvatarAccordingToHisIdForAccountAsObject(userSkin: contacts[index].skin),
                                   ),
                                 ),
                               ).whenComplete(

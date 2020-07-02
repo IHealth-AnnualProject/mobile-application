@@ -1,3 +1,4 @@
+import 'package:betsbi/services/account/model/UserSkin.dart';
 import 'package:betsbi/services/chat/view/ChatView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +6,10 @@ import 'package:flutter/material.dart';
 class CircleContactButton extends StatelessWidget {
   final String userContactedId;
   final String userContactedName;
+  final UserSkin userContactedSkin;
 
   CircleContactButton(
-      {@required this.userContactedId, @required this.userContactedName});
+      {@required this.userContactedId, @required this.userContactedName, @required this.userContactedSkin});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,8 @@ class CircleContactButton extends StatelessWidget {
         MaterialPageRoute(
           builder: (context) => ChatPage(
             userContactedName: userContactedName,
-            userContactedId: userContactedId,
+            userContactedId: userContactedId, userContactedSkin: userContactedSkin,
+
           ),
         ),
       ),
