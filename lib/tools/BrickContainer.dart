@@ -18,10 +18,7 @@ class BrickContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 10,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
+      elevation: 5,
       child: Container(
         child: GestureDetector(
           onTap: () {
