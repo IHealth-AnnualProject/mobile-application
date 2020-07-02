@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:betsbi/manager/GeolocationManager.dart';
 import 'package:betsbi/services/account/controller/SkinController.dart';
 import 'package:betsbi/services/settings/model/applicationProperties.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -19,6 +20,7 @@ class SettingsManager {
   static Future<void> instantiateConfigurationAndLoadLanguage() async {
     cfg = new GlobalConfiguration();
     storage = new FlutterSecureStorage();
+    await GeolocationManager.askForPermission();
     await GlobalConfiguration().loadFromPath("assets/cfg/settings.json").then(
           (r) => instantiateConfiguration().then(
             (r) => loadLanguage('locale/' +

@@ -3,9 +3,8 @@ import 'package:location/location.dart';
 
 class GeolocationManager{
 
-  static Future<bool> areAllPermissionGranted()
+  static Future<void> askForPermission()
   async {
-    bool result;
     Location location = new Location();
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
@@ -14,20 +13,29 @@ class GeolocationManager{
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied)
       _permissionGranted = await location.requestPermission();
-    _serviceEnabled ? result = true : result = false;
-    switch(_permissionGranted){
+  }
 
+  static Future<bool> areAllPermissionGranted() async
+  {
+    bool result;
+    Location location = new Location();
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    _serviceEnabled = await location.serviceEnabled();
+    _permissionGranted = await location.hasPermission();
+    if(_serviceEnabled == false) return false;
+    switch(_permissionGranted){
       case PermissionStatus.granted:
         result = true;
         break;
       case PermissionStatus.denied:
-       result = false;
+        result = false;
         break;
       case PermissionStatus.deniedForever:
         result = false;
         break;
     }
-     return result;
+    return result;
   }
 
   static int getDistanceInMeterBetweenHereAndAnotherPlace(LocationData currentLocation ,LatLng anotherPlace)
