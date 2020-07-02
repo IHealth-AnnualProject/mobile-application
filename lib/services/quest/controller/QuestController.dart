@@ -1,3 +1,5 @@
+import 'package:betsbi/manager/HttpManager.dart';
+import 'package:betsbi/manager/ResponseManager.dart';
 import 'package:betsbi/services/quest/model/quest.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/quest/SQLLiteQuest.dart';
@@ -27,7 +29,6 @@ class QuestController {
     SQLLiteQuest sqlLiteQuest = new SQLLiteQuest();
     List<Quest> quests = new List<Quest>();
     quests = await sqlLiteQuest.getAll();
-    print("controller " + quests.length.toString());
     return quests;
   }
 
@@ -58,8 +59,10 @@ class QuestController {
     SQLLiteQuest sqlLiteQuest = new SQLLiteQuest();
     quest.changeDone(1);
     int updateReturn = await sqlLiteQuest.update(quest);
-    if (updateReturn != null)
+    if (updateReturn != null) {
+      await sendXpGainedByUser(context : context,questDifficulty: quest.questDifficulty);
       showAlertDialog(context: context, questDifficulty: quest.questDifficulty);
+    }
     else
       FlushBarMessage.errorMessage(
               content: SettingsManager.mapLanguage["QuestNotCreated"])
@@ -78,6 +81,18 @@ class QuestController {
       FlushBarMessage.errorMessage(
               content: SettingsManager.mapLanguage["QuestNotDeleted"])
           .showFlushBar(context);
+  }
+
+  static Future<void> sendXpGainedByUser({@required BuildContext context, @required String questDifficulty})
+  async {
+    HttpManager httpManager =
+    new HttpManager(path: 'user/addXp', context: context,map: {"xp":getExperienceAccordingToDifficulty(questDifficulty: questDifficulty)});
+    await httpManager.post();
+    ResponseManager responseManager = new ResponseManager(
+      response: httpManager.response,
+      context: context,
+    );
+     responseManager.checkResponseAndExecuteFunctionIfOk();
   }
 
   static showAlertDialog({BuildContext context, String questDifficulty}) {

@@ -170,8 +170,7 @@ class QuestCreateState extends State<QuestCreatePage>
         context: context,
         questTitle: titleController.value.text,
         questDifficulty: _currentDifficulty,
-        questDescription: titleController.value.text,
-
+        questDescription: descriptionController.value.text,
       );
     }
   }

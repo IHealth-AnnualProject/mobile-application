@@ -19,8 +19,15 @@ class QuestWidget extends StatefulWidget {
 
 class _QuestWidgetState extends State<QuestWidget> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Wrap(
+    return Tooltip(
+      message: this.widget.quest.questDescription,
+      child : Wrap(
       alignment: WrapAlignment.center,
       spacing: 20,
       children: <Widget>[
@@ -62,7 +69,7 @@ class _QuestWidgetState extends State<QuestWidget> {
                       shape: StadiumBorder(
                           side: BorderSide(
                         color: Color.fromRGBO(228, 228, 228, 1),
-                      )),
+                      ),),
                       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                       onPressed: () async {
                         await QuestController.validateQuest(
@@ -110,6 +117,6 @@ class _QuestWidgetState extends State<QuestWidget> {
           ],
         ),
       ],
-    );
+    ),);
   }
 }
