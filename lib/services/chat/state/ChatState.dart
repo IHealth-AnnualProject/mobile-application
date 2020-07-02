@@ -50,7 +50,7 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
     return this._memorizer.runOnce(() async {
       instantiateSocketForChat(onNewMessage: _onNewMessage);
       await ChatController.getAllMessageIdFromContact(
-              contactID: this.widget.userContactedId)
+              contactID: this.widget.userContactedId, context: context)
           .then((listMessage) {
         listMessage.forEach((message) {
           messages.add(SettingsManager.applicationProperties.getCurrentId() ==

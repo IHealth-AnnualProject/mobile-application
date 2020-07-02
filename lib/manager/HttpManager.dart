@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
 import 'package:betsbi/tools/FlushBarMessage.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,9 +28,19 @@ class HttpManager {
       ).timeout(Duration(seconds: 6));
     } on TimeoutException catch (_) {
       FlushBarMessage.informationMessage(
-              content: SettingsManager.mapLanguage["TimeOut"])
+          content: SettingsManager.mapLanguage["TimeOut"])
           .showFlushBarAndDo(
-              context, () => SettingsController.disconnect(context));
+          context, () => SettingsController.disconnect(context));
+    } on SocketException  {
+      FlushBarMessage.informationMessage(
+          content: SettingsManager.mapLanguage["CheckInternetConnection"])
+          .showFlushBarAndDo(
+          context, () => SettingsController.disconnect(context));
+    } on Exception {
+      FlushBarMessage.informationMessage(
+          content: SettingsManager.mapLanguage["WentWrong"])
+          .showFlushBarAndDo(
+          context, () => SettingsController.disconnect(context));
     }
   }
 
@@ -51,6 +62,16 @@ class HttpManager {
               content: SettingsManager.mapLanguage["TimeOut"])
           .showFlushBarAndDo(
               context, () => SettingsController.disconnect(context));
+    } on SocketException  {
+      FlushBarMessage.informationMessage(
+          content: SettingsManager.mapLanguage["CheckInternetConnection"])
+          .showFlushBarAndDo(
+          context, () => SettingsController.disconnect(context));
+    } on Exception {
+      FlushBarMessage.informationMessage(
+          content: SettingsManager.mapLanguage["WentWrong"])
+          .showFlushBarAndDo(
+          context, () => SettingsController.disconnect(context));
     }
   }
 
@@ -72,6 +93,16 @@ class HttpManager {
               content: SettingsManager.mapLanguage["TimeOut"])
           .showFlushBarAndDo(
               context, () => SettingsController.disconnect(context));
+    } on SocketException  {
+      FlushBarMessage.informationMessage(
+          content: SettingsManager.mapLanguage["CheckInternetConnection"])
+          .showFlushBarAndDo(
+          context, () => SettingsController.disconnect(context));
+    } on Exception {
+      FlushBarMessage.informationMessage(
+          content: SettingsManager.mapLanguage["WentWrong"])
+          .showFlushBarAndDo(
+          context, () => SettingsController.disconnect(context));
     }
   }
 
@@ -90,6 +121,16 @@ class HttpManager {
               content: SettingsManager.mapLanguage["TimeOut"])
           .showFlushBarAndDo(
               context, () => SettingsController.disconnect(context));
+    } on SocketException  {
+      FlushBarMessage.informationMessage(
+          content: SettingsManager.mapLanguage["CheckInternetConnection"])
+          .showFlushBarAndDo(
+          context, () => SettingsController.disconnect(context));
+    } on Exception {
+      FlushBarMessage.informationMessage(
+          content: SettingsManager.mapLanguage["WentWrong"])
+          .showFlushBarAndDo(
+          context, () => SettingsController.disconnect(context));
     }
   }
   delete() async {
@@ -107,6 +148,16 @@ class HttpManager {
               content: SettingsManager.mapLanguage["TimeOut"])
           .showFlushBarAndDo(
               context, () => SettingsController.disconnect(context));
+    } on SocketException  {
+      FlushBarMessage.informationMessage(
+          content: SettingsManager.mapLanguage["CheckInternetConnection"])
+          .showFlushBarAndDo(
+          context, () => SettingsController.disconnect(context));
+    } on Exception {
+      FlushBarMessage.informationMessage(
+          content: SettingsManager.mapLanguage["WentWrong"])
+          .showFlushBarAndDo(
+          context, () => SettingsController.disconnect(context));
     }
   }
 
@@ -126,6 +177,16 @@ class HttpManager {
               content: SettingsManager.mapLanguage["TimeOut"])
           .showFlushBarAndDo(
               context, () => SettingsController.disconnect(context));
+    } on SocketException  {
+      FlushBarMessage.informationMessage(
+          content: SettingsManager.mapLanguage["CheckInternetConnection"])
+          .showFlushBarAndDo(
+          context, () => SettingsController.disconnect(context));
+    } on Exception {
+      FlushBarMessage.informationMessage(
+          content: SettingsManager.mapLanguage["WentWrong"])
+          .showFlushBarAndDo(
+          context, () => SettingsController.disconnect(context));
     }
   }
 

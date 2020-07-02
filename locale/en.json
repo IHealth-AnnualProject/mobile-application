@@ -157,5 +157,6 @@
   "AddressSelector" : "Choose a place where you work",
   "ChoiceSkin" : "Choose the skin you want to display on the application",
   "RequiredLevel" : "Required Level :",
-  "FindFriends" : "You can find other user to talk with directly by searching in the upper search bar"
+  "FindFriends" : "You can find other user to talk with directly by searching in the upper search bar",
+  "CheckInternetConnection" : "Please, check you internet connection"
 }
