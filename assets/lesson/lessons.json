@@ -1,0 +1,42 @@
+[
+  {
+    "Name": "ABC Model",
+    "Pages": [
+      {
+        "Title": "ABC Model",
+        "PageColor": [128,195,241,1],
+        "Bubble": "assets/lesson/abcmodel.png",
+        "Body": "Adversité - Croyance - Consequence",
+        "MainImage": "assets/lesson/abcmodel.png"
+      },
+      {
+        "Title": "A - Adversité",
+        "PageColor": [88, 214, 141, 1],
+        "Bubble": "assets/lesson/amodel.png",
+        "Body": "Evenements provoquant une réaction de stress : Pourquoi cet évènement s'est il produit ?",
+        "MainImage": "assets/lesson/amodel.png"
+      },
+      {
+        "Title": "B - croyances (Beliefs)",
+        "PageColor": [243, 223, 63, 1],
+        "Bubble": "assets/lesson/bmodel.png",
+        "Body": "Comment l'évènements à été perçu en fonction de nos sentiments actuel",
+        "MainImage": "assets/lesson/bmodel.png"
+      },
+      {
+        "Title": "C - conséquence",
+        "PageColor": [208, 167, 229, 1],
+        "Bubble": "assets/lesson/cmodel.png",
+        "Body": "Comment réagir en fonction de ces évènements ?",
+        "MainImage": "assets/lesson/cmodel.png"
+      },
+      {
+        "Title": "Comment ça marche ?",
+        "PageColor": [128, 195, 241, 1],
+        "Bubble": "assets/introduction/introduction_exercice.png",
+        "Body": "On analyse sa réaction, on remets en cause ses pensées négatives, on relativise et on repense au positif pour nous remettre",
+        "MainImage": "assets/introduction/introduction_exercice.png"
+      }
+    ]
+  }
+]

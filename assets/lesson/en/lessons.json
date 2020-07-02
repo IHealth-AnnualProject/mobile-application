@@ -1,0 +1,75 @@
+[
+  {
+    "Name": "ABC Model",
+    "Pages": [
+      {
+        "Title": "ABC Model",
+        "PageColor": [128,195,241,1],
+        "Bubble": "assets/lesson/abcmodel.png",
+        "Body": "Adversity - Beliefs - Consequence",
+        "MainImage": "assets/lesson/abcmodel.png"
+      },
+      {
+        "Title": "A - Adversity",
+        "PageColor": [88, 214, 141, 1],
+        "Bubble": "assets/lesson/amodel.png",
+        "Body": "Stress Reaction Events: Why did this event occur ?",
+        "MainImage": "assets/lesson/amodel.png"
+      },
+      {
+        "Title": "B - Beliefs",
+        "PageColor": [243, 223, 63, 1],
+        "Bubble": "assets/lesson/bmodel.png",
+        "Body": "How the event was perceived according to our current feelings ?",
+        "MainImage": "assets/lesson/bmodel.png"
+      },
+      {
+        "Title": "C - Consequence",
+        "PageColor": [208, 167, 229, 1],
+        "Bubble": "assets/lesson/cmodel.png",
+        "Body": "How to react according to these events ?",
+        "MainImage": "assets/lesson/cmodel.png"
+      },
+      {
+        "Title": "How it works ?",
+        "PageColor": [128, 195, 241, 1],
+        "Bubble": "assets/introduction/introduction_exercice.png",
+        "Body": "We analyze our reaction, we question our negative thoughts, we relativize and we rethink the positive in order to recover ourselves",
+        "MainImage": "assets/introduction/introduction_exercice.png"
+      }
+    ]
+  },
+  {
+    "Name": "Relativize",
+    "Pages": [
+      {
+        "Title": "Relativize",
+        "PageColor": [128,195,241,1],
+        "Bubble": "assets/lesson/relativiser.png",
+        "Body": "Playing with space - Playing with time",
+        "MainImage": "assets/lesson/relativiser.png"
+      },
+      {
+        "Title": "What is the impact of our concerns on a global scale ?",
+        "PageColor": [88, 214, 141, 1],
+        "Bubble": "assets/lesson/space.png",
+        "Body": "Looking at the paper and noticing that what's bothering us isn't on the front page...",
+        "MainImage": "assets/lesson/space.png"
+      },
+      {
+        "Title": "How will you look at your problems 10 years from now ?",
+        "PageColor": [243, 223, 63, 1],
+        "Bubble": "assets/lesson/time.png",
+        "Body": "Imagine yourself several years from now thinking about your current problems.",
+        "MainImage": "assets/lesson/time.png"
+      },
+      {
+        "Title": "Give yourself a new dimension to your difficulties",
+        "PageColor": [208, 167, 229, 1],
+        "Bubble": "assets/lesson/motivation.png",
+        "Body": "Playing with time and space",
+        "MainImage": "assets/lesson/motivation.png"
+      }
+    ]
+  }
+]

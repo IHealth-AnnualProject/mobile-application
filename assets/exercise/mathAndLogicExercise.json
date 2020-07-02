@@ -1,0 +1,133 @@
+[
+  {
+    "Name": "Tutorial Exercise",
+    "Difficulty": "Easy",
+    "Type": "Pipe",
+    "InputPipe": {
+      "0": "start",
+      "6": "pipe-to-left",
+      "7": "straight-horiz",
+      "8": "pipe-to-left",
+      "14": "straight-horiz",
+      "20": "pipe-to-left",
+      "21": "straight-horiz",
+      "22": "pipe-to-left",
+      "28": "pipe-to-left",
+      "29": "pipe-to-left",
+      "35": "end"
+    },
+    "ResultPipe": {
+      "0": "start",
+      "6": "pipe-to-bottom",
+      "7": "straight-horiz",
+      "8": "pipe-to-left",
+      "14": "straight-verti",
+      "20": "pipe-to-bottom",
+      "21": "straight-horiz",
+      "22": "pipe-to-left",
+      "28": "pipe-to-bottom",
+      "29": "pipe-to-left",
+      "35": "end"
+    }
+  },
+  {
+    "Name": "Tutorial Exercise",
+    "Difficulty": "Easy",
+    "Type": "Math",
+    "Question": "Question1",
+    "Explanation": "",
+    "Answers": [
+      "2",
+      "11",
+      "322"
+    ],
+    "Result": "2"
+  },
+  {
+    "Name": "Enigma N°1",
+    "Difficulty": "Easy",
+    "Type": "Math",
+    "Question": "EnigmaFish",
+    "Explanation" : "EnigmaFishExplanation",
+    "Answers": [
+      "10",
+      "3",
+      "7"
+    ],
+    "Result": "10"
+  },
+  {
+    "Name" : "Tutorial Similar Card",
+    "Difficulty" : "Easy",
+    "Type" : "SimilarCard",
+    "CardList": [
+      {
+        "Id": 1,
+        "Color": [0, 157, 153, 1],
+        "Face": "face36.png",
+        "Accessory" : "accessories17.png"
+      },
+      {
+        "Id": 2,
+        "Color": [212, 19, 189, 1],
+        "Face": "face10.png",
+        "Accessory" : "accessories8.png"
+      },
+      {
+        "Id": 3,
+        "Color": [212, 19, 189, 1],
+        "Face": "face15.png",
+        "Accessory" : "accessories2.png"
+      },
+      {
+        "Id": 4,
+        "Color": [39, 197, 101, 1],
+        "Face": "face8.png",
+        "Accessory" : "accessories19.png"
+      }
+    ]
+  },
+  {
+    "Name" : "Similar Card N°2",
+    "Difficulty" : "Easy",
+    "Type" : "SimilarCard",
+    "CardList": [
+      {
+        "Id": 1,
+        "Color": [3, 218, 190, 1],
+        "Face": "face9.png",
+        "Accessory" : "accessories24.png"
+      },
+      {
+        "Id": 2,
+        "Color": [248, 98, 211, 1],
+        "Face": "face1.png",
+        "Accessory" : "accessories1.png"
+      },
+      {
+        "Id": 3,
+        "Color": [212, 19, 189, 1],
+        "Face": "face16.png",
+        "Accessory" : "accessories4.png"
+      },
+      {
+        "Id": 4,
+        "Color": [136, 251, 223, 1],
+        "Face": "face60.png",
+        "Accessory" : "accessories13.png"
+      },
+      {
+        "Id": 5,
+        "Color": [61, 227, 166, 1],
+        "Face": "face50.png",
+        "Accessory" : "accessories9.png"
+      },
+      {
+        "Id": 6,
+        "Color": [1, 247, 282, 1],
+        "Face": "face40.png",
+        "Accessory" : "accessories10.png"
+      }
+    ]
+  }
+]
