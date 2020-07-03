@@ -1,13 +1,10 @@
-import 'package:async/async.dart';
 import 'package:betsbi/manager/HistoricalManager.dart';
 import 'package:betsbi/services/account/controller/AccountController.dart';
-import 'package:betsbi/services/chat/SQLLiteNewMessage.dart';
 import 'package:betsbi/services/chat/controller/ChatController.dart';
 import 'package:betsbi/services/chat/model/contact.dart';
 import 'package:betsbi/services/chat/view/ChatView.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
-
 import 'package:betsbi/services/chat/model/message.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/chat/view/ChatListContactView.dart';
@@ -18,15 +15,11 @@ import 'package:betsbi/tools/DefaultTextTitle.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 
 class ChatListContactState extends State<ChatListContactPage>
     with WidgetsBindingObserver {
-  List<Contact> contacts;
-  Socket socket;
-  AsyncMemoizer _memorizer = AsyncMemoizer();
 
-  _onNewMessage(dynamic data) async {
+  _onNewMessage(dynamic data, List<Contact> contacts) async {
     Message receivedMessage = Message.fromJson(data);
     int index = 0;
     contacts.forEach((element) {
@@ -51,28 +44,6 @@ class ChatListContactState extends State<ChatListContactPage>
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
-  findContacts() {
-    return this._memorizer.runOnce(() async {
-      contacts = new List<Contact>();
-      socket =
-          io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
-        'transports': ['websocket'],
-        'autoConnect': false,
-      });
-      socket.on('newMessage', (data) => _onNewMessage(data));
-      contacts = await ChatController.getAllContact(context: context);
-      SQLLiteNewMessage newMessage = new SQLLiteNewMessage();
-      contacts.removeWhere((contact) =>
-          contact.userId == SettingsManager.cfg.getString("ChatBotId"));
-      contacts.forEach((contact) async {
-        contact.setNewMessage(await newMessage.countByIdFromAndTo(
-            userIdFrom: contact.userId,
-            userIdTo: SettingsManager.applicationProperties.getCurrentId()));
-      });
-      return contacts;
-    });
-  }
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
@@ -87,7 +58,8 @@ class ChatListContactState extends State<ChatListContactPage>
     return Scaffold(
       appBar: AppSearchBar(),
       body: FutureBuilder(
-        future: findContacts(),
+        future: ChatController.getAllContactAsInterface(
+            context: context, onNewMessage: _onNewMessage),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return WaitingWidget();
@@ -105,14 +77,14 @@ class ChatListContactState extends State<ChatListContactPage>
                                 SettingsManager.cfg.getString("ChatBotId"),
                             userContactedName:
                                 SettingsManager.cfg.getString("ChatBotId"),
-                            userContactedSkin: AccountController.getUserAvatarAccordingToHisIdForAccountAsObject(userSkin: "1AAAA_1AAAA_1AAAA"),
+                            userContactedSkin: AccountController
+                                .getUserAvatarAccordingToHisIdForAccountAsObject(
+                                    userSkin: "1AAAA_1AAAA_1AAAA"),
                           ),
                         ),
                       ).whenComplete(
                         () => setState(
-                          () {
-                            _memorizer = AsyncMemoizer();
-                          },
+                          () {},
                         ),
                       );
                     },
@@ -126,7 +98,7 @@ class ChatListContactState extends State<ChatListContactPage>
                     ),
                   ),
                 ),
-                contacts.isNotEmpty
+                snapshot.data.isNotEmpty
                     ? ListView.builder(
                         shrinkWrap: true,
                         primary: false,
@@ -137,25 +109,28 @@ class ChatListContactState extends State<ChatListContactPage>
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ChatPage(
-                                    userContactedId: contacts[index].userId,
-                                    userContactedName: contacts[index].username,
-                                    userContactedSkin: AccountController.getUserAvatarAccordingToHisIdForAccountAsObject(userSkin: contacts[index].skin),
+                                    userContactedId:
+                                        snapshot.data[index].userId,
+                                    userContactedName:
+                                        snapshot.data[index].username,
+                                    userContactedSkin: AccountController
+                                        .getUserAvatarAccordingToHisIdForAccountAsObject(
+                                            userSkin:
+                                                snapshot.data[index].skin),
                                   ),
                                 ),
                               ).whenComplete(
                                 () => this.setState(
-                                  () {
-                                    _memorizer = AsyncMemoizer();
-                                  },
+                                  () {},
                                 ),
                               );
                             },
                             child: ContactChat(
-                              contact: contacts[index],
+                              contact: snapshot.data[index],
                             ),
                           ),
                         ),
-                        itemCount: contacts.length,
+                        itemCount: snapshot.data.length,
                       )
                     : Center(
                         child: DefaultTextTitle(

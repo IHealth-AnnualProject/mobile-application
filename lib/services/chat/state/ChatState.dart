@@ -65,6 +65,7 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
       messages.add(lineSendMessage());
       messages = messages.reversed.toList();
       await updateSettingsPropertyNewMessageLessWithCurrentNewMessageFromThisUserAndRemoveITFromBDD();
+      return messages;
     });
   }
 
@@ -96,7 +97,8 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
       'transports': ['websocket'],
       'autoConnect': false,
     });
-    socket.on('newMessage', (data) => onNewMessage(data));
+    socket.on('newMessage', (data) => _onNewMessage(data));
+    print("socket");
   }
 
   void emitNewMessage({@required String idReceiver, @required String content}) {

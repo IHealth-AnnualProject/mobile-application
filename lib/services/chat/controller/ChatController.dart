@@ -7,6 +7,7 @@ import 'package:betsbi/services/chat/model/message.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/chat/SQLLiteNewMessage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 class ChatController {
   static Future<List<Message>> getAllMessageIdFromContact(
@@ -18,6 +19,7 @@ class ChatController {
       response: httpManager.response,
       context: context,
     );
+    print(httpManager.response.statusCode);
     return responseManager.checkResponseAndReturnTheDesiredElement(
         elementToReturn:
             getMessageFromJson(jsonToDecode: httpManager.response.body));
@@ -60,5 +62,25 @@ class ChatController {
             userIdFrom: element.userId),
       );
     });
+  }
+
+  static Future<List<Contact>> getAllContactAsInterface({@required BuildContext context,@required Function onNewMessage}) async{
+    List<Contact> contacts = List<Contact>();
+    Socket socket =
+        io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
+          'transports': ['websocket'],
+          'autoConnect': false,
+        });
+    socket.on('newMessage', (data) => onNewMessage(data, contacts));
+    contacts = await ChatController.getAllContact(context: context);
+    SQLLiteNewMessage newMessage = new SQLLiteNewMessage();
+    contacts.removeWhere((contact) =>
+    contact.userId == SettingsManager.cfg.getString("ChatBotId"));
+    contacts.forEach((contact) async {
+      contact.setNewMessage(await newMessage.countByIdFromAndTo(
+          userIdFrom: contact.userId,
+          userIdTo: SettingsManager.applicationProperties.getCurrentId()));
+    });
+    return contacts;
   }
 }
