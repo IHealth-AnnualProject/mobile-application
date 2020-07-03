@@ -9,42 +9,52 @@ import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 
 class LessonController {
-  static Future<String> getJsonLesson({@required BuildContext context}) {
-    return DefaultAssetBundle.of(context).loadString('assets/lesson/' +
-        SettingsManager.applicationProperties
-            .getCurrentLanguage()
-            .toLowerCase() +
-        '/lessons.json');
+  static Future<List<Widget>> getJsonLesson(
+      {@required BuildContext context}) async {
+    String jsonToDecode = await DefaultAssetBundle.of(context).loadString(
+        'assets/lesson/' +
+            SettingsManager.applicationProperties
+                .getCurrentLanguage()
+                .toLowerCase() +
+            '/lessons.json');
+    return LessonController.decodeJsonAndStoreItInsideLessonList(
+        jsonToDecode: jsonToDecode, context: context);
   }
 
-  static List<Lesson> decodeJsonAndStoreItInsideLessonList(
-      String jsonToDecode, List<Widget> inputList, BuildContext context) {
+  static List<Widget> decodeJsonAndStoreItInsideLessonList(
+      {@required String jsonToDecode, @required BuildContext context}) {
+    List<Widget> listWidgetLesson = List<Widget>();
     Iterable listFromJson = json.decode(jsonToDecode);
     List<Lesson> lessons = new List<Lesson>();
     lessons.addAll(
         listFromJson.map((model) => Lesson.fromJsonToLesson(model)).toList());
     lessons.forEach(
       (element) {
-        inputList.add(
+        listWidgetLesson.add(
           lesson(lesson: element, context: context),
         );
       },
     );
-    return lessons;
+    return listWidgetLesson;
   }
 
-  static ListTile lesson({Lesson lesson, BuildContext context}) {
+  static ListTile lesson(
+      {@required Lesson lesson, @required BuildContext context}) {
     return ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Colors.white,
-          backgroundImage: AssetImage("assets/notes.png"),
+      leading: CircleAvatar(
+        backgroundColor: Colors.white,
+        backgroundImage: AssetImage("assets/notes.png"),
+      ),
+      title: Text(lesson.name),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LessonView(
+            lesson: lesson,
+          ),
         ),
-        title: Text(lesson.name),
-        onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => LessonView(lesson: lesson)),
-            ));
+      ),
+    );
   }
 
   static List<PageViewModel> convertListPageToListPageViewModel(

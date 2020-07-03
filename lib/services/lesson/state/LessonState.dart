@@ -4,11 +4,9 @@ import 'package:betsbi/services/lesson/view/LessonPage.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 
 class LessonState extends State<LessonView> with WidgetsBindingObserver {
-  List<PageViewModel> pageModels;
 
   @override
   void dispose() {
@@ -29,15 +27,14 @@ class LessonState extends State<LessonView> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    pageModels = LessonController.convertListPageToListPageViewModel(
-        pages: this.widget.lesson.pages);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IntroViewsFlutter(
-        pageModels,
+        LessonController.convertListPageToListPageViewModel(
+            pages: this.widget.lesson.pages),
         showNextButton: true,
         showBackButton: true,
         pageButtonTextStyles: TextStyle(

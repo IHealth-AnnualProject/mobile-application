@@ -10,7 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LessonListState extends State<LessonListPage> with WidgetsBindingObserver {
-  List<Widget> listLesson;
 
   @override
   void dispose() {
@@ -30,7 +29,6 @@ class LessonListState extends State<LessonListPage> with WidgetsBindingObserver 
   @override
   void initState() {
     super.initState();
-    listLesson = new List<Widget>();
     WidgetsBinding.instance.addObserver(this);
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
@@ -45,14 +43,12 @@ class LessonListState extends State<LessonListPage> with WidgetsBindingObserver 
         future: LessonController.getJsonLesson(context: context),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            LessonController.decodeJsonAndStoreItInsideLessonList(
-                snapshot.data.toString(), listLesson, context);
             return ListView.builder(
               padding: const EdgeInsets.all(8),
-              itemCount: listLesson.length,
+              itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 return Card(
-                  child: listLesson[index],
+                  child: snapshot.data[index],
                 );
               },
             );
