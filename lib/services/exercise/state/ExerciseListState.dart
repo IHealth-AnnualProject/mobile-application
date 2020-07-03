@@ -16,7 +16,6 @@ class ExerciseListState extends State<ExerciseListPage>
   List<Widget> listExercise;
   final AsyncMemoizer _memorizer = AsyncMemoizer();
 
-
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -42,14 +41,18 @@ class ExerciseListState extends State<ExerciseListPage>
 
   getAllExercise() {
     return this._memorizer.runOnce(() async {
-      String jsonExercise = await ExerciseController.getJsonAccodingToExerciseType(
-          context: context, type: this.widget.type);
-      listExercise = ExerciseController.decodeJsonAndStoreItInsideExerciseList(
-          jsonToDecode : jsonExercise,
-          leading : this.widget.leading,
-          context : context,
-          isOffLine : this.widget.isOffLine,
-          type : this.widget.type);
+      String jsonExercise =
+          await ExerciseController.getJsonAccordingToExerciseType(
+              context: context, type: this.widget.type);
+      listExercise.addAll(
+        ExerciseController.decodeJsonAndStoreItInsideExerciseList(
+          jsonToDecode: jsonExercise,
+          leading: this.widget.leading,
+          context: context,
+          isOffLine: this.widget.isOffLine,
+          type: this.widget.type,
+        ),
+      );
       return listExercise;
     });
   }
@@ -81,7 +84,8 @@ class ExerciseListState extends State<ExerciseListPage>
         },
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
-        selectedBottomIndexOffLine: null, selectedBottomIndexOnline: null,
+        selectedBottomIndexOffLine: null,
+        selectedBottomIndexOnline: null,
         isOffLine: this.widget.isOffLine,
       ),
     );

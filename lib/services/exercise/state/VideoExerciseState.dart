@@ -58,7 +58,7 @@ class VideoExerciseState extends State<VideoExercisePage>
         isOffline: this.widget.isOffline,
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
-        selectedBottomIndexOffLine: 2,
+        selectedBottomIndexOffLine: null,
         selectedBottomIndexOnline: null,
         isOffLine: this.widget.isOffline,
       ),

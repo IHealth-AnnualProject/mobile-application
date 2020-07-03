@@ -36,7 +36,7 @@ class BottomNavigationOfflineBarFooterState
               Icons.opacity,
               color: Color.fromRGBO(255, 195, 0, 1),
             ),
-            title: Text("Exercise"),
+            title: Text(SettingsManager.mapLanguage["Exercise"]),
           ),
         ],
         onTap: (int index) {
@@ -69,7 +69,7 @@ class BottomNavigationOfflineBarFooterState
               Icons.opacity,
               color: Color.fromRGBO(255, 195, 0, 1),
             ),
-            title: Text("Exercise"),
+            title: Text(SettingsManager.mapLanguage["Exercise"]),
           ),
         ],
         currentIndex: this.widget.selectedBottomIndexOffLine,

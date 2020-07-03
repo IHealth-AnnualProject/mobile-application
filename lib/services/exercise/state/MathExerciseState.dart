@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 class MathExerciseState extends State<MathExercisePage>
     with WidgetsBindingObserver {
   List<Widget> questionList;
-  bool isCongratsHidden = false;
 
   @override
   void initState() {
@@ -86,7 +85,7 @@ class MathExerciseState extends State<MathExercisePage>
         ),
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
-        selectedBottomIndexOffLine: 0,
+        selectedBottomIndexOffLine: null,
         selectedBottomIndexOnline: null,
         isOffLine: this.widget.isOffline,
       ),
@@ -95,7 +94,7 @@ class MathExerciseState extends State<MathExercisePage>
 
   void checkAnswerWithResult(String answer) {
     if(answer == this.widget.exercise.result)
-      ExerciseController.showAlertDialog(context: context,content: this.widget.exercise.explanation);
+      ExerciseController.showCongratsDialog(context: context,content: this.widget.exercise.explanation);
   }
 
   void convertAnswersToListWidget() {

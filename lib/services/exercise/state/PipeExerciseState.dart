@@ -95,7 +95,7 @@ class PipeExerciseState extends State<PipeExercisePage> with WidgetsBindingObser
         ],
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
-        selectedBottomIndexOffLine: 0, selectedBottomIndexOnline: null,
+        selectedBottomIndexOffLine: null, selectedBottomIndexOnline: null,
         isOffLine: this.widget.isOffline,
       ),
     );
@@ -107,7 +107,7 @@ class PipeExerciseState extends State<PipeExercisePage> with WidgetsBindingObser
           this.widget.exercise.inputPipe, this.widget.exercise.outputPipe)) {
         this.widget.exercise.inputPipe.clear();
         this.widget.exercise.inputPipe.addAll(mapTempForEndOfGame);
-        ExerciseController.showAlertDialog(context: context);
+        ExerciseController.showCongratsDialog(context: context);
       }
     });
   }

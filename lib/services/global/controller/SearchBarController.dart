@@ -32,7 +32,7 @@ class SearchBarController {
   static Future<List<Exercise>> getAllExercise(
       {@required BuildContext context}) async {
     String jsonWithOutputList;
-    jsonWithOutputList = await ExerciseController.getJsonAccodingToExerciseType(
+    jsonWithOutputList = await ExerciseController.getJsonAccordingToExerciseType(
         context: context, type: 'math');
     return ExerciseController.convertJsonToExerciseList(
         jsonToDecode: jsonWithOutputList, type: 'Math');

@@ -47,7 +47,7 @@ class SimilarCardState extends State<SimilarCardPage> {
                 currentCardId: card.id, currentIndex: index),
             onFlipDone: (done) async {
               if (currentCardList.isEmpty)
-                await ExerciseController.showAlertDialog(context: context);
+                await ExerciseController.showCongratsDialog(context: context);
             },
             back: Container(
               width: 150,
@@ -88,7 +88,7 @@ class SimilarCardState extends State<SimilarCardPage> {
               fullCardElementsWithListOfCard();
             } else
               fullCardElementsWithListOfCard();
-            if(currentCardList.isEmpty) ExerciseController.showAlertDialog(context: context);
+            if(currentCardList.isEmpty) ExerciseController.showCongratsDialog(context: context);
           },
         ),
       );

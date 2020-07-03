@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 
 class ExerciseListStateOffline extends State<ExerciseListPage>
     with WidgetsBindingObserver {
-  List<Widget> listExercise;
   final AsyncMemoizer _memorizer = AsyncMemoizer();
 
   @override
@@ -25,7 +24,6 @@ class ExerciseListStateOffline extends State<ExerciseListPage>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    listExercise = new List<Widget>();
   }
 
   @override
@@ -37,13 +35,11 @@ class ExerciseListStateOffline extends State<ExerciseListPage>
     }
   }
 
-
-  getAllExercise() {
-    return this._memorizer.runOnce(() async {
-      return listExercise = await ExerciseController.getAllJsonAndRecoverListOfExercise(context: context);
-    });
-  }
-
+  getAllExercise() => this._memorizer.runOnce(
+        () async => await ExerciseController.getAllJsonAndRecoverListOfExercise(
+          context: context,
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +51,13 @@ class ExerciseListStateOffline extends State<ExerciseListPage>
         future: getAllExercise(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (listExercise.isNotEmpty) {
+            if (snapshot.data.isNotEmpty) {
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
-                itemCount: listExercise.length,
+                itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
-                    child: listExercise[index],
+                    child: snapshot.data[index],
                   );
                 },
               );
@@ -72,7 +68,8 @@ class ExerciseListStateOffline extends State<ExerciseListPage>
         },
       ),
       bottomNavigationBar: BottomNavigationBarFooter(
-        selectedBottomIndexOffLine: 2, selectedBottomIndexOnline: null,
+        selectedBottomIndexOffLine: 2,
+        selectedBottomIndexOnline: null,
         isOffLine: this.widget.isOffLine,
       ),
     );

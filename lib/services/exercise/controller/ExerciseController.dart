@@ -17,7 +17,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ExerciseController {
-  static Future<String> getJsonAccodingToExerciseType(
+  static Future<String> getJsonAccordingToExerciseType(
       {@required String type, @required BuildContext context}) {
     switch (type) {
       case "Math":
@@ -70,8 +70,8 @@ class ExerciseController {
   static Future<List<Widget>> getAllJsonAndRecoverListOfExercise(
       {@required BuildContext context}) async {
     String mathExercise =
-        await getJsonAccodingToExerciseType(type: "Math", context: context);
-    String emergencyExercise = await getJsonAccodingToExerciseType(
+        await getJsonAccordingToExerciseType(type: "Math", context: context);
+    String emergencyExercise = await getJsonAccordingToExerciseType(
         type: "Emergency", context: context);
     List<Widget> listExercises = new List<Widget>();
     listExercises = decodeJsonAndStoreItInsideExerciseList(
@@ -106,15 +106,15 @@ class ExerciseController {
     });
   }
 
-  static Image defaultImage({String image}) {
+  static Image defaultImage({@required String image}) {
     return Image.asset('assets/exercise/pipe/$image.png');
   }
 
   static ListTile exerciseWidget(
       {@required String leading,
-      Exercise exercise,
-      BuildContext context,
-      bool isOffLine}) {
+        @required Exercise exercise,
+        @required BuildContext context,
+        @required bool isOffLine}) {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: Colors.white,
@@ -194,7 +194,7 @@ class ExerciseController {
     return listExerciseWidget;
   }
 
-  static showAlertDialog({@required BuildContext context, String content = ""}) {
+  static showCongratsDialog({@required BuildContext context, String content = ""}) {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
