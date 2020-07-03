@@ -16,8 +16,7 @@ import 'package:flutter/material.dart';
 class ReportState extends State<ReportPage> with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>();
   TextEditingController titleEditingController = new TextEditingController();
-  TextEditingController descriptionEditingController =
-      new TextEditingController();
+  TextEditingController descriptionEditingController = new TextEditingController();
 
   @override
   void dispose() {
@@ -112,7 +111,10 @@ class ReportState extends State<ReportPage> with WidgetsBindingObserver {
                                   description:
                                       descriptionEditingController.text,
                                   title: titleEditingController.text,
-                                  toUserId: this.widget.userId),
+                                  toUserId: this.widget.userId).whenComplete(() {
+                                    descriptionEditingController.clear();
+                                    titleEditingController.clear();
+                          }),
                         ),
                       ),
                       SizedBox(
