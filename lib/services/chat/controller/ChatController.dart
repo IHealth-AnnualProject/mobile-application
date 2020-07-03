@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 
 class ChatController {
   static Future<List<Message>> getAllMessageIdFromContact(
-      {String contactID, BuildContext context}) async {
+      {@required String contactID, @required BuildContext context}) async {
     HttpManager httpManager =
         new HttpManager(path: 'conversation/$contactID/user', context: context);
     await httpManager.get();
@@ -26,8 +26,7 @@ class ChatController {
   static List<Message> getMessageFromJson({@required String jsonToDecode}) {
     var messages = new List<Message>();
     Iterable list = json.decode(jsonToDecode);
-    messages.addAll(
-        list.map((model) => Message.fromJsonOnListMessage(model)).toList());
+    messages.addAll(list.map((model) => Message.fromJsonOnListMessage(model)).toList());
     return messages;
   }
 

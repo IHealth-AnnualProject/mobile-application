@@ -69,7 +69,7 @@ class ChatListContactState extends State<ChatListContactPage>
             userIdFrom: contact.userId,
             userIdTo: SettingsManager.applicationProperties.getCurrentId()));
       });
-      return context;
+      return contacts;
     });
   }
 
@@ -109,7 +109,7 @@ class ChatListContactState extends State<ChatListContactPage>
                           ),
                         ),
                       ).whenComplete(
-                        () => this.setState(
+                        () => setState(
                           () {
                             _memorizer = AsyncMemoizer();
                           },

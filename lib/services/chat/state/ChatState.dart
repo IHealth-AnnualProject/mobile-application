@@ -46,7 +46,7 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  _instanciateChatWithAllMessageAndInput() {
+  _instantiateChatWithAllMessageAndInput() {
     return this._memorizer.runOnce(() async {
       instantiateSocketForChat(onNewMessage: _onNewMessage);
       await ChatController.getAllMessageIdFromContact(
@@ -116,9 +116,9 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
         resizeToAvoidBottomPadding: true,
         appBar: AppSearchBar(),
         body: FutureBuilder(
-          future: _instanciateChatWithAllMessageAndInput(),
+          future: _instantiateChatWithAllMessageAndInput(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+            if (!snapshot.hasData) {
               return Center(
                 child: WaitingWidget(),
               );
