@@ -20,7 +20,7 @@ class FeelingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: () async =>
-          await FeelingController.sendFeelings(this.idButton, context),
+          await FeelingController.sendFeelings(value : this.idButton, context : context),
       color: this.colorButton,
       textColor: Colors.white,
       child: Icon(

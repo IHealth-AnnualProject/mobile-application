@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class FeelingController {
-  static Future<void> redirectionFeelingToHomePage(BuildContext context) async {
+  static Future<void> redirectionFeelingToHomePage({@required BuildContext context}) async {
     await SettingsManager.storage.write(
       key: "feelingsDate",
       value: DateTime.now().toString(),
@@ -20,7 +20,7 @@ class FeelingController {
         (Route<dynamic> route) => false));
   }
 
-  static Future<void> sendFeelings(int value, BuildContext context) async {
+  static Future<void> sendFeelings({@required int value, @required BuildContext context}) async {
     HttpManager httpManager = new HttpManager(
         path: "userProfile/moral-stats",
         map: <String, int>{'value': value},
@@ -29,7 +29,7 @@ class FeelingController {
     ResponseManager responseManager = new ResponseManager(
         context: context,
         response: httpManager.response,
-        onSuccess: () async => await redirectionFeelingToHomePage(context));
+        onSuccess: () async => await redirectionFeelingToHomePage(context : context));
     responseManager.checkResponseAndExecuteFunctionIfOk();
   }
 
@@ -56,8 +56,8 @@ class FeelingController {
     return feelings;
   }
 
-  static Future<List<Feelings>> getAllFeelings(
-      String userId, BuildContext context) async {
+  static Future<List<Feelings>> getAllFeelings({
+    @required String userId, @required BuildContext context}) async {
     HttpManager httpManager = new HttpManager(
         path: 'userProfile/$userId/moral-stats', context: context);
     await httpManager.get();

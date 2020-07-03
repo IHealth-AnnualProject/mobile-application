@@ -34,8 +34,8 @@ class AccountTraceState extends State<AccountTracePage> {
   getAllFeelings() => this
       ._memorizer
       .runOnce(() async => await FeelingController.getAllFeelings(
-            this.widget.profile.profileId,
-            context,
+            userId: this.widget.profile.profileId,
+            context: context,
           ));
 
   @override
@@ -86,7 +86,7 @@ class AccountTraceState extends State<AccountTracePage> {
             builder: (context, snapshot) {
               if (!snapshot.hasData)
                 return WaitingWidget();
-               else {
+              else {
                 // data loaded:
                 return Card(
                   elevation: 10,
