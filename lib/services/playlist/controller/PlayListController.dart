@@ -104,7 +104,7 @@ class PlayListController {
     applicationPath = (await getApplicationDocumentsDirectory()).path;
     audios.add(new Audio.file("toTrash"));
     bool isAvailable = await AmbianceController.checkIfSongAvailable(
-        songName: songName, duration: songDuration);
+        songName: songName);
     _fromSongsToPath(
         index: index, songName: songName, isAvailable: isAvailable);
     return isAvailable;

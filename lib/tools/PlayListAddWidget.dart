@@ -90,7 +90,6 @@ class _PlayListAddState extends State<PlayListAddWidget> {
               await AmbianceController.checkSongAndDownload(
                 context: context,
                 songName: this.widget.songName,
-                duration: this.widget.songDuration,
                 id: this.widget.songId,
               ).whenComplete(
                     () => setState(() { _memorizer = new AsyncMemoizer(); }),

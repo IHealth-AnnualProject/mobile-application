@@ -1,8 +1,6 @@
-import 'package:async/async.dart';
 import 'package:betsbi/animation/CurvedAnimation.dart';
 import 'package:betsbi/manager/HistoricalManager.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
-import 'package:betsbi/services/playlist/model/song.dart';
 import 'package:betsbi/services/relaxing/controller/AmbianceController.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
@@ -11,7 +9,6 @@ import 'package:betsbi/services/playlist/view/PlayListListView.dart';
 import 'package:betsbi/services/relaxing/view/RelaxingView.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
 import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
-import 'package:betsbi/tools/MusicPlayerCardItem.dart';
 import 'package:betsbi/tools/SearchMusic.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
@@ -20,9 +17,7 @@ import 'package:flutter/material.dart';
 
 class AmbianceState extends State<AmbiancePage>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
-  List<Widget> listMusic = new List<Widget>();
   CustomCurvedAnimation curvedAnimation;
-  final AsyncMemoizer _memorizer = AsyncMemoizer();
 
   @override
   void dispose() {
@@ -51,22 +46,6 @@ class AmbianceState extends State<AmbiancePage>
     }
   }
 
-  getAllMusic() {
-    return this._memorizer.runOnce(() async {
-      List<Song> songs = await AmbianceController.getAllSongs(context: context);
-      songs.forEach(
-        (song) => listMusic.add(
-          MusicPlayerCardItem(
-            duration: song.duration,
-            name: song.songName,
-            id: song.id,
-          ),
-        ),
-      );
-      return listMusic;
-    });
-  }
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
@@ -81,7 +60,7 @@ class AmbianceState extends State<AmbiancePage>
     return Scaffold(
       appBar: AppSearchBar(),
       body: FutureBuilder(
-        future: getAllMusic(),
+        future: AmbianceController.getAllMusic(context: context),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return SingleChildScrollView(
@@ -115,9 +94,9 @@ class AmbianceState extends State<AmbiancePage>
                   ListView.builder(
                     shrinkWrap: true,
                     padding: const EdgeInsets.all(8),
-                    itemCount: listMusic.length,
+                    itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return listMusic[index];
+                      return snapshot.data[index];
                     },
                   )
                 ],
@@ -153,43 +132,35 @@ class AmbianceState extends State<AmbiancePage>
                 MaterialPageRoute(
                   builder: (context) => PlayListListPage(),
                 ),
-              ).whenComplete(
-                () {
-                  if (AmbianceController.assetsAudioPlayer.isPlaying.value) {
-                    AmbianceController.musicFlush
-                        .dismiss()
-                        .whenComplete(() => AmbianceController.musicFlush..show(context));
-                  }
-                  setState(() {
-                  });
+              ).whenComplete(() {
+                if (AmbianceController.assetsAudioPlayer.isPlaying.value) {
+                  AmbianceController.musicFlush.dismiss().whenComplete(
+                      () => AmbianceController.musicFlush..show(context));
                 }
-              );
+                setState(() {});
+              });
             },
           ),
           // Floating action menu item
           Bubble(
-              title: SettingsManager.mapLanguage["RelaxingColor"],
-              iconColor: Colors.white,
-              bubbleColor: Colors.blue,
-              icon: Icons.spa,
-              titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-              onPress: () {
-                if (AmbianceController.musicFlush != null)
-                  AmbianceController.musicFlush.dismiss();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RelaxingPage(),
-                  ),
-                ).whenComplete(
-                  () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AmbiancePage(),
-                    ),
-                  ),
-                );
-              }),
+            title: SettingsManager.mapLanguage["RelaxingColor"],
+            iconColor: Colors.white,
+            bubbleColor: Colors.blue,
+            icon: Icons.spa,
+            titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () {
+              if (AmbianceController.musicFlush != null)
+                AmbianceController.musicFlush.dismiss();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RelaxingPage(),
+                ),
+              ).whenComplete(
+                () => setState(() {}),
+              );
+            },
+          ),
         ],
       ),
     );

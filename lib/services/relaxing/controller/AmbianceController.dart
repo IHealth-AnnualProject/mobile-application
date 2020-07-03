@@ -8,6 +8,7 @@ import 'package:betsbi/manager/ResponseManager.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/playlist/model/song.dart';
 import 'package:betsbi/tools/MusicPlayerButtonPlay.dart';
+import 'package:betsbi/tools/MusicPlayerCardItem.dart';
 import 'package:betsbi/tools/MusicPlayerProgressIndicator.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,6 @@ import 'package:path_provider/path_provider.dart';
 class AmbianceController {
   static AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
   static Flushbar musicFlush;
-  static bool isMusicAvailable;
 
   static Flushbar musicPlayerFlushBar({@required String songName}) {
     return musicFlush = Flushbar<String>(
@@ -75,12 +75,12 @@ class AmbianceController {
       response: httpManager.response,
     );
     return responseManager.checkResponseRetrieveInformationWithAFunction(
-        toReturn: () => _getSongsWithResponseBody(httpManager, songs),
+        toReturn: () => _getSongsWithResponseBody(httpManager : httpManager, songs : songs),
         elementToReturnIfFalse: songs);
   }
 
-  static List<Song> _getSongsWithResponseBody(
-      HttpManager httpManager, List<Song> songs) {
+  static List<Song> _getSongsWithResponseBody({
+    @required HttpManager httpManager, @required List<Song> songs}) {
     Iterable listSongs = json.decode(httpManager.response.body);
     songs.addAll(listSongs.map((model) => Song.fromJson(model)).toList());
     return songs;
@@ -100,7 +100,7 @@ class AmbianceController {
   }
 
   static Future<bool> checkIfSongAvailable(
-      {@required String songName, @required String duration}) async {
+      {@required String songName}) async {
     AssetsAudioPlayer _songToTestifWorking = new AssetsAudioPlayer();
     bool isMusicAvailable =
         await FileManager.checkIfFileExist(fileName: songName + ".mp3");
@@ -121,29 +121,27 @@ class AmbianceController {
 
   static Future checkSongAndDownload(
       {@required String songName,
-      @required String duration,
       @required String id,
       @required BuildContext context}) async {
     bool exist =
-        await checkIfSongAvailable(songName: songName, duration: duration);
+        await checkIfSongAvailable(songName: songName,);
     if (!exist)
       await FileManager.downloadFile(
           musicId: id, fileName: songName + ".mp3", context: context);
   }
 
-  /* static bool _checkDurationAreEquals(
-      {@required Duration firstDuration, @required String secondDuration}) {
-    bool areDurationTheSame = true;
-    String musicDurationToCompare = Duration(seconds: firstDuration.inSeconds)
-            .inMinutes
-            .toString() +
-        ":" +
-        Duration(seconds: firstDuration.inSeconds % 60).inSeconds.toString();
-    print("firstDuration" + musicDurationToCompare);
-    print("secondDuration" + secondDuration);
-    if (musicDurationToCompare != secondDuration) {
-      areDurationTheSame = false;
-    }
-    return areDurationTheSame;
-  }*/
+  static Future<List<Widget>> getAllMusic({@required BuildContext context}) async{
+    List<Widget> listMusic = List<Widget>();
+    List<Song> songs = await AmbianceController.getAllSongs(context: context);
+    songs.forEach(
+          (song) => listMusic.add(
+        MusicPlayerCardItem(
+          duration: song.duration,
+          name: song.songName,
+          id: song.id,
+        ),
+      ),
+    );
+    return listMusic;
+  }
 }

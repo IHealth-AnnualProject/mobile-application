@@ -31,7 +31,7 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
     return this._memorizer.runOnce(() async {
       applicationPath = (await getApplicationDocumentsDirectory()).path;
       return await AmbianceController.checkIfSongAvailable(
-          songName: this.widget.name, duration: this.widget.duration);
+          songName: this.widget.name,);
     });
   }
 
