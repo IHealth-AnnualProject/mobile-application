@@ -1,12 +1,20 @@
 import 'dart:convert';
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:betsbi/manager/HttpManager.dart';
 import 'package:betsbi/manager/ResponseManager.dart';
 import 'package:betsbi/services/playlist/model/playlist.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/playlist/model/song.dart';
+import 'package:betsbi/services/relaxing/controller/AmbianceController.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PlayListController {
+  static String applicationPath;
+  static List<Song> songs;
+  static List<Audio> audios;
+
   static Future<List<PlayList>> getAllPlayList({
     @required BuildContext context,
   }) async {
@@ -57,8 +65,6 @@ class PlayListController {
         map: <String, dynamic>{"name": playListName, "musics": []},
         context: context);
     await httpManager.post();
-    print("CreateNewPlayListWithMusic :" +
-        httpManager.response.statusCode.toString());
     ResponseManager responseManager = new ResponseManager(
         response: httpManager.response,
         context: context);
@@ -91,5 +97,21 @@ class PlayListController {
         response: httpManager.response,
         context: context);
     return responseManager.checkResponseAndShowWithFlushBarMessageTheAnswer(successMessage: SettingsManager.mapLanguage["RemoveFromPlayList"]);
+  }
+
+  static Future<bool> checkIfSongIsAvailable(
+      {String songName, String songDuration, int index}) async {
+    applicationPath = (await getApplicationDocumentsDirectory()).path;
+    audios.add(new Audio.file("toTrash"));
+    bool isAvailable = await AmbianceController.checkIfSongAvailable(
+        songName: songName, duration: songDuration);
+    _fromSongsToPath(
+        index: index, songName: songName, isAvailable: isAvailable);
+    return isAvailable;
+  }
+
+  static void _fromSongsToPath({bool isAvailable, String songName, int index}) {
+    if (isAvailable)
+      audios[index] = new Audio.file(applicationPath + "/" + songName + ".mp3");
   }
 }

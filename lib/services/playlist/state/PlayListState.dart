@@ -15,28 +15,8 @@ import 'package:betsbi/tools/EmptyListWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:path_provider/path_provider.dart';
 
 class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
-  String applicationPath;
-  List<Song> songs;
-  List<Audio> audios;
-
-  Future<bool> checkIfSongIsAvailable(
-      {String songName, String songDuration, int index}) async {
-    applicationPath = (await getApplicationDocumentsDirectory()).path;
-    audios.add(new Audio.file("toTrash"));
-    bool isAvailable = await AmbianceController.checkIfSongAvailable(
-        songName: songName, duration: songDuration);
-    _fromSongsToPath(
-        index: index, songName: songName, isAvailable: isAvailable);
-    return isAvailable;
-  }
-
-  void _fromSongsToPath({bool isAvailable, String songName, int index}) {
-    if (isAvailable)
-      audios[index] = new Audio.file(applicationPath + "/" + songName + ".mp3");
-  }
 
   @override
   void dispose() {
@@ -57,7 +37,8 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
           .dismiss()
           .then((value) => AmbianceController.musicFlush..show(context));
     }
-    songs = this.widget.playList.songs;
+    PlayListController.songs = new List<Song>();
+    PlayListController.songs.addAll(this.widget.playList.songs);
   }
 
   @override
@@ -71,7 +52,7 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    audios = new List<Audio>();
+    PlayListController.audios = new List<Audio>();
     return Scaffold(
       appBar: AppSearchBar(),
       bottomNavigationBar: BottomNavigationBarFooter(
@@ -87,12 +68,12 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
             SizedBox(
               height: 45,
             ),
-            songs.isNotEmpty
+            PlayListController.songs.isNotEmpty
                 ? ListView.builder(
                     shrinkWrap: true,
                     itemBuilder: (context, index) => musicPlayerPlayListInItem(
-                        index: index, song: songs[index]),
-                    itemCount: songs.length,
+                        index: index, song: PlayListController.songs[index]),
+                    itemCount: PlayListController.songs.length,
                   )
                 : EmptyListWidget(),
           ],
@@ -108,7 +89,7 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
       child: Card(
         elevation: 10,
         child: FutureBuilder(
-          future: checkIfSongIsAvailable(
+          future: PlayListController.checkIfSongIsAvailable(
               songName: song.songName,
               songDuration: song.duration,
               index: index),
@@ -120,7 +101,7 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
                 onTap: () async => snapshot.data
                     ? await AmbianceController.listenMusic(
                         songName: this.widget.playList.name,
-                        paths: audios,
+                        paths: PlayListController.audios,
                         startAtIndex: index,
                         context: context)
                     : await FileManager.downloadFile(
@@ -160,7 +141,7 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
                   musicId: song.id)
               .whenComplete(
             () => setState(() {
-              songs.removeAt(index);
+              PlayListController.songs.removeAt(index);
             }),
           ),
         ),

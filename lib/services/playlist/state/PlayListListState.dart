@@ -1,11 +1,9 @@
-import 'package:async/async.dart';
 import 'package:betsbi/manager/HistoricalManager.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/relaxing/controller/AmbianceController.dart';
 import 'package:betsbi/services/global/controller/CheckController.dart';
 import 'package:betsbi/services/playlist/controller/PlayListController.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
-import 'package:betsbi/services/playlist/model/playlist.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/playlist/view/PlayListListView.dart';
 import 'package:betsbi/services/playlist/view/PlayListView.dart';
@@ -21,10 +19,8 @@ import 'package:flutter/material.dart';
 
 class PlayListListState extends State<PlayListListPage>
     with WidgetsBindingObserver {
-  AsyncMemoizer _memorizer = AsyncMemoizer();
-  List<PlayList> playLists;
   final _formKey = GlobalKey<FormState>();
-  final playListNameController = TextEditingController();
+  final TextEditingController playListNameController = TextEditingController();
 
   @override
   void dispose() {
@@ -54,13 +50,6 @@ class PlayListListState extends State<PlayListListPage>
         if (!result) SettingsController.disconnect(context);
       });
     }
-  }
-
-  getAllPlayList() {
-    return this._memorizer.runOnce(() async {
-      playLists = await PlayListController.getAllPlayList(context: context);
-      return playLists;
-    });
   }
 
   @override
@@ -102,9 +91,13 @@ class PlayListListState extends State<PlayListListPage>
                                   context: context,
                                   playListName:
                                       playListNameController.value.text)
-                              .whenComplete(() => setState(() {
-                                    _memorizer = AsyncMemoizer();
-                                  }));
+                              .whenComplete(
+                            () => setState(
+                              () {
+                                playListNameController.clear();
+                              },
+                            ),
+                          );
                         }
                       },
                     ),
@@ -116,15 +109,15 @@ class PlayListListState extends State<PlayListListPage>
               title: "PlayList",
             ),
             FutureBuilder(
-              future: getAllPlayList(),
+              future: PlayListController.getAllPlayList(context: context),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return playLists.isNotEmpty
+                  return snapshot.data.isNotEmpty
                       ? ListView.builder(
                           shrinkWrap: true,
                           itemBuilder: (context, index) => Card(
                             child: ListTile(
-                              title: Text(playLists[index].name),
+                              title: Text(snapshot.data[index].name),
                               onTap: () {
                                 if (AmbianceController.musicFlush != null)
                                   AmbianceController.musicFlush.dismiss();
@@ -132,22 +125,25 @@ class PlayListListState extends State<PlayListListPage>
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => PlayListPage(
-                                      playList: playLists[index],
+                                      playList: snapshot.data[index],
                                     ),
                                   ),
                                 ).whenComplete(
-                                        () {
-                                      if (AmbianceController.assetsAudioPlayer.isPlaying.value) {
-                                        AmbianceController.musicFlush
-                                            .dismiss()
-                                            .whenComplete(() => AmbianceController.musicFlush..show(context));
-                                      }
+                                  () {
+                                    if (AmbianceController
+                                        .assetsAudioPlayer.isPlaying.value) {
+                                      AmbianceController.musicFlush
+                                          .dismiss()
+                                          .whenComplete(() =>
+                                              AmbianceController.musicFlush
+                                                ..show(context));
                                     }
+                                  },
                                 );
                               },
                             ),
                           ),
-                          itemCount: playLists.length,
+                          itemCount: snapshot.data.length,
                         )
                       : EmptyListWidget();
                 } else {
