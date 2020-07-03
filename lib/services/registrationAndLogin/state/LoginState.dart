@@ -117,9 +117,9 @@ class LoginState extends State<LoginPage> {
                               content: SettingsManager.mapLanguage["LoginText"],
                               onPressedFunction: () async {
                                 if (this._formKey.currentState.validate()) {
-                                  await LoginController.login(
-                                      userNameController.text,
-                                      passwordController.text,
+                                  await LoginController.login( username :
+                                      userNameController.text, password :
+                                      passwordController.text, context :
                                       context);
                                 }
                               },

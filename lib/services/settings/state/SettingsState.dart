@@ -14,7 +14,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
-  String currentNotification;
   List<bool> isSelected = [true, false];
 
   void _setLanguage() {
@@ -45,9 +44,7 @@ class SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    currentNotification =
-        SettingsManager.applicationProperties.areNotificationPushActivated();
-    if (currentNotification == 'true')
+    if (SettingsManager.applicationProperties.areNotificationPushActivated() == 'true')
       isSelected = [true, false];
     else
       isSelected = [false, true];

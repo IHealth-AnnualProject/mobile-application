@@ -39,8 +39,8 @@ class LoginController {
       );
   }
 
-  static Future<void> login(
-      String username, String password, BuildContext context) async {
+  static Future<void> login({@required
+      String username, @required String password, @required BuildContext context}) async {
     HttpManager httpManager = new HttpManager(
         path: 'auth/login',
         map: <String, String>{
@@ -49,10 +49,10 @@ class LoginController {
         },
         context: context);
     await httpManager.postWithoutAccessToken();
-    await checkResponseAndShowItWithNoComingBack(httpManager, context);
+    await checkResponseAndShowItWithNoComingBack(httpManager : httpManager, context : context);
   }
 
-  static Future<void> checkResponseAndShowItWithNoComingBack(HttpManager httpManager, BuildContext context) async {
+  static Future<void> checkResponseAndShowItWithNoComingBack({@required HttpManager httpManager, @required BuildContext context }) async {
     if (httpManager.response.statusCode >= 100 && httpManager.response.statusCode < 400) {
        await writePropertiesAfterLogin(httpManager);
       FlushBarMessage.goodMessage(content:SettingsManager.mapLanguage["ConnectSent"])
