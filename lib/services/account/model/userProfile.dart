@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 class UserProfile extends User {
   UserProfile.normalConstructor(
-      {String birthdate,
+      {String birthDate,
       String description,
       String username,
       String userProfileId,
@@ -12,11 +12,11 @@ class UserProfile extends User {
       int level,
       String email,
       String skin,String geolocation})
-      : super(userProfileId, username, description, birthdate, isPsy, level,
+      : super(userProfileId, username, description, birthDate, isPsy, level,
             email, skin, geolocation);
 
   UserProfile.defaultConstructor(
-      {String birthdate = "",
+      {String birthDate = "",
       String description = "",
       String username = "",
       String userProfileId = "",
@@ -24,12 +24,12 @@ class UserProfile extends User {
       int level = 0,
       String email = "",
       String skin = "1AAAA_1AAAA_1AAAA", String geolocation =""})
-      : super(userProfileId, username, description, birthdate, isPsy, level,
+      : super(userProfileId, username, description, birthDate, isPsy, level,
             email, skin,geolocation);
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile.normalConstructor(
-      birthdate: json['birthdate'],
+      birthDate: json['birthdate'],
       description: json['description'],
       username: json['user']['username'],
       userProfileId: json['user']['id'],
@@ -44,8 +44,8 @@ class UserProfile extends User {
     return (xp / 100).floor() + 1;
   }
 
-  Future<void> getUserProfile({String userID, BuildContext context}) async {
-    await AccountController.getCurrentUserInformation(userID, context)
+  Future<void> getUserProfile({@required String userID, @required BuildContext context}) async {
+    await AccountController.getCurrentUserInformation(userID : userID, context : context)
         .then((userProfileResult) {
       this.birthdate = userProfileResult.birthdate;
       this.description = userProfileResult.description;
@@ -58,20 +58,14 @@ class UserProfile extends User {
   }
 
   Future<void> updateProfile(
-      {String birthdate,
-      String geolocation,
-      String description,
-      String profileId,
-      bool isPsy,
-      String skin,
-      BuildContext context}) async {
+      {@required String birthDate,
+        @required String description,
+        @required String profileId,
+        @required BuildContext context}) async {
     await AccountController.updateCurrentUserInformation(
-        birthDate: birthdate,
-        geolocation: "",
+        birthDate: birthDate,
         description: description,
         profileId: profileId,
-        isPsy: isPsy,
-        skin: skin,
         context: context);
   }
 }

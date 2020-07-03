@@ -10,7 +10,6 @@ import 'package:betsbi/services/account/model/user.dart';
 import 'package:betsbi/services/account/model/userProfile.dart';
 import 'package:betsbi/services/account/view/AccountInformationView.dart';
 import 'package:betsbi/services/account/view/AccountTraceView.dart';
-import 'package:betsbi/services/account/view/AccountView.dart';
 import 'package:betsbi/tools/AvatarSkinWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,13 +17,12 @@ import 'package:flutter/material.dart';
 import 'SkinController.dart';
 
 class AccountController {
-  static Future<UserProfile> getCurrentUserInformation(
-      String userID, BuildContext context) async {
-    HttpManager httpManager =
-        new HttpManager(path: 'userProfile/$userID/user', context: context);
+  static Future<UserProfile> getCurrentUserInformation({
+      @required String userID, @required BuildContext context}) async {
+    HttpManager httpManager = HttpManager(path: 'userProfile/$userID/user', context: context);
     await httpManager.get();
     UserProfile userProfile = UserProfile.defaultConstructor();
-    ResponseManager responseManager = new ResponseManager(
+    ResponseManager responseManager = ResponseManager(
       response: httpManager.response,
       context: context,
     );
@@ -35,13 +33,12 @@ class AccountController {
         elementToReturnIfFalse: userProfile);
   }
 
-  static Future<Psychologist> getCurrentPsyInformation(
-      String psyId, BuildContext context) async {
-    HttpManager httpManager =
-        new HttpManager(path: 'psychologist/$psyId/user', context: context);
+  static Future<Psychologist> getCurrentPsyInformation({
+    @required  String psyId, @required BuildContext context}) async {
+    HttpManager httpManager = HttpManager(path: 'psychologist/$psyId/user', context: context);
     await httpManager.get();
-    Psychologist psychologist = new Psychologist.defaultConstructor();
-    ResponseManager responseManager = new ResponseManager(
+    Psychologist psychologist =  Psychologist.defaultConstructor();
+    ResponseManager responseManager =  ResponseManager(
       response: httpManager.response,
       context: context,
     );
@@ -70,6 +67,7 @@ class AccountController {
       skinColor: SkinController.skinColors[defaultSkinColorIndex].colorTable,
     );
   }
+
   static Widget getUserAvatarAccordingToHisIdForAccountAsSearchWidget(
       {@required String userSkin}) {
     int defaultFaceIndex = SkinController.faces.lastIndexWhere(
@@ -107,13 +105,10 @@ class AccountController {
   }
 
   static Future<void> updateCurrentUserInformation(
-      {String birthDate,
-      String geolocation,
-      String description,
-      String profileId,
-      bool isPsy,
-      String skin,
-      BuildContext context}) async {
+      {@required String birthDate,
+        @required String description,
+        @required String profileId,
+        @required BuildContext context}) async {
     HttpManager httpManager = new HttpManager(
         path: 'userProfile',
         context: context,
@@ -122,18 +117,12 @@ class AccountController {
           "description": description
         });
     await httpManager.patch();
-    ResponseManager responseManager = new ResponseManager(
+    ResponseManager responseManager =  ResponseManager(
       response: httpManager.response,
       context: context,
     );
-    responseManager
-        .checkResponseAndShowWithFlushBarMessageTheAnswerThenGoToDestination(
-            destination: AccountPage(
-              userId: profileId,
-              isPsy: isPsy,
-            ),
-            successMessage:
-                SettingsManager.mapLanguage["UpdateUserInformation"]);
+    responseManager.checkResponseAndShowWithFlushBarMessageTheAnswer(
+        successMessage: SettingsManager.mapLanguage["UpdateUserInformation"]);
   }
 
   static Future<void> updateCurrentPsyInformation(
@@ -143,8 +132,6 @@ class AccountController {
       String geolocation,
       String description,
       String profileId,
-      String skin,
-      bool isPsy,
       BuildContext context}) async {
     HttpManager httpManager = new HttpManager(
         path: 'psychologist',

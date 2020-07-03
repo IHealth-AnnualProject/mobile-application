@@ -48,8 +48,14 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
 
   findUserInformation() {
     return this._memorizer.runOnce(() async {
-      await profile.getUserProfile(userID: this.widget.userId, context: context);
-      setState(() {});
+      await profile.getUserProfile(
+        userID: this.widget.userId,
+        context: context,
+      );
+      actualContentPage =
+          AccountController.getTabBarAndViewAccordingToUserTypeAndId(
+        user: profile,
+      );
       return profile;
     });
   }
@@ -59,16 +65,16 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
     return FutureBuilder(
       future: findUserInformation(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (!snapshot.hasData) {
           return Scaffold(
             appBar: AppSearchBar(),
-            body:WaitingWidget(),
-            bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: 1,),
+            body: WaitingWidget(),
+            bottomNavigationBar: BottomNavigationBarFooter(
+              selectedBottomIndexOffLine: null,
+              selectedBottomIndexOnline: 1,
+            ),
           );
         } else {
-          actualContentPage =
-              AccountController.getTabBarAndViewAccordingToUserTypeAndId(
-                  user: profile);
           return DefaultTabController(
             length: actualContentPage.tabText.length,
             child: Scaffold(
@@ -82,7 +88,10 @@ class AccountState extends State<AccountPage> with WidgetsBindingObserver {
                   ),
                 ],
               ),
-              bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: 1,),
+              bottomNavigationBar: BottomNavigationBarFooter(
+                selectedBottomIndexOffLine: null,
+                selectedBottomIndexOnline: 1,
+              ),
             ),
           );
         }

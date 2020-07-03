@@ -1,6 +1,3 @@
-import 'package:betsbi/services/feeling/controller/FeelingController.dart';
-import 'package:flutter/cupertino.dart';
-
 class Feelings {
   DateTime dayOfFeeling;
   int feelingsPoint;
@@ -20,9 +17,6 @@ class Feelings {
         dayOfFeeling: DateTime.parse(json['created']), feelingsPoint: json['value']);
   }
 
-  Future<List<Feelings>> getUserFeelings(String userID, BuildContext context) async {
-    return  await FeelingController.getAllFeelings(userID, context);
-  }
   @override
   String toString() {
     return "Day : " + dayOfFeeling.toIso8601String() + " moral-stats : " + feelingsPoint.toString();

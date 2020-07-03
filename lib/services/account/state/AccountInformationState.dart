@@ -40,7 +40,6 @@ class AccountInformationState extends State<AccountInformationPage> {
   Future<void> userInformation() async {
     if (this.widget.isPsy) {
       await userProfile.getUserProfile(userID: this.widget.profile.profileId);
-      setState(() {
         firstNameController = new TextEditingController()
           ..text = userProfile.firstName;
         lastNameController = new TextEditingController()
@@ -50,15 +49,13 @@ class AccountInformationState extends State<AccountInformationPage> {
         descriptionController = new TextEditingController()
           ..text = userProfile.description;
         locationController = userProfile.geolocation;
-      });
+
     } else {
       await userProfile.getUserProfile(userID: this.widget.profile.profileId);
-      setState(() {
         birthDateController = new TextEditingController()
           ..text = userProfile.birthdate.toString();
         descriptionController = new TextEditingController()
           ..text = userProfile.description;
-      });
     }
   }
 
@@ -96,7 +93,7 @@ class AccountInformationState extends State<AccountInformationPage> {
     return result;
   }
 
-  _getSkinParametersFromJsonAndCurrentIndexForSkin() async {
+  _getUserInformationAndSkinParametersFromJsonAndCurrentIndexForSkin() async {
     return this._memorizer.runOnce(() async {
       await userInformation();
       return currentUserWidget =
@@ -108,51 +105,26 @@ class AccountInformationState extends State<AccountInformationPage> {
   Future<void> updateInformation() async {
     if (this.widget.isPsy)
       await userProfile.updateProfile(
-          firstname: firstNameController.text,
-          lastname: lastNameController.text,
-          birthdate: birthDateController.text,
+          firstName: firstNameController.text,
+          lastName: lastNameController.text,
+          birthDate: birthDateController.text,
           description: descriptionController.text,
           profileId: this.widget.profile.profileId,
-          isPsy: this.widget.isPsy,
           geolocation: locationController,
           context: context);
     else
       await userProfile.updateProfile(
-          birthdate: birthDateController.text,
+          birthDate: birthDateController.text,
           description: descriptionController.text,
           profileId: this.widget.profile.profileId,
-          isPsy: this.widget.isPsy,
           context: context);
-  }
-
-  RaisedButton finalButton({String buttonContent}) {
-    return RaisedButton(
-      elevation: 8,
-      shape: StadiumBorder(),
-      color: Color.fromRGBO(255, 195, 0, 1),
-      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-      onPressed: () async {
-        if (this._formKey.currentState.validate()) {
-          await updateInformation().whenComplete(() => this.setState(() {
-                _memorizer = AsyncMemoizer();
-              }));
-        }
-      },
-      child: Text(
-        buttonContent,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            color: Color.fromRGBO(255, 255, 255, 100),
-            fontWeight: FontWeight.bold),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: FutureBuilder(
-        future: _getSkinParametersFromJsonAndCurrentIndexForSkin(),
+        future: _getUserInformationAndSkinParametersFromJsonAndCurrentIndexForSkin(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Form(

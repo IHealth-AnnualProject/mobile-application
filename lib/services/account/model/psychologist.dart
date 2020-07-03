@@ -69,8 +69,8 @@ class Psychologist extends User {
         geolocation: json['geolocation'] ==  null ? "" : json['geolocation']);
   }
 
-  Future<void> getUserProfile({String userID, BuildContext context}) async {
-    await AccountController.getCurrentPsyInformation(userID, context)
+  Future<void> getUserProfile({@required String userID, @required BuildContext context}) async {
+    await AccountController.getCurrentPsyInformation(psyId : userID, context : context)
         .then((userProfileResult) {
       this.firstName = userProfileResult.firstName;
       this.lastName = userProfileResult.lastName;
@@ -86,24 +86,20 @@ class Psychologist extends User {
   }
 
   Future<void> updateProfile(
-      {String firstname,
-      String lastname,
-      String birthdate,
+      {String firstName,
+      String lastName,
+      String birthDate,
       String geolocation,
       String description,
       String profileId,
-      bool isPsy,
-      String skin,
       BuildContext context}) async {
     await AccountController.updateCurrentPsyInformation(
-        firstName: firstname,
-        lastName: lastname,
-        birthDate: birthdate,
+        firstName: firstName,
+        lastName: lastName,
+        birthDate: birthDate,
         geolocation:geolocation,
         description: description,
         profileId: profileId,
-        isPsy: isPsy,
-        skin: skin,
         context: context);
   }
 }

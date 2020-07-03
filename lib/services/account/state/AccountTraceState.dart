@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/account/view/AccountTraceView.dart';
+import 'package:betsbi/services/feeling/controller/FeelingController.dart';
 import 'package:betsbi/services/feeling/model/feelings.dart';
 import 'package:betsbi/tools/DefaultCircleAvatar.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
@@ -9,12 +10,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-
 class AccountTraceState extends State<AccountTracePage> {
-  List<Feelings> feelings;
   AsyncMemoizer _memorizer = AsyncMemoizer();
 
-   List<charts.Series<Feelings, DateTime>> _createSampleData() {
+  List<charts.Series<Feelings, DateTime>> _createSampleData(
+      List<Feelings> feelings) {
     return [
       new charts.Series<Feelings, DateTime>(
         id: 'Feelings',
@@ -31,13 +31,12 @@ class AccountTraceState extends State<AccountTracePage> {
     super.initState();
   }
 
-  getAllFeelings() {
-    return this._memorizer.runOnce(() async {
-      Feelings feeling = new Feelings.normalConstructor();
-      feelings = await feeling.getUserFeelings(this.widget.profile.profileId, context);
-      return feelings;
-    });
-  }
+  getAllFeelings() => this
+      ._memorizer
+      .runOnce(() async => await FeelingController.getAllFeelings(
+            this.widget.profile.profileId,
+            context,
+          ));
 
   @override
   void dispose() {
@@ -48,68 +47,72 @@ class AccountTraceState extends State<AccountTracePage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        child: Column(
-      children: <Widget>[
-        SizedBox(
-          height: 45,
-        ),
-        DefaultCircleAvatar(
-          imagePath: "assets/user.png",
-        ),
-        SizedBox(
-          height: 45,
-        ),
-        DefaultTextTitle(
-          title: this.widget.profile.username + " lv." + this.widget.profile.level.toString(),
-        ),
-        SizedBox(
-          height: 45,
-        ),
-        Align(
+      child: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 45,
+          ),
+          DefaultCircleAvatar(
+            imagePath: "assets/user.png",
+          ),
+          SizedBox(
+            height: 45,
+          ),
+          DefaultTextTitle(
+            title: this.widget.profile.username +
+                " lv." +
+                this.widget.profile.level.toString(),
+          ),
+          SizedBox(
+            height: 45,
+          ),
+          Align(
             alignment: Alignment.topLeft,
             child: Text(
               SettingsManager.mapLanguage["PersonalTrace"],
               style: TextStyle(
                   fontSize: 30, color: Color.fromRGBO(0, 157, 153, 1)),
-            )),
-        Divider(
-          color: Color.fromRGBO(0, 157, 153, 1),
-          thickness: 2,
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        FutureBuilder(
-          future: getAllFeelings(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return WaitingWidget();
-            } else {
-              // data loaded:
-              return Card(
-                elevation: 10,
-                child: Container(
-                  child: new charts.TimeSeriesChart(
-                    _createSampleData(),
-                    animate: false,
-                    dateTimeFactory: const charts.LocalDateTimeFactory(),
-                    domainAxis: charts.DateTimeAxisSpec(
-                      tickFormatterSpec: charts.AutoDateTimeTickFormatterSpec(
-                        day: charts.TimeFormatterSpec(
-                          format: 'dd',
-                          transitionFormat: 'dd MMM',
+            ),
+          ),
+          Divider(
+            color: Color.fromRGBO(0, 157, 153, 1),
+            thickness: 2,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          FutureBuilder(
+            future: getAllFeelings(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return WaitingWidget();
+               else {
+                // data loaded:
+                return Card(
+                  elevation: 10,
+                  child: Container(
+                    child: charts.TimeSeriesChart(
+                      _createSampleData(snapshot.data),
+                      animate: false,
+                      dateTimeFactory: charts.LocalDateTimeFactory(),
+                      domainAxis: charts.DateTimeAxisSpec(
+                        tickFormatterSpec: charts.AutoDateTimeTickFormatterSpec(
+                          day: charts.TimeFormatterSpec(
+                            format: 'dd',
+                            transitionFormat: 'dd MMM',
+                          ),
                         ),
                       ),
                     ),
+                    width: MediaQuery.of(context).size.width - 20,
+                    height: 250,
                   ),
-                  width: 300,
-                  height: 250,
-                ),
-              );
-            }
-          },
-        ),
-      ],
-    ));
+                );
+              }
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
