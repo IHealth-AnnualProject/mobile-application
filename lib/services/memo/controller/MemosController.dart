@@ -10,7 +10,7 @@ import 'package:betsbi/tools/MemosWidget.dart';
 import 'package:flutter/cupertino.dart';
 
 class MemosController {
-  static Future<int> addNewMemoToMemos(String title, String dueDate) async {
+  static Future<int> addNewMemoToMemos({@required String title, @required String dueDate}) async {
     SQLLiteMemos sqlLiteMemos = new SQLLiteMemos();
     SQLLiteNotification sqlLiteNotification = new SQLLiteNotification();
     int idMemo;

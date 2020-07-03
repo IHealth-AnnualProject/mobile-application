@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:betsbi/manager/HistoricalManager.dart';
 import 'package:betsbi/services/global/controller/CheckController.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
@@ -10,25 +9,21 @@ import 'package:betsbi/tools/AppSearchBar.dart';
 import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:betsbi/tools/DefaultCircleAvatar.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
-import 'package:betsbi/tools/MemosWidget.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class MemosState extends State<MemosPage> with WidgetsBindingObserver {
-  List<MemosWidget> list = List<MemosWidget>();
   final _formKey = GlobalKey<FormState>();
-  final titleController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
   final TextEditingController dueDateController = TextEditingController();
   final TextEditingController dueTimeController = TextEditingController();
-  AsyncMemoizer _memorizer = AsyncMemoizer();
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-    _memorizer = AsyncMemoizer();
   }
 
   @override
@@ -38,20 +33,8 @@ class MemosState extends State<MemosPage> with WidgetsBindingObserver {
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
   }
 
-  getAllMemos() {
-    return this._memorizer.runOnce(() async {
-      list = await MemosController.getALlMemos(this);
-      return list;
-    });
-  }
 
-  refreshMemosList() async {
-    MemosController.getALlMemos(this).then((listMemosWid) {
-      setState(() {
-        list = listMemosWid;
-      });
-    });
-  }
+
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -85,7 +68,7 @@ class MemosState extends State<MemosPage> with WidgetsBindingObserver {
               title: SettingsManager.mapLanguage["MemosList"],
             ),
             FutureBuilder(
-              future: getAllMemos(),
+              future: MemosController.getALlMemos(this),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return WaitingWidget();
@@ -96,10 +79,10 @@ class MemosState extends State<MemosPage> with WidgetsBindingObserver {
                         shrinkWrap: true,
                         primary: false,
                         padding: EdgeInsets.all(8),
-                        itemCount: list.length,
+                        itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
-                            child: list[index],
+                            child: snapshot.data[index],
                           );
                         },
                       ),
@@ -130,6 +113,9 @@ class MemosState extends State<MemosPage> with WidgetsBindingObserver {
     Widget cancelButton = FlatButton(
       child: Text(SettingsManager.mapLanguage["Cancel"]),
       onPressed: () {
+        titleController.clear();
+        dueTimeController.clear();
+        dueDateController.clear();
         Navigator.pop(context);
       },
     );
@@ -138,19 +124,12 @@ class MemosState extends State<MemosPage> with WidgetsBindingObserver {
       child: Text(SettingsManager.mapLanguage["Submit"]),
       onPressed: () {
         if (this._formKey.currentState.validate()) {
-          MemosController.addNewMemoToMemos(titleController.text,
-                  dueDateController.text + " " + dueTimeController.text)
-              .then(
-            (memoId) => this.setState(() {
-              list.add(
-                MemosWidget(
+          MemosController.addNewMemoToMemos(
                   title: titleController.text,
                   dueDate:
-                      dueDateController.text + " " + dueTimeController.text,
-                  id: memoId,
-                  parent: this,
-                ),
-              );
+                      dueDateController.text + " " + dueTimeController.text)
+              .then(
+            (memoId) => this.setState(() {
               titleController.clear();
               dueTimeController.clear();
               dueDateController.clear();
@@ -204,7 +183,8 @@ class MemosState extends State<MemosPage> with WidgetsBindingObserver {
               ),
               Container(
                 width: MediaQuery.of(context).size.width / 3,
-                child: timeFormField(labelAndHint: SettingsManager.mapLanguage["DueTime"]),
+                child: timeFormField(
+                    labelAndHint: SettingsManager.mapLanguage["DueTime"]),
               ),
             ],
           ),

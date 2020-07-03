@@ -49,7 +49,7 @@ class _MemosWidgetState extends State<MemosWidget> {
             )),
             onPressed: () {
               MemosController.deleteMemoFromMemos(this.widget.id).then(
-                (value) => this.widget.parent.refreshMemosList(),
+                (value) => this.widget.parent.setState(() { }),
               );
             },
             child: Text(
