@@ -1,5 +1,4 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:async/async.dart';
 import 'package:betsbi/manager/FileManager.dart';
 import 'package:betsbi/services/relaxing/controller/AmbianceController.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
@@ -25,20 +24,16 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
   Duration musicDuration;
   AssetsAudioPlayer assetsAudioPlayer;
   String applicationPath;
-  AsyncMemoizer _memorizer = AsyncMemoizer();
 
-  checkIfSongIsAvailable() {
-    return this._memorizer.runOnce(() async {
+  checkIfSongIsAvailable() async {
       applicationPath = (await getApplicationDocumentsDirectory()).path;
       return await AmbianceController.checkIfSongAvailable(
           songName: this.widget.name,);
-    });
   }
 
   @override
   void dispose() {
     super.dispose();
-    _memorizer = AsyncMemoizer();
   }
 
   @override
@@ -72,7 +67,6 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
                           context: context,
                         ).whenComplete(() {
                           setState(() {
-                            _memorizer = AsyncMemoizer();
                           });
                         }),
                   trailing: snapshot.data

@@ -22,10 +22,10 @@ class AmbianceState extends State<AmbiancePage>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
     if (AmbianceController.musicFlush != null &&
         AmbianceController.musicFlush.isShowing())
       AmbianceController.musicFlush.dismiss();
-    super.dispose();
   }
 
   @override
@@ -45,6 +45,7 @@ class AmbianceState extends State<AmbiancePage>
           .whenComplete(() => AmbianceController.musicFlush..show(context));
     }
   }
+
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -132,12 +133,12 @@ class AmbianceState extends State<AmbiancePage>
                 MaterialPageRoute(
                   builder: (context) => PlayListListPage(),
                 ),
-              ).whenComplete(() {
+              ).then((_) {
                 if (AmbianceController.assetsAudioPlayer.isPlaying.value) {
                   AmbianceController.musicFlush.dismiss().whenComplete(
                       () => AmbianceController.musicFlush..show(context));
                 }
-                setState(() {});
+                this.setState(() {curvedAnimation.animationController.reverse();});
               });
             },
           ),
