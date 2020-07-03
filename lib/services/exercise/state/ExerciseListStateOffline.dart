@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:betsbi/services/exercise/controller/ExerciseController.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
@@ -12,8 +11,6 @@ import 'package:flutter/material.dart';
 
 class ExerciseListStateOffline extends State<ExerciseListPage>
     with WidgetsBindingObserver {
-  final AsyncMemoizer _memorizer = AsyncMemoizer();
-
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -35,12 +32,6 @@ class ExerciseListStateOffline extends State<ExerciseListPage>
     }
   }
 
-  getAllExercise() => this._memorizer.runOnce(
-        () async => await ExerciseController.getAllJsonAndRecoverListOfExercise(
-          context: context,
-        ),
-      );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +39,9 @@ class ExerciseListStateOffline extends State<ExerciseListPage>
         isOffline: this.widget.isOffLine,
       ),
       body: FutureBuilder(
-        future: getAllExercise(),
+        future: ExerciseController.getAllJsonAndRecoverListOfExercise(
+          context: context,
+        ),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data.isNotEmpty) {

@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:betsbi/manager/HistoricalManager.dart';
 import 'package:betsbi/services/exercise/controller/ExerciseController.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
@@ -13,8 +12,6 @@ import 'package:flutter/material.dart';
 
 class ExerciseListState extends State<ExerciseListPage>
     with WidgetsBindingObserver {
-  List<Widget> listExercise;
-  final AsyncMemoizer _memorizer = AsyncMemoizer();
 
   @override
   void dispose() {
@@ -27,7 +24,6 @@ class ExerciseListState extends State<ExerciseListPage>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
-    listExercise = new List<Widget>();
   }
 
   @override
@@ -39,23 +35,6 @@ class ExerciseListState extends State<ExerciseListPage>
     }
   }
 
-  getAllExercise() {
-    return this._memorizer.runOnce(() async {
-      String jsonExercise =
-          await ExerciseController.getJsonAccordingToExerciseType(
-              context: context, type: this.widget.type);
-      listExercise.addAll(
-        ExerciseController.decodeJsonAndStoreItInsideExerciseList(
-          jsonToDecode: jsonExercise,
-          leading: this.widget.leading,
-          context: context,
-          isOffLine: this.widget.isOffLine,
-          type: this.widget.type,
-        ),
-      );
-      return listExercise;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,16 +43,16 @@ class ExerciseListState extends State<ExerciseListPage>
         isOffline: this.widget.isOffLine,
       ),
       body: FutureBuilder(
-        future: getAllExercise(),
+        future: ExerciseController.getListOfExerciseOnlineMode(context: context, type: this.widget.type, leading: this.widget.leading),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (listExercise.isNotEmpty) {
+            if (snapshot.data.isNotEmpty) {
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
-                itemCount: listExercise.length,
+                itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
-                    child: listExercise[index],
+                    child: snapshot.data[index],
                   );
                 },
               );

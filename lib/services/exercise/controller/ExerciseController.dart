@@ -217,4 +217,20 @@ class ExerciseController {
       },
     ).whenComplete(() => Navigator.of(context).pop());
   }
+
+  static Future<List<Widget>> getListOfExerciseOnlineMode({@required BuildContext context, @required String type, @required String leading}) async
+  {
+    List<Widget> listExercise = List<Widget>();
+    String jsonExercise = await getJsonAccordingToExerciseType(context: context, type: type);
+    listExercise.addAll(
+      decodeJsonAndStoreItInsideExerciseList(
+        jsonToDecode: jsonExercise,
+        leading: leading,
+        context: context,
+        isOffLine: false,
+        type: type,
+      ),
+    );
+    return listExercise;
+  }
 }
