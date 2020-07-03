@@ -1,5 +1,5 @@
 import 'package:betsbi/manager/SettingsManager.dart';
-import 'package:betsbi/tools/LegalPart.dart';
+import 'package:betsbi/services/legal/widget/LegalPart.dart';
 import 'package:flutter/cupertino.dart';
 
 class LegalMentionController {

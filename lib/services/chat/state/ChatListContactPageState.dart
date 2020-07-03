@@ -10,7 +10,7 @@ import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/chat/view/ChatListContactView.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
 import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
-import 'package:betsbi/tools/ContactChat.dart';
+import 'package:betsbi/services/chat/widget/ContactChat.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';

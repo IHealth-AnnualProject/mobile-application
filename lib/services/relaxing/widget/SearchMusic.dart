@@ -6,7 +6,7 @@ import 'package:betsbi/tools/MusicPlayerCardItem.dart';
 import 'package:flutter/material.dart';
 import 'package:async/async.dart';
 
-import 'WaitingWidget.dart';
+import '../../../tools/WaitingWidget.dart';
 
 class SearchMusic extends SearchDelegate<String> {
   List<SearchItem> items;

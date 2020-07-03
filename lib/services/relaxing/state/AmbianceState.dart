@@ -9,7 +9,7 @@ import 'package:betsbi/services/playlist/view/PlayListListView.dart';
 import 'package:betsbi/services/relaxing/view/RelaxingView.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
 import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
-import 'package:betsbi/tools/SearchMusic.dart';
+import 'package:betsbi/services/relaxing/widget/SearchMusic.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/cupertino.dart';

@@ -6,7 +6,7 @@ import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/settings/SQLLITeNotification.dart';
 import 'package:betsbi/services/memo/SQLLiteMemos.dart';
 import 'package:betsbi/services/memo/state/MemoState.dart';
-import 'package:betsbi/tools/MemosWidget.dart';
+import 'package:betsbi/services/memo/widget/MemosWidget.dart';
 import 'package:flutter/cupertino.dart';
 
 class MemosController {

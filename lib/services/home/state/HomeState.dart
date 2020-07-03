@@ -7,7 +7,7 @@ import 'package:betsbi/services/settings/controller/SettingsController.dart';
 import 'package:betsbi/services/home/view/HomeView.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
 import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
-import 'package:betsbi/tools/GridViewHomeWidget.dart';
+import 'package:betsbi/services/home/widget/GridViewHomeWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

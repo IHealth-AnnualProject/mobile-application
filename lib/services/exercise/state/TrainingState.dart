@@ -7,7 +7,7 @@ import 'package:betsbi/services/exercise/view/ExerciseListView.dart';
 import 'package:betsbi/services/exercise/view/TrainingView.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
 import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
-import 'package:betsbi/tools/ExercisePresentation.dart';
+import 'package:betsbi/services/exercise/widget/ExercisePresentation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

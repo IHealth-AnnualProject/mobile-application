@@ -2,7 +2,7 @@ import 'package:betsbi/services/account/controller/AccountController.dart';
 import 'package:betsbi/services/global/controller/SearchBarController.dart';
 import 'package:betsbi/services/global/model/searchItem.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
-import 'package:betsbi/tools/CircleContactButton.dart';
+import 'package:betsbi/services/global/widget/CircleContactButton.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:async/async.dart';

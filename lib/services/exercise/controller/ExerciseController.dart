@@ -11,7 +11,7 @@ import 'package:betsbi/services/exercise/view/PipeExerciseView.dart';
 import 'package:betsbi/services/exercise/view/SimilarCardExerciseView.dart';
 import 'package:betsbi/services/exercise/view/VideoExerciseView.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
-import 'package:betsbi/tools/PipeElement.dart';
+import 'package:betsbi/services/exercise/widget/PipeElement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

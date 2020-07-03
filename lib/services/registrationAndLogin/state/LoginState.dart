@@ -5,7 +5,7 @@ import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/registrationAndLogin/controller/LoginController.dart';
 import 'package:betsbi/services/registrationAndLogin/view/LoginView.dart';
 import 'package:betsbi/services/registrationAndLogin/view/RegisterView.dart';
-import 'package:betsbi/tools/ForgotPassword.dart';
+import 'package:betsbi/services/registrationAndLogin/widget/ForgotPassword.dart';
 import 'package:betsbi/tools/SubmitButton.dart';
 import 'package:betsbi/tools/TextFormFieldCustomBetsBi.dart';
 import 'package:flushbar/flushbar.dart';
