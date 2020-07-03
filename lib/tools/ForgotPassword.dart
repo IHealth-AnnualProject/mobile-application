@@ -1,5 +1,4 @@
 import 'package:betsbi/services/global/controller/CheckController.dart';
-import 'package:betsbi/services/global/controller/ContainerController.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +17,7 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   Flushbar<String> flush;
+  bool oneFlushBar = false;
 
   var myController = TextEditingController();
 
@@ -56,13 +56,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       isDismissible: true,
       onStatusChanged: (FlushbarStatus status) {
         if (status == FlushbarStatus.DISMISSED) {
-          ContainerController.oneFlushBar = false;
+          oneFlushBar = false;
         }
         if (status == FlushbarStatus.SHOWING) {
-          ContainerController.oneFlushBar = true;
+          oneFlushBar = true;
         }
         if (status == FlushbarStatus.IS_APPEARING) {
-          ContainerController.oneFlushBar = true;
+          oneFlushBar = true;
         }
       },
       userInputForm: Form(
@@ -93,7 +93,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
     return InkWell(
         onTap: () {
-          if (!ContainerController.oneFlushBar) {
+          if (!oneFlushBar) {
             flush.show(context).then((result) {
               if (result != null) {
                 print(result);

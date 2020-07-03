@@ -42,16 +42,16 @@ class SearchBarController {
       {@required BuildContext context}) async {
     List<SearchItem> items = new List<SearchItem>();
     if (searchCategory == SettingsManager.mapLanguage["User"])
-      await getAllUserThenAddItToListOfSearchItem(context, items);
+      await getAllUserThenAddItToListOfSearchItem(context : context, items : items);
     else if (searchCategory == SettingsManager.mapLanguage["Exercise"])
-      await getAllExerciseThenAddItToListOfSearchItem(context, items);
+      await getAllExerciseThenAddItToListOfSearchItem(context : context, items : items);
     else if (searchCategory == SettingsManager.mapLanguage["Psy"])
-      await getAllPsyThenAddItToListOfSearchItem(context, items);
+      await getAllPsyThenAddItToListOfSearchItem(context : context, items : items);
     return items;
   }
 
-  static Future getAllExerciseThenAddItToListOfSearchItem(
-      BuildContext context, List<SearchItem> items) async {
+  static Future getAllExerciseThenAddItToListOfSearchItem({
+    @required BuildContext context, @required List<SearchItem> items}) async {
     await getAllExercise(context: context).then(
       (exercises) => exercises.forEach(
         (exercise) => items.add(
@@ -66,14 +66,14 @@ class SearchBarController {
     );
   }
 
-  static Future getAllUserThenAddItToListOfSearchItem(
-      BuildContext context, List<SearchItem> items) async {
+  static Future getAllUserThenAddItToListOfSearchItem({
+    @required  BuildContext context, @required List<SearchItem> items}) async {
     await getAllUserProfile(context: context).then(
       (users) => users.forEach(
         (user) {
           Widget avatar =
               getUserAvatarAccordingToHisIdForSearch(
-                  user: user, context: context);
+                  user: user);
           items.add(
             SearchItem.userItem(
               leading: avatar,
@@ -87,8 +87,8 @@ class SearchBarController {
     );
   }
 
-  static Future getAllPsyThenAddItToListOfSearchItem(
-      BuildContext context, List<SearchItem> items) async {
+  static Future getAllPsyThenAddItToListOfSearchItem({
+    @required BuildContext context, @required List<SearchItem> items}) async {
     bool isGeolocationOk = await GeolocationManager.areAllPermissionGranted();
     if (!isGeolocationOk) {
       await getAllPsyProfile(context: context).then(
@@ -96,7 +96,7 @@ class SearchBarController {
           (user) {
             Widget avatar =
                 getUserAvatarAccordingToHisIdForSearch(
-                    user: user, context: context);
+                    user: user);
             items.add(
               SearchItem.userItem(
                 leading: avatar,
@@ -115,7 +115,7 @@ class SearchBarController {
         (user) {
           Widget avatar =
               getUserAvatarAccordingToHisIdForSearch(
-                  user: user, context: context);
+                  user: user);
           items.add(
             SearchItem.userItem(
               leading: avatar,
@@ -185,7 +185,7 @@ class SearchBarController {
   }
 
   static Widget getUserAvatarAccordingToHisIdForSearch(
-      {@required User user, @required BuildContext context}) {
+      {@required User user}) {
     int defaultFaceIndex = SkinController.faces.lastIndexWhere(
             (face) => face.level.toString() + face.code == user.skin.split("_")[0]);
     int defaultSkinColorIndex = SkinController.skinColors.lastIndexWhere(
@@ -207,15 +207,13 @@ class SearchBarController {
       {@required BuildContext context,
       @required Function listToReturn,
       @required String path}) async {
-    List<User> users = new List<User>();
     HttpManager httpManager = new HttpManager(path: path, context: context);
     await httpManager.get();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,
       context: context,
     );
-    users = responseManager.checkResponseRetrieveInformationWithAFunction(toReturn: () => listToReturn(httpManager),elementToReturnIfFalse:  new List<User>());
-    return users;
+    return responseManager.checkResponseRetrieveInformationWithAFunction(toReturn: () => listToReturn(httpManager),elementToReturnIfFalse:  new List<User>());
   }
 
   static Future<List<User>> getAllUserProfile(
