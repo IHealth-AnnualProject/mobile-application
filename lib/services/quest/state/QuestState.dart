@@ -1,9 +1,7 @@
-import 'package:async/async.dart';
 import 'package:betsbi/manager/HistoricalManager.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/quest/controller/QuestController.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
-import 'package:betsbi/services/quest/model/quest.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/quest/view/QuestCreateView.dart';
 import 'package:betsbi/services/quest/view/QuestView.dart';
@@ -11,15 +9,12 @@ import 'package:betsbi/tools/AppSearchBar.dart';
 import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
 import 'package:betsbi/tools/DefaultCircleAvatar.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
-import 'package:betsbi/tools/QuestWidget.dart';
 import 'package:betsbi/tools/SubmitButton.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class QuestState extends State<QuestPage> with WidgetsBindingObserver {
-  List<Widget> listQuestWidget;
-  AsyncMemoizer _memorizer = AsyncMemoizer();
 
   @override
   void dispose() {
@@ -43,32 +38,13 @@ class QuestState extends State<QuestPage> with WidgetsBindingObserver {
     }
   }
 
-  getAllUserQuest() {
-    return this._memorizer.runOnce(
-      () async {
-        listQuestWidget = new List<Widget>();
-        List<Quest> quests = await QuestController.getAllQuest();
-        quests.removeWhere((quest) => quest.userId != SettingsManager.applicationProperties.getCurrentId());
-        quests.forEach(
-          (quest) => listQuestWidget.add(
-            QuestWidget(
-              quest: quest,
-              parent: this,
-            ),
-          ),
-        );
-        return listQuestWidget;
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
-    _memorizer = AsyncMemoizer();
     return Scaffold(
       appBar: AppSearchBar(),
       body: FutureBuilder(
-          future: getAllUserQuest(),
+          future: QuestController.getAllQuest(parent: this),
           builder: (context, snapshot) {
             if (snapshot.hasData)
               return SingleChildScrollView(
@@ -95,9 +71,7 @@ class QuestState extends State<QuestPage> with WidgetsBindingObserver {
                         context,
                         MaterialPageRoute(
                             builder: (context) => QuestCreatePage()),
-                      ).whenComplete(() => setState(() {
-                            _memorizer = AsyncMemoizer();
-                          })),
+                      ).whenComplete(() => setState(() {})),
                       content: SettingsManager.mapLanguage["CreateQuest"],
                     ),
                     SizedBox(
@@ -121,10 +95,10 @@ class QuestState extends State<QuestPage> with WidgetsBindingObserver {
                       shrinkWrap: true,
                       primary: false,
                       padding: const EdgeInsets.all(8),
-                      itemCount: listQuestWidget.length,
+                      itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
-                          child: listQuestWidget[index],
+                          child: snapshot.data[index],
                         );
                       },
                     ),

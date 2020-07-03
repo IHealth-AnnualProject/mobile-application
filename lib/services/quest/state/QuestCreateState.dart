@@ -20,8 +20,7 @@ class QuestCreateState extends State<QuestCreatePage>
   List difficulty = ["easy", "normal"];
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   final TextEditingController titleController = new TextEditingController();
-  final TextEditingController descriptionController =
-      new TextEditingController();
+  final TextEditingController descriptionController = new TextEditingController();
   String _currentDifficulty;
 
   @override

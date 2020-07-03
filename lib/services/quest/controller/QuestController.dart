@@ -4,6 +4,7 @@ import 'package:betsbi/services/quest/model/quest.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/quest/SQLLiteQuest.dart';
 import 'package:betsbi/tools/FlushBarMessage.dart';
+import 'package:betsbi/tools/QuestWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class QuestController {
     return calculatedExperienceGained;
   }
 
-  static Future<List<Quest>> getAllQuest() async {
+  static Future<List<Quest>> getAllQuestFromBDD() async {
     SQLLiteQuest sqlLiteQuest = new SQLLiteQuest();
     List<Quest> quests = new List<Quest>();
     quests = await sqlLiteQuest.getAll();
@@ -61,7 +62,7 @@ class QuestController {
     int updateReturn = await sqlLiteQuest.update(quest);
     if (updateReturn != null) {
       await sendXpGainedByUser(context : context,questDifficulty: quest.questDifficulty);
-      showAlertDialog(context: context, questDifficulty: quest.questDifficulty);
+      showCongratsDialog(context: context, questDifficulty: quest.questDifficulty);
     }
     else
       FlushBarMessage.errorMessage(
@@ -95,7 +96,7 @@ class QuestController {
      responseManager.checkResponseAndExecuteFunctionIfOk();
   }
 
-  static showAlertDialog({BuildContext context, String questDifficulty}) {
+  static showCongratsDialog({BuildContext context, String questDifficulty}) {
     // set up the button
 
     // set up the AlertDialog
@@ -138,5 +139,21 @@ class QuestController {
         return alert;
       },
     );
+  }
+
+  static Future<List<Widget>> getAllQuest({@required State parent}) async
+  {
+    List<Widget> listQuestWidget =  List<Widget>();
+    List<Quest> quests = await QuestController.getAllQuestFromBDD();
+    quests.removeWhere((quest) => quest.userId != SettingsManager.applicationProperties.getCurrentId());
+    quests.forEach(
+          (quest) => listQuestWidget.add(
+        QuestWidget(
+          quest: quest,
+          parent: parent,
+        ),
+      ),
+    );
+    return listQuestWidget;
   }
 }
