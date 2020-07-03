@@ -16,8 +16,7 @@ import 'package:flutter/material.dart';
 class ErrorState extends State<ErrorPage> with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>();
   TextEditingController titleEditingController = new TextEditingController();
-  TextEditingController descriptionEditingController =
-      new TextEditingController();
+  TextEditingController descriptionEditingController = new TextEditingController();
 
   @override
   void dispose() {
@@ -49,82 +48,65 @@ class ErrorState extends State<ErrorPage> with WidgetsBindingObserver {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 30,
-                ),
-                DefaultTextTitle(
-                  title: SettingsManager.mapLanguage["ErrorTitle"],
-                ),
-                SizedBox(
-                  height: 45,
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: 350.0,
-                        child: TextFormFieldCustomBetsBi(
-                          obscureText: false,
-                          textAlign: TextAlign.start,
-                          controller: titleEditingController,
-                          validator: (value) =>
-                              CheckController.checkField(value),
-                          labelText: SettingsManager.mapLanguage["Title"],
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: SettingsManager.mapLanguage["Title"],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: 350.0,
-                        child: TextFormFieldCustomBetsBi(
-                          obscureText: false,
-                          textAlign: TextAlign.start,
-                          controller: descriptionEditingController,
-                          maxLines: 15,
-                          validator: (value) =>
-                              CheckController.checkField(value),
-                          labelText: "Description",
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: "Description",
-                        ),
-                      ),
-                      SizedBox(
-                        height: 45,
-                      ),
-                      Container(
-                        width: 350.0,
-                        child: SubmitButton(
-                          content: SettingsManager.mapLanguage["Submit"],
-                          onPressedFunction: () => ErrorController.sendError(
-                            context: context,
-                            name: titleEditingController.text,
-                            description: descriptionEditingController.text,
-                          ).whenComplete(() => this.setState(() {
-                                titleEditingController =
-                                    new TextEditingController();
-                                descriptionEditingController =
-                                    new TextEditingController();
-                              })),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
+            SizedBox(
+              height: 30,
+            ),
+            DefaultTextTitle(
+              title: SettingsManager.mapLanguage["ErrorTitle"],
+            ),
+            SizedBox(
+              height: 45,
+            ),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: 350.0,
+                    child: TextFormFieldCustomBetsBi(
+                      obscureText: false,
+                      textAlign: TextAlign.start,
+                      controller: titleEditingController,
+                      validator: (value) => CheckController.checkField(value),
+                      labelText: SettingsManager.mapLanguage["Title"],
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: SettingsManager.mapLanguage["Title"],
+                    ),
                   ),
-                ),
-              ],
-            ), // This trailing comma makes auto-formatting nicer for build methods.
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    width: 350.0,
+                    child: TextFormFieldCustomBetsBi(
+                      obscureText: false,
+                      textAlign: TextAlign.start,
+                      controller: descriptionEditingController,
+                      maxLines: 15,
+                      validator: (value) => CheckController.checkField(value),
+                      labelText: "Description",
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: "Description",
+                    ),
+                  ),
+                  SizedBox(
+                    height: 45,
+                  ),
+                  Container(
+                    width: 350.0,
+                    child: SubmitButton(
+                      content: SettingsManager.mapLanguage["Submit"],
+                      onPressedFunction: () => checkIfAllTextFieldAreNotEmptyThenSendError(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -133,5 +115,19 @@ class ErrorState extends State<ErrorPage> with WidgetsBindingObserver {
         selectedBottomIndexOnline: null,
       ),
     );
+  }
+
+  void checkIfAllTextFieldAreNotEmptyThenSendError()
+  { if (this._formKey.currentState.validate()) {
+    ErrorController.sendError(
+      context: context,
+      name: titleEditingController.text,
+      description: descriptionEditingController.text,
+    ).whenComplete(() =>
+        setState(() {
+          titleEditingController.clear();
+          descriptionEditingController.clear();
+        }));
+  }
   }
 }
