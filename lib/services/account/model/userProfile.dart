@@ -3,6 +3,9 @@ import 'package:betsbi/services/account/model/user.dart';
 import 'package:flutter/cupertino.dart';
 
 class UserProfile extends User {
+  int xp;
+
+
   UserProfile.normalConstructor(
       {String birthDate,
       String description,
@@ -11,7 +14,7 @@ class UserProfile extends User {
       bool isPsy = false,
       int level,
       String email,
-      String skin,String geolocation})
+      String skin,String geolocation, this.xp})
       : super(userProfileId, username, description, birthDate, isPsy, level,
             email, skin, geolocation);
 
@@ -23,7 +26,7 @@ class UserProfile extends User {
       bool isPsy = false,
       int level = 0,
       String email = "",
-      String skin = "1AAAA_1AAAA_1AAAA", String geolocation =""})
+      String skin = "1AAAA_1AAAA_1AAAA", String geolocation ="", this.xp = 0})
       : super(userProfileId, username, description, birthDate, isPsy, level,
             email, skin,geolocation);
 
@@ -37,6 +40,7 @@ class UserProfile extends User {
       email: json['email'],
       skin:
           json['user']['skin'].toString().isEmpty ? "1AAAA_1AAAA_1AAAA" : json['user']['skin'],
+      xp : json['user']['xp'],
     );
   }
 

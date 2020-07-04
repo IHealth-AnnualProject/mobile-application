@@ -1,5 +1,7 @@
 import 'package:betsbi/manager/HttpManager.dart';
 import 'package:betsbi/manager/ResponseManager.dart';
+import 'package:betsbi/services/level/controller/LevelController.dart';
+import 'package:betsbi/services/level/widget/LevelDialog.dart';
 import 'package:betsbi/services/quest/model/quest.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/quest/SQLLiteQuest.dart';
@@ -44,7 +46,7 @@ class QuestController {
         questDifficulty: questDifficulty,
         questTitle: questTitle,
         userId: SettingsManager.applicationProperties.getCurrentId(),
-    questDone: 0));
+        questDone: 0));
     if (insertReturn != null)
       FlushBarMessage.goodMessage(
               content: SettingsManager.mapLanguage["QuestCreated"])
@@ -61,10 +63,26 @@ class QuestController {
     quest.changeDone(1);
     int updateReturn = await sqlLiteQuest.update(quest);
     if (updateReturn != null) {
-      await sendXpGainedByUser(context : context,questDifficulty: quest.questDifficulty);
-      showCongratsDialog(context: context, questDifficulty: quest.questDifficulty);
-    }
-    else
+      int currentXp = await LevelController.getCurrentUserXp(
+          userID: SettingsManager.applicationProperties.getCurrentId(),
+          context: context);
+      LevelController.isLevelSuperior(
+              currentXp,
+              currentXp +
+                  getExperienceAccordingToDifficulty(
+                      questDifficulty: quest.questDifficulty))
+          ? showDialog(
+              context: context,
+              builder: (BuildContext context) => LevelDialog(
+                    level: LevelController.determineLevelWithXp(currentXp +
+                        getExperienceAccordingToDifficulty(
+                            questDifficulty: quest.questDifficulty)),
+                  ))
+          : showCongratsDialog(
+              context: context, questDifficulty: quest.questDifficulty);
+      await sendXpGainedByUser(
+          context: context, questDifficulty: quest.questDifficulty);
+    } else
       FlushBarMessage.errorMessage(
               content: SettingsManager.mapLanguage["QuestNotCreated"])
           .showFlushBar(context);
@@ -84,16 +102,19 @@ class QuestController {
           .showFlushBar(context);
   }
 
-  static Future<void> sendXpGainedByUser({@required BuildContext context, @required String questDifficulty})
-  async {
+  static Future<void> sendXpGainedByUser(
+      {@required BuildContext context,
+      @required String questDifficulty}) async {
     HttpManager httpManager =
-    new HttpManager(path: 'user/addXp', context: context,map: {"xp":getExperienceAccordingToDifficulty(questDifficulty: questDifficulty)});
+        new HttpManager(path: 'user/addXp', context: context, map: {
+      "xp": getExperienceAccordingToDifficulty(questDifficulty: questDifficulty)
+    });
     await httpManager.post();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,
       context: context,
     );
-     responseManager.checkResponseAndExecuteFunctionIfOk();
+    responseManager.checkResponseAndExecuteFunctionIfOk();
   }
 
   static showCongratsDialog({BuildContext context, String questDifficulty}) {
@@ -141,13 +162,13 @@ class QuestController {
     );
   }
 
-  static Future<List<Widget>> getAllQuest({@required State parent}) async
-  {
-    List<Widget> listQuestWidget =  List<Widget>();
+  static Future<List<Widget>> getAllQuest({@required State parent}) async {
+    List<Widget> listQuestWidget = List<Widget>();
     List<Quest> quests = await QuestController.getAllQuestFromBDD();
-    quests.removeWhere((quest) => quest.userId != SettingsManager.applicationProperties.getCurrentId());
+    quests.removeWhere((quest) =>
+        quest.userId != SettingsManager.applicationProperties.getCurrentId());
     quests.forEach(
-          (quest) => listQuestWidget.add(
+      (quest) => listQuestWidget.add(
         QuestWidget(
           quest: quest,
           parent: parent,

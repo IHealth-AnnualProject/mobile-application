@@ -171,6 +171,8 @@ class QuestCreateState extends State<QuestCreatePage>
         questDifficulty: _currentDifficulty,
         questDescription: descriptionController.value.text,
       );
+      titleController.clear();
+      descriptionController.clear();
     }
   }
 

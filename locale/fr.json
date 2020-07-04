@@ -158,6 +158,8 @@
   "ChoiceSkin" : "Choisissez le skin que vous souhaitez afficher sur l'application",
   "RequiredLevel" : "Niveau requis :",
   "FindFriends" : "Vous pouvez trouver un autre utilisateur avec qui parler directement en effectuant une recherche dans la barre de recherche",
-  "CheckInternetConnection" : "S'il vous plaît, vérifiez votre connexion internet"
+  "CheckInternetConnection" : "S'il vous plaît, vérifiez votre connexion internet",
+  "WhatYouVeUnlocked" : "Voici ce que vous avez débloqué",
+  "NothingUnlocked" : "Vous n'avez rien débloqué pour ce niveau"
 
 }
