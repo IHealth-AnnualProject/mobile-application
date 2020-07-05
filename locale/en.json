@@ -160,7 +160,8 @@
   "FindFriends" : "You can find other user to talk with directly by searching in the upper search bar",
   "CheckInternetConnection" : "Please, check you internet connection",
   "WhatYouVeUnlocked" : "Here it what you've unlocked",
-  "NothingUnlocked" : "You've not unlocked anything"
+  "NothingUnlocked" : "You've not unlocked anything",
+  "SkinIntroduction" : "You can change your own skin, by clicking on the skin on you account"
 
 
 }

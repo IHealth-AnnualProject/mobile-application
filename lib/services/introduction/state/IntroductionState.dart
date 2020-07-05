@@ -71,6 +71,19 @@ class IntroductionState extends State<IntroductionPage> {
       titleTextStyle: TextStyle(color: Colors.white),
       bodyTextStyle: TextStyle(color: Colors.white),
     ),
+    PageViewModel(
+      pageColor: Color.fromRGBO(98, 43, 114, 1),
+      iconImageAssetPath: 'assets/user.png',
+      body: Text(
+        SettingsManager.mapLanguage["SkinIntroduction"],
+      ),
+      title: Text("SKIN"),
+      mainImage: Image.asset(
+        "assets/introduction/introduction_skin.png",
+      ),
+      titleTextStyle: TextStyle(color: Colors.white),
+      bodyTextStyle: TextStyle(color: Colors.white),
+    ),
   ];
 
   @override
