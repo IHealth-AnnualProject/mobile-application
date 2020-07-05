@@ -1,4 +1,5 @@
 import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/account/view/AccountView.dart';
 import 'package:betsbi/services/level/controller/LevelController.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +16,21 @@ class LevelDialog extends StatelessWidget {
       child: Text(SettingsManager.mapLanguage["Cancel"]),
       onPressed: () {
         Navigator.pop(context);
+      },
+    );
+    Widget goToAccountPageButton = FlatButton(
+      child: Text(SettingsManager.mapLanguage["MyAccountContainer"]),
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => AccountPage(
+              userId: SettingsManager.applicationProperties.getCurrentId(),
+              isPsy: false,
+            ),
+          ),
+        );
       },
     );
     return AlertDialog(
@@ -41,7 +57,8 @@ class LevelDialog extends StatelessWidget {
                 return Column(
                   children: <Widget>[
                     DefaultTextTitle(
-                        title: SettingsManager.mapLanguage["WhatYouVeUnlocked"]),
+                        title:
+                            SettingsManager.mapLanguage["WhatYouVeUnlocked"]),
                     Container(
                       height: MediaQuery.of(context).size.height,
                       width: double.maxFinite,
@@ -50,8 +67,7 @@ class LevelDialog extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors
-                              .black87, //                   <--- border color
+                          color: Colors.black87,
                           width: 2.0,
                         ),
                       ),
@@ -66,8 +82,7 @@ class LevelDialog extends StatelessWidget {
           },
         ),
       ),
-      actions: [cancelButton],
+      actions: [cancelButton,goToAccountPageButton],
     );
   }
-
 }
