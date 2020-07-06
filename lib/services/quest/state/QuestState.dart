@@ -61,7 +61,7 @@ class QuestState extends State<QuestPage> with WidgetsBindingObserver {
                       height: 45,
                     ),
                     DefaultTextTitle(
-                      title: SettingsManager.mapLanguage["QuestToday"],
+                      title: SettingsManager.mapLanguage["MyQuestContainer"],
                     ),
                     SizedBox(
                       height: 45,
