@@ -29,6 +29,8 @@ class RegisterController {
     return responseManager
         .checkResponseAndShowWithFlushBarMessageTheAnswerThenGoToDestination(
             destination: LoginPage(),
-            successMessage: SettingsManager.mapLanguage["RegisterSent"]);
+            successMessage: isPsy
+                ? SettingsManager.mapLanguage["RegisterSentAsPsy"]
+                : SettingsManager.mapLanguage["RegisterSent"]);
   }
 }
