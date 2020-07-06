@@ -192,69 +192,54 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
   }
 
   Widget myMessage({@required content}) {
-    return Bubble(
-        margin: BubbleEdges.only(top: 10),
-        alignment: Alignment.topLeft,
-        nip: BubbleNip.leftTop,
-        child: Wrap(
-          children: <Widget>[
-            RichText(
-              textAlign: TextAlign.right,
-              text: TextSpan(
-                text: SettingsManager.mapLanguage["Me"] + ": ",
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: content,
-                    style: TextStyle(fontSize: 25, color: Colors.black87),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ));
+    return Column(
+      children: <Widget>[
+        Bubble(
+          margin: BubbleEdges.only(top: 10),
+          alignment: Alignment.topLeft,
+          nip: BubbleNip.leftTop,
+          child: Text(
+            content,
+            style: TextStyle(fontSize: 25, color: Colors.black87),
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+      ],
+    );
   }
 
   Widget hisMessage({@required content}) {
     return Align(
       alignment: Alignment.topRight,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+      child: Column(
         children: <Widget>[
-          Flexible(
-            flex: 9,
-            child: Bubble(
-              margin: BubbleEdges.only(top: 10),
-              nip: BubbleNip.rightTop,
-              color: Color.fromRGBO(225, 255, 199, 1.0),
-              child: RichText(
-                textAlign: TextAlign.right,
-                text: TextSpan(
-                  text: this.widget.userContactedName + ": ",
-                  style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: content,
-                      style: TextStyle(fontSize: 25, color: Colors.black87),
-                    ),
-                  ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Flexible(
+                flex: 9,
+                child: Bubble(
+                  margin: BubbleEdges.only(top: 10),
+                  nip: BubbleNip.rightTop,
+                  color: Color.fromRGBO(225, 255, 199, 1.0),
+                  child: Text(
+                    content,
+                    style: TextStyle(fontSize: 25, color: Colors.black87),
+                  ),
                 ),
               ),
-            ),
+              Flexible(
+                flex: 1,
+                child: AvatarSkinWidget.searchConstructor(
+                    accessoryImage: this.widget.userContactedSkin.accessoryPath,
+                    faceImage: this.widget.userContactedSkin.facePath,
+                    skinColor: this.widget.userContactedSkin.skinColor),
+              ),
+            ],
           ),
-          Flexible(
-            flex: 1,
-            child: AvatarSkinWidget.searchConstructor(
-                accessoryImage: this.widget.userContactedSkin.accessoryPath,
-                faceImage: this.widget.userContactedSkin.facePath,
-                skinColor: this.widget.userContactedSkin.skinColor),
-          ),
+          SizedBox(height: 10,),
         ],
       ),
     );

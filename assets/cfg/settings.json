@@ -1,6 +1,4 @@
 {
-  "pushNotification": false,
-  "feelingsDate": "",
   "ChatBotId" : "betsbi-chatbot",
   "apiKey" : "AIzaSyC0zl4vF1rkxzqL3fZMjMw2Jcq22AowXo0",
   "apiUrl": "http://51.255.169.122:3000/",
