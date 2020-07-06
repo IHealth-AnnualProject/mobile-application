@@ -11,6 +11,7 @@ class SocketManager {
   static Socket socket;
 
   static connectSocket() async {
+    _disconnect();
     socket =
         io(SettingsManager.cfg.getString("websocketUrl"), <String, dynamic>{
       'transports': ['websocket'],
@@ -62,6 +63,7 @@ class SocketManager {
   }
 
   static _disconnect() {
+    if(socket != null)
     socket.disconnect();
   }
 }

@@ -43,6 +43,7 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     this._memorizer = AsyncMemoizer();
+    socket.disconnect();
     super.dispose();
   }
 
@@ -59,9 +60,7 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
               : hisMessage(content: message.content));
         });
       });
-      messages.add(SizedBox(
-        height: 20,
-      ));
+
       messages.add(lineSendMessage());
       messages = messages.reversed.toList();
       await updateSettingsPropertyNewMessageLessWithCurrentNewMessageFromThisUserAndRemoveITFromBDD();
