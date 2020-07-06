@@ -1,6 +1,6 @@
 import 'package:async/async.dart';
 import 'package:betsbi/manager/HistoricalManager.dart';
-import 'package:betsbi/services/exercise/view/VideoExerciseView.dart';
+import 'package:betsbi/services/exercise/view/MuscleExerciseView.dart';
 import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoExerciseState extends State<VideoExercisePage>
+class MuscleExerciseState extends State<MuscleExercisePage>
     with WidgetsBindingObserver {
   VideoPlayerController _controller;
   final AsyncMemoizer _memorizer = AsyncMemoizer();
@@ -30,7 +30,7 @@ class VideoExerciseState extends State<VideoExercisePage>
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     HistoricalManager.addCurrentWidgetToHistorical(this.widget);
-    _controller = VideoPlayerController.asset(
+    _controller = VideoPlayerController.network(
       this.widget.exercise.videoPath,
     );
     super.initState();
@@ -54,13 +54,10 @@ class VideoExerciseState extends State<VideoExercisePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppSearchBar(
-        isOffline: this.widget.isOffline,
-      ),
+      appBar: AppSearchBar(),
       bottomNavigationBar: BottomNavigationBarFooter(
         selectedBottomIndexOffLine: null,
         selectedBottomIndexOnline: null,
-        isOffLine: this.widget.isOffline,
       ),
       body: FutureBuilder(
         future: loadVideo(),

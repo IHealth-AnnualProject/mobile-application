@@ -3,13 +3,15 @@ import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/exercise/model/emergencyExercise.dart';
 import 'package:betsbi/services/exercise/model/exercise.dart';
 import 'package:betsbi/services/exercise/model/mathExercise.dart';
+import 'package:betsbi/services/exercise/model/muscleExercise.dart';
 import 'package:betsbi/services/exercise/model/pipeGame.dart';
 import 'package:betsbi/services/exercise/model/similarCard.dart';
 import 'package:betsbi/services/exercise/state/PipeExerciseState.dart';
 import 'package:betsbi/services/exercise/view/MathExerciseView.dart';
+import 'package:betsbi/services/exercise/view/MuscleExerciseView.dart';
 import 'package:betsbi/services/exercise/view/PipeExerciseView.dart';
 import 'package:betsbi/services/exercise/view/SimilarCardExerciseView.dart';
-import 'package:betsbi/services/exercise/view/VideoExerciseView.dart';
+import 'package:betsbi/services/exercise/view/EmergencyExerciseView.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
 import 'package:betsbi/services/exercise/widget/PipeElement.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,6 +29,10 @@ class ExerciseController {
       case "Emergency":
         return DefaultAssetBundle.of(context)
             .loadString('assets/exercise/emergencyExercise.json');
+        break;
+      case "Muscle":
+        return DefaultAssetBundle.of(context)
+            .loadString('assets/exercise/muscleExercise.json');
         break;
       default:
         return DefaultAssetBundle.of(context)
@@ -52,9 +58,14 @@ class ExerciseController {
         );
         break;
       case "Emergency":
-        destination = VideoExercisePage(
+        destination = EmergencyExercisePage(
           exercise: exercise,
           isOffline: isOffLine,
+        );
+        break;
+      case "Muscle":
+        destination = MuscleExercisePage(
+          exercise: exercise,
         );
         break;
       case "SimilarCard":
@@ -112,9 +123,9 @@ class ExerciseController {
 
   static ListTile exerciseWidget(
       {@required String leading,
-        @required Exercise exercise,
-        @required BuildContext context,
-        @required bool isOffLine}) {
+      @required Exercise exercise,
+      @required BuildContext context,
+      @required bool isOffLine}) {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: Colors.white,
@@ -158,6 +169,7 @@ class ExerciseController {
         (model) {
           Exercise exercise;
           if (type == "Emergency") return EmergencyExercise.fromJson(model);
+          if (type == "Muscle") return MuscleExercise.fromJson(model);
           switch (model["Type"].toString()) {
             case "Math":
               exercise = MathExercise.fromJson(model);
@@ -194,8 +206,8 @@ class ExerciseController {
     return listExerciseWidget;
   }
 
-  static showCongratsDialog({@required BuildContext context, String content = ""}) {
-
+  static showCongratsDialog(
+      {@required BuildContext context, String content = ""}) {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       backgroundColor: Colors.white,
@@ -218,10 +230,13 @@ class ExerciseController {
     ).whenComplete(() => Navigator.of(context).pop());
   }
 
-  static Future<List<Widget>> getListOfExerciseOnlineMode({@required BuildContext context, @required String type, @required String leading}) async
-  {
+  static Future<List<Widget>> getListOfExerciseOnlineMode(
+      {@required BuildContext context,
+      @required String type,
+      @required String leading}) async {
     List<Widget> listExercise = List<Widget>();
-    String jsonExercise = await getJsonAccordingToExerciseType(context: context, type: type);
+    String jsonExercise =
+        await getJsonAccordingToExerciseType(context: context, type: type);
     listExercise.addAll(
       decodeJsonAndStoreItInsideExerciseList(
         jsonToDecode: jsonExercise,
@@ -231,6 +246,8 @@ class ExerciseController {
         type: type,
       ),
     );
+    print(type);
+
     return listExercise;
   }
 }
