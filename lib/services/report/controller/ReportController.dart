@@ -13,7 +13,7 @@ class ReportController {
     HttpManager httpManager = new HttpManager(
         path: "report",
         context: context,
-        map: {'name': title, 'description': description, 'to': toUserId});
+        map: {'name': title, 'description': description, 'reportedUser': toUserId});
     await httpManager.post();
     ResponseManager responseManager = new ResponseManager(
       response: httpManager.response,

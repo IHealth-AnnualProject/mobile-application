@@ -60,13 +60,10 @@ class TrainingState extends State<TrainingPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppSearchBar(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Flexible(
-            flex: 7,
-            child: IndexedStack(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            IndexedStack(
               index: _trainIndex,
               children: <Widget>[
                 ExercisePresentation(
@@ -103,11 +100,10 @@ class TrainingState extends State<TrainingPage> with WidgetsBindingObserver {
                 ),
               ],
             ),
-          ),
-          Flexible(
-            flex: 3,
-            fit: FlexFit.tight,
-            child: Container(
+            SizedBox(
+              height: 45,
+            ),
+            Container(
               width: MediaQuery.of(context).size.width,
               child: Align(
                 alignment: Alignment.center,
@@ -121,10 +117,16 @@ class TrainingState extends State<TrainingPage> with WidgetsBindingObserver {
                 ),
               ),
             ),
-          ),
-        ],
+            SizedBox(
+              height: 45,
+            ),
+          ],
+        ),
       ),
-      bottomNavigationBar: BottomNavigationBarFooter(selectedBottomIndexOffLine: null, selectedBottomIndexOnline: null,),
+      bottomNavigationBar: BottomNavigationBarFooter(
+        selectedBottomIndexOffLine: null,
+        selectedBottomIndexOnline: null,
+      ),
     );
   }
 }

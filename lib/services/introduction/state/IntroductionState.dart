@@ -15,8 +15,8 @@ class IntroductionState extends State<IntroductionPage> {
     PageViewModel(
       pageColor: Color.fromRGBO(128, 195, 241, 1),
       bubble: Image.asset('assets/user.png'),
-      body: Text(
-        SettingsManager.mapLanguage["UserIntroduction"],
+      body: SingleChildScrollView(
+        child: Text(SettingsManager.mapLanguage["UserIntroduction"]),
       ),
       title: Text(
         SettingsManager.mapLanguage["User"],
@@ -28,8 +28,8 @@ class IntroductionState extends State<IntroductionPage> {
     PageViewModel(
       pageColor: Color.fromRGBO(88, 214, 141, 1),
       iconImageAssetPath: 'assets/quest.png',
-      body: Text(
-        SettingsManager.mapLanguage["QuestIntroduction"],
+      body: SingleChildScrollView(
+        child: Text(SettingsManager.mapLanguage["QuestIntroduction"]),
       ),
       title: Text(SettingsManager.mapLanguage["Quest"]),
       mainImage: Image.asset("assets/introduction/introduction_quest.png"),
@@ -39,8 +39,8 @@ class IntroductionState extends State<IntroductionPage> {
     PageViewModel(
       pageColor: Color.fromRGBO(243, 223, 63, 1),
       iconImageAssetPath: 'assets/training.png',
-      body: Text(
-        SettingsManager.mapLanguage["TrainingIntroduction"],
+      body: SingleChildScrollView(
+        child: Text(SettingsManager.mapLanguage["TrainingIntroduction"]),
       ),
       title: Text(SettingsManager.mapLanguage["Training"]),
       mainImage: Image.asset("assets/introduction/introduction_exercice.png"),
@@ -50,8 +50,8 @@ class IntroductionState extends State<IntroductionPage> {
     PageViewModel(
       pageColor: Color.fromRGBO(208, 167, 229, 1),
       iconImageAssetPath: 'assets/exercise.png',
-      body: Text(
-        SettingsManager.mapLanguage["AmbianceIntroduction"],
+      body: SingleChildScrollView(
+        child: Text(SettingsManager.mapLanguage["AmbianceIntroduction"]),
       ),
       title: Text(SettingsManager.mapLanguage["Ambiance"]),
       mainImage: Image.asset("assets/introduction/introduction_music.png"),
@@ -61,8 +61,8 @@ class IntroductionState extends State<IntroductionPage> {
     PageViewModel(
       pageColor: Color.fromRGBO(128, 195, 241, 1),
       iconImageAssetPath: 'assets/emergency.png',
-      body: Text(
-        SettingsManager.mapLanguage["ChatIntroduction"],
+      body: SingleChildScrollView(
+        child: Text(SettingsManager.mapLanguage["ChatIntroduction"]),
       ),
       title: Text(SettingsManager.mapLanguage["Chat"]),
       mainImage: Image.asset(
@@ -74,8 +74,8 @@ class IntroductionState extends State<IntroductionPage> {
     PageViewModel(
       pageColor: Color.fromRGBO(98, 43, 114, 1),
       iconImageAssetPath: 'assets/user.png',
-      body: Text(
-        SettingsManager.mapLanguage["SkinIntroduction"],
+      body: SingleChildScrollView(
+        child: Text(SettingsManager.mapLanguage["SkinIntroduction"]),
       ),
       title: Text("SKIN"),
       mainImage: Image.asset(
