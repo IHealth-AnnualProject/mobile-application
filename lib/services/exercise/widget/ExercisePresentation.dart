@@ -75,7 +75,7 @@ class ExercisePresentation extends StatelessWidget {
     return Text(
       content,
       textAlign: TextAlign.center,
-      style: TextStyle(color: Colors.white, fontSize: 40),
+      style: TextStyle(color: Colors.white, fontSize: 35),
     );
   }
 

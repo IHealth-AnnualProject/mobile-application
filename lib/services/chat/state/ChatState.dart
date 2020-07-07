@@ -200,7 +200,7 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
           nip: BubbleNip.leftTop,
           child: Text(
             content,
-            style: TextStyle(fontSize: 25, color: Colors.black87),
+            style: TextStyle(fontSize: 17, color: Colors.black87),
           ),
         ),
         SizedBox(
@@ -226,7 +226,7 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
                   color: Color.fromRGBO(225, 255, 199, 1.0),
                   child: Text(
                     content,
-                    style: TextStyle(fontSize: 25, color: Colors.black87),
+                    style: TextStyle(fontSize: 17, color: Colors.black87),
                   ),
                 ),
               ),

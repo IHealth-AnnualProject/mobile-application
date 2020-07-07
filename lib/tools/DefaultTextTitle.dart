@@ -10,7 +10,7 @@ class DefaultTextTitle extends StatelessWidget {
     return Text(
       this.title,
       textAlign: TextAlign.center,
-      style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 40),
+      style: TextStyle(color: Color.fromRGBO(0, 157, 153, 1), fontSize: 30),
     );
   }
 }
