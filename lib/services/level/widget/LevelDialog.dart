@@ -48,13 +48,13 @@ class LevelDialog extends StatelessWidget {
           ],
         ),
       ),
-      content: SingleChildScrollView(
-        child: FutureBuilder(
-          future: LevelController.getAllUnlockedOutfits(level: this.level),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data.isNotEmpty) {
-                return Column(
+      content: FutureBuilder(
+        future: LevelController.getAllUnlockedOutfits(level: this.level),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data.isNotEmpty) {
+              return SingleChildScrollView(
+                child: Column(
                   children: <Widget>[
                     DefaultTextTitle(
                         title:
@@ -73,16 +73,16 @@ class LevelDialog extends StatelessWidget {
                       ),
                     ),
                   ],
-                );
-              } else
-                return DefaultTextTitle(
-                    title: SettingsManager.mapLanguage["NothingUnlocked"]);
+                ),
+              );
             } else
-              return CircularProgressIndicator();
-          },
-        ),
+              return DefaultTextTitle(
+                  title: SettingsManager.mapLanguage["NothingUnlocked"]);
+          } else
+            return CircularProgressIndicator();
+        },
       ),
-      actions: [cancelButton,goToAccountPageButton],
+      actions: [cancelButton, goToAccountPageButton],
     );
   }
 }
