@@ -3,23 +3,19 @@ import 'package:betsbi/services/global/controller/SearchBarController.dart';
 import 'package:betsbi/services/global/model/searchItem.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/global/widget/CircleContactButton.dart';
+import 'package:betsbi/tools/EmptyListWidget.dart';
 import 'package:betsbi/tools/WaitingWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:async/async.dart';
 
 class DataSearch extends SearchDelegate<String> {
   List<SearchItem> items;
-  AsyncMemoizer _memorizer = AsyncMemoizer();
   final BuildContext context;
 
   DataSearch(this.context);
 
-  getSearchList() {
-    return this._memorizer.runOnce(() async {
-      return items =
-          await SearchBarController.getAllPropsAccordingToCategoryChosen(
+  getSearchList() async {
+      return items = await SearchBarController.getAllPropsAccordingToCategoryChosen(
               context: context);
-    });
   }
 
   @override
@@ -77,7 +73,7 @@ class DataSearch extends SearchDelegate<String> {
           return WaitingWidget();
         } else {
           // data loaded:
-          _memorizer = AsyncMemoizer();
+          if(items.isEmpty) return EmptyListWidget();
           final suggestionList = query.isEmpty
               ? items
               : items
