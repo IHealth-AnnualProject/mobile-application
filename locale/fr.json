@@ -162,6 +162,10 @@
   "CheckInternetConnection" : "S'il vous plaît, vérifiez votre connexion internet",
   "WhatYouVeUnlocked" : "Voici ce que vous avez débloqué",
   "NothingUnlocked" : "Vous n'avez rien débloqué pour ce niveau",
-  "SkinIntroduction" : "Vous pouvez changer votre propre skin, en cliquant sur le skin de votre compte"
-
+  "SkinIntroduction" : "Vous pouvez changer votre propre skin, en cliquant sur le skin de votre compte",
+  "DeleteAccountQuestion" : "Êtes vous sûr de vouloir supprimer votre compte ? (cette action est irréversible)",
+  "DeleteAccountButton" : "Supprimer votre compte",
+  "Yes" : "Oui",
+  "No" : "No",
+  "Content" : "Contenu"
 }

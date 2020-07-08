@@ -1,6 +1,7 @@
 import 'package:betsbi/manager/HttpManager.dart';
 import 'package:betsbi/manager/JsonParserManager.dart';
 import 'package:betsbi/manager/ResponseManager.dart';
+import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,41 +22,45 @@ class DataUsePolicyController {
             httpManager.response.body),elementToReturnIfFalse: new Map<String, dynamic>());
   }
 
-  static DataTable getDataInformationOfUser(
-      {Map<String, dynamic> currentUserInformation}) {
+  static DataTable getDataInformationOfUserAsDataTable(
+      {@required Map<String, dynamic> currentUserInformation}) {
     List<DataColumn> headersList = new List<DataColumn>();
-    List<DataCell> rowList = new List<DataCell>();
+    List<DataRow> rowsList = new List<DataRow>();
+    headersList.add(DataColumn(
+      label: Expanded(
+        child: Text(
+          'Type',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+    ));
+    headersList.add(DataColumn(
+      label: Expanded(
+        child: Text(
+          SettingsManager.mapLanguage["Content"],
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+    ));
+
     currentUserInformation.forEach((header, row) {
       if (header != "id" && header != "user") {
-        headersList.add(
-          DataColumn(
-            label: Expanded(
-              child: Text(
-                header,
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            ),
-          ),
-        );
-        rowList.add(DataCell(Text(row.toString())));
+        rowsList.add(DataRow(
+          cells: [DataCell(Text(header.toString())),DataCell(Text(row.toString()))]
+        ));
       }
     });
     currentUserInformation["user"].forEach((header, row) {
       if (header != "id") {
-        headersList.add(
-          DataColumn(
-            label: Text(
-              header,
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-          ),
-        );
-        rowList.add(DataCell(Text(row.toString())));
+        rowsList.add(DataRow(
+            cells: [DataCell(Text(header.toString())),DataCell(Text(row.toString()))]
+        ));
       }
     });
     return DataTable(
+      dividerThickness: 5,
       columns: headersList,
-      rows: <DataRow>[DataRow(cells: rowList)],
+      rows: rowsList,
     );
   }
 }

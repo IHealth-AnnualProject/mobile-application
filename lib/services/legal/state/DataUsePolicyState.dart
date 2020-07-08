@@ -4,6 +4,7 @@ import 'package:betsbi/services/global/controller/TokenController.dart';
 import 'package:betsbi/services/legal/controller/DataUsePolicyController.dart';
 import 'package:betsbi/services/legal/controller/LegalMentionController.dart';
 import 'package:betsbi/services/legal/view/DataUsePolicyView.dart';
+import 'package:betsbi/services/legal/widget/DeleteAccountButton.dart';
 import 'package:betsbi/services/settings/controller/SettingsController.dart';
 import 'package:betsbi/tools/AppSearchBar.dart';
 import 'package:betsbi/tools/BottomNavigationBarFooter.dart';
@@ -50,7 +51,7 @@ class DataUsePolicyState extends State<DataUsePolicyPage>
             userID: SettingsManager.applicationProperties.getCurrentId(),
             context: context,
             isPsy: SettingsManager.applicationProperties.isPsy());
-    return DataUsePolicyController.getDataInformationOfUser(
+    return DataUsePolicyController.getDataInformationOfUserAsDataTable(
         currentUserInformation: currentUserInformation);
   }
 
@@ -91,32 +92,34 @@ class DataUsePolicyState extends State<DataUsePolicyPage>
                   return Tooltip(
                     message:
                         SettingsManager.mapLanguage["DataUsePolicyToolTipInfo"],
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Visibility(
-                            visible: isVisible,
-                            child: snapshot.data,
-                          ),
-                          SizedBox(
-                            height: 45,
-                          ),
-                          Visibility(
-                            visible: !isVisible,
-                            child: SubmitButton(
-                              content: SettingsManager
-                                  .mapLanguage["SeePersonalInformation"],
-                              onPressedFunction: () => this.setState(
-                                () {
-                                  isVisible = true;
-                                },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Visibility(
+                          visible: isVisible,
+                          child: snapshot.data,
+                        ),
+                        SizedBox(
+                          height: 45,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Visibility(
+                              visible: !isVisible,
+                              child: SubmitButton(
+                                content: SettingsManager
+                                    .mapLanguage["SeePersonalInformation"],
+                                onPressedFunction: () => this.setState(
+                                  () {
+                                    isVisible = true;
+                                  },
+                                ),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
                   );
                 } else
@@ -125,6 +128,15 @@ class DataUsePolicyState extends State<DataUsePolicyPage>
             ),
             SizedBox(
               height: 45,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                DeleteAccountButton(
+                  userId: SettingsManager.applicationProperties.getCurrentId(),
+                  content: SettingsManager.mapLanguage["DeleteAccountButton"],
+                ),
+              ],
             ),
           ],
         ),

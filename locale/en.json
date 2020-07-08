@@ -162,7 +162,10 @@
   "CheckInternetConnection" : "Please, check you internet connection",
   "WhatYouVeUnlocked" : "Here it what you've unlocked",
   "NothingUnlocked" : "You've not unlocked anything",
-  "SkinIntroduction" : "You can change your own skin, by clicking on the skin on you account"
-
-
+  "SkinIntroduction" : "You can change your own skin, by clicking on the skin on you account",
+  "DeleteAccountQuestion" : "Are you sure you want to delete your account? (this action is irreversible)",
+  "DeleteAccountButton" : "Delete your acount",
+  "Yes" : "Yes",
+  "No" : "No",
+  "Content" : "Content"
 }
