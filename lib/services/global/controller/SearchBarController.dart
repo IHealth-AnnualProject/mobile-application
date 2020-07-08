@@ -129,13 +129,16 @@ class SearchBarController {
     }
   }
 
+
+  /// Get user location if its enabled
+  /// list all psycholigist, then find the distance between user and psychologist by splitting their location
+  /// psychologist location look like this : Ermont, France || 0.0000,0.0000
+  /// So it takes the second part, convert it to LatLng, then calculate distance with user
   static Future<List<User>> sortUserListOnGeolocation(List<User> users) async {
     users.forEach((element) {
       if (element.geolocation == null) element.geolocation = "";
     });
-
     List<User> userWithGeolocation = List<User>();
-
     userWithGeolocation.addAll(users);
     userWithGeolocation.removeWhere((user) => user.geolocation.isEmpty);
     users.removeWhere((current) => current.geolocation.isNotEmpty);
