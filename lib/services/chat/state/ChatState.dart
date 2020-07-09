@@ -61,7 +61,6 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
         });
       });
 
-      messages.add(lineSendMessage());
       messages = messages.reversed.toList();
       await updateSettingsPropertyNewMessageLessWithCurrentNewMessageFromThisUserAndRemoveITFromBDD();
       return messages;
@@ -116,24 +115,30 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
       child: Scaffold(
         resizeToAvoidBottomPadding: true,
         appBar: AppSearchBar(),
-        body: FutureBuilder(
-          future: _instantiateChatWithAllMessageAndInput(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: WaitingWidget(),
-              );
-            } else {
-              return ListView.builder(
-                reverse: true,
-                padding: const EdgeInsets.all(8),
-                itemCount: messages.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return messages[index];
-                },
-              );
-            }
-          },
+        body: Column(
+          children: <Widget>[
+            FutureBuilder(
+              future: _instantiateChatWithAllMessageAndInput(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: WaitingWidget(),
+                  );
+                } else {
+                  return Expanded(child : ListView.builder(
+                    shrinkWrap: true,
+                    reverse: true,
+                    padding: const EdgeInsets.all(8),
+                    itemCount: messages.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return messages[index];
+                    },
+                  ),);
+                }
+              },
+            ),
+            lineSendMessage(),
+          ],
         ),
         bottomNavigationBar: BottomNavigationBarFooter(
           selectedBottomIndexOffLine: null,
@@ -176,7 +181,7 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
                     idReceiver: this.widget.userContactedId,
                     content: mTextMessageController.text);
                 messages.insert(
-                  1,
+                  0,
                   myMessage(content: mTextMessageController.text),
                 );
                 setState(() {
@@ -239,7 +244,9 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
               ),
             ],
           ),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
         ],
       ),
     );
