@@ -25,12 +25,12 @@ class HttpManager {
           'Authorization': 'Bearer ' +
               SettingsManager.applicationProperties.getCurrentToken(),
         },
-      ).timeout(Duration(seconds: 6));
+      ).timeout(Duration(seconds: 20));
     } on TimeoutException catch (_) {
       FlushBarMessage.informationMessage(
           content: SettingsManager.mapLanguage["TimeOut"])
-          .showFlushBarAndDo(
-          context, () => SettingsController.disconnect(context));
+          .showFlushBar(
+          context,);
     } on SocketException  {
       FlushBarMessage.informationMessage(
           content: SettingsManager.mapLanguage["CheckInternetConnection"])
@@ -60,8 +60,8 @@ class HttpManager {
     } on TimeoutException catch (_) {
       FlushBarMessage.informationMessage(
               content: SettingsManager.mapLanguage["TimeOut"])
-          .showFlushBarAndDo(
-              context, () => SettingsController.disconnect(context));
+          .showFlushBar(
+              context, );
     } on SocketException  {
       FlushBarMessage.informationMessage(
           content: SettingsManager.mapLanguage["CheckInternetConnection"])
@@ -91,8 +91,8 @@ class HttpManager {
     } on TimeoutException catch (_) {
       FlushBarMessage.informationMessage(
               content: SettingsManager.mapLanguage["TimeOut"])
-          .showFlushBarAndDo(
-              context, () => SettingsController.disconnect(context));
+          .showFlushBar(
+              context,);
     } on SocketException  {
       FlushBarMessage.informationMessage(
           content: SettingsManager.mapLanguage["CheckInternetConnection"])
@@ -119,8 +119,8 @@ class HttpManager {
     } on TimeoutException catch (_) {
       FlushBarMessage.informationMessage(
               content: SettingsManager.mapLanguage["TimeOut"])
-          .showFlushBarAndDo(
-              context, () => SettingsController.disconnect(context));
+          .showFlushBar(
+              context,);
     } on SocketException  {
       FlushBarMessage.informationMessage(
           content: SettingsManager.mapLanguage["CheckInternetConnection"])
@@ -146,8 +146,8 @@ class HttpManager {
     } on TimeoutException catch (_) {
       FlushBarMessage.informationMessage(
               content: SettingsManager.mapLanguage["TimeOut"])
-          .showFlushBarAndDo(
-              context, () => SettingsController.disconnect(context));
+          .showFlushBar(
+              context,);
     } on SocketException  {
       FlushBarMessage.informationMessage(
           content: SettingsManager.mapLanguage["CheckInternetConnection"])
@@ -175,8 +175,8 @@ class HttpManager {
     } on TimeoutException catch (_) {
       FlushBarMessage.informationMessage(
               content: SettingsManager.mapLanguage["TimeOut"])
-          .showFlushBarAndDo(
-              context, () => SettingsController.disconnect(context));
+          .showFlushBar(
+              context,);
     } on SocketException  {
       FlushBarMessage.informationMessage(
           content: SettingsManager.mapLanguage["CheckInternetConnection"])
