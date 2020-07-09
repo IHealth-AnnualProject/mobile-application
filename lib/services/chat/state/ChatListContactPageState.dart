@@ -145,7 +145,6 @@ class ChatListContactState extends State<ChatListContactPage>
       bottomNavigationBar: BottomNavigationBarFooter(
         selectedBottomIndexOffLine: null,
         selectedBottomIndexOnline: 2,
-      ),
-    );
+      ),);
   }
 }

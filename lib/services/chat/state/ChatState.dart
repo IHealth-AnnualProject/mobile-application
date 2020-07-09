@@ -33,6 +33,9 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
+      setState(() {
+        _memorizer = AsyncMemoizer();
+      });
       TokenController.checkTokenValidity(context).then((result) {
         if (!result) SettingsController.disconnect(context);
       });
@@ -42,8 +45,7 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    this._memorizer = AsyncMemoizer();
-    socket.disconnect();
+    socket = null;
     super.dispose();
   }
 
@@ -109,8 +111,7 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      child: Scaffold(
+    return  Scaffold(
         resizeToAvoidBottomPadding: true,
         appBar: AppSearchBar(),
         body: Column(
@@ -142,9 +143,6 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
           selectedBottomIndexOffLine: null,
           selectedBottomIndexOnline: 2,
         ),
-      ),
-      onWillPop: () async =>
-          await updateSettingsPropertyNewMessageLessWithCurrentNewMessageFromThisUserAndRemoveITFromBDD(),
     );
   }
 
