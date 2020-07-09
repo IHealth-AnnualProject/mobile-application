@@ -51,12 +51,6 @@ class _ContactChatState extends State<ContactChat> {
       ),
       actions: <Widget>[
         IconSlideAction(
-          caption: SettingsManager.mapLanguage["Delete"],
-          color: Colors.red,
-          icon: Icons.delete,
-          onTap: () => print("delete")
-        ),
-        IconSlideAction(
           caption: SettingsManager.mapLanguage["Report"],
           color: Colors.black87,
           icon: Icons.report,
