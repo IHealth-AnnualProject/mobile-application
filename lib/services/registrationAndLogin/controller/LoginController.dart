@@ -88,4 +88,8 @@ class LoginController {
   static Map<String, dynamic> parseResponse(String response) {
     return jsonDecode(response);
   }
+
+  static void resetPassword({@required BuildContext context, @required String email}){
+    print("password reset");
+  }
 }

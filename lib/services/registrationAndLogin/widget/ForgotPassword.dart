@@ -1,32 +1,25 @@
 import 'package:betsbi/services/global/controller/CheckController.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
+import 'package:betsbi/services/registrationAndLogin/controller/LoginController.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ForgotPassword extends StatefulWidget {
+class ForgotPassword extends StatelessWidget{
   final String message;
   final IconData icons;
 
   ForgotPassword({this.message, this.icons});
 
-  @override
-  _ForgotPasswordState createState() => _ForgotPasswordState();
-}
+  final TextEditingController emailController = TextEditingController();
 
-class _ForgotPasswordState extends State<ForgotPassword> {
-  Flushbar<String> flush;
-  bool oneFlushBar = false;
-
-  var myController = TextEditingController();
-
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextFormField textFormField(String text) {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
-      controller: myController,
+      controller: emailController,
       validator: (value) {
         return CheckController.checkField(value, emailToCheck: value);
       },
@@ -52,6 +45,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   Widget build(BuildContext context) {
+    Flushbar<String> flush;
+    bool oneFlushBar = false;
     flush = Flushbar<String>(
       isDismissible: true,
       onStatusChanged: (FlushbarStatus status) {
@@ -77,15 +72,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ? SettingsManager.mapLanguage["Submit"]
                   : ""),
               onPressed: () {
-                if (_formKey.currentState.validate())
-                  flush.dismiss(myController.value.text);
+                if (_formKey.currentState.validate()) {
+                  LoginController.resetPassword(context: context, email: emailController.text);
+                  emailController.clear();
+                  flush.dismiss(emailController.value.text);
+                }
               },
             ),
           ),
         ]),
       ),
       icon: Icon(
-        this.widget.icons,
+        this.icons,
         color: Colors.yellow,
       ),
       flushbarPosition: FlushbarPosition.TOP,
@@ -102,7 +100,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           }
         },
         child: new Text(
-          this.widget.message,
+          this.message,
           style: TextStyle(
               color: Color.fromRGBO(0, 157, 153, 1),
               fontSize: 17,
