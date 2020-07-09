@@ -84,7 +84,7 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
   _onNewMessage(dynamic data) {
     Message receivedMessage = Message.fromJson(data);
     if (this.widget.userContactedId == receivedMessage.userFromID) {
-      messages.insert(1, hisMessage(content: receivedMessage.content));
+      messages.insert(0, hisMessage(content: receivedMessage.content));
       if (mounted) setState(() {});
     }
   }
