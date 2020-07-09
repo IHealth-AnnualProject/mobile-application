@@ -1,5 +1,5 @@
 import 'package:betsbi/manager/SettingsManager.dart';
-import 'package:betsbi/services/settings/controller/SettingsController.dart';
+import 'package:betsbi/services/legal/controller/DataUsePolicyController.dart';
 import 'package:betsbi/tools/DefaultTextTitle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +48,7 @@ class DeleteAccountButton extends StatelessWidget{
             shape: StadiumBorder(),
             color: Colors.red,
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            onPressed: () => SettingsController.disconnect(context),
+            onPressed: () async => await DataUsePolicyController.deleteCurrentAccount(context: context),
             child: Text(SettingsManager.mapLanguage["Yes"],
               textAlign: TextAlign.center,
               style: TextStyle(

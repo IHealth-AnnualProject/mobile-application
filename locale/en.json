@@ -165,6 +165,7 @@
   "SkinIntroduction" : "You can change your own skin, by clicking on the skin on you account",
   "DeleteAccountQuestion" : "Are you sure you want to delete your account? (this action is irreversible)",
   "DeleteAccountButton" : "Delete your acount",
+  "DeleteAccountResult" : "Your account has been deleted",
   "Yes" : "Yes",
   "No" : "No",
   "Content" : "Content"

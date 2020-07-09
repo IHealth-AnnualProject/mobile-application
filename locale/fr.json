@@ -165,6 +165,7 @@
   "SkinIntroduction" : "Vous pouvez changer votre propre skin, en cliquant sur le skin de votre compte",
   "DeleteAccountQuestion" : "Êtes vous sûr de vouloir supprimer votre compte ? (cette action est irréversible)",
   "DeleteAccountButton" : "Supprimer votre compte",
+  "DeleteAccountResult" : "Votre compte a bien été supprimé",
   "Yes" : "Oui",
   "No" : "No",
   "Content" : "Contenu"
