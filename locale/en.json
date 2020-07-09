@@ -168,5 +168,6 @@
   "DeleteAccountResult" : "Your account has been deleted",
   "Yes" : "Yes",
   "No" : "No",
-  "Content" : "Content"
+  "Content" : "Content",
+  "Maintenance" : "Undergoing maintenance"
 }

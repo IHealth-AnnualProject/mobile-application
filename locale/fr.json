@@ -168,5 +168,6 @@
   "DeleteAccountResult" : "Votre compte a bien été supprimé",
   "Yes" : "Oui",
   "No" : "No",
-  "Content" : "Contenu"
+  "Content" : "Contenu",
+  "Maintenance" : "En cours de maintenance"
 }

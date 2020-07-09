@@ -57,7 +57,7 @@ class ExerciseListState extends State<ExerciseListPage>
                 },
               );
             } else
-              return EmptyListWidget();
+              return SingleChildScrollView(child : EmptyListWidget());
           } else
             return WaitingWidget();
         },

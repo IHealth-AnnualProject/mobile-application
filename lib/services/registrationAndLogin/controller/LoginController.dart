@@ -91,5 +91,6 @@ class LoginController {
 
   static void resetPassword({@required BuildContext context, @required String email}){
     print("password reset");
+    FlushBarMessage.informationMessage(content: SettingsManager.mapLanguage["Maintenance"]).showFlushBar(context);
   }
 }
