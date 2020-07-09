@@ -19,7 +19,6 @@ class ChatController {
       response: httpManager.response,
       context: context,
     );
-    print(httpManager.response.statusCode);
     return responseManager.checkResponseAndReturnTheDesiredElement(
         elementToReturn:
             getMessageFromJson(jsonToDecode: httpManager.response.body));
