@@ -171,5 +171,7 @@
   "Content" : "Content",
   "Maintenance" : "Undergoing maintenance",
   "FileRemoved": "The music's been removed.",
-  "FileCannotRemoved" : "Music cannot be deleted"
+  "FileCannotRemoved" : "Music cannot be deleted",
+  "RemoveMusic" : "Remove the music"
+
 }
