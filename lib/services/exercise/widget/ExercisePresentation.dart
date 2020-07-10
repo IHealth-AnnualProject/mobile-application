@@ -26,6 +26,7 @@ class ExercisePresentation extends StatelessWidget {
         ),
         child: SafeArea(
           child: Container(
+            width: MediaQuery.of(context).size.width,
             color: Color.fromRGBO(0, 157, 153, 1),
               child: Column(
                 children: <Widget>[
