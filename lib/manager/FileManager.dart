@@ -5,11 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FileManager {
-
-  static Future<void> downloadFile({@required String fileName, @required String musicId, @required BuildContext context}) async {
+  static Future<void> downloadFile(
+      {@required String fileName,
+      @required String musicId,
+      @required BuildContext context}) async {
     String dir = (await getApplicationDocumentsDirectory()).path;
     File file = new File('$dir/$fileName');
-    var response = await AmbianceController.downloadFile(musicId: musicId, context: context);
+    var response = await AmbianceController.downloadFile(
+        musicId: musicId, context: context);
     var bytes = response.bodyBytes;
     await file.writeAsBytes(bytes, flush: true);
   }
@@ -18,5 +21,17 @@ class FileManager {
     String dir = (await getApplicationDocumentsDirectory()).path;
     File file = new File('$dir/$fileName');
     return await file.exists();
+  }
+
+  static Future<bool> removeFile(
+      {@required String fileName, @required BuildContext context}) async {
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    File file = new File('$dir/$fileName');
+    try {
+      await file.delete();
+    } on Exception {
+      return false;
+    }
+    return true;
   }
 }

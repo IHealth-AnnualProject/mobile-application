@@ -26,9 +26,10 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
   String applicationPath;
 
   checkIfSongIsAvailable() async {
-      applicationPath = (await getApplicationDocumentsDirectory()).path;
-      return await AmbianceController.checkIfSongAvailable(
-          songName: this.widget.name,);
+    applicationPath = (await getApplicationDocumentsDirectory()).path;
+    return await AmbianceController.checkIfSongAvailable(
+      songName: this.widget.name,
+    );
   }
 
   @override
@@ -39,7 +40,6 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
@@ -59,15 +59,19 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
                   onTap: () async => snapshot.data
                       ? AmbianceController.listenMusic(
                           songName: this.widget.name,
-                          paths: [Audio.file(applicationPath + "/" + this.widget.name + ".mp3")],
+                          paths: [
+                            Audio.file(applicationPath +
+                                "/" +
+                                this.widget.name +
+                                ".mp3")
+                          ],
                           context: context)
                       : await FileManager.downloadFile(
                           fileName: this.widget.name + ".mp3",
                           musicId: this.widget.id,
                           context: context,
                         ).whenComplete(() {
-                          setState(() {
-                          });
+                          setState(() {});
                         }),
                   trailing: snapshot.data
                       ? Icon(Icons.play_arrow)
@@ -94,6 +98,14 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
           color: Colors.blue,
           icon: Icons.add,
           onTap: () async => await _addToPlayList(),
+        ),
+        IconSlideAction(
+          caption: "Remove file",
+          color: Colors.red,
+          icon: Icons.remove,
+          onTap: () async => await AmbianceController.removeMusic(
+                  songName: this.widget.name + ".mp3", context: context)
+              .whenComplete(() => this.setState(() {})),
         ),
       ],
     );

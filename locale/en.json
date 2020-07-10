@@ -169,5 +169,7 @@
   "Yes" : "Yes",
   "No" : "No",
   "Content" : "Content",
-  "Maintenance" : "Undergoing maintenance"
+  "Maintenance" : "Undergoing maintenance",
+  "FileRemoved": "The music's been removed.",
+  "FileCannotRemoved" : "Music cannot be deleted"
 }

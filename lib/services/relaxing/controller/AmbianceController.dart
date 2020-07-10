@@ -7,6 +7,7 @@ import 'package:betsbi/manager/HttpManager.dart';
 import 'package:betsbi/manager/ResponseManager.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/services/playlist/model/song.dart';
+import 'package:betsbi/tools/FlushBarMessage.dart';
 import 'package:betsbi/tools/MusicPlayerButtonPlay.dart';
 import 'package:betsbi/tools/MusicPlayerCardItem.dart';
 import 'package:betsbi/tools/MusicPlayerProgressIndicator.dart';
@@ -75,12 +76,13 @@ class AmbianceController {
       response: httpManager.response,
     );
     return responseManager.checkResponseRetrieveInformationWithAFunction(
-        toReturn: () => _getSongsWithResponseBody(httpManager : httpManager, songs : songs),
+        toReturn: () =>
+            _getSongsWithResponseBody(httpManager: httpManager, songs: songs),
         elementToReturnIfFalse: songs);
   }
 
-  static List<Song> _getSongsWithResponseBody({
-    @required HttpManager httpManager, @required List<Song> songs}) {
+  static List<Song> _getSongsWithResponseBody(
+      {@required HttpManager httpManager, @required List<Song> songs}) {
     Iterable listSongs = json.decode(httpManager.response.body);
     songs.addAll(listSongs.map((model) => Song.fromJson(model)).toList());
     return songs;
@@ -95,12 +97,12 @@ class AmbianceController {
       response: httpManager.response,
       context: context,
     );
-    responseManager.checkResponseAndShowWithFlushBarMessageTheAnswer(successMessage: SettingsManager.mapLanguage["DownloadedFile"]);
+    responseManager.checkResponseAndShowWithFlushBarMessageTheAnswer(
+        successMessage: SettingsManager.mapLanguage["DownloadedFile"]);
     return httpManager.response;
   }
 
-  static Future<bool> checkIfSongAvailable(
-      {@required String songName}) async {
+  static Future<bool> checkIfSongAvailable({@required String songName}) async {
     AssetsAudioPlayer _songToTestifWorking = new AssetsAudioPlayer();
     bool isMusicAvailable =
         await FileManager.checkIfFileExist(fileName: songName + ".mp3");
@@ -123,18 +125,20 @@ class AmbianceController {
       {@required String songName,
       @required String id,
       @required BuildContext context}) async {
-    bool exist =
-        await checkIfSongAvailable(songName: songName,);
+    bool exist = await checkIfSongAvailable(
+      songName: songName,
+    );
     if (!exist)
       await FileManager.downloadFile(
           musicId: id, fileName: songName + ".mp3", context: context);
   }
 
-  static Future<List<Widget>> getAllMusic({@required BuildContext context}) async{
+  static Future<List<Widget>> getAllMusic(
+      {@required BuildContext context}) async {
     List<Widget> listMusic = List<Widget>();
     List<Song> songs = await AmbianceController.getAllSongs(context: context);
     songs.forEach(
-          (song) => listMusic.add(
+      (song) => listMusic.add(
         MusicPlayerCardItem(
           duration: song.duration,
           name: song.songName,
@@ -143,5 +147,18 @@ class AmbianceController {
       ),
     );
     return listMusic;
+  }
+
+  static Future<void> removeMusic(
+      {@required String songName, @required BuildContext context}) async {
+    bool removed =
+        await FileManager.removeFile(fileName: songName, context: context);
+    removed
+        ? FlushBarMessage.goodMessage(
+                content: SettingsManager.mapLanguage["FileRemoved"])
+            .showFlushBar(context)
+        : FlushBarMessage.errorMessage(
+                content: SettingsManager.mapLanguage["FileCannotRemoved"])
+            .showFlushBar(context);
   }
 }
