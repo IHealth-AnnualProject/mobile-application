@@ -100,7 +100,7 @@ class _MusicPlayerCardItemState extends State<MusicPlayerCardItem> {
           onTap: () async => await _addToPlayList(),
         ),
         IconSlideAction(
-          caption: "Remove file",
+          caption: SettingsManager.mapLanguage["RemoveMusic"],
           color: Colors.red,
           icon: Icons.remove,
           onTap: () async => await AmbianceController.removeMusic(
