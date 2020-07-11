@@ -6,23 +6,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ForgotPassword extends StatelessWidget{
+class ForgotPassword extends StatelessWidget {
   final String message;
   final IconData icons;
 
   ForgotPassword({this.message, this.icons});
 
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextFormField textFormField(String text) {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
-      controller: emailController,
-      validator: (value) {
-        return CheckController.checkField(value, emailToCheck: value);
-      },
+      controller: userNameController,
+      validator: (value) => CheckController.checkField(value),
       style: TextStyle(color: Colors.white),
       maxLines: 1,
       decoration: InputDecoration(
@@ -38,7 +36,7 @@ class ForgotPassword extends StatelessWidget{
               ? SettingsManager.mapLanguage["EnterMail"]
               : "",
           helperStyle: TextStyle(color: Colors.grey),
-          labelText: "Email",
+          labelText: text,
           labelStyle: TextStyle(color: Colors.grey)),
     );
   }
@@ -62,25 +60,33 @@ class ForgotPassword extends StatelessWidget{
       },
       userInputForm: Form(
         key: _formKey,
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          textFormField("Email"),
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: MaterialButton(
-              textColor: Colors.amberAccent,
-              child: Text(SettingsManager.mapLanguage["Submit"] != null
-                  ? SettingsManager.mapLanguage["Submit"]
-                  : ""),
-              onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  emailController.clear();
-                  flush.dismiss(emailController.value.text);
-                  LoginController.resetPassword(context: context, email: emailController.text);
-                }
-              },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            textFormField(SettingsManager.mapLanguage["UsernameText"]),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: MaterialButton(
+                textColor: Colors.amberAccent,
+                child: Text(
+                  SettingsManager.mapLanguage["Submit"] != null
+                      ? SettingsManager.mapLanguage["Submit"]
+                      : "",
+                ),
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    flush.dismiss(userNameController.value.text);
+                    LoginController.resetPassword(
+                      context: context,
+                      userName: userNameController.text,
+                    );
+                    userNameController.clear();
+                  }
+                },
+              ),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
       icon: Icon(
         this.icons,
@@ -90,22 +96,25 @@ class ForgotPassword extends StatelessWidget{
       flushbarStyle: FlushbarStyle.GROUNDED,
     );
     return InkWell(
-        onTap: () {
-          if (!oneFlushBar) {
-            flush.show(context).then((result) {
+      onTap: () {
+        if (!oneFlushBar) {
+          flush.show(context).then(
+            (result) {
               if (result != null) {
                 print(result);
               }
-            });
-          }
-        },
-        child: new Text(
-          this.message,
-          style: TextStyle(
-              color: Color.fromRGBO(0, 157, 153, 1),
-              fontSize: 17,
-              fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        ));
+            },
+          );
+        }
+      },
+      child: new Text(
+        this.message,
+        style: TextStyle(
+            color: Color.fromRGBO(0, 157, 153, 1),
+            fontSize: 17,
+            fontWeight: FontWeight.bold),
+        textAlign: TextAlign.center,
+      ),
+    );
   }
 }

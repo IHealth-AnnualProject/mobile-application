@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:betsbi/manager/HttpManager.dart';
+import 'package:betsbi/manager/ResponseManager.dart';
 import 'package:betsbi/manager/SettingsManager.dart';
 import 'package:betsbi/manager/SocketManager.dart';
 import 'package:betsbi/services/feeling/view/FeelingsView.dart';
@@ -13,7 +14,8 @@ import 'package:flutter/material.dart';
 class LoginController {
   static Future<Widget> redirectionLogin({bool isPsy = false}) async {
     SocketManager.connectSocket();
-    SettingsManager.applicationProperties.setFeelingsDate(await SettingsManager.storage.read(key: "feelingsDate"));
+    SettingsManager.applicationProperties.setFeelingsDate(
+        await SettingsManager.storage.read(key: "feelingsDate"));
     DateTime feelingsParsed;
     if (SettingsManager.applicationProperties.isPsy().toLowerCase() ==
         'false') {
@@ -39,8 +41,10 @@ class LoginController {
       );
   }
 
-  static Future<void> login({@required
-      String username, @required String password, @required BuildContext context}) async {
+  static Future<void> login(
+      {@required String username,
+      @required String password,
+      @required BuildContext context}) async {
     HttpManager httpManager = new HttpManager(
         path: 'auth/login',
         map: <String, String>{
@@ -49,21 +53,26 @@ class LoginController {
         },
         context: context);
     await httpManager.postWithoutAccessToken();
-    await checkResponseAndShowItWithNoComingBack(httpManager : httpManager, context : context);
+    await checkResponseAndShowItWithNoComingBack(
+        httpManager: httpManager, context: context);
   }
 
-  static Future<void> checkResponseAndShowItWithNoComingBack({@required HttpManager httpManager, @required BuildContext context }) async {
-    if (httpManager.response.statusCode >= 100 && httpManager.response.statusCode < 400) {
-       await writePropertiesAfterLogin(httpManager);
-      FlushBarMessage.goodMessage(content:SettingsManager.mapLanguage["ConnectSent"])
+  static Future<void> checkResponseAndShowItWithNoComingBack(
+      {@required HttpManager httpManager,
+      @required BuildContext context}) async {
+    if (httpManager.response.statusCode >= 100 &&
+        httpManager.response.statusCode < 400) {
+      await writePropertiesAfterLogin(httpManager);
+      FlushBarMessage.goodMessage(
+              content: SettingsManager.mapLanguage["ConnectSent"])
           .showFlushBarAndNavigatWithNoBack(context, await redirectionLogin());
     } else {
       FlushBarMessage.errorMessage(
-          content: Response.fromJson(json.decode(httpManager.response.body)).content)
+              content: Response.fromJson(json.decode(httpManager.response.body))
+                  .content)
           .showFlushBar(context);
     }
   }
-
 
   static Future<void> writePropertiesAfterLogin(HttpManager httpManager) async {
     SettingsManager.applicationProperties
@@ -89,8 +98,16 @@ class LoginController {
     return jsonDecode(response);
   }
 
-  static void resetPassword({@required BuildContext context, @required String email}){
-    print("password reset");
-    FlushBarMessage.informationMessage(content: SettingsManager.mapLanguage["Maintenance"]).showFlushBar(context);
+  static Future<void> resetPassword(
+      {@required BuildContext context, @required String userName}) async {
+    HttpManager httpManager = new HttpManager(
+        path: 'auth/resetPassword',
+        map: <String, String>{'username': userName},
+        context: context);
+    await httpManager.postWithoutAccessToken();
+    ResponseManager responseManager =
+        new ResponseManager(response: httpManager.response, context: context);
+    responseManager.checkResponseAndShowWithFlushBarMessageTheAnswer(
+        successMessage: SettingsManager.mapLanguage["EnterMail"]);
   }
 }
