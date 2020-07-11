@@ -33,9 +33,6 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      setState(() {
-        _memorizer = AsyncMemoizer();
-      });
       TokenController.checkTokenValidity(context).then((result) {
         if (!result) SettingsController.disconnect(context);
       });
