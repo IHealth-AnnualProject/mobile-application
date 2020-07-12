@@ -114,6 +114,7 @@ class PlayListListState extends State<PlayListListPage>
                 if (snapshot.hasData) {
                   return snapshot.data.isNotEmpty
                       ? ListView.builder(
+                          primary: false,
                           shrinkWrap: true,
                           itemBuilder: (context, index) => Card(
                             child: ListTile(

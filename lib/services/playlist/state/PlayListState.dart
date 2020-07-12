@@ -17,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
-
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -70,6 +69,7 @@ class PlayListState extends State<PlayListPage> with WidgetsBindingObserver {
             ),
             PlayListController.songs.isNotEmpty
                 ? ListView.builder(
+                    primary: false,
                     shrinkWrap: true,
                     itemBuilder: (context, index) => musicPlayerPlayListInItem(
                         index: index, song: PlayListController.songs[index]),
