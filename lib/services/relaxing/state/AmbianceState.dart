@@ -93,6 +93,7 @@ class AmbianceState extends State<AmbiancePage>
                     style: TextStyle(fontSize: 30),
                   ),
                   ListView.builder(
+                    primary: false,
                     shrinkWrap: true,
                     padding: const EdgeInsets.all(8),
                     itemCount: snapshot.data.length,
