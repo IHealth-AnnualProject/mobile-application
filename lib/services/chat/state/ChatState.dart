@@ -108,20 +108,21 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-        resizeToAvoidBottomPadding: true,
-        appBar: AppSearchBar(),
-        body: Column(
-          children: <Widget>[
-            FutureBuilder(
-              future: _instantiateChatWithAllMessageAndInput(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: WaitingWidget(),
-                  );
-                } else {
-                  return Expanded(child : ListView.builder(
+    return Scaffold(
+      resizeToAvoidBottomPadding: true,
+      appBar: AppSearchBar(),
+      body: Column(
+        children: <Widget>[
+          FutureBuilder(
+            future: _instantiateChatWithAllMessageAndInput(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: WaitingWidget(),
+                );
+              } else {
+                return Expanded(
+                  child: ListView.builder(
                     shrinkWrap: true,
                     reverse: true,
                     padding: const EdgeInsets.all(8),
@@ -129,17 +130,18 @@ class ChatState extends State<ChatPage> with WidgetsBindingObserver {
                     itemBuilder: (BuildContext context, int index) {
                       return messages[index];
                     },
-                  ),);
-                }
-              },
-            ),
-            lineSendMessage(),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBarFooter(
-          selectedBottomIndexOffLine: null,
-          selectedBottomIndexOnline: 2,
-        ),
+                  ),
+                );
+              }
+            },
+          ),
+          lineSendMessage(),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBarFooter(
+        selectedBottomIndexOffLine: null,
+        selectedBottomIndexOnline: 2,
+      ),
     );
   }
 

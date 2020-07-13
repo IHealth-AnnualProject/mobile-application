@@ -119,7 +119,7 @@ class NotificationManager {
   }
 
   static DateTime _toDateFormat(String date) {
-    return new DateFormat("dd-MM-yyyy hh:mm").parse(date);
+    return new DateFormat("dd-MM-yyyy HH:mm").parse(date);
   }
 
 }
